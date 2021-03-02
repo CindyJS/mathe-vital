@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div id="lecture">
+
+{{content}}
+
+
+{% for item in site.data.navigation.Navigation %}{% if item.category == page.category %}
+{% for chapter in item.chapters %}
+  <h2> {{ chapter.chapternr }}. {{chapter.title}}</h2>
+  <table>
+    <tr >
+      <td ><a href={{chapter.url}}><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
+          <td>
+            <table>
+              {% for topic in chapter.topics %}
+                <tr>
+                  <td><a href="{{topic.url}}">{{topic.title}}</a></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </td>
+    </tr>
+  </table>
+  {% endfor %}{% endif %}{% endfor %}
+
+</div>

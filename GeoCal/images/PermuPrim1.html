@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PermuPrim1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ 4.0, -3.537414965986395, -0.6802721088435375 ], color: [ 1.0, 1.0, 1.0 ], size: 2.0 }, 
+		{ name: "B", type: "Free", pos: [ 4.0, 2.1052631578947367, 0.4385964912280702 ], color: [ 1.0, 1.0, 1.0 ], size: 2.0 }, 
+		{ name: "a", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "A", "B" ], size: 3 }, 
+		{ name: "C", type: "Free", pos: [ 4.0, 0.40816326530612246, -0.6802721088435375 ], color: [ 1.0, 1.0, 1.0 ], size: 2.0 }, 
+		{ name: "D", type: "Free", pos: [ 4.0, 0.9272727272727272, 0.45454545454545453 ], color: [ 1.0, 1.0, 1.0 ], size: 2.0 }, 
+		{ name: "b", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "C", "D" ], size: 3 }, 
+		{ name: "E", type: "Free", pos: [ 1.8156028368794328, -4.0, 0.7092198581560284 ], color: [ 0.0, 0.0, 1.0 ], size: 6.0 }, 
+		{ name: "F", type: "PointOnLine", pos: [ -0.06434733577671273, -4.0, -0.7934874541866368 ], color: [ 1.0, 0.0, 0.0 ], args: [ "a" ] }, 
+		{ name: "c", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "F" ] }, 
+		{ name: "G", type: "PointOnLine", pos: [ -3.3077109183285525, -4.0, -0.8106372193228035 ], color: [ 1.0, 0.0, 0.0 ], args: [ "a" ] }, 
+		{ name: "d", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "G" ] }, 
+		{ name: "H", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "b", "d" ] }, 
+		{ name: "e", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "F", "H" ] }, 
+		{ name: "K", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "b", "c" ] }, 
+		{ name: "f", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "G", "K" ] }, 
+		{ name: "L", type: "PointOnLine", pos: [ 4.0, 3.0284609276555026, 0.6216544246355826 ], color: [ 1.0, 0.0, 0.0 ], args: [ "a" ] }, 
+		{ name: "g", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "L" ] }, 
+		{ name: "M", type: "Meet", color: [ 0.0, 1.0, 0.0 ], args: [ "e", "f" ] }, 
+		{ name: "h", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "L", "M" ] }, 
+		{ name: "N", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "b", "h" ] }, 
+		{ name: "k", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "N" ] }, 
+		{ name: "O", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "a", "k" ] }, 
+		{ name: "l", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "O", "M" ] }, 
+		{ name: "P", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "b", "g" ], size: 0.0 }, 
+		{ name: "C0", type: "CircleByRadius", pos: { xx: 0.035477037304835916, yy: 0.035477037304835916, zz: 1.0, xy: 0.0, xz: -0.3653227076077746, yz: 0.09815550067461806 }, color: [ 0.7568628, 0.0, 0.0 ], radius: 0.48557263102444315, args: [ "P" ], pinned: true, printname: "$C_{0}$" } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 554, height: 421, transform: [ { visibleRect: [ -9.06, 9.34, 13.1, -7.5 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Lagrange.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+// begin misc
+inspect(S1B, "pinning", true);
+inspect(S1B, "labeled", false);
+inspect(S1B, "ptsize", 3);
+inspect(S1B, "color", 15);
+inspect(S1B, "pointborder", 0);
+
+inspect(S1E, "pinning", true);
+inspect(S1E, "labeled", false);
+inspect(S1E, "ptsize", 3);
+inspect(S1E, "color", 15);
+inspect(S1E, "pointborder", 0);
+
+inspect(S1P, "pinning", false);
+inspect(S1P, "labeled", false);
+inspect(S1P, "ptsize", 5);
+inspect(S1P, "color", 0);
+inspect(S1P, "pointborder", true);
+
+inspect(sl1, "linesize", 2);
+inspect(sl1, "color", 15);
+inspect(sl1, "labeled", false);
+
+inspect(S2B, "pinning", true);
+inspect(S2B, "labeled", false);
+inspect(S2B, "ptsize", 3);
+inspect(S2B, "color", 15);
+inspect(S2B, "pointborder", 0);
+
+inspect(S2E, "pinning", true);
+inspect(S2E, "labeled", false);
+inspect(S2E, "ptsize", 3);
+inspect(S2E, "color", 15);
+inspect(S2E, "pointborder", 0);
+
+inspect(S2P, "pinning", false);
+inspect(S2P, "labeled", false);
+inspect(S2P, "ptsize", 5);
+inspect(S2P, "color", 0);
+inspect(S2P, "pointborder", true);
+
+inspect(sl2, "linesize", 2);
+inspect(sl2, "color", 15);
+inspect(sl2, "labeled", false);
+
+noPoints = [S1B, S1E, S1P, S2B, S2E, S2P];
+noLines = [sl1, sl2];
+
+ButtonAequi.pressed = true;
+// end misc
+
+
+weights(x) := (
+  local(lambda);
+  lambda = [];
+
+  forall(1..length(x), n, 
+    lambda = append(lambda, 1);
+
+    forall(1..(n - 1), j,
+      d = x_j - x_n;
+      lambda_j = lambda_j/d;
+      lambda_(-1) = -lambda_(-1)/d;
+    );
+  );
+
+  release(lambda);
+);
+
+
+eval(x, data, lambda) := (
+  local(a, b, tmp);
+
+  a = 0;
+  b = 0;
+
+  repeat(length(lambda),
+    tmp = (lambda_#)/(x - data_#_1);
+    a = a + tmp*data_#_2;
+    b = b + tmp;
+  );
+
+  tmp = a/b;
+  release(a, b, tmp);
+);
+
+
+gamma(s, a, b) := (
+  conjugate((a - b)/(2*i*sin(pi/2))*(exp(i*pi*(1 - 2*s)/2) - cos(pi/2)) + (a + b)/2);
+);
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+n = floor((S1P.x - S1B.x)/(S1E.x - S1B.x)*8) + 1;
+drawtext(S1P + [0, -0.08], "n = " + (n + 1));
+
+l = floor((S2P.x - S1B.x)/(S1E.x - S1B.x)*n) + 1;
+drawtext(S2P + [0, +0.04], l + "-tes gewichtetes Lagrangepolynom");
+
+
+data1 = [];
+data2 = [];
+xData = [];
+
+a = C.x;
+b = D.x;
+
+forall(0..n,
+  if(ButtonTschebyscheff.pressed,
+    xData = append(xData, (a + b)/2 - (b - a)/2*cos(#*pi/n));
+    ,
+    xData = append(xData, a + (b - a)*#/n);
+  );
+);
+
+f(x) := parse(TextInput.val);
+plot(f(x), start->-2, stop->2, size->2);
+
+l(x, i) := (
+  local(ret);
+  ret = 1;
+  
+  forall(remove(1..(n + 1), [i]),
+    ret = ret*(x - xData_#)/(xData_i - xData_#);
+  );
+
+  release(ret);
+);
+
+forall(0..n,
+  data1 = append(data1, [xData_(# + 1), f(xData_(# + 1))]);
+);
+
+forall(1..(n + 1),
+  i = #;
+  plot(data1_i_2*l(x, i), start->-2, stop->2, color->if(i == l, green(0.6), green(0.2)), alpha->if(i == l, 1, 0.3), size->if(i == l, 2, 1));
+  draw([xData_i,data1_i_2], color->gray(0.85), alpha->if(i == l, 1, 0.8), size->if(i == l, 6, 2))
+);
+
+
+drawall(apply(data1, [#_1, 0]), size->3, color->red(0.8));
+drawall(data1, size->3, color->red(0.8));
+
+lambda = weights(apply(data1, #_1));
+g(x) := eval(x, data1, lambda);
+
+plot(g(x), start->a, stop->b, color->red(0.8), size->2);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "S1B", type: "Free", pos: [4.0, 2.0, -2.2222222222222223], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S1E", type: "Free", pos: [-2.4000000000000004, -3.6, 4.0], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl1", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S1B", "S1E"], size: 2},
+    {name: "S1P", type: "PointOnSegment", pos: [4.0, 3.0, -3.333333333333334], color: [1.0, 1.0, 1.0], args: ["sl1"]},
+    {name: "A", type: "Free", pos: [4.0, -0.0, -2.2222222222222223], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 2.2222222222222223], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "a", type: "Join", color: [0.502, 0.502, 0.502], args: ["A", "B"], labeled: true},
+    {name: "C", type: "PointOnLine", pos: [4.0, -0.0, -4.0], color: [1.0, 0.0, 0.0], args: ["a"], labeled: true, size: 4.0, printname: "a"},
+    {name: "D", type: "PointOnLine", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["a"], labeled: true, size: 4.0, printname: "b"},
+    {name: "TextInput", type: "EditableText", pos: [4.0, 1.6470588235294117, -2.457261336782919], color: [0.0, 0.0, 0.0], fillcolor: [0.0, 0.0, 1.0], fillalpha: 0.5, minwidth: 250, text: "1/(1+25*x^2)"},
+    {name: "S2B", type: "Free", pos: [4.0, 1.777777777777778, -2.2222222222222223], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S2E", type: "Free", pos: [-2.4000000000000004, -3.2, 4.0], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl2", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S2B", "S2E"], size: 2},
+    {name: "S2P", type: "PointOnSegment", pos: [4.0, 2.2279169636410354, -2.784896204551294], color: [1.0, 1.0, 1.0], args: ["sl2"]},
+    {name: "ButtonTschebyscheff", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.0, 1.0, 0.0], fillalpha: 0.27272728085517883, text: "Tschebyscheff", dock: {corner: "LL", offset: [356.0, 31.0]}},
+    {name: "Text0", type: "Text", pos: [4.0, 1.4944071588366892, -2.242869408070315], color: [0.0, 0.0, 1.0], text: "f(x) ="}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-1.9091076721737665, 1.350539074254587, 1.9051178964743438, -1.007418364104234]}],
+    axes: true,
+    grid: 0.1,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

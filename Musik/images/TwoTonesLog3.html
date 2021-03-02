@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>TwoTonesLog3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+play():=(
+
+  playfunction(f(x),stop->4);
+);
+fractions=set(flatten(apply(1..7,i,
+apply(1..7,j,
+(i/j);
+))));
+
+loopinga=true;
+loopingb=true;
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+A.y=5;
+B.y=7;
+if(A.x<5,A.x=5);
+if(B.x<5,B.x=5);
+
+if(A.x>25,A.x=25);
+if(B.x>25,B.x=25);
+
+ma=(A.x-5)/20;
+mb=(B.x-5)/20;
+g=80;
+
+
+a=g*2^(4*ma);
+b=g*2^(4*mb);
+
+
+
+guess(a):=(
+    p=guess(a,10);
+    p_1+"/"+p_2;
+);
+guess(a,n):=(
+   regional(pp,fl,fr);
+   fl=floor(a+0.000001);
+
+   fr=a-fl;
+   if(n==0,(fl,1),
+     if(|a-round(a)|<0.0001,(fl,1),
+         pp=guess(1/fr,n-1);
+         [fl*pp_1+pp_2,pp_1];
+
+     );
+   );
+);
+roughguess(x):=(
+  guess(sort(fractions,|x-#|)_1);
+);
+if(a>0&b>0,
+rough=sort(fractions,|a/b-#|)_1;
+good=min((a/b)/rough,rough/(a/b));
+alp=max(0,good*50-49);
+  drawtext((8,2),"Verhältnis = "+guess(a/b),size->16,color->(0,0,0));
+  drawtext((18,2),"~ "+roughguess(a/b),size->16,color->(0,0,0),alpha->alp);
+);
+
+drawtext((1.6,6.8),"Ton 1:",size->16);
+drawtext((1.6,4.8),"Ton 2:",size->16);
+
+repeat(5,i,
+  drawtext((i*5,6.2),2^i*g/2+"Hz",size->10,align->"center",color->(0,0.5,0));
+  drawtext((i*5,4.2),2^i*g/2+"Hz",size->10,align->"center",color->(0.6,0,0));
+  draw((i*5,6.85),(i*5,7.15),color->(0,0.5,0));
+  draw((i*5,4.85),(i*5,5.15),color->(0.6,0,0));
+);
+
+
+//drawtext((1,-4),"Ton an/aus mit 'space' Taste",size->16);
+
+fr1=a;
+fr2=b;
+
+if(!Text0.pressed, fr2=0.001);
+if(!Text1.pressed, fr1=0.001);
+
+
+
+
+drawtext((26,6.8),round(fr2)+0.01*round(100*fr2)+"Hz",size->16,color->(0,0.5,0));
+drawtext((26,4.8),round(fr1)+0.01*round(100*fr1)+"Hz",size->16,color->(0.6,0,0));
+
+drawtext(A+(0.2,0.2),a);
+drawtext(B+(0.2,0.2),b);
+
+
+
+draw((5,5),(25,5),color->(0,0,0));
+draw((5,4.8),(5,5.2),color->(0,0,0));
+draw((25,4.8),(25,5.2),color->(0,0,0));
+
+
+
+draw((5,7),(25,7),color->(0,0,0));
+draw((5,6.8),(5,7.2),color->(0,0,0));
+draw((25,6.8),(25,7.2),color->(0,0,0));
+
+
+f1(x):=sin(fr1*x*2*π);
+f2(x):=sin(fr2*x*2*π);
+
+f(x):=(f1(x)+f2(x))/2;
+
+loopingb=Text0.pressed;
+loopinga=Text1.pressed;
+s1=if(loopinga,10,0);
+s2=if(loopingb,10,0);
+
+playsin(fr1,stop->s1,amp->0.5,line->"1");
+playsin(fr2,stop->s2,amp->0.5,line->"2");
+
+if(fr1<1,ff1=10,ff1=25*5/fr1);
+if(fr2<1,ff2=10,ff2=25*5/fr2);
+
+
+plot(f1(x/60)/2-2,alpha->0.7,pxlres->ff1,start->1,stop->31,color->(0.6,0,0),size->1);
+plot(f2(x/60)/2,alpha->0.7,pxlres->ff2,start->1,stop->31,color->(0,0.5,0),size->1);;
+
+wt(i):=(
+  qq=((i-del,8),(i+del,8),(i+del,12),(i-del,12));
+  fillpolygon(qq,color->(1,1,1));
+  drawall(cycle(qq),color->(0,0,0));
+);
+
+bt(i):=(
+  dd=del/2;
+  qq=((i-dd,9),(i+dd,9),(i+dd,12),(i-dd,12));
+  fillpolygon(qq,color->(0,0,0));
+);
+
+
+del=5/14;
+repeat(29,i,
+  wt(5+(i-1)*5/7);
+);
+
+apply((1,2,4,5,6,8,9,11,12,13,15,16,18,19,20,22,23,25,26,27),i,
+  bt(5+(i-1)*5/7+del);
+);
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+if(key()==" ",looping=!looping);
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.9999999999999996, 0.8], color: [0.757, 0.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 3.0},
+    {name: "B", type: "Free", pos: [-2.8571428571428577, -4.0, -0.5714285714285714], color: [0.098, 0.62, 0.306], alpha: 0.8999999761581421, textsize: 0.0, size: 3.0},
+    {name: "Text0", type: "ToggleButton", pos: [4.0, 0.9243243243243242, 0.13513513513513514], color: [0.0, 0.0, 0.0], fillcolor: [0.098, 0.62, 0.306], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, text: "an/aus"},
+    {name: "Text1", type: "ToggleButton", pos: [4.0, 0.6486486486486487, 0.13513513513513514], color: [0.0, 0.0, 0.0], fillcolor: [0.757, 0.0, 0.0], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, text: "an/aus"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 798,
+    height: 379,
+    transform: [{visibleRect: [0.06, 10.5, 31.98, -4.66]}]
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

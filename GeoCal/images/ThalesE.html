@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>ThalesE.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+
+    <script id="csdraw" type="text/x-cindyscript">
+    
+    </script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 2.4705882352941173, 2.941176470588235], color: [0.0, 0.0, 0.0], pinned: true, size: 4.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.0293303299075508, yy: -0.0293303299075508, zz: 1.0, xy: 0.0, xz: 0.07977849734853819, yz: -0.049274954244685344}, color: [0.0, 0.0, 0.0], radius: 6.053891310553898, args: ["A"], pinned: true, size: 3},
+    {name: "a", type: "Through", pos: [0.6153846153846155, -4.0, 2.523076923076923], color: [0.098, 0.62, 0.306], args: ["A"], size: 3},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "a"]},
+    {name: "D", type: "SelectP", pos: [4.0, 0.9589644749469629, 0.5446997773549411], color: [1.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "B", type: "SelectP", pos: [4.0, 0.06967687378364475, -0.8651464196112953], color: [1.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "b", type: "Through", pos: [0.8909351502855045, -1.4804757603956968, 4.0], color: [0.0, 0.0, 1.0], args: ["B"], size: 3},
+    {name: "C", type: "OtherIntersectionCL", color: [0.0, 1.0, 1.0], args: ["C0", "b", "B"], size: 6.0},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "D"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 537,
+    height: 437,
+    transform: [{visibleRect: [-9.06, 9.34, 12.42, -8.14]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

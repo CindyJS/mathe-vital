@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Spiral3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+mat=[[1,0,0],[0,1,0],[0,0,1]];
+ot=simulationtime();
+a=(0,0,1);
+dw=0.3°;
+dmat=[[cos(dw),0,sin(dw)],[0,1,0],[-sin(dw),0,cos(dw)]];
+
+
+mat=[[0.9127,-0.0635,-0.4036],[-0.0902,0.9322,-0.3506],[0.3985,0.3564,0.8451]];
+
+
+rotating=true;
+
+embed(p):=(p.x,0,p.y);
+
+map(pp):=(
+  p=s2*pp;
+  o=(p-(p*a)*a)/(1-p*a);
+  (o.x,o.y)*s1;
+);
+
+map1(pp):=(
+  p=s2*pp;
+  o=(p-(p*a)*a)/(1-p*a);
+  (o.x,o.y,pp.z)*s1;
+);
+
+
+
+grid(n,al):=(
+ apply((-2*n..2*n)/n,i,
+    p1=(i,0,-2);
+    p2=(i,0,2);
+    draw(map(mat*p1),map(mat*p2),alpha->al);
+    p1=(-2,0,i);
+    p2=(2,0,i);
+    draw(map(mat*p1),map(mat*p2),alpha->al)
+ )
+);
+
+
+arrow(pa,pb,col):=(
+   draw(map(mat*pa),map(mat*pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(0,1,0));
+   fillpoly(apply(
+    (pb-n*0.3+p*0.2,
+     pb-n*0.2+p*0.03,
+     pa+p*0.03,
+     pa-p*0.03,
+     pb-n*0.2-p*0.03,
+     pb-n*0.3-p*0.2,
+     pb),map(mat*#)),color->col);
+
+);
+
+arrow2(pa,pb,col):=(
+   draw(map(mat*pa),map(mat*pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(0,0,1));
+   fillpoly(apply(
+    (pb-n*0.3+p*0.2,
+     pb-n*0.2+p*0.03,
+     pa+p*0.03,
+     pa-p*0.03,
+     pb-n*0.2-p*0.03,
+     pb-n*0.3-p*0.2,
+     pb),map(mat*#)),color->col);
+
+);
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+
+
+if(rotating,
+ xx=mouse().x;
+ yy=mouse().y;
+ wy=(startx-xx)*.1;
+ wx=-(starty-yy)*.1;
+
+ mmmx=[
+  [1,0,0],
+  [0,cos(wx),sin(wx)],
+  [0,-sin(wx),cos(wx)]
+ ];
+
+
+ mmmy=[
+  [cos(wy),0,-sin(wy)],
+  [0,1,0],
+  [sin(wy),0,cos(wy)]
+ ];
+mat=mmmx*mmmy*mat;
+
+
+ startx=xx;
+ starty=yy;
+);
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+//apply(allpoints(),#.selected=false);
+rotating=true;
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+s1=|B,E|*4;
+s2=(|D,F|/|D,C|/3)+0.01;
+
+
+K.xy=map(mat*(0,0,0));
+L.xy=map(mat*(1,0,0));
+M.xy=map(mat*(0,0,1));
+G.xy=map(mat*(1,0,1));
+sig=-area(K,L,M);
+
+
+
+
+
+
+
+if(sig>0, 
+
+  fillpoly(apply(((2,0,2),(2,0,-2),(-2,0,-2),(-2,0,2))
+   ,map(mat*#)),color->(1,1,1),alpha->0.6);
+  connect(apply(((2,0,2),(2,0,-2),(-2,0,-2),(-2,0,2),(2,0,2))
+   ,map(mat*#)),color->(0,0,0),alpha->0.8,size->2);
+  linecolor((0,0,0));
+
+  grid(1,0.4);
+  grid(10,0.1);
+);
+
+
+
+//arrow((0,0,0),aa,(0,0,1));
+//arrow((0,0,0),bb,(0,0.66,0));
+
+
+//drawtext(map(mat*bb)*1.1,"A");
+//drawtext(map(mat*aa)*1.1,"B");
+dist=|T,X|*.4+.03;
+r=sqrt(dist)*.3*|N,Z|*s1*.2*s2;
+diff=(|V,Y|/|V,W|-0.5)*0.2;
+if(|diff|<0.002,Y.xy=(V+W)/2;diff=0);
+
+n=round(1/dist*60);
+
+seems=apply(1..n,i,
+   w=(137.508°+diff)*i;
+   x=sin(w)*.5;
+   z=cos(w)*.5;
+   y=i*0.03*dist;
+   map1(mat*(x,y,z));
+);
+
+kk=sqrt(20/s1)*1.2;
+
+seems=sort(seems,#.z);
+apply(seems,
+   p=(#.x,#.y);
+   z=#.z;
+   h=min((z+10)/30,1.2)*kk;
+   fillcircle(p,r,color->(1,1,0)*h);
+   fillcircle(p+(1,1)*r*.1,r*.5,color->(1,1,0.7)*h);
+   fillcircle(p+(1,1)*r*.2,r*.15*h*h,color->(1,1,1));
+   drawcircle(p,r,color->(0,0,0));
+    
+);
+
+err(kk);
+
+if(sig<0, 
+
+  fillpoly(apply(((2,0,2),(2,0,-2),(-2,0,-2),(-2,0,2))
+   ,map(mat*#)),color->(1,1,1),alpha->0.6);
+  connect(apply(((2,0,2),(2,0,-2),(-2,0,-2),(-2,0,2),(2,0,2))
+   ,map(mat*#)),color->(0,0,0),alpha->0.8,size->2);
+  linecolor((0,0,0));
+
+  grid(1,0.4);
+  grid(10,0.1);
+);
+
+
+
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+st=simulationtime();
+dw=2*(st-ot);
+dmat=[[cos(dw),0,sin(dw)],[0,1,0],[-sin(dw),0,cos(dw)]];
+ot=st;
+mat=mat*dmat;
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+startx=mouse().x;
+starty=mouse().y;
+mm=mouse().xy;
+rotating=(   |mm,E|>1 
+           & |mm,F|>1
+           & |mm,X|>1
+           & |mm,Y|>1
+           & |mm,Z|>1
+);
+
+dragging=(   |mm,N|>1
+           & |mm,H|>1
+);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.8666666666666667, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -0.5333333333333333, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "Free", pos: [4.0, 1.5555555555555556, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -0.4444444444444444, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"]},
+    {name: "E", type: "PointOnSegment", pos: [4.0, 1.4719999866666669, 0.26666666666666666], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0, printname: "Zoom"},
+    {name: "F", type: "PointOnSegment", pos: [4.0, 0.3644444755555556, 0.22222222222222213], color: [1.0, 1.0, 1.0], args: ["b"], labeled: true, size: 4.0, printname: "Entfernung"},
+    {name: "G", type: "Free", pos: [4.0, -3.463366725594187, 1.4788745456059822], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "H", type: "Free", pos: [4.0, 3.893854183539113, -0.28666633447640766], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "K", type: "Free", pos: [0.0, 0.0, 4.0], color: [0.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -0.39531061685110114, 0.9480391706630339], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "M", type: "Free", pos: [4.0, 3.4747274529236867, -1.9967469098041164], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "O", type: "Free", pos: [0.0, -4.0, -4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "P", type: "Free", pos: [4.0, 4.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Q", type: "Free", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["K", "K", "L", "O", "G", "P", "M", "Q"], dock: {offset: [0.0, -0.0]}},
+    {name: "R", type: "TransformP", color: [1.0, 0.0, 0.0], args: ["Tr0", "H"], alpha: 0.0, labeled: true},
+    {name: "T", type: "Free", pos: [4.0, -2.8, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "U", type: "Free", pos: [4.0, -1.4, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["T", "U"]},
+    {name: "V", type: "Free", pos: [4.0, -3.4, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "W", type: "Free", pos: [4.0, -1.7, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["V", "W"]},
+    {name: "X", type: "PointOnSegment", pos: [4.0, -2.5179856115107913, 0.3597122302158273], color: [1.0, 1.0, 1.0], args: ["c"]},
+    {name: "Y", type: "PointOnSegment", pos: [4.0, -2.2666666666666666, 0.2666666666666667], color: [1.0, 1.0, 1.0], args: ["d"]},
+    {name: "N", type: "Free", pos: [4.0, -2.2, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "S", type: "Free", pos: [4.0, -1.0843373493975903, 0.20080321285140562], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["N", "S"]},
+    {name: "Z", type: "PointOnSegment", pos: [4.0, -1.6992884340921837, 0.3106000947839177], color: [1.0, 1.0, 1.0], args: ["e"]},
+    {name: "P0", type: "Mid", color: [0.0, 0.0, 0.0], args: ["V", "W"], size: 1.0, printname: "$P_{0}$"},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], args: ["V"], pinned: true, text: "Störung", dock: {to: "V", offset: [6.0, 7.5]}},
+    {name: "Text1", type: "Text", pos: [4.0, -2.6456692913385824, 0.3937007874015748], color: [0.0, 0.0, 0.0], pinned: true, text: "y-Abstand"},
+    {name: "Text2", type: "Text", color: [0.0, 0.0, 0.0], args: ["N"], pinned: true, text: "Kugelradius", dock: {to: "N", offset: [2.0, 9.5]}}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.25773195876288657,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 846,
+    height: 572,
+    transform: [{visibleRect: [-12.62, 11.86, 21.22, -11.02]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

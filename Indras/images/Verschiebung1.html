@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <title>Verschiebung1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+oldF=F.xy;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(mover()==F,
+d=F-oldF;
+K.xy=K.xy+d;
+H.xy=H.xy+d;
+G.xy=G.xy+d;
+L.xy=L.xy+d;
+oldF=F.xy;
+);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 2.976744186046512, 1.1627906976744187], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 0.0, printname: "t"},
+    {name: "Tr0", type: "TrTranslation", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "F", type: "Free", pos: [4.0, -0.0, 0.6666666666666666], color: [0.0, 0.0, 1.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, 1.3333333333333348, 0.6666666666666666], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "f", type: "Segment", color: [0.098, 0.62, 0.306], args: ["F", "G"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "H", type: "Free", pos: [4.0, 1.0000000000000007, 0.4999999999999998], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "g", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "K", type: "Free", pos: [4.0, -3.4694469519536123E-17, 0.4999999999999998], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "h", type: "Segment", color: [0.098, 0.62, 0.306], args: ["H", "K"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "k", type: "Segment", color: [0.098, 0.62, 0.306], args: ["K", "F"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "l", type: "Segment", color: [0.098, 0.62, 0.306], args: ["F", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "m", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "K"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "L", type: "Free", pos: [4.0, 1.7142857142857153, 0.5714285714285715], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "n", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "L"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "o", type: "Segment", color: [0.098, 0.62, 0.306], args: ["L", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "b", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "f"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "c", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "g"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "d", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "h"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "e", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "k"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "p", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "l"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "q", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "m"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "r", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "n"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "s", type: "TransformSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "o"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, minwidth: 195, text: "Verschiebung durch Vektoraddition", textsize: 17.0, dock: {corner: "UL", offset: [10.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [-9.06, 9.34, 18.14, -4.66]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas" class="CindyJS-widget" style="position: relative; width: 680px; height: 350px;"><canvas width="680" height="350" style="position: absolute; border: none; top: 0px; left: 0px; padding: 0px; margin: 0px; height: 100%; width: 100%; background-color: rgb(168, 176, 192);"></canvas><div style="position: absolute; transition: 0s; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; transition: 0s; left: 0; top: 0; width: 100000px; height: 100000px"></div></div><div style="position: absolute; transition: 0s; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; transition: 0s; left: 0; top: 0; width: 200%; height: 200%"></div></div></div>
+
+</body></html>

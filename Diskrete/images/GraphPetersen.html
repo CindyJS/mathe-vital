@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>GraphPetersen.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+// begin environment settings
+screenlimitY = 0;
+screenlimitX = -13;
+
+pointdist = 0.4;
+segdist = 0.4;
+
+pointaddcolor = gray(1);
+pointsnapcolor= (1, 1, 0);
+pointsize = 7;
+segmentcolor = gray(1);
+segmentsize = 2;
+arrowsize = 7;
+
+directedGraphs = false;
+arcBend = 1;
+// end environment settings
+
+
+// begin misc
+AL = []; // main data structure (adjacency list + weights + gui information)
+
+
+allpts() := apply(AL, #_1);
+allEdges() := flatten(apply(AL, a, apply(a_2, b, [b_3, if(length(b) == 4, [a_1, b_4, b_1], [a_1, b_1]), b_2])));
+allSegs() := apply(flatten(apply(AL, a, a_2)), b, b_3);
+allGraphicObjects() := concat(allpts(), allSegs());
+// end misc
+
+
+// begin buttonhandler
+modi = [ButtonVertex, ButtonEdge, ButtonRemove, ButtonRemoveAll];
+
+initmodi() := (
+  apply(modi, m, m:"old" = false);
+  modus = 1;
+);
+
+initmodi();
+
+
+buttons() := (
+    l = select(modi, m, (m:"old") != (m.pressed));
+
+    if(l != [], apply(modi--l, m, m.pressed = false));
+    apply(modi, m, m:"old" = m.pressed);
+
+    modus = select(1..length(modi), i, (modi_i).pressed);
+    modus = if(modus == [], 0, modus_1);
+);
+// end buttonhandler
+
+
+// begin mouseevents
+cont(e, pos) := (	// cont checks if position pos is close to edge e
+  if(length(e_2) == 3,
+    // arc
+    mid = meet(perp((e_2_1 + e_2_2)/2, join(e_2_1, e_2_2)), perp((e_2_2 + e_2_3)/2, join(e_2_2, e_2_3)));
+    tmp = dist(mid.xy, (e_2_2).xy);
+
+    if(if(area((e_2_1).xy, (e_2_2).xy, (e_2_3).xy) > 0,
+         area(mid.xy, (e_2_1).xy, pos) > 0 & area(mid.xy, (e_2_3).xy, pos) < 0, 
+	area(mid.xy, (e_2_1).xy, pos) < 0 & area(mid.xy, (e_2_3).xy, pos) > 0
+       ) & abs(dist(mid.xy, pos) - tmp) < segdist,
+      // true
+      pro = mid.xy + tmp*(pos.xy - mid.xy)/dist(mid.xy, pos);
+      true;
+      ,
+      // false
+      false;
+    );
+    ,
+    // segment
+    tmp = (meet(perp(e_1, pos), e_1)).xy;
+
+    if(area((e_2_1).xy, pos, tmp)*area((e_2_2).xy, pos, tmp) < 0 & |tmp, pos| < segdist,
+      // true
+      pro = tmp;
+      true;
+      ,
+      // false
+      false;
+    );
+  );
+);
+
+
+closepoints(pos) := select(allpts(), p, |p.xy, pos| < pointdist);
+closeedges(pos) := select(allEdges(), e, cont(e, pos));
+
+
+mousefilter() := (
+  pos = mouse().xy;
+
+  if(pos.y < screenlimitY % pos.x < screenlimitX, 
+    out = ["none"]
+    ,
+    cp = closepoints(pos);
+    cs = closeedges(pos);
+
+    out = ["new", pos];
+
+    if(length(cs) == 1, out = ["seg", pro, cs_1]);
+    if(length(cs) == 2, if(cs_1_1 == cs_2_1, out = ["seg", pro, cs_1, cs_2]));
+    if(length(cp) == 1, out = ["old", cp_1]);
+  );
+
+  out;
+);
+// end mouseevents
+
+
+// begin labeling
+stdPointLabels = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+stdPointLabels = concat(stdPointLabels, apply(1..999, "P" + #));
+
+newPointLabel() := (
+  pl = 1;
+  pts = allpts();
+
+  while(select(pts, p, p.label == stdPointLabels_pl) != [], pl = pl + 1);
+
+  [stdPointLabels_pl, stdPointLabels_pl];
+);
+
+
+stdEdgeLabels = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+stdEdgeLabels = concat(stdEdgeLabels, apply(1..999, "e" + #));
+
+newEdgeLabel() := (
+  sl = 1;
+  edges = apply(allEdges(), #_1);
+
+  while(select(edges, edges, edges.label == stdEdgeLabels_sl) != [], sl = sl + 1);
+
+  [stdEdgeLabels_sl, " "];
+);
+// end labeling
+
+
+addEdge(p1, p2) := (
+  // disallow multi-graphs
+  if(!contains(apply(select(AL, a, a_1 == p1)_1_2, b, b_1), p2),
+    local(e, lab, hp);
+
+    lab = newEdgeLabel();
+
+    // create edge
+    if(contains(apply(select(AL,a,a_1==p2)_1_2,b,b_1),p1),
+      // create arc (there is already an segment)
+      hp = [p2.y - p1.y, -(p2.x - p1.x)];
+      hp = createpoint("HP_" + lab_1, (p2.xy + p1.xy)/2 + arcBend*hp/abs(hp));
+      inspect(hp, "visibility", 0);
+
+      e = create([lab_1], "Arc", [p1, hp, p2])_1;
+      AL = sort(append(select(AL, #_1 != p1), [p1, append(select(AL, #_1 == p1)_1_2, [p2, 1, e, hp])]), #_1);
+      ,
+      // create segment
+      e = create([lab_1], "Segment", [p1, p2])_1;
+      AL = sort(append(select(AL, #_1 != p1), [p1, append(select(AL, #_1 == p1)_1_2, [p2, 1, e])]), #_1);
+      
+      if(!directedGraphs,
+        // add "both" edges
+        AL = sort(append(select(AL, #_1 != p2), [p2, append(select(AL, #_1 == p2)_1_2, [p1, 1, e])]), #_1);
+      );
+    );
+    
+    // modify new segment
+    e.printlabel = lab_2;
+    e.color = segmentcolor;
+    e.size = segmentsize;
+    if(directedGraphs,
+      inspect(e, "arrow.mode", 1);
+      inspect(e, "arrow.size", arrowsize);
+    );
+
+    release(hp, lab, e);
+  );
+);
+
+
+generatepoint(pp) := (
+  local(p, lab);
+
+  lab = newPointLabel();
+
+  // create point
+  p = createpoint(lab_1, pp_2);
+  AL = append(AL, [p,[]]);
+
+  // modify new point
+  p.printlabel = lab_2;
+  p.color = pointaddcolor;
+  p.size = pointsize;
+
+  release(lab, p);
+);
+
+
+generatepointonseg(pp) := (
+  local(p, s, aa, bb);
+
+  // generate point
+  p = generatepoint(pp);
+
+  s = pp_3_1;
+  aa = pp_3_2_1;
+
+  if(length(pp_3_2) == 3,
+    // arc
+    bb = pp_3_2_3;
+    ,
+    // segment
+    bb = pp_3_2_2;
+  );
+
+  // create two new segments (splitting up the old one)
+  addEdge(aa, p);
+  addEdge(p, bb);
+
+  AL = sort(append(select(AL, #_1 != aa), [aa, select(select(AL, a, a_1 == aa)_1_2, b, b_1 != bb)]), #_1);
+  if(!directedGraphs,
+    // remove "both" directions
+    AL = sort(append(select(AL, #_1 != bb), [bb, select(select(AL, a, a_1 == bb)_1_2, b, b_1 != aa)]), #_1);
+  );
+
+  // remove after AL adjustment!
+  removeelement(s);
+
+  release(bb, aa, s, p);
+);
+// end geometric constructors
+
+
+// begin temporary constructors
+pointtmp(pp) := (
+  if(pp_1 == "new", draw(pp_2, size->pointsize, color->pointaddcolor));
+  if(pp_1 == "old", draw(pp_2, size->pointsize, color->pointsnapcolor));
+  if(pp_1 == "seg", draw(pp_2, size->pointsize, color->pointsnapcolor));
+);
+
+segtmp(pp) := (
+  if(pp_1 == "new",
+    draw(pp_2, size->pointsize, color->pointaddcolor);
+    draw([tmppt, pp_2], color->segmentcolor, linesize->(segmentsize + 1));
+  );
+  if(pp_1 == "old", 
+    draw(pp_2, size->pointsize, color->pointsnapcolor);
+    draw([tmppt, pp_2], color->segmentcolor, linesize->(segmentsize + 1));
+  );
+  if(pp_1 == "seg",
+    draw(pp_2, size->pointsize, color->pointsnapcolor);
+    draw([tmppt, pp_2], color->segmentcolor, linesize->(segmentsize + 1));
+  );
+);
+// end temporary constructors
+
+
+// begin
+remove(pp) := (
+  if(pp_1 == "old",
+    AL = sort(apply(select(AL, a, a_1 != pp_2), b, [b_1, select(b_2, c, c_1 != pp_2)]), #_1);
+    // remove after AL adjustment!
+    removeelement(pp_2);
+  );
+  if(pp_1 == "seg",
+    AL = sort(apply(AL, b, [b_1, select(b_2, c, c_3 != pp_3_1)]), #_1);
+    // remove after AL adjustment!
+    removeelement(pp_3_1);
+  );
+);
+
+pointadd(pp):=(
+  pout = "";
+
+  if(pp_1 == "new", pout = generatepoint(pp));
+  if(pp_1 == "old", pout = pp_2);
+  if(pp_1 == "seg", pout = generatepointonseg(pp));
+
+  pout;
+);
+// end
+
+
+// begin modi
+moduspressed(pp) := (
+  if(modus==1, pointtmp(pp));
+  if(modus==2, tmppt = pointadd(pp); tmppos = tmppt.xy);
+  if(modus==3, );
+  if(modus==4, );
+);
+
+modusdrag(pp) := (
+  if(modus==1, pointtmp(pp));
+  if(modus==2, tmppt.xy = tmppos; segtmp(pp));
+  if(modus==3, );
+  if(modus==4, );
+);
+
+modusreleased(pp) := (
+  if(modus==1, pointadd(pp));
+  if(modus==2, pp2 = pointadd(pp); if(!isundefined(tmppos), addEdge(tmppt, pp2)));
+  if(modus==3, remove(pp));
+  if(modus==4, );
+);
+//end modi
+
+
+buttons();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;origin = [5.8, 10];
+
+
+addPoint(label, xy) := (
+  local(ret);
+
+  ret = generatepoint(["", xy + origin]);
+  if(label != "", ret.printlabel = label);
+
+  release(ret); 
+);
+
+
+addEdgeByLabels(begin, end):= (
+  addEdge(select(allpts(), #.printlabel == begin)_1, select(allpts(), #.printlabel == end)_1);
+);
+
+
+isOldGraph(G) := (
+  (length(allpts()) == length(G_1)) &
+  ((apply(allpts(), #.printlabel)--(apply(G_1, #_1))) == []) &
+  (length(allEdges()) == length(G_2)*2) &
+  ((apply(allEdges(), [(#_2_1).printlabel, (#_2_2).printlabel])--(G_2)--apply(G_2, a, [a_2,a_1])) == []);
+);
+
+
+changeGraph(G) := (
+  drawCrossings = false;
+  clrscr();
+
+  draw((-100, screenlimitY), (100, screenlimitY), color->(.5,.5,.5), size->5);
+  draw((-100, screenlimitY), (100, screenlimitY), color->(0.85,0.85, 0.85));
+
+  if(isOldGraph(G),
+    deltas = apply(allpts(), p, (select(G_1, g, p.printlabel == g_1)_1)_2 + origin - p.xy);
+
+    repeat(300,
+      repeat(length(allpts()), k,
+        inspect((allpts()_k), "pinning", false); // workaround
+        (allpts()_k).xy = (allpts()_k).xy + (deltas_k)/300;
+      );
+      wait(3);
+    );
+    ,
+    if(AL != [],
+      repeat(300,
+        forall(allpts(), p,
+          inspect(p, "pinning", false); // workaround
+          p.xy = p.xy + [37.5/300, 0];
+        );
+        wait(1);
+      );
+    );
+
+    forall(allpoints(), removeelement(#));
+    AL = [];
+    clrscr();
+
+    forall(G_1, addPoint(#_1, #_2 + [37.5, 0]));
+    forall(G_2, addEdgeByLabels(#_1, #_2));
+
+    repeat(300,
+      forall(allpts(), p,
+        inspect(p, "pinning", false); // workaround
+        p.xy = p.xy - [37.5/300,0];
+      );
+      wait(1);
+    );
+  );
+
+  drawCrossings = true;
+  repaint();
+);
+
+
+changeGraph([
+  [
+    ["A", gauss(5*exp(2*pi*i*(0/5 + 18/360)))],
+    ["B", gauss(5*exp(2*pi*i*(1/5 + 18/360)))],
+    ["C", gauss(5*exp(2*pi*i*(2/5 + 18/360)))],
+    ["D", gauss(5*exp(2*pi*i*(3/5 + 18/360)))],
+    ["E", gauss(5*exp(2*pi*i*(4/5 + 18/360)))],
+    ["F", gauss(8.090169942*exp(2*pi*i*(0/5 + 18/360)))],
+    ["G", gauss(8.090169942*exp(2*pi*i*(1/5 + 18/360)))],
+    ["H", gauss(8.090169942*exp(2*pi*i*(2/5 + 18/360)))],
+    ["I", gauss(8.090169942*exp(2*pi*i*(3/5 + 18/360)))],
+    ["J", gauss(8.090169942*exp(2*pi*i*(4/5 + 18/360)))]
+  ]
+  ,
+  [
+    ["A","C"],
+    ["B","D"],
+    ["C","E"],
+    ["A","D"],
+    ["B","E"],
+    ["A","F"],
+    ["B","G"],
+    ["C","H"],
+    ["D","I"],
+    ["E","J"],
+    ["F","G"],
+    ["G","H"],
+    ["H","I"],
+    ["I","J"],
+    ["F","J"]
+  ]
+]);
+
+
+drawCrossings = true;
+
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+pp=mousefilter();
+modusdrag(pp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+buttons();
+modusreleased(pp);
+
+
+drawCrossings = true;
+</script>
+<script id="csmousemove" type="text/x-cindyscript">
+pts=allpts();
+pos=mouse().xy;
+apply(pts, p, if(|p,pos| < pointdist, p.color = pointsnapcolor, p.color = pointaddcolor));
+repaint();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+draw((-100, screenlimitY), (100, screenlimitY), color->(.5,.5,.5), size->5);
+draw((-100, screenlimitY), (100, screenlimitY), color->(0.85,0.85, 0.85));
+
+//draw((screenlimitX, -100), (screenlimitX, 100), color->(.5,.5,.5), size->5);
+//draw((screenlimitX, -100), (screenlimitX, 100), color->(0.85,0.85, 0.85));
+
+apply(allpts(), p, inspect(p, "pinning", modus == 2));	// workaround
+
+
+forall(AL, begin,
+  forall(begin_2, end,
+    if(length(end) == 4,
+      // This is an arc ... we have to update helper point!
+      hp = [(begin_1).y-(end_1).y,-((begin_1).x-(end_1).x)];
+      (end_4).xy = ((begin_1).xy + (end_1).xy)/2 + arcBend*hp/abs(hp);
+    );
+  );
+);
+
+
+
+
+
+
+
+
+
+
+
+;// set representation G = (V, E)
+if(length(AL) > 0,
+  VE = "G = (V, E) = ({";
+  repeat(length(AL) - 1, VE = VE + (AL_#_1).printlabel + ",");
+  VE = VE + (AL_(-1)_1).printlabel + "}, {";
+
+  seg = set(flatten(apply(AL, a, apply(a_2, b, sort([a_1, b_1])))));
+
+  if(length(seg) > 0,
+    repeat(length(seg) - 1, VE = VE + if(directedGraphs, "(", "{") + (seg_#_1).printlabel + "," + (seg_#_2).printlabel +
+      if(directedGraphs, "),", "},"));
+    VE = VE + if(directedGraphs, "(", "{") + (seg_(-1)_1).printlabel + "," + (seg_(-1)_2).printlabel + if(directedGraphs, ")", "}");
+  );
+
+  VE = VE + "})";
+  ,
+  VE = "G = (V, E) = ({}, {})";
+);
+
+drawtext([-12.5, 21], VE, size->13);
+
+
+// Crossings
+crossingCounter = 0;
+
+if(drawCrossings, 
+  forall(pairs(apply(set(allSegs()), segTmp, 
+    segTmp = apply(incidences(segTmp), pTmp, pTmp = pTmp.homog/(pTmp.homog_3)))),
+
+    if((det(append(#_1, #_2_1))*det(append(#_1, #_2_2)) ~< 0) & (det(append(#_2, #_1_1))*det(append(#_2, #_1_2)) ~< 0),
+      draw(#_1, color->(1,0,0), size->7);
+      draw(#_2, color->(1,0,0), size->7);
+      crossingCounter = crossingCounter + 1;
+    );
+  );
+
+  drawtext([5.8, 0.5], "#crossings: " + crossingCounter, color->(0.9,0.1,0.1), size->20, align->"center");
+);
+
+
+
+
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+pp=mousefilter();
+moduspressed(pp);
+
+
+drawCrossings = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "ButtonEdge", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, minwidth: 57, text: "Kante", dock: {corner: "LL", offset: [83.0, 13.0]}},
+    {name: "ButtonRemove", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.757, 0.0, 0.0], fillalpha: 0.27272728085517883, minwidth: 57, text: "entfernen", dock: {corner: "LL", offset: [156.0, 13.0]}},
+    {name: "ButtonVertex", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, minwidth: 57, text: "Knoten", dock: {corner: "LL", offset: [10.0, 13.0]}},
+    {name: "ButtonRemoveAll", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.757, 0.0, 0.0], fillalpha: 0.27272728085517883, script: "forall(allpoints(), removeelement(#));\nclrscr();\nAL=[];", text: "alles entfernen", dock: {corner: "LL", offset: [229.0, 13.0]}},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.98, 1.0, 0.62], fillalpha: 0.27272728085517883, visible: false, text: "Gewichte", dock: {corner: "LL", offset: [856.0, 13.0]}},
+    {name: "ButtonDirected", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.98, 1.0, 0.62], fillalpha: 0.27272728085517883, visible: false, script: "forall(allpoints(), removeelement(#));\nclrscr();\nAL=[];\n\ndirectedGraphs = !directedGraphs;", text: "gerichtete/ungerichtete Graphen", dock: {corner: "LL", offset: [330.0, 13.0]}},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.98, 1.0, 0.62], fillalpha: 0.27272728085517883, visible: false, text: "Färbung", dock: {corner: "LL", offset: [793.0, 13.0]}},
+    {name: "A", type: "Free", pos: [-3.6570653597404608, -4.0, -0.3464677834545611], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "A"},
+    {name: "B", type: "Free", pos: [-1.546666666666663, -4.0, -0.26666666666666583], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "B"},
+    {name: "C", type: "Free", pos: [-0.36196092833244753, -4.0, -0.34646778345456075], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "C"},
+    {name: "D", type: "Free", pos: [-1.9218233845652593, -4.0, -0.671714034727258], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "D"},
+    {name: "E", type: "Free", pos: [4.0, 2.725696429954203, 0.4577221366015553], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "E"},
+    {name: "F", type: "Free", pos: [4.0, 3.7052931806497766, 0.2964234544648016], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "F"},
+    {name: "G", type: "Free", pos: [-1.2824644585641227, -4.0, -0.2211145618213998], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "G"},
+    {name: "H", type: "Free", pos: [0.6061468292339861, -4.0, -0.3200000000138392], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "H"},
+    {name: "I", type: "Free", pos: [-1.209543401930165, -4.0, -1.1577708759256677], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "I"},
+    {name: "J", type: "Free", pos: [4.0, 1.3092648171979748, 0.378957168556491], dimDependent: 1, color: [1.0, 1.0, 1.0], labeled: true, size: 7.0, printname: "J"},
+    {name: "a", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["A", "C"], labeled: true, size: 2, printname: " "},
+    {name: "b", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["B", "D"], labeled: true, size: 2, printname: " "},
+    {name: "c", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["C", "E"], labeled: true, size: 2, printname: " "},
+    {name: "d", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["A", "D"], labeled: true, size: 2, printname: " "},
+    {name: "e", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["B", "E"], labeled: true, size: 2, printname: " "},
+    {name: "f", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["A", "F"], labeled: true, size: 2, printname: " "},
+    {name: "g", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["B", "G"], labeled: true, size: 2, printname: " "},
+    {name: "h", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["C", "H"], labeled: true, size: 2, printname: " "},
+    {name: "i", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["D", "I"], labeled: true, size: 2, printname: " "},
+    {name: "j", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["E", "J"], labeled: true, size: 2, printname: " "},
+    {name: "k", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["F", "G"], labeled: true, size: 2, printname: " "},
+    {name: "l", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["G", "H"], labeled: true, size: 2, printname: " "},
+    {name: "m", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["H", "I"], labeled: true, size: 2, printname: " "},
+    {name: "n", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["I", "J"], labeled: true, size: 2, printname: " "},
+    {name: "o", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["F", "J"], labeled: true, size: 2, printname: " "}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 553,
+    transform: [{visibleRect: [-12.774752542372882, 21.68013559322034, 24.402305084745763, 0.17499661016949153]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PapposEuc1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "Y", type: "Free", pos: [ -0.7448275862068966, -4.0, -0.689655172413793 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, textsize: 15.0, size: 6.0 }, 
+		{ name: "X", type: "Free", pos: [ 4.0, 2.442477876106195, -0.8849557522123895 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, textsize: 15.0, size: 6.0 }, 
+		{ name: "a", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "Y", "X" ], size: 3, overhang: 1.16, clip: "inci" }, 
+		{ name: "Z", type: "Free", pos: [ 4.0, -1.8089171974522293, 0.6369426751592356 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, textsize: 15.0, size: 6.0 }, 
+		{ name: "b", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "X", "Z" ], size: 3, overhang: 1.16, clip: "inci" }, 
+		{ name: "c", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "Z", "Y" ], size: 3, overhang: 1.16, clip: "inci" }, 
+		{ name: "A", type: "PointOnLine", pos: [ -2.3562415175330615, -4.0, 1.4381529526875612 ], color: [ 0.0, 1.0, 0.0 ], args: [ "b" ], labeled: true, textsize: 15.0, size: 4.0 }, 
+		{ name: "d", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "c", "A" ], visible: false, clip: "inci" }, 
+		{ name: "B", type: "Meet", color: [ 1.0, 1.0, 1.0 ], args: [ "a", "d" ], labeled: true, textsize: 15.0, size: 3.0 }, 
+		{ name: "e", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "b", "B" ], visible: false, clip: "inci" }, 
+		{ name: "C", type: "Meet", color: [ 1.0, 1.0, 1.0 ], args: [ "c", "e" ], labeled: true, textsize: 15.0, size: 3.0 }, 
+		{ name: "f", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "a", "C" ], visible: false, clip: "inci" }, 
+		{ name: "D", type: "Meet", color: [ 1.0, 1.0, 1.0 ], args: [ "b", "f" ], labeled: true, textsize: 15.0, size: 3.0 }, 
+		{ name: "g", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "c", "D" ], visible: false, clip: "inci" }, 
+		{ name: "E", type: "Meet", color: [ 1.0, 1.0, 1.0 ], args: [ "a", "g" ], labeled: true, textsize: 15.0, size: 3.0 }, 
+		{ name: "h", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "e", "E" ], visible: false, clip: "inci" }, 
+		{ name: "F", type: "Meet", color: [ 1.0, 1.0, 1.0 ], args: [ "c", "h" ], labeled: true, textsize: 15.0, size: 3.0 }, 
+		{ name: "k", type: "Parallel", color: [ 0.0, 0.0, 1.0 ], args: [ "a", "F" ], visible: false, clip: "inci" }, 
+		{ name: "l", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "B" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 }, 
+		{ name: "m", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "B", "C" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 }, 
+		{ name: "n", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "C", "D" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 }, 
+		{ name: "o", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "D", "E" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 }, 
+		{ name: "p", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "F" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 }, 
+		{ name: "q", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "F", "A" ], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 423, height: 354, transform: [ { visibleRect: [ -7.58, 8.98, 9.34, -5.18 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

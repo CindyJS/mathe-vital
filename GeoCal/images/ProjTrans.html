@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ProjTrans.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -3.2, -0.8], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, 3.2, -0.8], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "C", type: "Free", pos: [-3.0, -4.0, -1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "D", type: "Free", pos: [3.0, -4.0, 1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "D"], size: 3},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "C"], size: 3},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "A"], size: 3},
+    {name: "E", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "C"], textsize: 17.0, size: 0.0},
+    {name: "F", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "D"], textsize: 17.0, size: 0.0},
+    {name: "G", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "F"], textsize: 17.0, size: 0.0},
+    {name: "H", type: "Mid", color: [1.0, 0.0, 0.0], args: ["F", "B"], textsize: 17.0, size: 0.0},
+    {name: "K", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "H"], textsize: 17.0, size: 0.0},
+    {name: "L", type: "Mid", color: [1.0, 0.0, 0.0], args: ["H", "F"], textsize: 17.0, size: 0.0},
+    {name: "M", type: "Mid", color: [1.0, 0.0, 0.0], args: ["F", "G"], textsize: 17.0, size: 0.0},
+    {name: "N", type: "Mid", color: [1.0, 0.0, 0.0], args: ["G", "D"], textsize: 17.0, size: 0.0},
+    {name: "O", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "C"], textsize: 17.0, size: 0.0},
+    {name: "P", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "O"], textsize: 17.0, size: 0.0},
+    {name: "Q", type: "Mid", color: [1.0, 0.0, 0.0], args: ["O", "D"], textsize: 17.0, size: 0.0},
+    {name: "R", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "Q"], textsize: 17.0, size: 0.0},
+    {name: "S", type: "Mid", color: [1.0, 0.0, 0.0], args: ["Q", "O"], textsize: 17.0, size: 0.0},
+    {name: "T", type: "Mid", color: [1.0, 0.0, 0.0], args: ["O", "P"], textsize: 17.0, size: 0.0},
+    {name: "U", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P", "C"], textsize: 17.0, size: 0.0},
+    {name: "V", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "E"], textsize: 17.0, size: 0.0},
+    {name: "W", type: "Mid", color: [1.0, 0.0, 0.0], args: ["E", "A"], textsize: 17.0, size: 0.0},
+    {name: "X", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "W"], textsize: 17.0, size: 0.0},
+    {name: "Y", type: "Mid", color: [1.0, 0.0, 0.0], args: ["W", "E"], textsize: 17.0, size: 0.0},
+    {name: "Z", type: "Mid", color: [1.0, 0.0, 0.0], args: ["E", "V"], textsize: 17.0, size: 0.0},
+    {name: "P0", type: "Mid", color: [1.0, 0.0, 0.0], args: ["V", "C"], textsize: 17.0, size: 0.0, printname: "$P_{0}$"},
+    {name: "P1", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "B"], textsize: 17.0, size: 0.0, printname: "$P_{1}$"},
+    {name: "P2", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "P1"], textsize: 17.0, size: 0.0, printname: "$P_{2}$"},
+    {name: "P3", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P1", "A"], textsize: 17.0, size: 0.0, printname: "$P_{3}$"},
+    {name: "P4", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "P3"], textsize: 17.0, size: 0.0, printname: "$P_{4}$"},
+    {name: "P5", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P3", "P1"], textsize: 17.0, size: 0.0, printname: "$P_{5}$"},
+    {name: "P6", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P1", "P2"], textsize: 17.0, size: 0.0, printname: "$P_{6}$"},
+    {name: "P7", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P2", "B"], textsize: 17.0, size: 0.0, printname: "$P_{7}$"},
+    {name: "P8", type: "Free", pos: [4.0, 0.9185185185185185, 0.37037037037037035], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$A'$"},
+    {name: "P9", type: "Free", pos: [4.0, -2.9517241379310346, 0.689655172413793], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$B'$"},
+    {name: "P10", type: "Free", pos: [4.0, -0.7795275590551182, 0.1968503937007874], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$D'$"},
+    {name: "P11", type: "Free", pos: [4.0, 0.6372549019607844, 0.2450980392156863], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$C'$"},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P4", "U"]},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P", "P3"]},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P5", "T"]},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 0.0], args: ["O", "P1"]},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P6", "S"]},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 0.0], args: ["Q", "P2"]},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P7", "R"]},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 0.0], args: ["N", "P0"]},
+    {name: "o", type: "Segment", color: [0.0, 0.0, 0.0], args: ["V", "G"]},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "Z"]},
+    {name: "q", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"]},
+    {name: "r", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "Y"]},
+    {name: "s", type: "Segment", color: [0.0, 0.0, 0.0], args: ["W", "H"]},
+    {name: "t", type: "Segment", color: [0.0, 0.0, 0.0], args: ["X", "K"]},
+    {name: "P12", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "t"], textsize: 17.0, size: 0.0, printname: "$P_{12}$"},
+    {name: "P13", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "s"], textsize: 17.0, size: 0.0, printname: "$P_{13}$"},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P12", "P13"]},
+    {name: "P14", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "r"], textsize: 17.0, size: 0.0, printname: "$P_{14}$"},
+    {name: "P15", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "q"], textsize: 17.0, size: 0.0, printname: "$P_{15}$"},
+    {name: "C1", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P14", "P15"]},
+    {name: "P16", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "p"], textsize: 17.0, size: 0.0, printname: "$P_{16}$"},
+    {name: "P17", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "o"], textsize: 17.0, size: 0.0, printname: "$P_{17}$"},
+    {name: "C2", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P16", "P17"]},
+    {name: "P18", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "n"], textsize: 17.0, size: 0.0, printname: "$P_{18}$"},
+    {name: "C3", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P18", "U"]},
+    {name: "P19", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "t"], textsize: 17.0, size: 0.0, printname: "$P_{19}$"},
+    {name: "P20", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "s"], textsize: 17.0, size: 0.0, printname: "$P_{20}$"},
+    {name: "C4", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P19", "P20"]},
+    {name: "P21", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "r"], textsize: 17.0, size: 0.0, printname: "$P_{21}$"},
+    {name: "P22", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "q"], textsize: 17.0, size: 0.0, printname: "$P_{22}$"},
+    {name: "C5", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P21", "P22"]},
+    {name: "P23", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "p"], textsize: 17.0, size: 0.0, printname: "$P_{23}$"},
+    {name: "P24", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "o"], textsize: 17.0, size: 0.0, printname: "$P_{24}$"},
+    {name: "C6", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P23", "P24"]},
+    {name: "P25", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "n"], textsize: 17.0, size: 0.0, printname: "$P_{25}$"},
+    {name: "C7", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P25", "T"]},
+    {name: "P26", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "t"], textsize: 17.0, size: 0.0, printname: "$P_{26}$"},
+    {name: "P27", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "s"], textsize: 17.0, size: 0.0, printname: "$P_{27}$"},
+    {name: "C8", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P26", "P27"]},
+    {name: "P28", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "r"], textsize: 17.0, size: 0.0, printname: "$P_{28}$"},
+    {name: "P29", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "q"], textsize: 17.0, size: 0.0, printname: "$P_{29}$"},
+    {name: "C9", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P28", "P29"]},
+    {name: "P30", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "p"], textsize: 17.0, size: 0.0, printname: "$P_{30}$"},
+    {name: "P31", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "o"], textsize: 17.0, size: 0.0, printname: "$P_{31}$"},
+    {name: "C10", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P30", "P31"]},
+    {name: "P32", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "n"], textsize: 17.0, size: 0.0, printname: "$P_{32}$"},
+    {name: "C11", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P32", "S"]},
+    {name: "P33", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "t"], textsize: 17.0, size: 0.0, printname: "$P_{33}$"},
+    {name: "P34", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "s"], textsize: 17.0, size: 0.0, printname: "$P_{34}$"},
+    {name: "C12", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P33", "P34"]},
+    {name: "P35", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "r"], textsize: 17.0, size: 0.0, printname: "$P_{35}$"},
+    {name: "P36", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "q"], textsize: 17.0, size: 0.0, printname: "$P_{36}$"},
+    {name: "C13", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P35", "P36"]},
+    {name: "P37", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "p"], textsize: 17.0, size: 0.0, printname: "$P_{37}$"},
+    {name: "P38", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "o"], textsize: 17.0, size: 0.0, printname: "$P_{38}$"},
+    {name: "C14", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P37", "P38"]},
+    {name: "P39", type: "Meet", color: [1.0, 0.0, 0.0], args: ["m", "n"], textsize: 17.0, size: 0.0, printname: "$P_{39}$"},
+    {name: "C15", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["P39", "R"]},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["C", "P11", "A", "P8", "D", "P10", "B", "P9"], dock: {offset: [0.0, -0.0]}},
+    {name: "C16", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C0"]},
+    {name: "C17", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C1"]},
+    {name: "C18", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C2"]},
+    {name: "C19", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C3"]},
+    {name: "C20", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C4"]},
+    {name: "C21", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C5"]},
+    {name: "C22", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C6"]},
+    {name: "C23", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C7"]},
+    {name: "C24", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C8"]},
+    {name: "C25", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C9"]},
+    {name: "C26", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C10"]},
+    {name: "C27", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C11"]},
+    {name: "C28", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C12"]},
+    {name: "C29", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C13"]},
+    {name: "C30", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C14"]},
+    {name: "C31", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C15"]},
+    {name: "u", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "a"], size: 3},
+    {name: "v", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "b"], size: 3},
+    {name: "w", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "c"], size: 3},
+    {name: "x", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "d"], size: 3},
+    {name: "y", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "e"]},
+    {name: "z", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "f"]},
+    {name: "S0", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "g"], printname: "$S_{0}$"},
+    {name: "S1", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "h"], printname: "$S_{1}$"},
+    {name: "S2", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "k"], printname: "$S_{2}$"},
+    {name: "S3", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "l"], printname: "$S_{3}$"},
+    {name: "S4", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "m"], printname: "$S_{4}$"},
+    {name: "S5", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "n"], printname: "$S_{5}$"},
+    {name: "S6", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "o"], printname: "$S_{6}$"},
+    {name: "S7", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "p"], printname: "$S_{7}$"},
+    {name: "S8", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "q"], printname: "$S_{8}$"},
+    {name: "S9", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "r"], printname: "$S_{9}$"},
+    {name: "S10", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "s"], printname: "$S_{10}$"},
+    {name: "S11", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "t"], printname: "$S_{11}$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 780,
+    height: 528,
+    transform: [{visibleRect: [-9.06, 9.34, 22.14, -11.78]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

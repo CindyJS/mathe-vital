@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Construction.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy3D.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+use("Cindy3D");
+sc=1.5;
+matx(w):=((1,0,0),(0,cos(w),sin(w)),(0,-sin(w),cos(w)));
+maty(w):=((cos(w),0,-sin(w)),(0,1,0),(sin(w),0,cos(w)));
+matz(w):=((cos(w),sin(w),0),(-sin(w),cos(w),0),(0,0,1));
+w1=20°;
+w2=-10°;
+map(p):=(matx(w2)*maty(w1)*p-(0,.1,0))*sc;
+
+
+playanimation();
+</script>
+<script id="cstick" type="text/x-cindyscript">
+    w1=w1+.3°;
+</script>
+
+<script id="csdraw" type="text/x-cindyscript">
+    A.y=.5;
+    if(A.x<1,A.x=1);
+    if(A.x>3,A.x=3);
+
+    B.y=.5;
+    if(B.x<4,B.x=4);
+    if(B.x>6,B.x=6);
+
+    C.y=.5;
+    if(C.x<7,C.x=7);
+    if(C.x>9,C.x=9);
+
+la=(A.x-1)/2;
+lb=(B.x-4)/2;
+lc=(C.x-7)/2;
+    draw((1,.5),(3,.5),color->(1,1,1));
+    draw((4,.5),(6,.5),color->(1,1,1));
+    draw((7,.5),(9,.5),color->(1,1,1));
+begin3D();
+background3d((0,0,0));
+
+draw3d(map((-10,0,0)),map((10,0,0)),color->(1,.5,.5),size->.4*sc);
+draw3d(map((0,-10,0)),map((0,10,0)),color->(.5,1,.5),size->.4*sc);
+draw3d(map((0,0,-10)),map((0,0,10)),color->(.5,.5,1),size->.4*sc);
+
+o=(0,0,0);
+a=(1,1,1)*.7;
+b=(1.5,1,-1.9)*.7;
+c=(-1.5,1,.5)*.7;
+
+aa=a+la*b+lb*c;
+bb=b+lc*c;
+cc=c;
+/*
+draw3d(map(o),map(a),color->(1,1,1),color->(1,1,1),size->.7*sc);
+draw3d(map(o),map(b),color->(1,1,1),color->(1,1,1),size->.7*sc);
+draw3d(map(o),map(c),color->(1,1,1),color->(1,1,1),size->.7*sc);
+draw3d(map(a),map(a+b),color->(1,1,1),size->.7*sc);
+draw3d(map(b),map(b+a),color->(1,1,1),size->.7*sc);
+draw3d(map(c),map(c+a),color->(1,1,1),size->.7*sc);
+draw3d(map(a),map(a+c),color->(1,1,1),size->.7*sc);
+draw3d(map(b),map(b+c),color->(1,1,1),size->.7*sc);
+draw3d(map(c),map(c+b),color->(1,1,1),size->.7*sc);
+draw3d(map(a+b+c),map(a+b),color->(1,1,1),size->.7*sc);
+draw3d(map(a+b+c),map(c+b),color->(1,1,1),size->.7*sc);
+draw3d(map(a+b+c),map(c+a),color->(1,1,1),size->.7*sc);
+*/
+o=(.2,-1,-.3);
+draw3d(map(o),map(aa),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+draw3d(map(o),map(bb),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+draw3d(map(o),map(cc),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+
+draw3d(map(aa),map(cc),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+draw3d(map(aa),map(bb),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+draw3d(map(bb),map(cc),color->(1,1,1),color->(1,.7,0),size->.8*sc);
+
+
+/*
+fillpoly3d([map(o),map(a),map(a+b),map(b)],alpha->1);
+fillpoly3d([map(o),map(a),map(a+c),map(c)],alpha->1);
+fillpoly3d([map(o),map(b),map(b+c),map(c)],alpha->1);
+fillpoly3d([map(b),map(b+a),map(a+b+c),map(b+c)],alpha->1);
+fillpoly3d([map(a),map(b+a),map(a+b+c),map(a+c)],alpha->1);
+fillpoly3d([map(c),map(b+c),map(a+b+c),map(a+c)],alpha->1);
+*/
+
+fillpoly3d([map(o),map(aa),map(bb)],alpha->1,color->(1,.8,0));
+fillpoly3d([map(o),map(bb),map(cc)],alpha->1,color->(1,.8,0));
+fillpoly3d([map(o),map(cc),map(aa)],alpha->1,color->(1,.8,0));
+fillpoly3d([map(aa),map(bb),map(cc)],alpha->1,color->(1,.8,0));
+
+end3D();
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1,0.5], color: [1.0, 0.0, 0.0], visible: true, size: 5.0},
+    {name: "B", type: "Free", pos: [4,0.5], color: [1.0, 0.0, 0.0], visible: true, size: 5.0},
+    {name: "C", type: "Free", pos: [7,0.5], color: [1.0, 0.0, 0.0], visible: true, size: 5.0},
+    ],
+  ports: [{
+    id: "CSCanvas",
+    width: 640,
+    height: 60,
+    transform: [{visibleRect: [0,0,10,1]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+    <canvas id="Cindy3D" width="640" height="480"></canvas>
+</body>
+</html>

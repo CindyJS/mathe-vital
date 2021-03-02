@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ComplexConjugation.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+//B.xy=round(B);
+//C.xy=round(C);
+a=complex(B.xy);
+D.xy=gauss(conjugate(a));
+
+drawtext((-5,5),"   a = "+a,size->16,color->(0,0,0.5));
+drawtext((-5,4),"$\overline{a}$ = "+conjugate(a),size->16,color->(0,0,0));
+
+draw(B,D,alpha->0.6,color->(0,0,0.6));
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 1.6, 0.8], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 0.0, printname: "a"},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "D", type: "Free", pos: [4.0, -1.6, 0.8], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 0.0, printname: "$\\overline{a}$"},
+    {name: "x", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "D"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 393,
+    height: 331,
+    transform: [{visibleRect: [-6.06, 7.02, 9.66, -6.22]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

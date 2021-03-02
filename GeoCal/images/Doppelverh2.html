@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Doppelverh2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+ // E.xy=D.xy;
+
+drawtext((-10,6),"$\mathbb{CP}^1$",size->30);
+
+F.xy=D.xy;
+if(mover()==D,
+
+ if(!(area(A.xy,B.xy,C.xy)~=0),
+  r=C0.radius;
+  d=|G,D|;
+  pro=D*r/d+G*(d-r)/d;
+  if(|pro,D|<0.25,D.xy=pro);
+ );
+
+ if(area(A,B,C)~=0,
+
+  if(|F,D|<0.25,D.xy=F.xy);
+ );
+);
+
+aa=complex(A)++[1];
+bb=complex(B)++[1];
+cc=complex(C)++[1];
+dd=complex(D)++[1];
+
+dv=(det((aa,cc))*
+det((bb,dd)))/
+(det((aa,dd))*
+det((bb,cc)));
+te=format(dv,3);
+if(|dv|>2000,te=" $\infty$");
+drawtext((-10,-7),"$(A,B;C,D)=$"+te,color->(0,0,0),size->17);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -1.6, -0.8], color: [1.0, 0.0, 0.0], labeled: true, textsize: 16.0, size: 6.0},
+    {name: "B", type: "Free", pos: [4.0, -2.5846153846153848, 1.5384615384615383], color: [1.0, 0.0, 0.0], labeled: true, textsize: 16.0, size: 6.0},
+    {name: "C", type: "Free", pos: [4.0, 3.0, -1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 16.0, size: 6.0},
+    {name: "D", type: "Free", pos: [4.0, 3.5596330275229358, 0.9174311926605504], color: [0.0, 1.0, 0.0], labeled: true, textsize: 16.0, size: 6.0},
+    {name: "C0", type: "CircleBy3", color: [0.0, 0.0, 0.0], args: ["A", "B", "C"], size: 3},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], visible: false, labeled: true},
+    {name: "F", type: "PointOnLine", pos: [4.0, -2.849770840834121, 2.168205746981035], color: [1.0, 0.0, 0.0], args: ["a"], visible: false, labeled: true, textsize: 16.0, size: 6.0},
+    {name: "G", type: "CenterOfConic", color: [1.0, 0.0, 0.0], args: ["C0"], visible: false, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 551,
+    height: 450,
+    transform: [{visibleRect: [-11.22, 8.38, 10.82, -9.62]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PlanetenExperimente.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="cssimulationstart" type="text/x-cindyscript">
+l=[];
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+curve=Text2.pressed;
+
+if(curve,l=l++[E.xy];connect(l,color->(0.8,0,0)),l=[]);
+
+
+A.simulate=(A.x<G.x % A.y<G.y);
+B.simulate=(B.x<G.x % B.y<G.y);
+C.simulate=(C.x<G.x % C.y<G.y);
+
+
+fillpolygon([(14,-17),(24,-17),(24,10),(14,10)],color->(1,0.5,0),alpha->0.3);
+
+ma=|K,S|*10;
+drawtext(K+(0.2,0.2),ma);
+
+
+mb=|M,T|*10;
+drawtext(M+(0.2,0.2),mb);
+
+
+mc=|O,U|*10;
+drawtext(O+(0.2,0.2),mc);
+
+
+mp=|Q,V|;
+drawtext(Q+(0.2,0.2),mp);
+
+A.mass=ma;
+B.mass=mb;
+C.mass=mc;
+
+E.mass=mp;
+
+
+drawtext((15,-6),"Kinetische Energie:");
+drawtext((15,-6.8),E.ke);
+
+drawtext((15,-8),"Potentielle Energie:");
+drawtext((15,-8.8),simulation().pe);
+
+
+draw((14,-15),(14,15),color->(0,0,0))
+;
+</script>
+<script id="cssimulationstop" type="text/x-cindyscript">
+l=[];
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -4.0, 2.0], color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 10.0},
+    {name: "E", type: "Free", pos: [4.0, 1.3333333333333333, -0.6666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [4.0, 0.6666666666666673, -0.6666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "D"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "C", type: "Free", pos: [4.0, 1.4449339207048457, 0.22026431718061676], color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 10.0},
+    {name: "B", type: "Free", pos: [4.0, 1.7364341085271318, 0.25839793281653745], color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 10.0},
+    {name: "F", type: "Free", pos: [4.0, 2.857142857142857, 0.2857142857142857], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "G", type: "Free", pos: [4.0, 1.4285714285714286, 0.2857142857142857], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "G"], alpha: 0.8999999761581421, size: 3},
+    {name: "H", type: "Free", pos: [4.0, 0.9523809523809521, 0.19047619047619044], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], alpha: 0.8999999761581421, size: 3},
+    {name: "K", type: "Free", pos: [4.0, 0.8, 0.26666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, 0.5999999999999999, 0.2], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "L"], alpha: 0.8999999761581421},
+    {name: "M", type: "Free", pos: [4.0, 0.26666666666666666, 0.26666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "N", type: "Free", pos: [4.0, 0.2, 0.2], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["M", "N"], alpha: 0.8999999761581421},
+    {name: "O", type: "Free", pos: [4.0, -0.26666666666666666, 0.26666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "P", type: "Free", pos: [4.0, -0.2, 0.2], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "P"], alpha: 0.8999999761581421},
+    {name: "Q", type: "Free", pos: [4.0, -0.8, 0.26666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "R", type: "Free", pos: [4.0, -0.5999999999999999, 0.2], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["Q", "R"], alpha: 0.8999999761581421},
+    {name: "S", type: "PointOnSegment", pos: [4.0, 0.75, 0.25], color: [1.0, 1.0, 0.0], args: ["d"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "T", type: "PointOnSegment", pos: [4.0, 0.25, 0.25], color: [1.0, 1.0, 0.0], args: ["e"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "U", type: "PointOnSegment", pos: [4.0, -0.25, 0.25], color: [1.0, 1.0, 0.0], args: ["f"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "V", type: "PointOnSegment", pos: [4.0, -0.75, 0.25], color: [1.0, 0.686, 0.686], args: ["g"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Parkplatz für \nSonnen", dock: {corner: "UL", offset: [699.0, -20.0]}},
+    {name: "Text13", type: "Text", color: [0.0, 0.0, 0.0], args: ["K"], alpha: 0.8999999761581421, text: "Sonnenmasse A", dock: {to: "K", offset: [1.0, -18.0]}},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], args: ["M"], alpha: 0.8999999761581421, text: "Sonnenmasse B", dock: {to: "M", offset: [1.0, -19.0]}},
+    {name: "Text1'", type: "Text", color: [0.0, 0.0, 0.0], args: ["O"], alpha: 0.8999999761581421, text: "Sonnenmasse C", dock: {to: "O", offset: [0.0, -19.0]}},
+    {name: "Text1''", type: "Text", pos: [4.0, -1.0133333333333334, 0.26666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Planetenmasse"},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, text: "Bahnkurve", dock: {corner: "LL", offset: [712.0, 40.0]}}
+  ],
+  behavior: [
+    {geo: ["A"], type: "Sun"},
+    {geo: ["E"], type: "Mass"},
+    {geo: ["a", "E", "D"], type: "Velocity"},
+    {geo: ["C"], type: "Sun"},
+    {geo: ["B"], type: "Sun"}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.44329896907216493,
+    speedRange: [0.0, 0.5],
+    accuracy: 8
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 856,
+    height: 560,
+    transform: [{visibleRect: [-13.34, 9.86, 20.9, -12.54]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

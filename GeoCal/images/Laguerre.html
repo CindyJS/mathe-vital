@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Laguerre.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+K.xy=H+C-A;
+L.xy=H+B-A;
+
+drawtext((-5,-8),"$
+{z_l \overline{z_m} \over z_m \overline{z_l} }
+\quad=\quad
+{r_l e^{i\phi_l}\cdot r_m e^{-i\phi_m} \over r_m e^{i\phi_m}\cdot r_l e^{-i\phi_l}}
+\quad=\quad
+{e^{i\phi_l}\cdot e^{-i\phi_m} \over e^{i\phi_m}\cdot e^{-i\phi_l}}
+\quad=\quad
+e^{2i(\phi_l-\phi_m)}
+$",size->20)
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.2372881355932206, -4.0, -1.6949152542372883], color: [0.0, 0.0, 0.0], textsize: 17.0, size: 4.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.029571800331204164, yy: -0.029571800331204164, zz: 1.0, xy: -0.0, xz: -0.078069552874379, yz: -0.13957889756328365}, color: [0.0, 0.0, 1.0], radius: 6.4131115692774285, args: ["A"], visible: false, pinned: true, printname: "$C_{0}$"},
+    {name: "a", type: "Through", pos: [4.0, 2.5054945054945055, -0.6329670329670323], color: [0.098, 0.62, 0.306], args: ["A"], labeled: true, textsize: 17.0, size: 3, clip: "inci", printname: "l"},
+    {name: "b", type: "Through", pos: [-0.5727619855748831, -2.0152736529486637, 4.0], color: [0.0, 0.0, 1.0], args: ["A"], labeled: true, textsize: 17.0, size: 3, clip: "inci", printname: "m"},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.42372881355932207, yy: 0.42372881355932207, zz: -0.5898305084745769, xy: 0.0, xz: 1.1186440677966103, yz: 2.0}, color: [0.0, 0.0, 1.0], radius: 2.950254226333724, args: ["A"], visible: false, pinned: true, printname: "$C_{1}$"},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "A"], visible: false, labeled: true, textsize: 17.0, clip: "inci"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "A"], visible: false, labeled: true, textsize: 17.0, clip: "inci"},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C1", "c"]},
+    {name: "", type: "SelectP", pos: [4.0, 0.8988537842281227, -1.8809800540706458], color: [1.0, 1.0, 1.0], args: ["Collection__1"], textsize: 17.0, size: 0.0},
+    {name: "B", type: "SelectP", pos: [0.3951230340194587, -4.0, -0.7695467863359166], color: [1.0, 0.0, 0.0], args: ["Collection__1"], labeled: true, textsize: 17.0, size: 0.0, printname: "$n_m=(a_m,b_m)$"},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C1", "d"]},
+    {name: "C", type: "SelectP", pos: [-1.2024814755030648, -4.0, -1.0188226065390529], color: [1.0, 0.0, 0.0], args: ["Collection__2"], labeled: true, textsize: 17.0, size: 0.0, printname: "$n_l=(a_l,b_l)$"},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "a"]},
+    {name: "D", type: "SelectP", pos: [2.4242923101981515, -4.0, -0.5131527619422402], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false, labeled: true, textsize: 17.0},
+    {name: "E", type: "SelectP", pos: [2.7113408060153223, -4.0, 1.3008342602357195], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false, labeled: true, textsize: 17.0},
+    {name: "Collection__4", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "G", type: "SelectP", pos: [4.0, 0.500544594603886, 0.8249455689826533], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false, labeled: true, textsize: 17.0},
+    {name: "F", type: "SelectP", pos: [4.0, -2.1970070685088654, -0.534130629552091], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false, labeled: true, textsize: 17.0},
+    {name: "E0", type: "AngleMark", color: [1.0, 0.784, 0.0], args: ["A", "E", "G"]},
+    {name: "E1", type: "AngleMark", color: [1.0, 0.784, 0.0], args: ["A", "C", "B"]},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], textsize: 17.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "f", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "C"], textsize: 17.0, size: 3, printname: "d", arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "H", type: "Free", pos: [4.0, 0.45714285714285713, 0.31746031746031744], color: [0.0, 0.0, 0.0], pinned: true, textsize: 17.0, size: 3.0},
+    {name: "g", type: "Through", pos: [-1.8973538018496323E-16, -2.7777777777777763, 4.0], color: [0.502, 0.502, 0.502], args: ["H"], pinned: true, textsize: 17.0, size: 3, clip: "inci"},
+    {name: "h", type: "Orthogonal", color: [0.502, 0.502, 0.502], args: ["g", "H"], textsize: 17.0, size: 3, clip: "inci"},
+    {name: "K", type: "Free", pos: [4.0, 0.796304010668721, 0.26489599943651876], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 0.0, printname: "$z_l=a_l+ib_l=r_l e^{i\\phi_l}$"},
+    {name: "L", type: "Free", pos: [4.0, 1.2763505257024899, 0.2983615996667295], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 0.0, printname: "$z_m=a_m+ib_m=r_m e^{i\\phi_m}$"},
+    {name: "k", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["g", "K"], textsize: 17.0, size: 0},
+    {name: "M", type: "Meet", color: [1.0, 1.0, 1.0], args: ["g", "k"], textsize: 17.0, size: 0.0},
+    {name: "C2", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["M", "K"], size: 0, printname: "$C_{2}$"},
+    {name: "N", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C2", "k", "K"], labeled: true, textsize: 17.0, size: 0.0, printname: "$\\overline{z_l}=a_l-ib_l=r_l e^{-i\\phi_l}$"},
+    {name: "l", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["g", "L"], textsize: 17.0, size: 0},
+    {name: "O", type: "Meet", color: [1.0, 1.0, 1.0], args: ["g", "l"], textsize: 17.0, size: 0.0},
+    {name: "C3", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["O", "L"], size: 0, printname: "$C_{3}$"},
+    {name: "P", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C3", "l", "L"], labeled: true, textsize: 17.0, size: 0.0, printname: "$\\overline{z_m}=a_m-ib_m=r_m e^{-i\\phi_m}$"},
+    {name: "m", type: "Segment", color: [0.098, 0.62, 0.306], args: ["H", "K"], textsize: 17.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "L"], textsize: 17.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "o", type: "Segment", color: [0.098, 0.62, 0.306], args: ["H", "N"], textsize: 17.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "P"], textsize: 17.0, size: 3, printname: "$\\overline{z_m}=a_m-ib_m$", arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "E2", type: "AngleMark", color: [1.0, 0.784, 0.0], args: ["H", "K", "L"]},
+    {name: "E3", type: "AngleMark", color: [1.0, 0.784, 0.0], args: ["H", "P", "N"]},
+    {name: "Q", type: "PointOnLine", pos: [4.0, 0.6233766233766243, 0.43290043290043345], color: [1.0, 0.0, 0.0], args: ["g"], visible: false, labeled: true, textsize: 17.0},
+    {name: "R", type: "PointOnLine", pos: [4.0, 0.2732447817836815, 0.18975332068311224], color: [1.0, 0.0, 0.0], args: ["g"], visible: false, labeled: true, textsize: 17.0},
+    {name: "S", type: "PointOnLine", pos: [4.0, 2.742857142857145, 0.31746031746031744], color: [1.0, 0.0, 0.0], args: ["h"], visible: false, labeled: true, textsize: 17.0},
+    {name: "T", type: "PointOnLine", pos: [4.0, -1.523809523809525, 0.31746031746031744], color: [1.0, 0.0, 0.0], args: ["h"], visible: false, labeled: true, textsize: 17.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 784,
+    height: 494,
+    transform: [{visibleRect: [-9.06, 9.34, 22.3, -10.42]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

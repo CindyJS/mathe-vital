@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>GoldenSection.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+tau=(sqrt(5)-1)/2;
+a=|A,C|/10;
+b=|B,C|/10;
+if(|a-tau|<0.003,C.x=A.x+tau*(B.x-A.x));
+a=|A,C|/10;
+b=|B,C|/10;
+drawtext((13,7),"A="+format(a,4),size->20);
+drawtext((13,5),"B="+format(b,4),size->20);
+
+drawtext((13,3),"${B\over A}$="+format(b/a,4),size->20);
+
+drawtext((13,1),"${A\over A+B}$="+format(a/(a+b),4),size->20);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], pinned: true, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.4], color: [1.0, 0.0, 0.0], pinned: true, size: 4.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], textsize: 16.0},
+    {name: "C", type: "PointOnSegment", pos: [4.0, -0.0, 0.5757146850135423], color: [0.0, 1.0, 0.0], args: ["a"], size: 6.0},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["A", "C"], visible: false},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["a", "A"], size: 5, clip: "inci"},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "D", type: "SelectP", pos: [0.0, -4.0, -0.5757146850135423], color: [1.0, 0.0, 0.0], args: ["Collection__1"], size: 0.0},
+    {name: "", type: "SelectP", pos: [0.0, -4.0, 0.5757146850135423], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "c", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["a", "D"], size: 5, clip: "inci"},
+    {name: "d", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["b", "B"], size: 5, clip: "inci"},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["a", "C"], textsize: 16.0, clip: "inci"},
+    {name: "f", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["d", "C"], size: 5, clip: "inci"},
+    {name: "E", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "f"], size: 0.0},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "d"], size: 0.0},
+    {name: "C1", type: "Compass", color: [0.0, 0.0, 1.0], args: ["E", "F", "A"], visible: false},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C1", "b"]},
+    {name: "G", type: "SelectP", pos: [0.0, -4.0, -1.310567036486843], color: [1.0, 0.0, 0.0], args: ["Collection__2"], size: 0.0},
+    {name: "g", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "G"], clip: "inci"},
+    {name: "H", type: "Meet", color: [1.0, 0.0, 0.0], args: ["f", "g"], size: 0.0},
+    {name: "h", type: "Join", color: [0.757, 0.0, 0.0], args: ["A", "H"], size: 3, overhang: 1.065, clip: "inci"},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.831, 0.639, 1.0], fillalpha: 1.0, args: ["D", "A", "C", "E"]},
+    {name: "Poly1", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.51, 0.949, 1.0], fillalpha: 1.0, args: ["E", "C", "B", "F"]},
+    {name: "Poly2", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.51, 0.949, 1.0], fillalpha: 0.3162393162393162, args: ["G", "A", "C", "H"]},
+    {name: "C2", type: "CircleByRadius", pos: {xx: -0.00560032110001059, yy: -0.00560032110001059, zz: 1.0, xy: 0.0, xz: 0.0, yz: 0.0}, color: [0.0, 0.0, 1.0], radius: 13.362678997865661, args: ["A"], visible: false},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C2", "h"]},
+    {name: "K", type: "SelectP", pos: [4.0, 1.7571468501354206, 0.32695029180872326], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false, labeled: true},
+    {name: "k", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "C"], labeled: true, textsize: 16.0, size: 5, printname: "A"},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "B"], labeled: true, textsize: 16.0, size: 5, printname: "B"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 702,
+    height: 387,
+    transform: [{visibleRect: [-2.8437142857142854, 9.853085714285713, 18.737771428571428, -2.0443999999999996]}],
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

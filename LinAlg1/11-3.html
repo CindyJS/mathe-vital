@@ -1,0 +1,173 @@
+---
+title:  Taylorpolynome von $\exp(x)$
+layout: page
+category: LinAlg1
+---
+
+
+        <h1> Taylorpolynome von $\exp(x)$</h1>
+
+Analog zur Sinusfunktion kann man auch die Exponentialfunktion durch Potenzreihen annähern.
+Es ergibt sich das Entwicklungsgesetz:
+
+\[T_0(x):=f(1).\]
+
+\[1+{x^1\over 1!}+{x^2\over 2!}+{x^3\over 3!}+{x^4\over 4!}+{x^{5}\over 5!}+{x^{6}\over 6!}+{x^{7}\over 7!}+{x^{8}\over 8!}+\cdots\]
+
+Das Applet veranschaulicht wieder die Annäherung der Taylorpolynome an die eigentliche Funktion.
+<br>
+<br>
+
+
+
+
+           <script id='init' type='cindyscript'>
+
+
+           fak(x):=if(x==0,1,fak(x-1)*x);
+fa=[1]++apply(1..110,fak(#));
+
+oldn=-1;
+        </script>
+
+
+        <script id='firstDrawing' type='cindyscript'>
+                   x=C.x;
+           if(x<-9,x=-9);
+           if(x>18,x=18);
+           x=round(x);
+           C.xy=(x,8);
+
+
+
+n=round(|C,A|);
+
+
+
+i=(0..n);
+f(x):=sum(i,x^#/fa_(#+1));
+
+
+//f(x):=sum(i,(-1)^((#)/2)*x^#/fa_#);
+g(x):=max((min((50,f(x))),-50));
+linesize(2);
+plot(exp(#-D.x)+D.y,alpha->0.8,color->(0,0.6,0),stop->22);
+linesize(1);
+if(oldn!=n,
+  cur=apply((-400/2..420/2)/10*2,(#,g(#)));
+);
+cur2=apply(cur,#+D);
+
+connect(cur2);
+//plot(g(#-D.x)+D.y,pxlres->4,color->(0,0,0.6));
+
+        if(oldn!=n,
+
+
+           ii1=apply(1..min((length(i),14)),i_#);
+
+           t="$ ";
+           si=+1;
+            forall(ii1,
+             if(si==1,t=t+"{+}",t=t+"{-}");
+             t=t+"{x^{"+#+"} \over "+#+"!}";
+             si=-si;
+           );
+
+           t=t+"$ ";
+t1=t;
+   t="$\qquad";
+              ii1=apply(15..min((length(i),27)),i_#);
+
+           si=+1;
+            forall(ii1,
+             if(si==1,t=t+"{+}",t=t+"{-}");
+             t=t+"{x^{"+#+"} \over "+#+"!}";
+             si=-si;
+           );
+
+           t=t+"$";
+
+);
+drawtext((-9,-3),t1,size->26);
+drawtext((-9,-6),t,size->26);
+         oldn=n;
+
+        </script>
+
+          <div style="position:relative;">
+        <canvas  id="CSCanvas" width=800 height=500  style=" border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div style=" top:360px; left:40px; display:inline;z-index:4">
+<div id="texall">
+         <div id="tex" style="font-size: 130%;" ></div><br>
+         <div id="tex1" style="font-size: 130%;" ></div>
+</div>
+        </div>
+       <div style=" top:20px; left:20px; display:inline;z-index:4">
+<br><br>
+<br><br>
+</div>
+
+
+
+</div>
+
+
+
+ <script type="text/javascript">
+         var typ=function(a,b){
+                     var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+if(chCode==13){
+
+cdy.evokeCS("a="+b.value+";repaint();");
+
+         }
+         }
+
+
+
+
+
+        </script>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[-9,8],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[18,8],color:[0,0,0],size:3},
+                      {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+                      {name:"C", type:"Free", pos:[-9,8],color:[1,1,0],size:5},
+                      {name:"D", type:"Free", pos:[6,0],color:[1,1,0],size:5}
+                      ];
+
+            createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-5,20,20,-20]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+
+                        geometry:gslp});
+
+
+                document.onkeydown={}
+
+
+
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+</div>

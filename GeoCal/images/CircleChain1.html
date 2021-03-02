@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>CircleChain1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+al=1;
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+lig(a):=(
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+drawliecircle(p,col,size):=(
+  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->al);
+  drawcircle((p_3,p_4),|p_5|,size->size,color->col);
+);
+
+
+drawliecircle2(p,col,size):=(
+  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,0,0),alpha->0.2);
+  drawcircle((p_3,p_4),|p_5|,size->size,color->col);
+);
+
+drawlieline(p,col,size):=(
+  draw(line((p_3,p_4,-p_1)),size->size,color->col);
+);
+
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..5,randomint(100))/100;
+yy=apply(1..5,randomint(100))/100;
+orth(a,b,c,d):=(
+   m=transpose([a,b,c,d]);
+   [
+      det([m_2,m_3,m_4,m_5]),
+     -det([m_1,m_3,m_4,m_5]),
+      det([m_1,m_2,m_4,m_5]),
+     -det([m_1,m_2,m_3,m_5]),
+      det([m_1,m_2,m_3,m_4])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+
+findlie(a,b,c):=(
+   aa=orth(liequad*a,liequad*b,liequad*c,xx);   
+   bb=orth(liequad*a,liequad*b,liequad*c,yy);   
+   r1=aa*liequad*aa;
+   r2=2*bb*liequad*aa;
+   r3=bb*liequad*bb;
+   roo=roots([r1,r2,r3]);
+   if(isreal(roo_1),
+     [aa+roo_1*bb,aa+roo_2*bb],
+     [inf,inf]);
+);
+
+mid(c):=((c_3,c_4)/(c_1+c_2));
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+nn=round(|D,F|*4);
+al=|G,K|/|G,H|;
+
+//err(g(lip(A),lip(B)));
+//err(sqrt(-g(lip(A),lip(B)*2)));
+//err((g(lig(a),lic(C1))));
+//drawlie(lie(b),1,1);
+
+cir1=lie(C0);
+cir2=rev(lie(C1));
+start=findlie(cir1,cir2,lie(C));
+midl=C.xy;
+repeat(nn,
+ cs1=start_1;
+ cs2=start_2;
+ cs=if(area(A.xy,midl,mid(cs2))<0,cs1,cs2);
+ midl=mid(cs); 
+// draw((cs_3,cs_4)/(cs_1+cs_2));
+ drawlie(cs,(0,0,0),1);
+//if(#==1,drawlie(cs,(0,0,.8),2));
+ start=findlie(cir1,cir2,rev(cs));
+ start=start/|start|;
+);
+
+
+sk=-g(cir1,cir2)/(cir1_5*cir2_5)-1;
+ac=4/(sk+1)-1;
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-2.56, 0.8, 4.0], color: [1.0, 1.0, 1.0], size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.04804735547355474, yy: -0.04804735547355474, zz: 1.0, xy: -0.0, xz: -0.06150061500615007, yz: -0.019218942189421898}, color: [0.0, 0.0, 0.0], radius: 4.611117001334926, args: ["A"], size: 3},
+    {name: "B", type: "Free", pos: [4.0, 0.7499999999999999, 3.125], color: [1.0, 1.0, 1.0], size: 3.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: -0.019675743743113486, yy: -0.019675743743113486, zz: 0.9999999999999999, xy: 0.0, xz: 0.050369903982370526, yz: -0.009444356996694473}, color: [0.0, 0.0, 0.0], radius: 7.247068372797376, args: ["B"], size: 3},
+    {name: "D", type: "Free", pos: [-3.2, -4.0, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [3.6, -4.0, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [-1.4399999280000002, -4.0, 0.4], color: [0.0, 1.0, 0.0], args: ["a"], labeled: true, textsize: 17.0, size: 3.0, printname: "n"},
+    {name: "G", type: "Free", pos: [-3.5555555555555554, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [-1.3333333333333333, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"]},
+    {name: "K", type: "PointOnSegment", pos: [-1.3333333333333333, -4.0, 0.44444444444444436], color: [0.0, 1.0, 0.0], args: ["b"], labeled: true, textsize: 17.0, size: 3.0, printname: "alpha"},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], visible: false, labeled: true},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C1", "c"]},
+    {name: "", type: "SelectP", pos: [4.0, 0.18342525951691258, 0.469180903985528], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "L", type: "SelectP", pos: [4.0, -0.05971148791963103, -0.6705225996232702], color: [1.0, 0.0, 0.0], args: ["Collection__1"], visible: false, labeled: true},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C0", "c"]},
+    {name: "M", type: "SelectP", pos: [4.0, -0.07920273779337299, -0.7618878334064356], color: [1.0, 0.0, 0.0], args: ["Collection__2"], visible: false, labeled: true},
+    {name: "N", type: "Mid", color: [1.0, 0.0, 0.0], args: ["L", "M"], visible: false, labeled: true},
+    {name: "Collection__3", type: "ConicBy2Foci1P", args: ["A", "B", "N"]},
+    {name: "C2", type: "SelectConic", pos: {xx: {r: -0.028570036111719998, i: -4.09846248330682E-20}, yy: {r: -0.029338857741535433, i: -3.312086360386033E-20}, zz: {r: 1.0, i: 6.162975822039155E-33}, xy: {r: -3.2048144360522175E-5, i: 2.0296165120940597E-18}, xz: {r: 0.018277772519741487, i: 6.290776839423387E-19}, yz: {r: -0.012898842000080225, i: -6.907217407455052E-19}}, color: [0.0, 0.0, 1.0], args: ["Collection__3"], alpha: 0.19658119658119658, visible: false},
+    {name: "C", type: "PointOnConic", pos: [4.0, {r: 2.38306793653671, i: 2.3365612037606388E-17}, {r: 0.7393569402791891, i: 1.2735472121352993E-17}], color: [0.0, 0.0, 0.0], args: ["C2"], size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 568,
+    height: 493,
+    transform: [{visibleRect: [-10.22, 8.7, 12.5, -11.02]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

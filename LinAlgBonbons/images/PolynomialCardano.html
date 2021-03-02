@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PolynomialCardano.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+a=1;
+b=0;
+c=(|E,O|-3);
+d=(|G,P|-3);
+e=(|K,Q|-3);
+
+aa=d/2;
+bb=-(-1+c)/2;
+rr=sqrt((+aa^2+bb^2-e));
+
+
+A.xy=(-aa,bb);
+C0.radius=rr;
+
+
+plot(x^2);
+drawtext(E+(0.2,0.2),"a="+c,size->10);
+drawtext(G+(0.2,0.2),"b="+d,size->10);
+drawtext(K+(0.2,0.2),"c="+e,size->10);
+if(a==0,a=0.0000001);
+
+f(x):=a*x^4+b*x^3+c*x^2+d*x+e;
+plot(f(x),size->2,color->(0.8,0,0));
+
+drawpt(pt):=if(im(pt)~=0,
+   draw(gauss(#),(#,#^2),color->(0,0.6,0));   draw((#,#^2),color->(0,0,1),size->3);   draw(gauss(#),color->(0,1,0));
+
+
+drawtext(gauss(#)+(.1,.1),#,size->8),
+   draw(gauss(#),color->(1,0,0));drawtext(gauss(#)+(.1,.1),#,size->8)
+);
+
+
+if((a~!=0),
+    bb=b/a;
+    cc=c/a;
+    dd=d/a;
+    ee=e/a;
+    m=[[-bb,-cc,-dd,-ee],[1,0,0,0],[0,1,0,0],[0,0,1,0]];
+    ev=eigenvalues(m);
+    forall(ev,drawpt(#))
+  );
+
+if((a~=0)&(b~!=0),
+
+    cc=c/b;
+    dd=d/b;
+    ee=e/b;
+    m=[[-cc,-dd,-ee],[1,0,0],[0,1,0]];
+    ev=eigenvalues(m);
+    forall(ev,drawpt(#))
+  );
+
+if((a~=0)&(b~=0)&(c~!=0),
+    dd=d/c;
+    ee=e/c;
+    m=[[-dd,-ee],[1,0]];
+    ev=eigenvalues(m);
+    forall(ev,drawpt(#))
+  );
+
+if((a~=0)&(b~=0)&(c~=0)&(d~!=0),
+    ee=e/d;
+    m=[[-ee]];
+    ev=eigenvalues(m);
+    forall(ev,drawpt(#))
+  );
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "E", type: "Free", pos: [4.0, -2.2857142857142856, -0.5714285714285714], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "F", type: "Free", pos: [3.0000000000000013, -4.0, -1.0000000000000004], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"], alpha: 0.8999999761581421},
+    {name: "G", type: "Free", pos: [4.0, -1.7142857142857137, -0.5714285714285714], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, -3.999999999999998, -1.3333333333333333], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"], alpha: 0.8999999761581421},
+    {name: "K", type: "Free", pos: [4.0, -1.1428571428571428, -0.5714285714285714], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -2.6666666666666665, -1.3333333333333333], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "L"], alpha: 0.8999999761581421},
+    {name: "O", type: "PointOnSegment", pos: [4.0, -2.57809063938923, -0.6445226598473075], color: [1.0, 1.0, 1.0], args: ["c"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "P", type: "PointOnSegment", pos: [4.0, -2.824525771538043, -0.9415085905126818], color: [1.0, 1.0, 1.0], args: ["d"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "Q", type: "PointOnSegment", pos: [4.0, -2.285714285714285, -1.1428571428571426], color: [1.0, 1.0, 1.0], args: ["e"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "A", type: "Free", pos: [-0.3100308067326191, -4.0, -2.4952097275551606], color: [0.098, 0.62, 0.306], alpha: 0.8999999761581421, size: 4.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.6238024318887901, yy: 0.6238024318887901, zz: {r: 0.3119012159443898, i: 4.242876528902849E-74}, xy: 0.0, xz: -0.15501540336630953, yz: 2.0}, color: [0.0, 0.0, 1.0], radius: 1.4440487903790942, args: ["A"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, text: "Zeros of the polynomial\n$x^4+ax^2+bx+c$\n\nGreen points are real roots.\nRed points are complex roots.", textsize: 16.0, dock: {corner: "LL", offset: [10.0, 124.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 739,
+    height: 484,
+    transform: [{visibleRect: [-7.476528387189208, 4.894106325875944, 2.783739910179083, -1.8257446293693238]}],
+    axes: true,
+    grid: 0.5,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

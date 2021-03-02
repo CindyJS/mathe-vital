@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Barycentric1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="/deploy/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+tt=sqrt(3/4);
+tr=transpose(((1,0),(.5,tt)));
+tri=inverse(tr);
+dtri=tr*round(tri*D.xy);
+
+if(|dtri,D.xy|<0.2,D.xy=dtri);
+cc=cross(A,B);
+aa=cross(B,C);
+bb=cross(C,A);
+mid=(A+B+C)/3++[1];
+
+aa=aa/(aa*mid);
+bb=bb/(bb*mid);
+cc=cc/(cc*mid);
+
+xx=D.homog;
+xx=xx/|xx|;
+
+ha=aa*xx;
+hb=bb*xx;
+hc=cc*xx;
+
+nn=ha+hb+hc;
+
+bary=(ha/nn,hb/nn,hc/nn);
+if(|(1,1,1)/3-bary|<0.02,bary=(1,1,1)/3;D.homog=mid);
+g.color=if(bary_3<0,(0.6,0,0),(0,0.6,0));
+h.color=if(bary_2<0,(0.6,0,0),(0,0.6,0));
+k.color=if(bary_1<0,(0.6,0,0),(0,0.6,0));
+layer(10);
+clrscr();
+
+r1(p):=gauss(complex(p)*exp(i*120°));
+r2(p):=gauss(complex(p)*exp(-i*120°));
+apply(-25..25,
+   draw((-20,#*tt),(20,#*tt),color->(1,1,1)*.8);
+   draw(r1((-20,#*tt)),r1((20,#*tt)),color->(1,1,1)*.9);
+   draw(r2((-20,#*tt)),r2((20,#*tt)),color->(1,1,1)*.9);
+);
+
+
+
+
+draw(D,G,color->k.color,size->4);
+draw(D,F,color->h.color,size->4);
+draw(D,E,color->g.color,size->4);
+
+draw(join(A,B),size->4);
+draw(join(C,B),size->4);
+draw(join(A,C),size->4);
+drawtext(A+(.5,.1),"A",size->26);
+drawtext(B+(-1.1,.3),"B",size->26);
+drawtext(C+(.5,.3),"C",size->26);
+
+
+drawtext(D+(0.3,0.3),offset->(1,0),bary,size->26,color->(1,1,1));
+drawtext(D+(0.3,0.3),offset->(0,1),bary,size->26,color->(1,1,1));
+drawtext(D+(0.3,0.3),offset->(-1,0),bary,size->26,color->(1,1,1));
+drawtext(D+(0.3,0.3),offset->(0,-1),bary,size->26,color->(1,1,1));
+drawtext(D+(0.3,0.3),bary,size->26);
+;
+</script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: {}, 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ -3.079201435678004, -4.0, -0.769800358919501 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, labeled: false, textsize: 16.0 }, 
+		{ name: "B", type: "Free", pos: [ -1.1547005383792517, -4.0, 1.1547005383792517 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, labeled: false, textsize: 16.0 }, 
+		{ name: "a", type: "Join", pos: [ 4.0, -2.3094010767585034, -3.9999999999999996 ], color: [ 0.0, 0.0, 1.0 ], args: [ "A", "B" ], size: 3, visible:false }, 
+		{ name: "C", type: "Free", pos: [ 4.0, -1.5396007178390019, 0.4444444444444444 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, labeled: false, textsize: 16.0 }, 
+		{ name: "b", type: "Join", pos: [ 4.996003610813204E-17, 1.1547005383792517, 4.0 ], color: [ 0.0, 0.0, 1.0 ], args: [ "B", "C" ], size: 3, visible:false }, 
+		{ name: "c", type: "Join", pos: [ -0.5714285714285714, -0.32991443953692906, 4.0 ], color: [ 0.0, 0.0, 1.0 ], args: [ "C", "A" ], size: 3, visible:false }, 
+		{ name: "D", type: "Free", pos: [ 4.0, 0.989743318610787, 1.1428571428571428 ], color: [ 0.0, 1.0, 0.0 ] }, 
+		{ name: "d", type: "Perp", pos: [ -0.8000000000000002, -1.3856406460551016, 4.0 ], color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "a", "D" ], visible: false, size: 1 }, 
+		{ name: "e", type: "Perp", pos: [ -1.1428571428571428, 4.9447611935577343E-17, 4.0 ], color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "b", "D" ], visible: false, size: 1 }, 
+		{ name: "f", type: "Perp", pos: [ -1.9999999999999991, 3.464101615137753, 4.0 ], color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "c", "D" ], visible: false, size: 1 }, 
+		{ name: "E", type: "Meet", pos: [ 4.0, 3.464101615137755, 2.0 ], color: [ 1.0, 1.0, 1.0 ], args: [ "a", "d" ], size: 2.0 }, 
+		{ name: "F", type: "Meet", pos: [ 4.0, 1.5061311370164148, 0.6956521739130436 ], color: [ 1.0, 1.0, 1.0 ], args: [ "c", "f" ], size: 2.0 }, 
+		{ name: "G", type: "Meet", pos: [ 4.0, -3.9589732744431476, 1.1428571428571428 ], color: [ 1.0, 1.0, 1.0 ], args: [ "b", "e" ], size: 2.0 }, 
+		{ name: "g", type: "Segment", pos: [ -0.7999999999999999, -1.3856406460551018, 4.0 ], color: [ 1.0, 0.0, 0.0 ], args: [ "E", "D" ], size: 3,visible:false }, 
+		{ name: "h", type: "Segment", pos: [ -1.9999999999999996, 3.464101615137755, 4.0 ], color: [ 1.0, 0.0, 0.0 ], args: [ "D", "F" ], size: 3,visible:false }, 
+		{ name: "k", type: "Segment", pos: [ -1.1428571428571428, -0.0, 4.0 ], color: [ 1.0, 0.0, 0.0 ], args: [ "D", "G" ], size: 3,visible:false } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 719, height: 512, transform: [ { visibleRect: [ -9.84, 10.88, 18.92, -9.6 ] } ] } ] });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas" style="border:2px solid #000000" ></canvas>
+    </body>
+</html>

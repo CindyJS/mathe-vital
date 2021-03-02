@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+<div class="navigationshortcuts">
+  {% assign gotIt = 0 %}
+  {% for item in site.data.navigation.Navigation %}{% if item.category == page.category %}
+    {% assign i = 0 %}{% for chapter in item.chapters %}{% assign j = 0 %}
+      {% for topic in chapter.topics %}{% if gotIt == 0 %}{% if topic.url == page.url %}{% assign gotIt = 1 %}
+      {% if j == 0 %}
+          {% assign prevChapter = i | minus: 1 %}
+            {% if i != 0 %}
+              <a title="Strg+Alt+J" href="{{item.chapters[prevChapter].topics.last.url}}" accesskey="j">Previous &#8678;</a>
+            {% endif %}
+      {% else %}
+          {% assign prev = j | minus: 1 %}
+            <a title="Strg+Alt+J" href="{{chapter.topics[prev].url}}" accesskey="j">Previous &#8678;</a>
+      {% endif %}
+      {% assign next = j | plus: 1 %}
+      {% if chapter.topics[next] %}
+        <a title="Strg+Alt+L" href="{{chapter.topics[next].url}}" accesskey="l">&#8680; Next</a>
+      {% else %}
+        {% assign nextChapter = i | plus: 1 %}
+        {% if item.chapters[nextChapter] %}
+          <a title="Strg+Alt+L" href="{{item.chapters[nextChapter].topics[0].url}}" accesskey="l">&#8680; Next</a>
+        {% endif %}
+      {% endif %}
+
+    {% endif %}{% endif %}{% assign j = j | plus: 1 %}{% endfor %}{% assign i = i | plus: 1 %}{% endfor %}{% endif %}{% endfor %}
+
+</div>
+
+
+<div id="home">
+      {{content}}
+</div>

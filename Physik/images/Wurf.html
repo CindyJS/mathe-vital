@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Wurf.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+running=false;
+h=0;
+hit():=(
+  if(record,
+    pt=meet(g,join(l_(length(l)),l_(length(l)-1))).xy;
+    l=l++[pt];
+    llist=llist++[l]
+  );
+  record=false;
+);
+
+l=[];
+record=false;
+
+llist=[];
+</script>
+<script id="cssimulationstart" type="text/x-cindyscript">
+  inspect(simulation(),"physenv.friction",0);
+l=[];
+record=true;running=true;
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(mover()==E & !running,
+E.x=-6;
+if(E.y>-6,E.y=-6);
+if(E.y<-9,E.y=-9);
+);
+clrscr();
+layer(-2);
+if(mover()==F & !running,
+ dif=F-E;
+ F.xy=E+4*(dif)/|dif|;
+ if(dif.x<0,F.xy=E+(0,4)); 
+ if(dif.y<0,F.xy=E+(4,0)); 
+ draw(E,E+(4,0),size->2); 
+ dif=F-E;
+ w=round(arctan2(dif.x,dif.y)/pi*180); 
+ F.xy=E+(cos(w*1°),sin(w*1°))*4;
+ connect(apply(1..w,i,
+   E+(cos(i*1°),sin(i*1°))*4;
+  ),size->2
+ );
+ drawtext(E.xy+(1.2,-0.8),w+"°"); 
+);
+
+
+if(running&record,l=l++[E.xy]);
+
+
+
+
+
+connect(l,color->(0.6,0.2,0),size->3,alpha->0.9);
+//drawall(l,color->(0.0,0.0,0),size->2,border->false,alpha->0.9);
+
+apply(llist,ll,
+  connect(ll,color->(0.6,0.2,0),size->1,alpha->0.9);
+
+);
+
+
+
+;
+</script>
+<script id="cssimulationstop" type="text/x-cindyscript">
+running=false;
+h=0;
+l=[];
+record=false;
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "F", type: "Free", pos: [-3.2721303187634665, -4.0, 0.7482484202089505], color: [1.0, 0.0, 0.0], textsize: 16.0, size: 0.0},
+    {name: "G", type: "Free", pos: [4.0, -3.4999999999999996, -0.4999999999999999], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "H", type: "Free", pos: [-3.2, -4.0, 0.4], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], size: 3},
+    {name: "K", type: "Free", pos: [4.0, -2.1052631578947367, 0.21052631578947367], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "K"], size: 3},
+    {name: "L", type: "Free", pos: [4.0, 1.4736842105263162, 0.21052631578947367], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "L"], size: 3},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "G"], size: 3},
+    {name: "M", type: "Free", pos: [4.0, -3.428571428571428, -0.5714285714285713], color: [1.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "N", type: "Free", pos: [4.0, -0.0, -0.5714285714285714], color: [1.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "N"], visible: false, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "Poly1", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.718, 0.333, 0.0], fillalpha: 0.21367521367521367, args: ["G", "H", "K", "L"]},
+    {name: "E", type: "Free", pos: [-2.6666666666666665, -4.0, 0.4444444444444444], color: [1.0, 1.0, 0.0]},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "A", type: "Free", pos: [-3.5555555555555554, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, -1.894736842105263, 0.21052631578947367], color: [0.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], visible: false, size: 3},
+    {name: "Text0", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "llist=[];\n", text: "zurücksetzen", textsize: 16.0, dock: {corner: "LL", offset: [155.0, 24.0]}}
+  ],
+  behavior: [
+    {type: "Environment", charges: true},
+    {geo: ["b", "G", "H"], type: "Bouncer"},
+    {geo: ["c", "H", "K"], type: "Bouncer"},
+    {geo: ["d", "K", "L"], type: "Bouncer"},
+    {geo: ["e", "L", "G"], type: "Bouncer"},
+    {geo: ["f", "M", "N"], type: "Gravity", strength: 0.02},
+    {geo: ["E"], type: "Mass", charge: -1},
+    {geo: ["a", "E", "F"], type: "Velocity", factor: 0.4},
+    {geo: ["g", "A", "B"], type: "Bouncer", xdamp: 1.0, ydamp: 0.7066666666666667}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.4020618556701031,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 742,
+    height: 584,
+    transform: [{visibleRect: [-10.02, 9.58, 19.66, -13.78]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]},
+  images: {
+    "image-1.png": "data:image/png;base64,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"
+  }
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

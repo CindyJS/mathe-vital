@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Pendel.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-2.0, -4.0, -1.0], color: [1.0, 1.0, 1.0]},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.034482758620689655, yy: -0.034482758620689655, zz: 1.0, xy: 0.0, xz: 0.13793103448275862, yz: -0.27586206896551724}, color: [0.0, 0.0, 1.0], radius: 7.0, args: ["A"], alpha: 0.0},
+    {name: "C", type: "PointOnCircle", pos: [{r: 2.666666666666651, i: 1.6328623988631383E-16}, -4.0, {r: 1.3333333333333333, i: -8.998372684609032E-32}], color: [0.012, 0.655, 0.737], args: ["C0"], size: 10.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: -0.7272727272727312, i: -4.453261087808565E-17}, -4.0, {r: -0.36363636363636365, i: -8.031605371386754E-33}], color: [1.0, 1.0, 1.0], args: ["C"], pinned: true, size: 0.0},
+    {name: "E", type: "Free", pos: [4.0, 2.0, 0.2857142857142857], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "F", type: "Free", pos: [4.0, -0.2857142857142857, 0.2857142857142857], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "c", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "C"], size: 7},
+    {name: "Text0", type: "Text", pos: [4.0, -0.6601941747572815, 0.32362459546925565], color: [0.0, 0.0, 0.0], pinned: true, text: "Schwerkraft"}
+  ],
+  behavior: [
+    {geo: ["C"], type: "Mass", mass: 3.0},
+    {geo: ["a", "E", "F"], type: "Gravity", strength: 0.02}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.5,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 633,
+    height: 499,
+    transform: [{visibleRect: [-8.66, 12.7, 16.66, -7.26]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Kondition.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+// begin misc
+inspect(S1B, "pinning", true);
+inspect(S1B, "labeled", false);
+inspect(S1B, "ptsize", 3);
+inspect(S1B, "color", 15);
+inspect(S1B, "pointborder", 0);
+
+inspect(S1E, "pinning", true);
+inspect(S1E, "labeled", false);
+inspect(S1E, "ptsize", 3);
+inspect(S1E, "color", 15);
+inspect(S1E, "pointborder", 0);
+
+inspect(S1P, "pinning", false);
+inspect(S1P, "labeled", false);
+inspect(S1P, "ptsize", 5);
+inspect(S1P, "color", 0);
+inspect(S1P, "pointborder", true);
+
+inspect(sl1, "linesize", 2);
+inspect(sl1, "color", 15);
+inspect(sl1, "labeled", false);
+
+noPoints = [S1B, S1E, S1P];
+noLines = [sl1];
+
+
+inspect(S2B, "pinning", true);
+inspect(S2B, "labeled", false);
+inspect(S2B, "ptsize", 3);
+inspect(S2B, "color", 15);
+inspect(S2B, "pointborder", 0);
+
+inspect(S2E, "pinning", true);
+inspect(S2E, "labeled", false);
+inspect(S2E, "ptsize", 3);
+inspect(S2E, "color", 15);
+inspect(S2E, "pointborder", 0);
+
+inspect(S2P, "pinning", false);
+inspect(S2P, "labeled", false);
+inspect(S2P, "ptsize", 5);
+inspect(S2P, "color", 0);
+inspect(S2P, "pointborder", true);
+
+inspect(sl2, "linesize", 2);
+inspect(sl2, "color", 15);
+inspect(sl2, "labeled", false);
+
+noPoints = [S1B, S1E, S1P];
+noLines = [sl1];
+// end misc
+
+
+intXY(P) := (
+  [
+    [P.x, [P.x - epsilon, P.x + epsilon]],
+    [P.y, [P.y - epsilon, P.y + epsilon]],
+    [1, [1, 1]]
+  ];
+);
+
+
+intAdd(a, b) := (
+  [a_1 + b_1, [a_2_1 + b_2_1, a_2_2 + b_2_2]];
+);
+
+
+intSub(a, b) := (
+  [a_1 - b_1, [a_2_1 - b_2_2, a_2_2 - b_2_1]];
+);
+
+
+intMult(a, b) := (
+  [(a_1)*(b_1), [min([(a_2_1)*(b_2_1), (a_2_1)*(b_2_2), (a_2_2)*(b_2_1), (a_2_2)*(b_2_2)]), max([(a_2_1)*(b_2_1), (a_2_1)*(b_2_2), (a_2_2)*(b_2_1), (a_2_2)*(b_2_2)])]];
+);
+
+
+intDiv(a, b) := (
+  [(a_1)/(b_1), intMult(a, [1/(b_1), [1/(b_2_2), 1/(b_2_1)]])_2];
+);
+
+
+myCross(x, y) := (
+  [
+    intSub(intMult(x_2, y_3), intMult(x_3, y_2)),
+    intSub(intMult(x_3, y_1), intMult(x_1, y_3)),
+    intSub(intMult(x_1, y_2), intMult(x_2, y_1))
+  ];
+);
+
+
+
+
+unused() := (
+tmp = a.homog/((a.homog)_3);
+g = [
+  [tmp.x, [tmp.x - epsilon, tmp.x + epsilon]],
+  [tmp.y, [tmp.y - epsilon, tmp.y + epsilon]],
+  [1, [1, 1]]
+];
+
+tmp = b.homog/((b.homog)_3);
+h = [
+  [tmp.x, [tmp.x - epsilon, tmp.x + epsilon]],
+  [tmp.y, [tmp.y - epsilon, tmp.y + epsilon]],
+  [1, [1, 1]]
+];
+
+PA = intXY(A);
+PB = intXY(B);
+PC = intXY(C);
+PD = intXY(D);
+
+tmp = myCross(myCross(PA, PB), myCross(PC, PD));
+tmp = [
+  intDiv(tmp_1, tmp_3),
+  intDiv(tmp_2, tmp_3)
+];
+
+draw([tmp_1_1, tmp_2_1]);
+//fillpoly([[tmp_1_2_1, tmp_2_2_1], [tmp_1_2_2, tmp_2_2_1], [tmp_1_2_2, tmp_2_2_2], [tmp_1_2_1, tmp_2_2_2]], alpha->0.5, color->red(0.8));
+
+forall([PA, PB, PC, PD],
+  fillpoly([[#_1_2_1, #_2_2_1], [#_1_2_2, #_2_2_1], [#_1_2_2, #_2_2_2], [#_1_2_1, #_2_2_2]], alpha->0.5, color->red(0.8));
+);
+
+
+bla = apply([PA, PB, PC, PD], # = [[#_1_2_1, #_2_2_1], [#_1_2_2, #_2_2_1], [#_1_2_2, #_2_2_2], [#_1_2_1, #_2_2_2]]);
+
+joins = [];
+repeat(4, i,
+  repeat(4, j,
+    repeat(4, k,
+      repeat(4, l,
+        joins = append(joins, point(meet(join((bla_3_i):>1, (bla_4_j):>1), join((bla_1_j):>1, (bla_2_k):>1))));
+      );
+    );
+  );
+);
+
+drawAll(joins);
+
+//ecken =[sort(joins, (#.xy)_1)_1, sort(joins, (#.xy)_1)_(-1), sort(joins, (#.xy)_2)_1, sort(joins, (#.xy)_2)_(-1)];
+
+//drawAll(ecken, color->blue(1));
+
+
+grahamScan(P) := (
+  local(tmp, P0, S, i, N, stack);
+
+  tmp = sort(P, (#.xy)_1);
+  P0 = sort(select(tmp, (tmp_1).x ~= #.x), (#.xy)_2)_(-1);
+
+  S = P0<:sort(remove(P, [P0]), arctan2((#/(#_3) - P0/(P0_3))_1, (#/(#_3) - P0/(P0_3))_2));
+  stack = [P0, S_2];
+
+  i = 3;
+  N = length(S);
+
+  while(i <= N & length(stack) >= 2,
+    PT1 = stack_(-1);
+    PT2 = stack_(length(stack) - 1);
+
+    if(area(point(PT1), point(PT2), point(S_i)) ~<= 0,
+      stack = stack:>(S_i);
+      i = i + 1;
+      ,
+      stack = remove(stack, [stack_(-1)]);
+    );
+  );
+
+  release(tmp, P0, S, i, N, stack);
+);
+
+
+);
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+epsilonB=(S2P.x-S2B.x)/(S2E.x-S2B.x)*3;
+epsilonD=(S1P.x-S1B.x)/(S1E.x-S1B.x)*3;
+
+//fillcircle(A, epsilon, color->red(0.8), alpha->0.5);
+fillcircle(B, epsilonB, color->red(0.8), alpha->0.5);
+//fillcircle(C, epsilon, color->red(0.8), alpha->0.5);
+fillcircle(D, epsilonD, color->(0.8, 0.33, 0), alpha->0.5);
+
+n = 30;
+
+//DA = apply(0..n, point(append(gauss(complex(A) + random()*epsilon*exp(2*pi*i*random())), 1)));
+DB = apply(0..n, point(append(gauss(complex(B) + random()*epsilonB*exp(2*pi*i*random())), 1)));
+//DC = apply(0..n, point(append(gauss(complex(C) + random()*epsilon*exp(2*pi*i*random())), 1)));
+DD = apply(0..n, point(append(gauss(complex(D) + random()*epsilonD*exp(2*pi*i*random())), 1)));
+
+drawall(DB++DD, size->2, color->red(1));
+
+joins = [];
+
+forall(DB, B,
+  forall(DD, D,
+    joins = append(joins, meet(join(A, B), join(C, D)));
+  );
+);
+
+drawall(joins, size->2, color->red(0.8));
+fillcircle(E, max(apply(joins, dist(#.xy, E.xy))), color->red(1), alpha->0.5);
+
+
+//bla = grahamScan(set(joins));
+//connect(bla:>(bla_1));
+//fillpoly(bla:>(bla_1), color->red(1), alpha->0.5);
+
+
+drawtext(S2P + [0, 0.5], "Störung B", color->red(0.8));
+drawtext(S1P + [0, 0.5], "Störung D", color->(0.8, 0.33, 0));
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -4.0, -0.8], color: [0.0, 1.0, 0.0], labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -4.0, 0.8], color: [0.0, 1.0, 0.0], labeled: true},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 4.0, -0.8], color: [0.0, 1.0, 0.0], labeled: true},
+    {name: "S1B", type: "Free", pos: [4.0, 2.4, -0.16], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S1E", type: "Free", pos: [4.0, 4.0, -0.26666666666666666], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl1", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S1B", "S1E"], size: 2},
+    {name: "S1P", type: "PointOnSegment", pos: [4.0, 2.8571428571428568, -0.19047619047619047], color: [1.0, 1.0, 1.0], args: ["sl1"], printname: "Störung"},
+    {name: "D", type: "Free", pos: [4.0, 4.0, 0.8], color: [0.0, 1.0, 0.0], labeled: true},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "D"], labeled: true},
+    {name: "E", type: "Meet", color: [0.0, 1.0, 0.0], args: ["a", "b"]},
+    {name: "S2B", type: "Free", pos: [4.0, 2.08, -0.16], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S2E", type: "Free", pos: [4.0, 3.466666666666667, -0.26666666666666666], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl2", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S2B", "S2E"], size: 2},
+    {name: "S2P", type: "PointOnSegment", pos: [4.0, 2.4761904761904763, -0.19047619047619047], color: [1.0, 1.0, 1.0], args: ["sl2"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-26.349618104689966, 16.41677777203197, 26.40480055098251, -16.196047986861792]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

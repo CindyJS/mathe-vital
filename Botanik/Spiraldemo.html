@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Spiraldemo.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+tt=0;
+s=seconds();
+lasts=seconds();
+f(t):=t*0.3;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+s=seconds();
+a=1;
+
+tt=tt+(s-lasts)*(|A,C|/|A,B|-0.5)*30;
+l=apply(1..1000,
+  t=#/20;
+  (sin(t+tt),cos(t+tt))*f(t);
+);
+
+connect(l,size->2);
+lasts=s;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+a;
+</script>
+    <script type="text/javascript">
+
+var statement=new Array()
+statement[0]='(f(t):=t*0.3;)'
+statement[1]='(f(t):=exp(t*0.15-4);)'
+statement[2]='(f(t):=sqrt(t*0.3)*2;)'
+
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1.7777777777777777, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -3.6, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [3.3599999111111103, -4.0, 0.44444444444444453], color: [1.0, 1.0, 1.0], args: ["a"]}
+  ],
+  autoplay: true,
+  animcontrols: false,
+  ports: [{
+    id: "CSCanvas",
+    width: 532,
+    height: 475,
+    transform: [{visibleRect: [-10.3, 9.34, 10.98, -9.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+
+function doScript(script) {
+  cdy.evokeCS(script);
+}
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+    
+<table><tr><td width="800">
+<input type="button" value="Archimedische Spirale" style="width: 172px;" onclick="doScript(statement[0])" />
+<input type="button" value="Logarithmische Spirale" style="width: 172px;" onclick="doScript(statement[1])" />
+<input type="button" value="Wurzelspirale" style="width: 172px;" onclick="doScript(statement[2])" />
+</td></tr></table>
+</body>
+</html>

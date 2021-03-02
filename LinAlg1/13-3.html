@@ -1,0 +1,163 @@
+---
+title: Bild eines Ursprungskreises
+layout: page
+category: LinAlg1
+---
+    
+        <h1>Bild eines Ursprungskreises</h1>
+<div  style=" line-height: 1.5">
+In diesem Applet kann man beobachten, wie eine komplexe Funktion
+$f\colon\mathbb{C}\to\mathbb{C}$ einen ganzen Kreis um den Ursprung abbildet.
+Die Funktion ist frei editierbar. Die Position von $z$, ebenso wie der Radius des grünen Kreises ist veränderbar.
+DIe blaue Kurve ist das Bild des grünen Kreises unter $f(z)$. DIes kann man leicht überprüfen, indem man den
+Punkt $z$ entlang des Kreises bewegt.
+
+Einige interessante Funktionen zum Ausprobieren sind unten angegeben.
+ <br> <br> <br>
+</div>
+
+        <script id='init' type='cindyscript'>
+ drawarrow(a,b,col,alp):=(
+        regional(n);
+           n=b-a;
+           n=n/|n|*1.4;
+           p=(n_2,-n_1);
+           draw(a,b-n*.1,color->col,size->4,alpha->alp);
+           fillpoly([b-n*.17+p*.07,b,b-n*.17-p*.07,b-n*.1],color->col,alpha->alp)
+
+        );
+        drawl(a,b,col,alp):=(
+           draw(a,b,color->col,size->2,alpha->alp);
+
+        );
+
+
+label=false;
+snap=false;
+f(z):=z^3+z;
+setfunction(t):=(
+  parse("f(z):="+t);
+);
+
+sc=false;
+sx=false;
+sy=false;
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+
+                B.xy=(B/|B|)*Ci.radius;
+
+        draw(line((0,1,0)),color->(0,0,0),size->0.5);
+        draw(line((1,0,0)),color->(0,0,0),size->0.5);
+        e=exp(1);
+
+
+        z=complex(B.xy);
+
+        ff=gauss(f(z));
+
+         res=1000;
+        li=(0..res)/res;
+                n=round(10*(|S,S1|/|S1,S2|));
+
+        dots=apply(li,
+          x=exp(i*360°*#)*Ci.radius;
+          gauss(f(x));
+        );
+        connect(dots,color->(0.7,0,0),size->3);
+
+
+        drawarrow((0,0),gauss(z),(0.6,0,0),1);
+        drawarrow((0,0),ff,(0,0,0.8),1);
+
+
+
+ drawcircle((0,0),1);
+drawtext(gauss(z)*1.2+(-.03,-.03),"z");
+drawtext(ff*1.2+(-.07,-.03),"f(z)");
+        </script>
+
+
+
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+                   <div style="font-size:18px;  top:23px; left:20px; display:inline;z-index:4">
+
+               f(z)= <input id="f" type="text" name="inp" value="z^3+z"  onkeypress="typ(event, this)" size="30" style="font-size:18px; background-color:#FFEEDD"}>
+</div>
+
+
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"Ci", type:"CircleMr", args:["O"],radius:.85,color:[0,0,0],size:3},
+                      {name:"B", type:"Free", pos:[.65,.5],color:[1,.9,0],size:4},
+                      {name:"C", type:"Free", pos:[-3,3],color:[1,0,0],size:0.01},
+
+
+
+
+                    ];
+                     cdy=createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:1,
+                        snap:false,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-2,2,2,-2]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                        );
+  setTimeout(function(){document.onkeydown={}}, 1000);
+
+var typ=function(a,b){
+    var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+    if(chCode==13){
+//                cindy_cancelmove();
+
+        cdy.evokeCS('setfunction("'+b.value+'");');
+    }
+}
+
+var define=function(a){
+
+    document.getElementById("f").value=a;
+      //   cindy_cancelmove();
+
+    cdy.evokeCS('setfunction("'+a+'");');
+
+}
+
+
+</script>
+
+  <!--      END ADD-->
+
+<div  style=" line-height: 1.5">
+
+<button style="width:100px;" onclick='define("z^2");' type="button" >z^2</button>
+<button style="width:100px;" onclick='define("z^3+z");' type="button" >z^3+z</button>
+<button style="width:100px;" onclick='define("1/z");' type="button" >1/z</button>
+<button style="width:100px;" onclick='define("1+z+z^2");' type="button" >1+z+z^2</button>
+<button style="width:100px;" onclick='define("z+z^5");' type="button" >z+z^5</button><br>
+<button style="width:100px;" onclick='define("z+z^6");' type="button" >z+z^6</button>
+<button style="width:100px;" onclick='define("z^3+z^5");' type="button" >z^3+z^5</button>
+<button style="width:100px;" onclick='define("exp(z)");' type="button" >exp(z)</button>
+<button style="width:100px;" onclick='define("sin(z)");' type="button" >sin(z)</button>
+<button style="width:100px;" onclick='define("1/z+z");' type="button" >1/z+z</button><br>
+<br>
+<br>
+Eine spannende Übung ist es, genau zu beobachten, was bei den jeweiligen Funktionen
+alles an Besonderheiten auftritt.
+
+</div>
+</div>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DiffExampleDgl2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+euler=[[1]];
+
+runge2=[
+ [1/2,0],
+ [0,1]
+];
+
+
+heun=[
+ [1,0],
+ [1/2,1/2]
+];
+
+
+
+kutta3=[
+ [1/2,0,0],
+ [-1,2,0],
+ [1/6,2/3,1/6]
+];
+
+rk4=[
+ [1/2,0,0,0],
+ [0,1/2,0,0],
+ [0,0,1,0],
+ [1/6,1/3,1/3,1/6]
+];
+
+
+fehlberg=[
+ [2/9,0,0,0,0,0],
+ [1/12,1/4,0,0,0,0],
+ [69/128,-243/128,135/64,0,0,0],
+ [-17/12,27/4,-27/5,16/15,0,0],
+ [65/432,-5/16,13/16,4/27,5/144,0],
+ [47/450,0,12/25,32/225,1/30,6/25]
+];
+
+
+fehlberg78=[
+  [2/27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1/36, 1/12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1/24, 0, 1/8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [5/12, 0, -25/16, 25/16, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1/20, 0, 0, 1/4, 1/5, 0, 0, 0, 0, 0, 0, 0, 0],
+  [-25/108, 0, 0, 125/108, -65/27, 125/54, 0, 0, 0, 0, 0, 0, 0],
+  [31/300, 0, 0, 0, 61/225, -2/9, 13/900, 0, 0, 0, 0, 0, 0],
+  [2, 0, 0, -53/6, 704/45, -107/9, 67/90, 3, 0, 0, 0, 0, 0],
+  [-91/108, 0, 0, 23/108, -976/135, 311/54, -19/60, 17/6, -1/12, 0, 0, 0, 0],
+  [2383/4100, 0, 0, -341/164, 4496/1025, -301/82, 2133/4100, 45/82, 45/164, 18/41, 0, 0, 0],
+  [3/205, 0, 0, 0, 0, -6/41, -3/205, -3/41, 3/41, 6/41, 0, 0, 0],
+  [-1777/4100, 0, 0, -341/164, 4496/1025, -289/82, 2193/4100, 51/82,33/164, 12/41, 0, 1, 0 ],
+  [0, 0, 0, 0, 0, 34/105, 9/35, 9/35, 9/280, 9/280, 0, 41/840, 41/840]
+ ];
+
+dopri45=[
+ [1/5,0,0,0,0,0,0],
+ [3/40,9/40,0,0,0,0,0],
+ [44/45,-56/15,32/9,0,0,0,0],
+ [19372/6561,-25360/2187,64448/6561,-212/729,0,0,0],
+ [9017/3168,-355/33,46732/5247,49/176,-5103/18656,0,0],
+ [35/384,0,500/1113,125/192,-2187/6784,11/84,0],
+ [5179/57600,0,7571/16695,393/640,-92097/339200,187/2100,1/40]
+];
+
+  pp=A.xy ;
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+  pp=A.xy 
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+g(x,y):=parse("("+Text2.val+","+Text0.val+")");
+zoom=(2^(|K,M|));
+f(x,y):=g(x/zoom,y/zoom);
+
+gxx(x,y):=d(g(#,y)_1,x);
+gxy(x,y):=d(g(x,#)_1,y);
+gyx(x,y):=d(g(#,y)_2,x);
+gyy(x,y):=d(g(x,#)_2,y);
+tp=H.xy/zoom;
+
+mat=((gxx(tp.x,tp.y),gxy(tp.x,tp.y)),
+ (gyx(tp.x,tp.y),gyy(tp.x,tp.y)));
+ev=eigenvalues(mat);
+n=round(2^(|B,F|+4));
+dt=(1/2)^(|E,G|);
+drawtext(D+(0.2,0.2),"dt="+dt);
+drawtext(B+(0.2,0.2),"n="+n);
+drawtext(K+(0.2,0.2),"zoom="+zoom);
+
+rkstep(x,dt,verf):=(
+  nn=length(verf);
+  mm=zerovector(nn);
+  act=x;
+  act0=x;
+  repeat(nn,ii,
+    mm_ii=f(act.x,act.y);
+    act=act0+dt*sum(1..ii,jj,mm_jj*verf_ii_jj);
+  );
+  act;
+);
+
+
+
+
+drawfield(f(#.x,#.y),stream->true,resolution->25,move->0.2);
+
+p0=A.xy;
+l=[p0];
+repeat(n,
+  p1=rkstep(p0,dt,kutta3);
+//  l=l++[p0];
+  draw(p0,p1,color->(0,0,0),size->2,alpha->1-#/n);
+  p0=p1;
+);
+
+drawtext(H+(-0.2,0.9),"Eigenwerte",size->16);
+drawtext(H+(0.2,0.2),ev_1,size->16);
+drawtext(H+(0.2,-0.5),ev_2,size->16);
+//connect(l,color->(0,0,0),size->2);
+
+
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+a
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [3.763713080168776, -4.0, 0.7623705408515534], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -1.7777777777777777, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, -1.1428571428571428, 0.2857142857142857], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"]},
+    {name: "D", type: "Free", pos: [4.0, -1.3333333333333333, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, -0.8571428571428571, 0.2857142857142857], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [4.0, -1.1600758840438028, 0.2900189710109507], color: [0.0, 1.0, 0.0], args: ["a"]},
+    {name: "G", type: "PointOnSegment", pos: [4.0, -1.2664613431693026, 0.4221537810564342], color: [0.0, 1.0, 0.0], args: ["b"]},
+    {name: "Text0", type: "EditableText", pos: [0.04278074866310161, -4.0, 0.9662129314535732], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "x^2-y", textsize: 16.0},
+    {name: "H", type: "Free", pos: [-3.3913043478260874, -4.0, -1.309288537549407], color: [1.0, 1.0, 1.0]},
+    {name: "K", type: "Free", pos: [4.0, -0.8888888888888888, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -0.5714285714285714, 0.2857142857142857], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "L"]},
+    {name: "M", type: "PointOnSegment", pos: [4.0, -0.7977122211780778, 0.3988561105890389], color: [0.0, 1.0, 0.0], args: ["c"]},
+    {name: "Text2", type: "EditableText", pos: [0.05095541401273886, -4.0, 1.150839606253619], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "y^3-y*x+x-2", textsize: 16.0},
+    {name: "Text3", type: "Text", pos: [-1.3670886075949367, -4.0, 1.14355581127733], color: [0.0, 0.0, 0.0], text: "$(f_x)' = $", textsize: 19.0},
+    {name: "Text4", type: "Text", pos: [-1.1063829787234043, -4.0, 0.9610735009671179], color: [0.0, 0.0, 0.0], text: "$(f_y)' = $", textsize: 19.0}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.5,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 972,
+    height: 585,
+    transform: [{visibleRect: [-6.918238993710693, 7.383144654088051, 14.600251572327046, -5.567798742138366]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

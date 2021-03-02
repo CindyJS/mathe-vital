@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Hull.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+points=allpoints();
+eps=0.0001;
+right(a,b):=select(points,p,area(a,b,p)>eps);
+left(a,b):=select(points,p,area(a,b,p)<-eps);
+pairs=pairs(points);
+hull=select(pairs,s, or(right(s_1,s_2)==[],left(s_1,s_2)==[]));
+drawall(hull,size->3,color->(.5,1,.5));
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.8603170374317277, -4.0, -0.8865059278007186], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "B", type: "Free", pos: [-1.3202087202617827, -4.0, -0.5885734500751745], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "C", type: "Free", pos: [4.0, 0.9053283120176163, 2.481449718483169], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "D", type: "Free", pos: [0.8625659050966614, -4.0, -3.89865260691269], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "E", type: "Free", pos: [4.0, -1.7072133569078667, -1.4894474161276607], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "F", type: "Free", pos: [1.3961147086031467, -4.0, 2.0521122417514723], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "G", type: "Free", pos: [-1.0034873878449262, -4.0, -1.126629422718807], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "H", type: "Free", pos: [4.0, 3.7336175287684505, 0.8443395627957734], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "K", type: "Free", pos: [4.0, 3.2144316289009875, 2.091517646689088], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "L", type: "Free", pos: [4.0, -0.2699777642220346, 1.3095495779137738], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "M", type: "Free", pos: [-3.286578321440722, -4.0, 2.261297995242959], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "N", type: "Free", pos: [0.162258659163676, -4.0, -0.6456776947705439], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "O", type: "Free", pos: [2.6457578145521365, -4.0, -1.7480956133438366], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "P", type: "Free", pos: [-0.14658275367119225, -4.0, -0.7347907695704975], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "Q", type: "Free", pos: [-2.6891884354373863, -4.0, -0.6186669145672583], color: [0.51, 0.949, 1.0], size: 8.0},
+    {name: "R", type: "Free", pos: [4.0, 1.1665383106409635, 0.9670294540751838], color: [0.51, 0.949, 1.0], size: 8.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 765,
+    height: 429,
+    transform: [{visibleRect: [-6.265965439519155, 8.700225394440265, 16.72426746806911, -4.192336589030801]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

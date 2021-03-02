@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Banach.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+nn=round(exp(|N,O|/|N,M|*5));
+restrict(p):=(
+ p.x=max(0,min(12,p.x));
+ p.y=max(0,min(12,p.y));
+);
+restrict(F);
+restrict(H);
+restrict(G);
+restrict(E);
+mat=transpose(Tr0.matrix);
+
+
+a=(0,0,1);
+b=(12,0,1);
+c=(12,12,1);
+d=(0,12,1);
+
+l=(a,b,c,d,a);
+repeat(nn,
+  l=l*mat;
+  fillpoly(l,alpha->0.1);
+  connect(l,alpha->0.8,color->(0,0,0));
+);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 1.0,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -4.0, -0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, -0.0, 0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, 4.0, 0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [-0.8397516382587159, -4.0, -0.3869902478457543], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "F", type: "Free", pos: [-2.768156766687079, -4.0, -1.3778322106552359], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, 1.2800196850393708, 0.46136811023622054], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "H", type: "Free", pos: [-3.260140505615097, -4.0, -0.3845956617609354], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["A", "E", "B", "F", "C", "G", "D", "H"], visible: false, dock: {offset: [0.0, -0.0]}},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.718, 0.333, 0.0], fillalpha: 0.23931623931623933, args: ["A", "B", "C", "D"]},
+    {name: "a", type: "Segment", color: [1.0, 1.0, 1.0], args: ["A", "E"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["D", "H"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "c", type: "Segment", color: [1.0, 1.0, 1.0], args: ["C", "G"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "d", type: "Segment", color: [1.0, 1.0, 1.0], args: ["B", "F"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "K", type: "Free", pos: [4.0, 2.751552058207126, 0.44485744790225007], color: [1.0, 1.0, 1.0], labeled: true, textsize: 16.0, size: 3.0, printname: "x"},
+    {name: "L", type: "TransformP", color: [1.0, 1.0, 1.0], args: ["Tr0", "K"], labeled: true, textsize: 16.0, size: 2.0, printname: "f(x)"},
+    {name: "e", type: "Segment", color: [1.0, 0.0, 0.0], args: ["K", "L"], size: 3, arrowshape: "full", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "M", type: "Free", pos: [4.0, 3.2, 0.26666666666666666], color: [0.0, 0.0, 0.0], visible: false, size: 1.0},
+    {name: "N", type: "Free", pos: [4.0, -0.0, 0.26666666666666666], color: [0.0, 0.0, 0.0], visible: false, size: 1.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "N"], size: 3},
+    {name: "O", type: "PointOnSegment", pos: [4.0, -0.0, 0.26666666666666666], color: [1.0, 1.0, 1.0], args: ["f"], labeled: true, size: 4.0, printname: "Iterieren"},
+    {name: "Poly1", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.0, 0.0, 1.0], fillalpha: 0.23931623931623933, args: ["E", "F", "G", "H"]},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "C"], size: 3},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], size: 3},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "A"], size: 3},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"], size: 3},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "G"], size: 3},
+    {name: "o", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], size: 3},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "E"], size: 3}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 590,
+    height: 450,
+    transform: [{visibleRect: [-1.0779555555555556, 13.208977777777777, 17.90693333333333, -1.271022222222222]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

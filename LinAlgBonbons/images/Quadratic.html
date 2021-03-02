@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Quadratic.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+cub(p):=(p.x^2,p.x*p.y,p.y^2,p.x,p.y);
+mat=apply(allpoints(),cub(#.xy));
+pars=linearsolve(mat,-(1,1,1,1,1));
+
+
+//x*a+y*b+1=0
+px(y,pp):=(
+       pp_1,
+     y*pp_2+    pp_4,
+   y^2*pp_3+  y*pp_5+    1
+);
+py(x,pp):=(
+       pp_3,
+     x*pp_2+    pp_5,
+   x^2*pp_1+  x*pp_4+    1
+);
+
+
+
+repeat(350,start->-12,stop->12,i,
+
+   pol=reverse(px(i,pars));
+   roo=roots(pol);
+   apply(roo,if(|im(#)|<0.00001,draw((#,i),
+        size->1,border->false,color->(0,0,1))));
+
+   pol=reverse(py(i,pars));
+   roo=roots(pol);
+   apply(roo,if(|im(#)|<0.00001,draw((i,#),
+        size->1,border->false,color->(0,0,1))));
+);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -1.23943661971831, -0.704225352112676], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "B", type: "Free", pos: [-1.1692307692307693, -4.0, 1.5384615384615383], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 1.5157894736842104, 1.0526315789473684], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "D", type: "Free", pos: [-1.6237623762376237, -4.0, -0.9900990099009901], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "E", type: "Free", pos: [3.380281690140845, -4.0, 1.408450704225352], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 547,
+    height: 494,
+    transform: [{visibleRect: [-10.38, 9.98, 11.5, -9.78]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

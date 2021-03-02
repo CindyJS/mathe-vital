@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Regression2D2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+
+pts=[A,B,C,D,E,F,G,H,K];
+m=apply(pts,(1,#.x));
+y=apply(pts,#.y);
+ma=transpose(m)*m;
+mb=transpose(m)*y;
+mainv=[[ma_2_2,-ma_1_2],[-ma_2_1,ma_1_1]]/det(ma);
+v=mainv*mb;
+f(x):=v_2*x+v_1;
+plot(f(x));
+
+l=L.xy;
+m=M.xy;
+
+s=(l.y-m.y)/(l.x-m.x);
+a=l.y-s*l.x;
+
+
+
+
+g(x):=a+s*x;
+
+
+
+sq(x,y1,y2):=(
+   d=y2-y1;
+   p=((x,y1),(x,y2),(x+d,y2),(x+d,y1),(x,y1));
+   fillpoly(p,color->(1,0.5,0.5),alpha->0.4);
+   connect(p,color->(.8,0,0));
+);
+
+sq2(x,y1,y2):=(
+   d=y2-y1;
+   p=((x,y1),(x,y2),(x+d,y2),(x+d,y1),(x,y1));
+   fillpoly(p,color->(0.5,1,0.5),alpha->0.2);
+   connect(p,color->(0,0.6,0));
+);
+n=length(pts);
+sr=sum(pts,(#.y-f(#.x))^2);
+sg=sum(pts,(#.y-g(#.x))^2);
+
+forall(pts,sq(#.x,#.y,(f(#.x))));
+if(Text0.pressed,forall(pts,sq2(#.x,#.y,(g(#.x)))));
+
+drawtext((-8,8),"Quadratsumme Regressionsgerade = "+sr,color->(0.5,0,0));
+drawtext((-8,7),"Quadratsumme Testgerade = "+sg,color->(0,0.5,0));
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.7096774193548386, -4.0, -1.6129032258064515], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "B", type: "Free", pos: [-1.6377952755905512, -4.0, -0.7874015748031497], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C", type: "Free", pos: [4.0, -3.526315789473684, -1.3157894736842106], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "D", type: "Free", pos: [-2.9135802469135794, -4.0, -0.6172839506172839], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "E", type: "Free", pos: [4.0, 3.270588235294118, 0.5882352941176471], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "F", type: "Free", pos: [4.0, 0.5419354838709677, -0.6451612903225806], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "G", type: "Free", pos: [0.5652173913043479, -4.0, -1.0869565217391304], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "H", type: "Free", pos: [-3.5955056179775284, -4.0, -1.1235955056179776], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "K", type: "Free", pos: [3.6470588235294112, -4.0, -2.941176470588235], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "L", type: "Free", pos: [4.0, 1.2083333333333333, -1.0416666666666667], color: [0.098, 0.62, 0.306], alpha: 0.8999999761581421, size: 4.0},
+    {name: "M", type: "Free", pos: [4.0, 1.8666666666666667, 0.5128205128205129], color: [0.098, 0.62, 0.306], size: 4.0},
+    {name: "a", type: "Join", color: [0.098, 0.62, 0.306], args: ["L", "M"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.098, 0.62, 0.306], fillalpha: 0.30000001192092896, text: "Quadrate Testgerade zeigen", dock: {corner: "LL", offset: [324.0, 37.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 529,
+    height: 317,
+    transform: [{visibleRect: [-8.66, 9.34, 12.5, -3.34]}],
+    axes: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

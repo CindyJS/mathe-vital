@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>OsziKoppelPendel3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+A.y=8;
+B.y=8;
+C.y=8;
+D.y=8;
+
+
+linecolor((1,1,1));
+drawcurves((-7,-3),
+textcolor((0,0.8,0));  (A.x,B.x,A.ke,B.ke,a.pe+b.pe+c.pe),
+  height->50,
+  color->(1,1,1),
+  back->(0,0,0),
+  backalpha->1,
+  range->"peek",width->400,
+  colors->[
+    [1,0.5,0.5],
+    [0.5,1,0.5],     
+    [1,0.5,0.5], 
+    [0.5,1,0.5],
+    [0.5,0.5,1]],
+  texts->[
+    "PosA = "+ A.x,
+    "PosB = "+B.x,
+    "EnergyA = "+A.ke,
+    "EnergyB = "+B.ke,
+    "PostentialEnergy = "+(a.pe+b.pe+c.pe)
+]
+);
+
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.0, -4.0, -0.5], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [-3.5000000000000004, -4.0, -0.5], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.4000000059604645},
+    {name: "C", type: "Free", pos: [3.0, -4.0, -0.5], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [4.0, 2.2857142857142856, 0.2857142857142857], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "A"], alpha: 0.8999999761581421},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "D"], alpha: 0.8999999761581421},
+    {name: "E", type: "PointOnSegment", pos: [1.24000008, -4.0, -0.5], color: [1.0, 0.0, 0.0], args: ["b"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "E"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "Text2", type: "Text", pos: [4.0, 0.5065502183406112, 0.43668122270742354], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Kinetic energy A"},
+    {name: "Text5", type: "Text", pos: [4.0, -0.3478260869565218, 0.4347826086956522], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "KIinetic Energy B"},
+    {name: "Text0", type: "Text", pos: [4.0, -1.1551724137931034, 0.43103448275862066], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Total Potental Energy"},
+    {name: "Text1", type: "Text", pos: [4.0, 2.2807017543859653, 0.4385964912280702], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Position A"},
+    {name: "Text3", type: "Text", pos: [4.0, 1.4434782608695653, 0.4347826086956522], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "Position B"}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 30.0},
+    {geo: ["A"], type: "Mass"},
+    {geo: ["B"], type: "Mass"},
+    {geo: ["a", "A", "B"], type: "Spring", strength: 0.1, restlength: 7.000000000000001},
+    {geo: ["b", "C", "A"], type: "Spring", restlength: 6.0},
+    {geo: ["c", "B", "D"], type: "Spring", restlength: 6.999999999999999},
+    {geo: ["d", "A", "E"], type: "Velocity"}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.0625,
+    speedRange: [0.0, 0.125],
+    accuracy: 2
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 746,
+    height: 366,
+    transform: [{visibleRect: [-8.42, 9.34, 21.42, -5.3]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

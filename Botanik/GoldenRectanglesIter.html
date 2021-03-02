@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>GoldenRectanglesIter.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+vis=Text0.pressed;
+s1.visible=vis;
+s2.visible=vis;
+s3.visible=vis;
+s4.visible=vis;
+
+//layer(0);
+//clrscr();
+fillpoly((A,B,D,C),color->(168,176,192)/255*.8);
+tau=(sqrt(5)-1)/2;
+n=round(|L,H|*3);
+C.xy=A+perp(B-A)*tau;
+E.xy=A+(B-A)*tau;
+F.xy=B+(D-B)*tau;
+
+sq=(A.xy,E.xy,G.xy,C.xy,A.xy);
+
+g=1;
+repeat(n,
+  fillpoly(sq,color->hue(g+.5)*.7);
+  connect(sq,color->(0,0,0),size->1);
+  sq=apply(sq,(Tr0.matrix*#.homog).xy);
+g=g+0.1;
+);
+
+a=complex(L.xy);
+b=complex(C-P);
+a=complex(E-P);
+aa=log(a/b);
+//layer(10);
+//clrscr();
+if(Text1.pressed,
+plot(gauss(exp(aa*t)*b)+P,color->(1,1,0),start->0,stop->19,steps->600,size->2);
+);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-3.3526011560693636, -4.0, 0.5780346820809248], color: [1.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "B", type: "Free", pos: [4.0, -1.8404255319148937, 0.26595744680851063], color: [1.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["a", "A"], size: 3, clip: "inci"},
+    {name: "C", type: "PointOnLine", pos: [3.8927295775533146, -4.0, -0.6711602719919508], color: [1.0, 0.0, 0.0], args: ["b"], pinned: true, size: 0.0},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["a", "B"], size: 3, clip: "inci"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["b", "C"], size: 3, clip: "inci"},
+    {name: "D", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "d"], size: 0.0},
+    {name: "E", type: "PointOnSegment", pos: [4.0, -3.9096991919250654, 0.5649854323591135], color: [1.0, 0.0, 0.0], args: ["a"], pinned: true, size: 0.0},
+    {name: "F", type: "PointOnLine", pos: [4.0, 0.27664140277983834, 0.26595744680851063], color: [1.0, 0.0, 0.0], args: ["c"], pinned: true, size: 0.0},
+    {name: "Tr0", type: "TrAffine", color: [0.0, 0.0, 1.0], args: ["C", "E", "A", "B", "E", "F"], dock: {offset: [0.0, -0.0]}},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["b", "E"], clip: "inci"},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "e"], size: 0.0},
+    {name: "H", type: "Free", pos: [-1.7955555555555556, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "K", type: "Free", pos: [2.3644444444444446, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "K"]},
+    {name: "L", type: "PointOnSegment", pos: [-1.7955555555555553, -4.0, 0.4444444444444443], color: [1.0, 1.0, 1.0], args: ["f"]},
+    {name: "s4", type: "Segment", color: [1.0, 1.0, 1.0], args: ["C", "F"], visible: false},
+    {name: "s1", type: "Segment", color: [1.0, 1.0, 1.0], args: ["G", "B"], visible: false},
+    {name: "s3", type: "Segment", color: [1.0, 1.0, 1.0], args: ["A", "D"], visible: false},
+    {name: "M", type: "Meet", color: [1.0, 1.0, 1.0], args: ["s3", "s1"], size: 0.0},
+    {name: "Collection__1", type: "AngularBisector", args: ["s3", "s1", "M"]},
+    {name: "l", type: "SelectL", pos: [-0.45906206089076185, 0.10836985545320177, 4.0], color: [0.0, 0.0, 1.0], args: ["Collection__1"], visible: false, clip: "inci"},
+    {name: "", type: "SelectL", pos: [-0.20569531168083283, -0.8713392972693198, 4.0], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "l"], size: 0.0},
+    {name: "s2", type: "Segment", color: [1.0, 1.0, 1.0], args: ["N", "E"], visible: false},
+    {name: "P", type: "Meet", color: [1.0, 0.0, 0.0], args: ["s3", "s2"], size: 0.0},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Strahlen", dock: {corner: "LL", offset: [408.0, 34.0]}},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Spirale", dock: {corner: "LL", offset: [544.0, 34.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 778,
+    height: 454,
+    transform: [{visibleRect: [-8.78, 7.54, 22.34, -10.62]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

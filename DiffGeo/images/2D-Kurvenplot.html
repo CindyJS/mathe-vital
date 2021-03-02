@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>2D-Kurvenplot.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100;
+        }
+    </style>
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+        <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+<script id="csinit" type="text/x-cindyscript">
+forall([Text6,Text1,Text2],k,
+k.x = k.x + 4.3;
+);
+Text8.xy = Text7.xy+(3,0);
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+drawtext((-12,-10),"Kurve $\gamma\;:\;\; I\;=\;(t_0,t_1) \;\rightarrow \;\R^2,\;\; \gamma(t)\;=\;(x(t),y(t))$ mit:",size->18);
+//Koordinatensystem
+Z.y=round(Z.y*10)/10;
+z0=|Z0,Z|/|Z0,Z1|*10-5;
+drawtext(Z+(.2,.3),"Zoom $2^{"+z0+"}$",size->12);
+z=2^(z0+2);
+Ex.xy=O.xy+(z,0);
+Ey.xy=O.xy+(0,z);
+//Kurvenparameter
+t0=parse(TextT0.text);
+t1=parse(TextT1.text);
+t=|T0,T|/|T0,T1|*(t1-t0)+t0;
+drawtext(T+(-.2,.5),"$t="+t+"$");
+//Formparameter
+a=|A0,A|/|A0,A1|*2-1;
+drawtext(A+(-.2,.5),"$a="+a+"$");
+//Parametrisierung
+x1(t):=z*parse(Text1.text)+O.x;
+x2(t):=z*parse(Text2.text)+O.y;
+//Kurvenplot
+P.xy=(x1(t),x2(t));
+plot((x1(t),x2(t)),t,start->t0,stop->t1,steps->100,size->3);
+draw((x1(t0),x2(t0)),size->2,color->(0,0.8,0));
+draw((x1(t1),x2(t1)),size->2,color->(0.8,0.8,0));
+//Tangente
+eps = 0.01;
+if(Text7.pressed==true,
+  //dx1(t):=d(x1(#),t);
+  //dx2(t):=d(x2(#),t);
+  dx1(t):=(x1(t+eps)-x1(t-eps))/(2*eps);
+  dx2(t):=(x2(t+eps)-x2(t-eps))/(2*eps);
+  V.xy=(x1(t),x2(t))+(dx1(t),dx2(t));
+  N.xy=(x1(t),x2(t))+(-dx2(t),dx1(t));
+  Tan.visible=true;V.visible=true;Text8.visible=true;v.visible=true;
+  Tan.visible=true;V.visible=1;Text8.visible=1;v.visible=1;
+  if(Text8.pressed==true,
+    //ddx1(t):=d(dx1(#),t);
+    //ddx2(t):=d(dx2(#),t);
+    ddx1(t):=(dx1(t+eps)-dx1(t-eps))/(2*eps);
+    ddx2(t):=(dx2(t+eps)-dx2(t-eps))/(2*eps);
+    if(|(dx1(t)^2+dx2(t)^2)|>.0000001,
+      kappa=(dx1(t)*ddx2(t)-ddx1(t)*dx2(t))/((dx1(t)^2+dx2(t)^2)^(3/2));
+      if(|kappa|>.0000001,
+        M.xy=(x1(t),x2(t))+1/kappa*(-dx2(t),+dx1(t))/((dx1(t)^2+dx2(t)^2)^0.5);
+      );
+      ,
+      errc("zero?");
+      kappa=1e7;
+      //M.xy=(x1(t),x2(t))+1/kappa*(-dx2(t),+dx1(t))/((dx1(t)^2+dx2(t)^2)^0.5);
+    );
+
+    drawtext((-4,-11.9),"$\kappa(t) = "+kappa+"$");
+
+   M.visible=true; C0.visible=true; N.visible=true; Nor.visible=true; nv.visible=true
+   ,
+    M.visible=false; C0.visible=false; N.visible=false; Nor.visible=false; nv.visible=false
+    );
+  ,
+  Tan.visible=false;V.visible=false;v.visible=false;M.visible=false; C0.visible=false; N.visible=false; Nor.visible=false;Text8.visible=false;Text8.pressed=false;nv.visible=false
+  );
+
+;
+</script>
+
+    <script type="text/javascript">
+createCindy({
+	scripts: "cs*",
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 },
+	angleUnit: "°",
+	geometry: [
+		{ name: "Z0", type: "Free", pos: [ 4.0, 1.4285714285714286, -0.2857142857142857 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, size: 2.0 },
+		{ name: "Z1", type: "Free", pos: [ 4.0, -1.4285714285714286, -0.2857142857142857 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, size: 2.0 },
+		{ name: "z#", type: "Segment", color: [ 0.0, 0.0, 0.0 ], args: [ "Z0", "Z1" ] },
+		{ name: "Z", type: "PointOnSegment", pos: [ 4.0, -0.2857142857142857, -0.2857142857142857 ], color: [ 1.0, 0.0, 0.0 ], args: [ "z#" ], size: 4.0 },
+		{ name: "Text1", type: "EditableText", pos: [ 1.1551724137931034, -4.0, 0.43103448275862066 ], color: [ 0.0, 0.0, 0.0 ], text: "cos(t)/(2*a+cos(t))", fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200 },
+		{ name: "Text2", type: "EditableText", pos: [ 1.034749034749035, -4.0, 0.3861003861003861 ], color: [ 0.0, 0.0, 0.0 ], text: "sin(t)/(2*a+cos(t))", fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 200 },
+		{ name: "T0", type: "Free", pos: [ 4.0, 2.3333333333333335, -0.3333333333333333 ], color: [ 0.0, 1.0, 0.0 ], pinned: true, labeled: true, size: 2.0, printname: "$t_0$" },
+		{ name: "T1", type: "Free", pos: [ -1.1428571428571428, -4.0, 0.5714285714285714 ], color: [ 1.0, 1.0, 0.0 ], pinned: true, labeled: true, size: 2.0, printname: "$t_1$" },
+		{ name: "t#", type: "Segment", color: [ 0.0, 0.0, 0.0 ], args: [ "T0", "T1" ] },
+		{ name: "T", type: "PointOnSegment", pos: [ 4.0, 2.9661016949152543, -0.423728813559322 ], color: [ 1.0, 0.0, 0.0 ], args: [ "t#" ], size: 4.0 },
+		{ name: "TextT0", type: "EditableText", pos: [ 4.0, 2.619808306709265, -0.31948881789137384 ], color: [ 0.0, 0.0, 0.0 ], text: "0", fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 30 },
+		{ name: "TextT1", type: "EditableText", pos: [ -1.2427184466019419, -4.0, 0.4854368932038835 ], color: [ 0.0, 0.0, 0.0 ], text: "2*pi", fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 30 },
+		{ name: "P", type: "Free", pos: [ 0.15086792646915312, -4.0, -0.9818525417588595 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, size: 4.0, printname: "$\\gamma(t)$" },
+		{ name: "O", type: "Free", pos: [ 0.0, -0.0, 4.0 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, size: 4.0 },
+		{ name: "Ex", type: "Free", pos: [ 4.0, 0.0, 0.5 ], color: [ 0.5019608, 0.5019608, 0.5019608 ], labeled: true, size: 2.0, printname: "1" },
+		{ name: "x#", type: "Join", color: [ 0.5019608, 0.5019608, 0.5019608 ], args: [ "O", "Ex" ], labeled: true, printname: "x" },
+		{ name: "y#", type: "Orthogonal", color: [ 0.5019608, 0.5019608, 0.5019608 ], args: [ "x#", "O" ], labeled: true, printname: "y" },
+		{ name: "Ey", type: "Free", pos: [ -0.0, -4.0, -0.5 ], color: [ 0.5019608, 0.5019608, 0.5019608 ], labeled: true, size: 2.0, printname: "1" },
+		{ name: "A0", type: "Free", pos: [ 1.1428571428571428, -4.0, 0.5714285714285714 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, labeled: true, size: 2.0, printname: "$-1$" },
+		{ name: "A1", type: "Free", pos: [ 4.0, -2.3333333333333335, 0.3333333333333333 ], color: [ 1.0, 0.0, 0.0 ], pinned: true, labeled: true, size: 2.0, printname: "$1$" },
+		{ name: "a#", type: "Segment", color: [ 0.0, 0.0, 0.0 ], args: [ "A0", "A1" ] },
+		{ name: "A", type: "PointOnSegment", pos: [ 4.0, -2.333333333333334, 0.3333333333333333 ], color: [ 1.0, 0.0, 0.0 ], args: [ "a#" ], size: 4.0 },
+		{ name: "V", type: "Free", pos: [ 2.873004331003617, -4.0, -0.6672349475088106 ], color: [ 0.098039225, 0.61960787, 0.30588236 ],  labeled: true, size: 2.0, printname: "$\\frac{d\\gamma}{dt}$" },
+		{ name: "Tan", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "P", "V" ],  labeled: true, printname: "Tangente" },
+		{ name: "M", type: "Free", pos: [ 4.0, 1.6721861424170525, -1.5827904025363935 ], color: [ 0.7568628, 0.0, 0.0 ],  labeled: true, size: 4.0, printname: "$m(t)$" },
+		{ name: "C0", type: "CircleMP", color: [ 0.7568628, 0.0, 0.0 ], args: [ "M", "P" ]},
+		{ name: "N", type: "Free", pos: [ 4.0, 0.1508679330017979, -1.928068835861586 ], color: [ 0.7568628, 0.0, 0.0 ],  labeled: true, size: 2.0, printname: "$n(t)$" },
+		{ name: "Nor", type: "Join", color: [ 0.7568628, 0.0, 0.0 ], args: [ "P", "N" ],  labeled: true, printname: "Normale" },
+		{ name: "v", type: "Segment", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "P", "V" ],  size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 },
+		{ name: "nv", type: "Segment", color: [ 0.7568628, 0.0, 0.0 ], args: [ "P", "N" ],  arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0 },
+		//{ name: "Text0", type: "Text", color: [ 0.0, 0.0, 0.0 ], dock: { corner: "LL", offset: [ 10.0, 20.0 ] } },
+		//{ name: "Text3", type: "Text", pos: [ 0.5395348837209303, -4.0, 0.46511627906976744 ], color: [ 0.0, 0.0, 0.0 ] },
+		//{ name: "Text4", type: "Text", pos: [ 0.5581395348837208, -4.0, 0.38759689922480617 ], color: [ 0.0, 0.0, 0.0 ] },
+		//{ name: "Text5", type: "Text", color: [ 0.0, 0.0, 0.0 ], dock: { corner: "LL", offset: [ 409.0, 40.0 ] } },
+		{ name: "Text6", type: "Text", pos: [ 0.1234042553191489, -4.0, 0.42553191489361697 ], color: [ 0.0, 0.0, 0.0 ], pinned: true, text: "$x(t)=$\n$y(t)=$", textsize: 18.0 },
+		{ name: "Text7", type: "ToggleButton", pos: [ 4.0, 3.7827476038338657, -0.31948881789137384 ], color: [ 0.0, 0.0, 0.0 ], pinned: true, button: true, text: "Tangente" },
+		{ name: "Text8", type: "ToggleButton", pos: [ 8.0, 3.7827476038338657, -0.31948881789137384 ], color: [ 0.0, 0.0, 0.0 ],  pinned: true, button: true, text: "Krümmungskreis"} ],
+	use: ["katex"],
+  csconsole: false,
+  ports: [
+		{ id: "CSCanvas",
+      width: 900,
+      height: 600,
+      transform: [ {"visibleRect":[-14.78,8.22,15.42,-12.98]} ],
+      background: "rgb(168,176,192)" }
+    ],
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] }
+});
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

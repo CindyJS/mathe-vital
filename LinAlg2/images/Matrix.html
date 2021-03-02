@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Matrix.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+m=[
+[1,1,0,0,0,0],
+[0,1,1,0,0,0],
+[0,0,1,1,0,0],
+[0,0,0,1,1,0],
+[0,0,0,0,1,1],
+[0,0,0,0,0,1]
+];
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+//m=apply(1..6,apply(1..6,0));
+
+
+
+toTexV(v):=sum(1..(length(v)-1),v_(#)+"&")+v_(length(v))+"\\";
+toTexM(m):="\begin{pmatrix}"+sum(1..length(m),i,toTexV(m_i))+"\end{pmatrix}";
+
+n=max(1,round(|A,C|));
+
+drawtext(C+(0.3,0.3),n);
+m1=product(1..n,m);
+
+
+drawtext((-7,0),"$"+toTeXM(m)+"^"+"{"+n+"}"+"\quad=\quad"+toTeXM(m1)+"$",size->20)
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -3.9272727272727277, -0.6060606060606061], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [-2.3950617283950613, -4.0, -0.6172839506172839], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [3.4814814648888888, -4.0, -0.6172839506172839], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "Text0", type: "Text", pinned:true, pos: [4.0, -3.218390804597701, -0.5747126436781609], color: [0.0, 0.0, 0.0], text: "Potenz", textsize: 14.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 900,
+    height: 350,
+    transform: [{visibleRect: [-0.06, 9.34, 18.14, -4.66]}]
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

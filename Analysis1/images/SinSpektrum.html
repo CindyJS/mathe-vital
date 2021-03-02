@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SinSpektrum.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+r=A.x*5/2;
+s=A.y;
+
+drawtext(A+(.2,.2),"r="+r,size->16);
+sign(p):=if(p<0,-1,1);
+ff(x):=A.x*x+sqrt(1-(x/pi)^2)*pi;
+ff(x):=(x+.3)^2*.3+if(x>0,A.y,0);
+
+ff(x):=parse(Text0.val);
+
+p=round(|C,B|/|C,D|*32)+1;
+drawtext(B+(0.3,0.3),p-1);
+
+fun(x):=ff(-round((x)/(2*pi))*2*pi+x);
+
+
+
+plot(fun(t),color->(.6,0,0),connect->true,size->2);
+
+fft(f):=(
+  regional(n,uf,gf);
+  n=length(f); 
+  if(n==1,f,
+   gf=fft(apply(1..n/2,f_(2*#-1)));
+   uf=fft(apply(1..n/2,f_(2*#)));
+   apply(1..n/2,uf_#+gf_#*exp(-2*pi*i*(#-1)/n))++ 
+   apply(1..n/2,uf_#-gf_#*exp(-2*pi*i*(#-1)/n))
+  );
+);
+
+k=2^8;
+
+samples=apply(1..k,(#-.5)/k*2*pi-pi);
+data=apply(samples,(#,fun(#)));
+//drawall(data);
+//out=fft(apply(1..k,fun((#)/k*2*pi))/(k));
+out=fft(apply(data,#_2/k));
+
+errc(data);
+errc(out);
+//err(out);
+
+
+
+
+
+n=length(out);
+g(t):=sum(1..n,out_#*exp(-2*t*pi*i*(#-1)/n));
+sins=apply[1..n/2,im(out_#)];
+coss=apply[1..n/2,re(out_#)];
+coss_1=coss_1/2;
+
+
+
+f(t):=re(sum(1..p,coss_#*cos((#-1)*t))+sum(1..p,sins_#*sin((#-1)*t)));
+plot(f(t-pi+1/k*pi)*2,t,color->(0,0,.7));
+
+fillpoly(
+((14.5,-20),
+ (14.5,20),
+ (23,20),
+ (23,-20),
+ (14.5,-20) ),color->(.8,.8,1)
+);
+
+
+connect(
+((14.5,-20),
+ (14.5,20),
+ (23,20),
+ (23,-20),
+ (14.5,-20) ),color->(0,0,0),size->2
+);
+draw((6*pi,-100),(6*pi,100),color->(0,0,0),alpha->0.1);
+apply(2..min(p,17),drawtext((15,-6.3+#),#-1,size->10);
+  plot(-6+1*#+coss_#*cos((#-1)*x)+sins_#*sin((#-1)*x),x,start->5*pi,stop->7*pi,color->(0,0,0),size->1)
+);
+
+apply(2..p,
+  xx= (#-1)/25*10;
+  yy=2*sqrt(coss_#^2+sins_#^2);
+  draw((xx,4),(xx,4+yy*2),size->5,border->true,color->red(0));
+);
+apply(2..p,
+  xx= (#-1)/25*10;
+  yy=2*sqrt(coss_#^2+sins_#^2);
+  draw((xx,4),(xx,4+yy*2),size->4,border->true,color->red(.7));
+);
+
+
+plot(start->-pi,stop->pi,color->(0,0,0),
+fun(x)
+-2*f(x-pi+1/k*pi)
+-4,x);
+drawtext((-2,-3.5),"Fehler",size->14);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "D", type: "Free", pos: [1.5, -4.0, -0.5], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, -3.5555555555555554, -0.4444444444444444], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"]},
+    {name: "B", type: "PointOnSegment", pos: [3.0199999799999997, -4.0, -0.5], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "Text0", type: "EditableText", pos: [2.682730923694779, -4.0, -0.40160642570281124], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "sin(r*x)", textsize: 16.0},
+    {name: "E", type: "Free", pos: [0.0, -4.0, -1.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "F", type: "Free", pos: [4.0, 0.9230769230769231, 0.3076923076923077], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"]},
+    {name: "A", type: "PointOnSegment", pos: [-2.9866666266666666, -4.0, -1.3333333333333335], color: [1.0, 1.0, 0.0], args: ["b"], textsize: 16.0, size: 3.0},
+    {name: "Text1", type: "Text", pos: [3.6, -4.0, -0.4], color: [0.0, 0.0, 0.0], text: "f(x):=", textsize: 16.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 820,
+    height: 452,
+    transform: [{visibleRect: [-10.14, 12.46, 22.66, -5.62]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

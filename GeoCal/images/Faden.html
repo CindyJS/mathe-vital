@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Faden.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-3.589189189189189, -4.0, -0.5405405405405406], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, 3.769784172661871, -0.7194244604316548], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], size: 3, overhang: 1.105},
+    {name: "C", type: "Free", pos: [-1.222707423580786, -4.0, 0.43668122270742354], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "D", type: "Free", pos: [4.0, -2.0, 0.25252525252525254], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], size: 3, overhang: 1.105},
+    {name: "E", type: "Mid", color: [0.0, 0.0, 0.0], args: ["B", "A"], size: 3.0},
+    {name: "F", type: "Mid", color: [0.0, 0.0, 0.0], args: ["A", "E"], size: 3.0},
+    {name: "G", type: "Mid", color: [0.0, 0.0, 0.0], args: ["E", "B"], size: 3.0},
+    {name: "H", type: "Mid", color: [0.0, 0.0, 0.0], args: ["B", "G"], size: 3.0},
+    {name: "K", type: "Mid", color: [0.0, 0.0, 0.0], args: ["G", "E"], size: 3.0},
+    {name: "L", type: "Mid", color: [0.0, 0.0, 0.0], args: ["E", "F"], size: 3.0},
+    {name: "M", type: "Mid", color: [0.0, 0.0, 0.0], args: ["F", "A"], size: 3.0},
+    {name: "N", type: "Mid", color: [0.0, 0.0, 0.0], args: ["A", "M"], size: 3.0},
+    {name: "O", type: "Mid", color: [0.0, 0.0, 0.0], args: ["M", "F"], size: 3.0},
+    {name: "P", type: "Mid", color: [0.0, 0.0, 0.0], args: ["F", "L"], size: 3.0},
+    {name: "Q", type: "Mid", color: [0.0, 0.0, 0.0], args: ["L", "E"], size: 3.0},
+    {name: "R", type: "Mid", color: [0.0, 0.0, 0.0], args: ["E", "K"], size: 3.0},
+    {name: "S", type: "Mid", color: [0.0, 0.0, 0.0], args: ["K", "G"], size: 3.0},
+    {name: "T", type: "Mid", color: [0.0, 0.0, 0.0], args: ["G", "H"], size: 3.0},
+    {name: "U", type: "Mid", color: [0.0, 0.0, 0.0], args: ["H", "B"], size: 3.0},
+    {name: "V", type: "Mid", color: [0.0, 0.0, 0.0], args: ["C", "D"], size: 3.0},
+    {name: "W", type: "Mid", color: [0.0, 0.0, 0.0], args: ["D", "V"], size: 3.0},
+    {name: "X", type: "Mid", color: [0.0, 0.0, 0.0], args: ["V", "C"], size: 3.0},
+    {name: "Y", type: "Mid", color: [0.0, 0.0, 0.0], args: ["C", "X"], size: 3.0},
+    {name: "Z", type: "Mid", color: [0.0, 0.0, 0.0], args: ["X", "V"], size: 3.0},
+    {name: "P0", type: "Mid", color: [0.0, 0.0, 0.0], args: ["V", "W"], size: 3.0, printname: "$P_{0}$"},
+    {name: "P1", type: "Mid", color: [0.0, 0.0, 0.0], args: ["W", "D"], size: 3.0, printname: "$P_{1}$"},
+    {name: "P2", type: "Mid", color: [0.0, 0.0, 0.0], args: ["D", "P1"], size: 3.0, printname: "$P_{2}$"},
+    {name: "P3", type: "Mid", color: [0.0, 0.0, 0.0], args: ["P1", "W"], size: 3.0, printname: "$P_{3}$"},
+    {name: "P4", type: "Mid", color: [0.0, 0.0, 0.0], args: ["W", "P0"], size: 3.0, printname: "$P_{4}$"},
+    {name: "P5", type: "Mid", color: [0.0, 0.0, 0.0], args: ["P0", "V"], size: 3.0, printname: "$P_{5}$"},
+    {name: "P6", type: "Mid", color: [0.0, 0.0, 0.0], args: ["V", "Z"], size: 3.0, printname: "$P_{6}$"},
+    {name: "P7", type: "Mid", color: [0.0, 0.0, 0.0], args: ["Z", "X"], size: 3.0, printname: "$P_{7}$"},
+    {name: "P8", type: "Mid", color: [0.0, 0.0, 0.0], args: ["X", "Y"], size: 3.0, printname: "$P_{8}$"},
+    {name: "P9", type: "Mid", color: [0.0, 0.0, 0.0], args: ["Y", "C"], size: 3.0, printname: "$P_{9}$"},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "C"], overhang: 1.105, clip: "inci"},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["N", "P9"], overhang: 1.105, clip: "inci"},
+    {name: "e", type: "Join", color: [0.0, 0.0, 1.0], args: ["M", "Y"], overhang: 1.105, clip: "inci"},
+    {name: "f", type: "Join", color: [0.0, 0.0, 1.0], args: ["P8", "O"], overhang: 1.105, clip: "inci"},
+    {name: "g", type: "Join", color: [0.0, 0.0, 1.0], args: ["F", "X"], overhang: 1.105, clip: "inci"},
+    {name: "h", type: "Join", color: [0.0, 0.0, 1.0], args: ["P7", "P"], overhang: 1.105, clip: "inci"},
+    {name: "k", type: "Join", color: [0.0, 0.0, 1.0], args: ["L", "Z"], overhang: 1.105, clip: "inci"},
+    {name: "l", type: "Join", color: [0.0, 0.0, 1.0], args: ["P6", "Q"], overhang: 1.105, clip: "inci"},
+    {name: "m", type: "Join", color: [0.0, 0.0, 1.0], args: ["E", "V"], overhang: 1.105, clip: "inci"},
+    {name: "n", type: "Join", color: [0.0, 0.0, 1.0], args: ["P5", "R"], overhang: 1.105, clip: "inci"},
+    {name: "o", type: "Join", color: [0.0, 0.0, 1.0], args: ["K", "P0"], overhang: 1.105, clip: "inci"},
+    {name: "p", type: "Join", color: [0.0, 0.0, 1.0], args: ["P4", "S"], overhang: 1.105, clip: "inci"},
+    {name: "q", type: "Join", color: [0.0, 0.0, 1.0], args: ["G", "W"], overhang: 1.105, clip: "inci"},
+    {name: "r", type: "Join", color: [0.0, 0.0, 1.0], args: ["P3", "T"], overhang: 1.105, clip: "inci"},
+    {name: "s", type: "Join", color: [0.0, 0.0, 1.0], args: ["H", "P1"], overhang: 1.105, clip: "inci"},
+    {name: "t", type: "Join", color: [0.0, 0.0, 1.0], args: ["P2", "U"], overhang: 1.105, clip: "inci"},
+    {name: "u", type: "Join", color: [0.0, 0.0, 1.0], args: ["B", "D"], overhang: 1.105, clip: "inci"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 747,
+    height: 520,
+    transform: [{visibleRect: [-9.06, 9.34, 20.82, -11.46]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

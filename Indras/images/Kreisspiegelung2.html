@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Kreisspiegelung2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+oldF=F.xy;
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(mover()==F,
+d=F-oldF;
+K.xy=K.xy+d;
+H.xy=H.xy+d;
+G.xy=G.xy+d;
+L.xy=L.xy+d;
+oldF=F.xy;
+)
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 2.9375, 1.5625], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "O"},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.24038461538461547, yy: -0.24038461538461547, zz: 1.0, xy: 0.0, xz: 1.2307692307692313, yz: -0.9038461538461541}, color: [0.0, 0.0, 1.0], radius: 3.7746523018683455, args: ["A"], alpha: 0.8999999761581421, size: 3},
+    {name: "Tr0", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "B", type: "Free", pos: [4.0, 2.22, 0.5], color: [0.0, 1.0, 0.0], labeled: true, size: 4.0, printname: "A"},
+    {name: "C", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "B"], labeled: true, size: 4.0, printname: "A'"},
+    {name: "a", type: "Join", color: [1.0, 1.0, 1.0], args: ["B", "A"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "$|OA||OA'|=r^2$", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -60.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 393,
+    height: 334,
+    transform: [{visibleRect: [-2.98, 8.94, 12.74, -4.42]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

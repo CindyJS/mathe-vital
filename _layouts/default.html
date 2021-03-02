@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{page.title}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css" >
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png" >
+    <script type="text/javascript" src="/deploy/Cindy.js"></script>
+    <link rel="stylesheet" href="/deploy/CindyJS.css" >
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+      </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+                  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)'], ['\[','\]']]},
+                  TeX: {
+                    Macros: {"\R": "\\mathbb{R}", "\Z": "\\mathbb{Z}"}
+                  },
+                  CommonHTML: { linebreaks: { automatic: true } },
+                  "HTML-CSS": { linebreaks: { automatic: true } },
+                  SVG: { linebreaks: { automatic: true } }
+                });
+    </script>
+    <!-- Matomo -->
+    <script type="text/javascript">
+      var _paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://webstat.srv.tum.de/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '132']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+    <script type="text/javascript">
+        function setCookie(key, value) {
+            var expires = new Date();
+            expires.setTime(expires.getTime() + (1 * 24 * 60 * 60 * 1000));
+            document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+        }
+
+        function getCookie(key) {
+            var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+            return keyValue ? keyValue[2] : null;
+        }
+      </script>
+
+  </head>
+  <body>
+    <header>
+      <div class="header-left" >
+        <a href="http://geo.ma.tum.de/">Geometrie und Topologie</a>
+        <br>
+        <a href="http://www.ma.tum.de/">Fakultät für Mathematik</a>
+        <br>
+        <a href="http://www.tum.de/">Technische Universität München</a>
+      </div>
+      <div class="header-mid">
+        <ul class="inlineList">
+          <li>
+            <a href="/{{site.baseurl}}">
+              <img class="matheVitalBanner" src="/images/MV2.png" alt="Mathe Vital Banner" />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="header-right">
+        <ul class="inlineList">
+          <li>
+            <a href="http://www.tum.de/">
+              <img class="tumlogo" src="/images/tum-logo.png" alt="TUM Banner" title="Technische Universität München" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <nav>
+        <ul class="top-level-menu">
+          <li><a href="/">MatheVital Navigation</a>
+              <ul class="first-level-menu">{% for category in site.data.navigation.Navigation %}
+                  <li><a href="{{category.url}}">{{category.title}}</a>
+                    <ul class="second-level-menu">{% for chapter in category.chapters %}
+                        <li><a href="{{chapter.url}}">{{chapter.title}}</a>
+                          <ul class="third-level-menu">{% for topic in chapter.topics %}
+                              <li><a href="{{topic.url}}">{{topic.title}}</a></li>{% endfor %}
+                          </ul>
+                        </li>{% endfor %}
+                    </ul>
+                  </li>{% endfor %}
+              </ul>
+          </li>
+        </ul>
+    </nav>
+
+    <div id="consent_banner" >
+      <div class="consent_message" >
+        Diese Website verwendet Cookies, um sie nutzerfreundlicher zu gestalten
+        und zu analysieren.
+        Weitere Informationen finden Sie in unserer
+        <a href="/datenschutz.html" target="_top">Datenschutzerklärung</a>.
+      </div>
+      <div class="consent_dismiss" >
+        x
+      </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        if (getCookie("consent") !== "1"){
+        setTimeout(function () {
+            $("#consent_banner").fadeIn(200);
+         }, 2000);
+       }
+      $(".consent_dismiss").click(function() {
+          $("#consent_banner").fadeOut(200);
+          setCookie("consent",1);
+        });
+      });
+    </script>
+
+
+    {{content}}
+
+
+    <footer>
+        <div class="footerImpressum">
+          <a href="https://geo.ma.tum.de/de/impressum.html">Impressum</a> &#124;
+          <a href="/datenschutz.html" target="_top">Datenschutzerklärung</a> &#124;
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">Lizenz</a>
+        </div>
+        <div class="footerCopyright">
+          Copyright &copy; 2009 - 2019 Lehrstuhl f&uuml;r Geometrie und Visualisierung
+        </div>
+      </footer>
+
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "draw": "A.x=0; if(A.y<0.5,A.y=0.5);\nE.y=0;\nif(E.x>0, T0=0; T1=E.x/A.y, T0=E.x/A.y; T1=0);\nn.color=(0.8,0.39,0.39);\nx(t):=A.y*(t-(exp(t)-exp(-t))/(exp(t)+exp(-t)),2/(exp(t)+exp(-t)));\ny(t):=A.y*(t,(exp(t)+exp(-t))/2);\nz(t):=2*x(t)-A.y*(t,0);\nt=E.x/A.y;\nT.xy=x(t);\nB.xy=z(t);\nM.xy=y(t);\n\n//Auswahl\nif(Text0.pressed==true,\n  evol=1;if(trans==1, Text2.pressed=false; trans=0)\n  ,evol=0);\nif(Text2.pressed==true,\n  trans=1;if(evol==1, Text0.pressed=false; evol=0,c)\n  ,trans=0);\n\n//Evolute\nif(evol==1,\n  plot(y(t),start->-6,stop->6,steps->200,\n      color->(0.7,0,0),size->1);\n  plot(y(t),start->T0,stop->T1,steps->100,\n       color->(0.7,0,0),size->2);\n  n.visible=true; M.visible=true; Text1.visible=true;\n  if(Text1.pressed==true,\n  linesize(1);\n  repeat(32,i,\n    ts=i/4-4;\n    draw(A.y*(ts,0),x(ts),color->(0.5,0.5,0.5));\n    draw(x(ts),y(ts),color->(0.8,0.39,0.39));\n  ););\n , \n  n.visible=false; M.visible=false; Text1.visible=false; Text1.pressed=false \n  );\n\n//Darboux-Transformierte\nif(trans==1,\n  plot(z(t),start->-6,stop->6,steps->200,   \n  color->(0.1,0.69,0.31),size->2);\n  plot(z(t),start->T0,stop->T1,steps->100,   \n  color->(0.1,0.62,0.31),size->3);\n  B.visible=true;b.visible=true;C.visible=true;Text3.visible=true;\n  if(Text3.pressed==true,\n  linesize(1);\n  repeat(32,i,\n    ts=i/4-4;\n    draw(A.y*(ts,0),z(ts),color->(0.5,0.5,0.5),size->1);\n  ););\n  , \n  B.visible=false;b.visible=false;C.visible=false;\n  Text3.visible=false; Text3.pressed=false\n  );\n\nplot(x(t),start->-6,stop->6,steps->200,\ncolor->(0,0,0.9),size->2);\nplot(x(t),start->T0,stop->T1,steps->100,color->(0,0,0.8),size->3);\ndrawtext(E+(-0.1,-0.15),\"t=\"+E.x/A.y);"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "A",
+                "type": "Free",
+                "pos": [0.0, -4.0, -3.985285922496571],
+                "color": [1.0, 0.0, 0.0],
+                "plane": 5,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "(0,1)"
+            }, {
+                "name": "E",
+                "type": "Free",
+                "pos": [4.0, 0.0, 3.9239738313812387],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "T",
+                "type": "Free",
+                "pos": [0.9938416116567471, 2.570879510838134, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "a",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["E", "T"],
+                "size": 3
+            }, {
+                "name": "B",
+                "type": "Free",
+                "pos": [1.6257595329071404, -4.0, -3.111775548513324],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "M",
+                "type": "Free",
+                "pos": [-2.6014447070061544, -4.0, -2.5520002385193457],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "b",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T", "B"],
+                "visible": false,
+                "size": 3
+            }, {
+                "name": "O",
+                "type": "Free",
+                "pos": [0.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 3.0
+            }, {
+                "name": "c",
+                "type": "Join",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["A", "O"],
+                "size": 0
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["A", "O"],
+                "size": 0
+            }, {
+                "name": "C",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C0", "c", "O"],
+                "visible": false,
+                "size": 3.0
+            }, {
+                "name": "n",
+                "type": "Join",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["T", "M"],
+                "visible": false,
+                "labeled": true
+            }, {
+                "name": "tt",
+                "type": "Segment",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["O", "E"],
+                "size": 3,
+                "printname": "t"
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "text": "Evolute",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [46.0, 21.0]
+                }
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "visible": false,
+                "pinned": true,
+                "text": "Normalenschar",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [116.0, 21.0]
+                }
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "text": "Darboux-Transformierte",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [342.0, 21.0]
+                }
+            }, {
+                "name": "Text3",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "visible": false,
+                "pinned": true,
+                "text": "Tangentenschar",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [502.0, 21.0]
+                }
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 680,
+                "height": 421,
+                "transform": [{
+                    "visibleRect": [-2.5680403361344535, 2.6150884033613444, 2.764073949579832, -0.6861176470588235]
+                }],
+                "axes": true,
+                "snap": true,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Hex.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+getGeo(cell) := (
+	createvar(ret);
+
+	ret = [];
+	repeat(6, l,
+		// round() zecks equal für< doubles bzgl. unterschieldicher Berechnung!
+		ret = append(ret, [0.5,0] + gauss(round((exp(2*pi*i*(l/6 + 1/12)) + 2*(cell_1)_2*cos(pi/6) + (cell_1)_1*cos(pi/6) + i*3*(cell_1)_1*sin(pi/6))*1000)/1000)
+		);
+	);
+
+	removevar(ret);
+);
+
+drawCell(cell) := (
+	local(tmp, tmp2, color);
+
+	tmp2 = apply(cell_3, # = scale*#);
+	tmp3 = scale*[getGeo([[2, n]])_5_1, 0];
+	tmp = apply(tmp2, # = # + tmp3);
+
+	if(contains([white, green], cell_2), color = white);
+	if(contains([black, red], cell_2), color = black);
+	if(contains([gray], cell_2), color = gray);
+
+	fillpoly(tmp2, color->color);
+	fillpoly(tmp, color->if(contains([white, black], cell_2), blue, cell_2));
+
+	repeat(length(tmp2) - 1, k,
+		draw((tmp2)_k, tmp2_(k + 1), color->(0.4, 0.4, 0.4));
+		draw((tmp2)_length(tmp2), (tmp2)_1, color->(0.4, 0.4, 0.4));
+
+		draw(tmp_k, tmp_(k + 1), color->(0.4, 0.4, 0.4));
+		draw(tmp_length(tmp), tmp_1, color->(0.4, 0.4, 0.4));
+	);
+
+	release(tmp, tmp2, color);
+);
+
+reachableSubGraph(V, G, colorlist) := (
+	local(tmp, new, queue, marked);
+
+	marked = [];
+	queue = V;
+
+	while(length(queue) > 0,
+		tmp = queue;
+
+		forall(queue, v,
+			tmp = remove(tmp, [v]);
+
+			forall(G_2, e,
+				if(contains(e, v),
+					new = remove(e, [v])_1;
+
+					if(!contains(marked, new) & contains(colorlist, (select(cells, #_1 == new)_1)_2),
+						tmp = append(tmp, new);
+						marked = append(marked, new);
+					);
+				);
+			);
+		);
+
+		queue = tmp;
+	);
+
+	release(tmp, new, queue, marked);
+);
+
+
+init() := (
+	cells = [];
+	edges = [];
+	team = 0;
+	winner = -1;
+
+	repeat(n, j,
+		repeat(n, k,
+			if(([j,k] != [1,1]) & ([j,k] != [1,n]) & ([j,k] != [n,1]) & ([j,k] != [n,n]),
+				if(j == 1 % j == n, cells = append(cells, [[j, k], black, getGeo([[j, k]])]));
+				if(k == 1 % k == n, cells = append(cells, [[j, k], white, getGeo([[j, k]])]));
+				if(j > 1 & k > 1 & n > j & n > k, cells = append(cells, [[j, k], gray, getGeo([[j, k]])]));
+			);
+
+			if(j > 1,
+				edges = append(edges, [[j-1,k],[j,k]]);
+				if(k < n, edges = append(edges, [[j,k],[j-1,k+1]]));
+			);
+			if(k > 1,
+				edges = append(edges, [[j,k-1],[j,k]]);
+			);
+		);
+	);
+
+	edges = remove(edges, [	[[1,1],[1,2]],[[1,1],[2,1]],
+				[[1,n],[2,n]],[[1,n-1],[1,n]],
+				[[n-1,1],[n,1]],[[n,1],[n,2]],
+				[[n-1,n],[n,n]],[[n,n-1],[n,n]],
+				[[n,1],[n-1,2]],
+				[[2,n-1],[1,n]]]);
+
+	nOld = n;
+
+	// init für reachability in mouseclicked()
+	R1 = apply(2..(n-1), # = [#,1]);
+	R2 = apply(2..(n-1), # = [1,#]);
+	repeat(length(cells), if(contains(R1, (cells_#)_1), (cells_#)_2 = green));
+	repeat(length(cells), if(contains(R2, (cells_#)_1), (cells_#)_2 = red));
+
+	// Path Startstück berechnen
+	start = ((select(cells, #_1 == [1,2])_1)_3)_2;
+	path = [start];
+	path();
+);
+
+scale() := (
+	scale = 2*(Zoom.x - C.x)/(D.x - C.x) + 0.65; // dynamic scaling
+);
+
+newSize() :=  (
+	n = floor(nMax*(S.y - A.y)/(B.y - A.y)) + 3;
+	if((n - 2) == 14,
+		inspect(S, "printname", "size = " + (n - 2) + " (J. Nash's favorite)");
+		,
+		inspect(S, "printname", "size = " + (n - 2));
+	);
+
+	scale = scale();
+	if(n != nOld, init());
+);
+
+
+
+
+
+
+
+;path() := (
+	whileBreak = 0;
+
+	while(whileBreak != 1,
+		whileBreak = 1;
+
+		tmp1 = [];
+		tmp2 = getCells(path_length(path));
+
+		// Kein Randfeld!
+		forall(getNeighbours(path_length(path)), nb, if(length(getNeighbours(nb)) > 2, tmp1 = append(tmp1, nb)));
+
+		break = 0;
+
+		forall(tmp1,
+			if(break != 1,
+				tmp3 = common(getCells(#), tmp2);
+
+				if(length(tmp3) == 1,
+					// Randzelle
+					if(!contains(path, #),
+						//path = append(path, #);
+						whileBreak = 1; // todo left
+						break = 1;
+					);
+					,
+					if(	!contains(path, #) &
+						(((tmp3_1)_2 != (tmp3_2)_2) &
+						changingEdge(path_length(path), #)),
+						path = append(path, #);
+						whileBreak = 0; // todo left
+						break = 1;
+					);
+				);
+			);
+		);
+	);
+);
+
+// echte neighbours und nicht sich selbst!
+getNeighbours(point) := (
+	ret = [];
+
+	forall(cells, c, forall(c_3, if((abs(complex(#) - complex(point)) < 1.1) & (# != point), ret = append(ret, #))));
+
+	set(ret);
+);
+
+getCells(point) := (
+	ret = [];
+
+	forall(cells, c, forall(c_3, if(# == point, ret = append(ret, c))));
+
+	ret;
+);
+
+changingEdge(p1, p2) := (
+	if(winner == -1,
+		tmp = common(getCells(p1), getCells(p2));
+
+		if(	((tmp_1)_2 != (tmp_2)_2) &
+			!(((tmp_1)_2 == gray & (tmp_2)_2 == red) %
+			((tmp_1)_2 == red & (tmp_2)_2 == gray) %
+			((tmp_1)_2 == black & (tmp_2)_2 == gray) %
+			((tmp_1)_2 == gray & (tmp_2)_2 == black) %
+			((tmp_1)_2 == gray & (tmp_2)_2 == green) %
+			((tmp_1)_2 == green & (tmp_2)_2 == gray) %
+			((tmp_1)_2 == white & (tmp_2)_2 == gray) %
+			((tmp_1)_2 == gray & (tmp_2)_2 == white)) &
+			!contains(apply(apply(tmp, t, t = t_1), s, s = s_2), n) &
+			!contains(apply(apply(tmp, t, t = t_1), s, s = s_1), n),
+			true
+			,
+			false
+		);
+		,
+		// else
+		tmp = common(getCells(p1), getCells(p2));
+
+		if(winner == 0,
+			// contains zeug beendet den pfad bei auftreffen an grenze
+			if(	((tmp_1)_2 != (tmp_2)_2) &
+				!(((tmp_1)_2 == gray & (tmp_2)_2 == red) %
+				((tmp_1)_2 == red & (tmp_2)_2 == gray) %
+				((tmp_1)_2 == black & (tmp_2)_2 == gray) %
+				((tmp_1)_2 == gray & (tmp_2)_2 == black)),
+				//!contains(apply(apply(tmp, t, t = t_1), s, s = s_2), n),
+				true
+				,
+				false
+			);
+			,
+			if(	((tmp_1)_2 != (tmp_2)_2) &
+				!(((tmp_1)_2 == gray & (tmp_2)_2 == green) %
+				((tmp_1)_2 == green & (tmp_2)_2 == gray) %
+				((tmp_1)_2 == white & (tmp_2)_2 == gray) %
+				((tmp_1)_2 == gray & (tmp_2)_2 == white)),
+				//!contains(apply(apply(tmp, t, t = t_1), s, s = s_1), n),
+				true
+				,
+				false
+			);
+		);
+	);
+);
+
+
+
+
+
+
+
+;gray = (0.6, 0.6, 0.6);
+white = (1, 1, 1);
+black = (0, 0, 0);
+red = (0.8, 0.2, 0.2);
+green = (0.2, 0.8, 0.2);
+blue = (0.2, 0.2, 0.8);
+
+nMax = 13;
+n = floor(nMax*(S.y - A.y)/(B.y - A.y)) + 3;
+nOld = n + 1;
+
+scale = scale();
+
+cells = []; // cell_1 = [j,k], cell_2 = color, cell_3 = geodaten (wird einmal bei init berechnet!)
+edges = [];
+
+team = 0;
+winner = -1;
+
+path = [];
+
+init();
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+newSize();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+repeat(length(cells), c,
+	tmp = (cells_c)_3;
+	found = 1;
+	m = [mouse().x/scale, mouse().y/scale, 1];
+
+	d = det([[(tmp_length(tmp)).x, (tmp_length(tmp)).y, 1], [(tmp_1).x, (tmp_1).y, 1], m]);
+
+	repeat(length(tmp) - 1, k,
+		if(d*det([[(tmp_k).x, (tmp_k).y, 1], [(tmp_(k + 1)).x, (tmp_(k + 1)).y, 1], m]) < 0, found = 0);
+	);
+
+	if(found == 1 & ((cells_c)_2 == gray),
+		if(team == 0,
+			cells_c = [(cells_c)_1, (1, 1, 1), (cells_c)_3];
+			team = 1;
+
+			R1 = reachableSubgraph(R1, [apply(cells, # = #_1), edges], [white, green]);
+
+			if(contains(apply(R1, # = #_2), n), winner = 0)
+			,
+			cells_c = [(cells_c)_1, (0, 0, 0), (cells_c)_3];
+			team = 0;
+
+			R2 = reachableSubgraph(R2, [apply(cells, # = #_1), edges], [black, red]);
+
+			if(contains(apply(R2, # = #_1), n), winner = 1);
+		);
+	);
+
+	repeat(length(cells), if(contains(R1, (cells_#)_1), (cells_#)_2 = green));
+	repeat(length(cells), if(contains(R2, (cells_#)_1), (cells_#)_2 = red));
+);
+
+// pfad genau hier nach weiß/schwarz-Colorierung berechnen und vor Ende!
+if(pathButton.pressed, path());
+
+if(winner == 0 % winner == 1,
+	path = [start];
+	path();
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+newSize();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+forall(concat(boundary, cells), drawCell(#));
+
+if(winner == -1,
+	if(team == 0,
+		drawtext([2, -1], "WEISS ist am Zug.", color->white)
+		,
+		drawtext([2, -1], "SCHWARZ ist am Zug.", color->black)
+	);
+);
+
+if(winner != -1,
+	if(winner == 0,
+		drawtext([10, -1], "WEISS hat gewonnen.", color->white);
+		if(team == 0,
+			drawtext([2, -1], "WEISS wäre am Zug.", color->white)
+			,
+			drawtext([2, -1], "SCHWARZ wäre am Zug.", color->black)
+		);
+	);
+	if(winner == 1,
+		drawtext([10, -1], "SCHWARZ hat gewonnen.", color->black);
+		if(team == 0,
+			drawtext([2, -1], "(WEISS wäre am Zug.)", color->white)
+			,
+			drawtext([2, -1], "(SCHWARZ wäre am Zug.)", color->black)
+		);
+	);
+);
+
+drawtext([18, -1], "GRÜNE Felder -> Von LINKS für WEISS erreichbar.", color->green*0.8);
+drawtext([18, -2], "ROTE Felder -> Von UNTEN für SCHWARZ erreichbar.", color->red);
+drawtext([18, -3], "BLAUE Felder -> WEISSE/SCHWARZE Spielsteine, welche nicht erreicht werden können.", color->blue);
+
+if(pathButton.pressed,
+	tmp = path;
+	tmp = apply(tmp, # = scale*(# + [getGeo([[2, n]])_5_1, 0]));
+	// draw
+	connect(tmp, color->(0.8,0.8,0.2), size->4);
+	// starting point
+	draw(scale*(start + [getGeo([[2, n]])_5_1, 0]), color->(1,1,0), alpha->0.6, size->5);
+	,
+	path = [start];
+	path();
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+newSize();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+init();
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [0.25, -4.0, -0.25], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"]},
+    {name: "S", type: "PointOnSegment", pos: [0.4891811235179402, -4.0, -0.4891811235179402], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, printname: "size = 7"},
+    {name: "C", type: "Free", pos: [-1.3333333333333333, -4.0, 1.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -1.7142857142857142, 0.5714285714285714], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"]},
+    {name: "Zoom", type: "PointOnSegment", pos: [1.0508503466666668, -4.0, 1.3333333333333335], color: [1.0, 1.0, 1.0], args: ["b"], labeled: true},
+    {name: "pathButton", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Trennpfad", dock: {corner: "UL", offset: [89.0, -40.0]}},
+    {name: "Text0", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "init();", text: "RESET", dock: {corner: "UL", offset: [30.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 999,
+    height: 488,
+    transform: [{visibleRect: [-1.6501636077904336, 20.417695982959245, 47.55919293497504, -3.6205082141073692]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>MonochordSimulation4.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+a=1;
+t=seconds();
+t0=seconds();
+
+ton=false;
+list=(W,X,Y,Z,P0,P1,P2,P3);
+setup(l):=(apply(1..8,i,(list_i).x=-12+l_i*3+3);t0=seconds(););
+setup((1,0,0,0,0,0,0,0));
+//setup((1,0,-1/9,0,1/25,0,-1/49,0));
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+dp(s):=(
+  draw(s_1,s_2,size->4,color->(0,0,0));
+  draw(s_1,s_2,size->2,color->(1,1,1));
+);
+
+tt=t-t0;
+
+
+apply([(D,W),(G,X),(K,Y),(M,Z),(O,P0),(Q,P1),(S,P2),(U,P3)],s,dp((s_1+(3,0),s_2)));
+
+
+apply(1..8,if((list_#).x~>=-9,
+  drawtext(list_#+(0.3,-0.2),#),
+  drawtext(list_#+(-0.5,-0.2),#)
+  );
+  draw((-9,#-1),color->(0,0,0),size->2);
+);
+
+harm=-1/2*[D.x-W.x+3,G.x-X.x+3,K.x-Y.x+3,M.x-Z.x+3,O.x-P0.x+3,Q.x-P1.x+3,S.x-P2.x+3,U.x-P3.x+3];
+
+f(x,t):=sum(1..8,ot,harm_ot*sin(ot*x*pi/10)*cos(ot*t));
+//f(x,t):=sum(1..8,ot,harm_ot*sin(ot*x*pi/10));
+plot(f(x,tt),x,start->0,stop->10,size->2,color->(0,0,0));
+
+
+tr(x):=x-floor(x);
+
+x=B.x;
+
+draw((x,f(x,tt)),(x,-5),color->(1,1,0),alpha->0.3);
+draw((x,f(x,tt)),color->(1,1,0));
+
+A.x=10*tr(tt/(2*pi));
+A.y=f(x,tt)+6;;
+
+
+
+plot(f(x,t*pi*2/10)+6,t,start->0,stop->10);
+draw((0,-0.2),(0,0.2),color->(0,0,0));
+draw((10,-0.2),(10,0.2),color->(0,0,0));
+
+draw((-9,-0.5),(-9,7.5),color->(0,0,0));
+
+draw((-12,-0.5),(-12,7.5),color->(0,0,0),alpha->0.3);
+draw((-6,-0.5),(-6,7.5),color->(0,0,0),alpha->0.3);
+
+drawtext((0,-6),"Pickup Position");
+drawtext((0,-1),"Saite");
+drawtext((0,5),"Schwingung");
+drawtext((-12,-1),"Oberschwingungen");
+drawtext((-11.6,-3),"Ton an/aus über Space-Taste");
+
+if(ton,
+  draw((-12,-2.8),size->4,color->(0,1,0)),
+  draw((-12,-2.8),size->4,color->(1,0,0)) 
+);
+
+trigger(ton&tr(0.5*t)<0.1,
+pp=apply(1..80,i,f(x,i*pi*2/80));
+playwave(pp,amp->0.1,line->"1",damp->5,stop->10);
+
+);
+
+
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+t=seconds();
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+if(key()==" ",ton=!ton);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 2.6626931799157365, 0.40006368267835757], color: [1.0, 1.0, 0.0], drawtrace: true, size: 3.0},
+    {name: "D", type: "Free", pos: [4.0, -0.0, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [1.4210854715202005E-15, -4.0, 0.8], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "F", type: "Free", pos: [4.0, -2.0, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"]},
+    {name: "B", type: "PointOnSegment", pos: [1.1520000000000008, -4.0, 0.8], color: [0.098, 0.62, 0.306], args: ["a"], size: 4.0},
+    {name: "C", type: "Free", pos: [4.0, -0.0, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "C"], visible: false},
+    {name: "G", type: "Free", pos: [4.0, -0.3333333333333333, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, -0.6666666666666666, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], visible: false},
+    {name: "K", type: "Free", pos: [4.0, -0.6666666666666666, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -1.3333333333333333, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "L"], visible: false},
+    {name: "M", type: "Free", pos: [4.0, -1.0, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "N", type: "Free", pos: [4.0, -2.0, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "N"], visible: false},
+    {name: "O", type: "Free", pos: [4.0, -1.3333333333333333, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "P", type: "Free", pos: [4.0, -2.6666666666666665, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["O", "P"], visible: false},
+    {name: "Q", type: "Free", pos: [4.0, -1.6666666666666667, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "R", type: "Free", pos: [4.0, -3.333333333333334, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["Q", "R"], visible: false},
+    {name: "S", type: "Free", pos: [4.0, -2.0, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "T", type: "Free", pos: [4.0, -4.0, -0.6666666666666666], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 0.0], args: ["S", "T"], visible: false},
+    {name: "U", type: "Free", pos: [4.0, -2.3333333333333335, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "V", type: "Free", pos: [3.4285714285714284, -4.0, -0.5714285714285714], color: [0.0, 0.0, 0.0], visible: false, pinned: true, size: 2.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["U", "V"], visible: false},
+    {name: "W", type: "PointOnSegment", pos: [4.0, -0.0, -0.6666666666666666], color: [1.0, 1.0, 1.0], args: ["b"], size: 4.0},
+    {name: "X", type: "PointOnSegment", pos: [4.0, -0.4444444444444444, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["c"], size: 4.0},
+    {name: "Y", type: "PointOnSegment", pos: [4.0, -0.8888888888888888, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["d"], size: 4.0},
+    {name: "Z", type: "PointOnSegment", pos: [4.0, -1.3333333333333333, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["e"], size: 4.0},
+    {name: "P0", type: "PointOnSegment", pos: [4.0, -1.7777777777777777, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["f"], size: 4.0, printname: "$P_{0}$"},
+    {name: "P1", type: "PointOnSegment", pos: [4.0, -2.2222222222222228, -0.44444444444444436], color: [1.0, 1.0, 1.0], args: ["g"], size: 4.0, printname: "$P_{1}$"},
+    {name: "P2", type: "PointOnSegment", pos: [4.0, -2.6666666666666665, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["h"], size: 4.0, printname: "$P_{2}$"},
+    {name: "P3", type: "PointOnSegment", pos: [4.0, -3.111111111111111, -0.4444444444444444], color: [1.0, 1.0, 1.0], args: ["k"], size: 4.0, printname: "$P_{3}$"}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.5,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 630,
+    height: 424,
+    transform: [{visibleRect: [-12.66, 9.06, 12.54, -7.9]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

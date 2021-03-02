@@ -1,0 +1,280 @@
+---
+title: Kettenbruchberechnung
+layout: page
+category: LinAlg1
+---
+
+
+        <h1>Kettenbruchberechnung</h1>
+
+
+Das Verfahren des "Abspaltens von Quadraten" kann man auch durchführen, wenn die beiden Strecken $a$ und $b$ beliebige reelle
+Zahlen sind (also nicht notwendig kommensurabel). Es kann dann nur passieren, dass der Prozess niemals zu einem Ende kommt
+und man immer weitere neue Rechtecke betrachten muss. Das folgende Applet ermöglicht es, diesen Prozess für beliebige Zahlen
+zu untersuchen. (Leider werden die Quadrate recht schnell so klein, dass man nichts mehr erkennen kann.)
+<br>
+<br>
+
+
+
+           <script id='init' type='cindyscript'>
+
+
+        rast=true;
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+            linecolor((0,0,0));
+            sq(a,b):=(
+                      n1=a-b;
+                      n2=(-n1_2,n1_1);
+                      pol=(a,a-n2,b-n2,b);
+                    fillpoly(pol,color->col*.2+.8*(1,1,1),alpha->1);
+                      draw(a,b,size->2);
+                      draw(a,a-n2,size->2);
+                      draw(b,b-n2,size->2);
+                      draw(a-n2,b-n2,size->2);
+                      );
+
+
+            i=0;
+
+            ii=complex((0,1));
+            arrow(aa,bb):=(
+                           a1=complex(aa);
+                           b1=complex(bb);
+                           draw(gauss(a1),gauss(b1),color->(0,0,0.6));
+                           draw(gauss(b1-((b1-a1)/|b1-a1|)*exp(ii*.4) ),gauss(b1),color->(0,0,0.6));
+                           draw(gauss(b1-((b1-a1)/|b1-a1|)*exp(-ii*.4) ),gauss(b1),color->(0,0,0.6));
+
+                           );
+
+
+
+            kb(a,b,c,n):=if(n>0,
+                            col=hue(.3*n/2);
+                            if(abs(a-b)<abs(a-c),
+                               (sq(b,a);nn=perp(a-b);kb(a+nn,b+nn,c,n-1)),
+                               (sq(a,c);nn=perp(a-c);kb(a-nn,b,c-nn,n-1))
+                               ));
+
+
+            nn=2.5;
+
+              a=(A.x+10)*nn;
+              b=(A.y+10)*nn;
+              if(rast,a=round(a);b=round(b));
+              if (a<0,a=0);
+              if (b<0,b=0);
+            A.xy=(a/nn-10,b/nn-10);
+
+            if(mover()==B,
+              a=(A.x+10)*nn;
+              b=(B.y+10)*nn;
+              if(rast,a=round(a);b=round(b));
+              if (a<0,a=0);
+              if (b<0,b=0);
+              B.xy=(-10,b/nn-10);
+              A.xy=(a/nn-10,b/nn-10);
+
+            );
+
+
+
+
+            if(mover()==C,
+              a=(C.x+10)*nn;
+              b=(A.y+10)*nn;
+              if(rast,a=round(a);b=round(b));
+              if (a<0,a=0);
+              if (b<0,b=0);
+              C.xy=(a/nn-10,-10);
+              A.xy=(a/nn-10,b/nn-10);
+
+            );
+
+            B.xy=(-10,b/nn-10);
+            C.xy=(a/nn-10,-10);
+            aa=a;
+            bb=b;
+
+            drawtext(A+(.2,.2),"("+format(a,2)+","+format(b,2)+")");
+            gsave();
+            translate((-10,-10));
+            scale(1/nn);
+            apply(0..nn*20,
+                  draw((0,#),(nn*20,#),color->(0,0,0),alpha->0.2);
+                  draw((#,0),(#,nn*20),color->(0,0,0),alpha->0.2);
+
+                  );
+            kb((0,0),(0,b),(a,0),200);
+            grestore();
+            gsave();
+            translate((-10,-10));
+            scale(1/5);
+
+            translate((40,40));
+            drawtext((65,50-i*4),"Kettenbruch Darstellung:",size->20,color->(0.6,0,0));
+
+
+//******************************************
+x=aa/bb;
+i=1;
+kb=[];
+while(!(|(round(x)-x)|<0.00000001) & i<10,
+  k=floor(x);
+  r=x-k;
+  x=1/r;
+  i=i+1;
+  kb=kb++[k];
+);
+
+  k=round(x);
+  r=x-k;
+
+  pk=""+k;
+  kb=kb++[k];
+kn=length(kb);
+
+taa=format(aa,2);
+tbb=format(bb,2);
+tbr=format(aa/bb,7);
+if(length(tbr)>5,tbr=tbr+"\ldots");
+t1="${"+taa+"\over"+tbb+"}="+tbr+"=$";
+
+
+t="$";
+apply(1..(kn-1),i,
+  t=t+"{"+kb_i+"+{1\over ";
+);
+if(kn==10,
+  t=t+kb_kn+"+\cdots",
+  t=t+kb_kn
+);
+apply(1..(kn-1)*2,t=t+"}");
+
+t=t+"$";
+drawtext((65,37),t1,size->30,color->(0,0,0));
+
+htab=[0,.1,-.6,-1.9,-3.2,-4.5,-5.8,-7.1,-9.4,-10.7,0];
+
+drawtext((66,20),t,size->30,color->(0,0,0));
+
+//            javascript("renderEq('"+t+"')");
+
+
+
+            grestore();
+
+        </script>
+
+          <div >
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000;"></canvas>
+
+
+
+ <div >
+
+        <input id="ch1" onclick="check()" checked=true type="checkbox" >einrasten
+        </div>
+</div>
+
+
+
+ <script type="text/javascript">
+
+           var check=function(){
+              var ch1=document.getElementById("ch1");
+             if(document.getElementById("ch1").checked){
+                cdy.evokeCS('rast=true;repaint();');
+             } else {
+                 cdy.evokeCS('rast=false;repaint();');
+
+             }
+
+          }
+
+
+        var renderEq=function(a){
+        console.log(a);
+        var latex=a;
+        document.getElementById('tex').innerHTML=latex;
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+
+        }
+        </script>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", kind:"P", type:"Free", pos:[4,8,1],size:4,color:[0,0,0]},
+                      {name:"B", kind:"P", type:"Free", pos:[-10,8,1],size:4,color:[0,0,0]},
+                      {name:"C", kind:"P", type:"Free", pos:[4,-10,1],size:4,color:[0,0,0]}
+                      ];
+
+            cdy=createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        use:["katex"],
+                        geometry:gslp,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,15,15,-12]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+                      });
+
+
+
+
+
+            </script>
+
+
+
+
+
+
+
+
+<div >
+  <br>
+
+Das Verfahren ist auch sehr eng verwandt mit der Berechnung eines so genannten _Kettenbruchs_. Dieser wird auf der rechten Seite des Applets gleich mit angezeigt.
+Kettenbrüche sind dazu geeignet, sehr genaue rationale Approximationen zu reellen Zahlen zu bestimmen.
+Das Verfahren zu einer Kettenbruch-Berechnung ist dem Euklidischen Algorithmus sehr verwandt.
+
+Angenommen man hat eine reelle positive Zahl $x=x_0$ (, die man approximieren möchte). $x_0$ zerfällt in einen natürlichzahligen Teil vor dem Komma $a_0$ und in einen Rest $r_0$,
+der kleiner als $1$ ist, nach dem Komma. Es gilt also
+
+\[
+x_0=a_0+r_0\quad\mbox{ mit }\quad a_0\in\mathbb{N} \mbox{ und } 0\leq r_0 < 1.
+\]
+
+Gilt $r_0=0$ stoppt man. Andernfalls berechnet man $x_1=1/r_0$. Diese Zahl $x_1$ ist größer als $1$ und zerfällt wieder
+in
+\[
+x_1=a_1+r_1\quad\mbox{ mit }\quad a_1\in\mathbb{N} \mbox{ und } 0\leq r_1 < 1.
+\]
+
+Fährt man iterativ fort, so erzeugt man eine Zahlenfolge
+$a_0,a_1,a_2,\ldots$
+Man nennt diese Zahlen die Kettenbruchkoeffizienten. Es gilt:
+
+
+\[
+x={a_0+{1\over {a_1+{1\over {a_2+{1\over {a_3+{1\over {a_4+\cdots}}}}}}}}},
+\]
+
+wobei dieser Grenzwert natürlich sauber definiert werden muss. Ist die Zahl $x$ rational, so bricht das Verfahren
+irgendwann ab (zumindest, sofern man Rundungsfehler nicht mit in Betracht zieht).
+
+
+
+<br><br>
+<br><br>
+</div>
+</div>

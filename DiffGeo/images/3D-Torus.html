@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            background: rgb(168,176,192);
+        }
+        </style>
+</head>
+
+<script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy3D.js"></script>
+
+<script id="csinit" type="text/x-cindyscript">
+begin3d();
+lookat3d((-1,5,3),(0,0,0),(0,0,1));
+background3d((168,176,192)/255);
+end3d();
+
+drawcurve(X,t0,t1,nt,farbe,dicke):=(
+X0=X(t0);
+t5=(t1-t0)/nt;
+repeat(nt,#,
+  X1=X(t0+#*t5);
+  draw3d(X0,X1,color->farbe,size->dicke);
+  X0=X1;
+  );
+);
+
+drsurface(f,u0,u1,nu,v0,v1,nv,farbe):=(
+if(mousekl==1, nu0=round(nu/2); nv0=round(nv/2),
+               nu0=nu; nv0=nv
+  );
+u5=(u1-u0)/nu0; v5=(v1-v0)/nv0;
+
+mesh3d(
+  nu0,nv0,
+  flatten(
+    apply(1..nu0,i,
+      apply(1..nv0,j,
+        f(u0+i*u5,v0+j*v5)
+      )
+    )
+  )
+  ,normaltype->"pervertex",color->farbe, topology->"closeBoth",alpha->.7
+);
+/*
+repeat(nu0,i,
+  repeat(nv0,j,
+    f00=f(u0+(i-1)*u5,v0+(j-1)*v5);
+    f10=f(u0+i*u5,v0+(j-1)*v5);
+    f01=f(u0+(i-1)*u5,v0+j*v5);
+    f11=f(u0+i*u5,v0+j*v5);
+    //poly3d([f00,f10,f01],color->farbe);
+    //poly3d([f01,f10,f11],color->farbe);
+    mesh3d(2,2,[f00, f10, f01, f11] ,normaltype->"pervertex",color->farbe);
+
+  ););
+  */
+);
+
+at.visible=false;T.visible=false;tt.visible=false;T0.visible=false;T1.visible=false;
+
+liste=[C0,X',fx',Y,y,Y',fy',P,fx,fy,FE1,FE2];
+
+unsi:=apply(liste, #.visible=false);
+siba:=apply(liste, #.visible=true);
+
+nM(A):=(
+  A="${"+(A)+"}$";
+  A=replace(A,"[[","\begin{pmatrix}");
+  A=replace(A,"],[","\\");
+  A=replace(A,",","&");
+  A=replace(A,"]]","\end{pmatrix}");
+);
+
+;
+
+Q.xy = [1.5,1,1];
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+mousekl=0;
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+//Parametergebiet
+UV01.x=UV00.x; UV10.y=UV00.y;
+if(UV01.y<UV00.y, UV01.y=UV00.y);
+if(UV10.x<UV00.x, UV10.x=UV00.x);
+if(UV10.x>UV00.x+2*pi, UV10.x=UV00.x+2*pi);
+if(UV01.y>UV00.y+2*pi, UV01.y=UV00.y+2*pi);
+UV11.xy=(UV10.x,UV01.y);
+if(Q.x<UV00.x,Q.x=UV00.x);
+if(Q.x>UV10.x,Q.x=UV10.x);
+if(Q.y>UV01.y,Q.y=UV01.y);
+if(Q.y<UV00.y,Q.y=UV00.y);
+u0=UV00.x; u1=UV10.x;
+v0=UV00.y; v1=UV01.y;
+//Flächenparametrisierung
+f(u,v):=((1.5+cos(v))*cos(u),(1.5+cos(v))*sin(u),sin(v));
+/*
+fu(u,v):=[d(f(#,v)_1,u),d(f(#,v)_2,u),d(f(#,v)_3,u)];
+fv(u,v):=[d(f(u,#)_1,v),d(f(u,#)_2,v),d(f(u,#)_3,v)];
+fuu(u,v):=[d(fu(#,v)_1,u),d(fu(#,v)_2,u),d(fu(#,v)_3,u)];
+fuv(u,v):=[d(fu(u,#)_1,v),d(fu(u,#)_2,v),d(fu(u,#)_3,v)];
+fvv(u,v):=[d(fv(u,#)_1,v),d(fv(u,#)_2,v),d(fv(u,#)_3,v)];
+N0(u,v):=cross(fu(u,v),fv(u,v));
+N(u,v):=N0(u,v)/|N0(u,v)|;
+Nu(u,v):=[d(N(#,v)_1,u),d(N(#,v)_2,u),d(N(#,v)_3,u)];
+Nv(u,v):=[d(N(u,#)_1,v),d(N(u,#)_2,v),d(N(u,#)_3,v)];
+*/
+
+eps = 0.01;
+fu(u,v):=[(f(u+eps,v)_1-f(u-eps,v)_1)/(2*eps),(f(u+eps,v)_2-f(u-eps,v)_2)/(2*eps),(f(u+eps,v)_3-f(u-eps,v)_3)/(2*eps)];
+fv(u,v):=[(f(u,v+eps)_1-f(u,v-eps)_1)/(2*eps),(f(u,v+eps)_2-f(u,v-eps)_2)/(2*eps),(f(u,v+eps)_3-f(u,v-eps)_3)/(2*eps)];
+fuu(u,v):=[(fu(u+eps,v)_1-fu(u-eps,v)_1)/(2*eps),(fu(u+eps,v)_2-fu(u-eps,v)_2)/(2*eps),(fu(u+eps,v)_3-fu(u-eps,v)_3)/(2*eps)];
+fuv(u,v):=[(fu(u,v+eps)_1-fu(u,v-eps)_1)/(2*eps),(fu(u,v+eps)_2-fu(u,v-eps)_2)/(2*eps),(fu(u,v+eps)_3-fu(u,v-eps)_3)/(2*eps)];
+fvv(u,v):=[(fv(u,v+eps)_1-fv(u,v-eps)_1)/(2*eps),(fv(u,v+eps)_2-fv(u,v-eps)_2)/(2*eps),(fv(u,v+eps)_3-fv(u,v-eps)_3)/(2*eps)];
+N0(u,v):=cross(fu(u,v),fv(u,v));
+N(u,v):=N0(u,v)/|N0(u,v)|;
+Nu(u,v):=[(N(u+eps,v)_1-N(u-eps,v)_1)/(2*eps),(N(u+eps,v)_2-N(u-eps,v)_2)/(2*eps),(N(u+eps,v)_3-N(u-eps,v)_3)/(2*eps)];
+Nv(u,v):=[(N(u,v+eps)_1-N(u,v-eps)_1)/(2*eps),(N(u,v+eps)_2-N(u,v-eps)_2)/(2*eps),(N(u,v+eps)_3-N(u,v-eps)_3)/(2*eps)];
+
+//Flächenpunkt
+uq=Q.x; vq=Q.y;
+fq=f(uq,vq);
+fe1=0.4*fu(uq,vq);
+fe2=0.4*fv(uq,vq);
+we1e2=arccos(fe1*fe2/(|fe1|*|fe2|));
+//erste Grundform
+g11=fu(uq,vq)*fu(uq,vq);
+g12=fu(uq,vq)*fv(uq,vq);
+g22=fv(uq,vq)*fv(uq,vq);
+g=g11*g22-g12^2;
+//zweite Grundform
+Nuv=cross(fu(uq,vq),fv(uq,vq));//err(|Nuv|);err(sqrt(g));
+Nuv=Nuv/|Nuv|;
+h11=fuu(uq,vq)*Nuv;
+h12=fuv(uq,vq)*Nuv;
+h22=fvv(uq,vq)*Nuv;
+h=h11*h22-h12^2;
+H=[[h11,h12],[h12,h22]];
+G=[[g11,g12],[g12,g22]];
+knx=(X-Q)*H*(X-Q)/((X-Q)*G*(X-Q));
+A=-inverse(G)*H;
+K=[0,0];
+K=eigenvalues(A);
+R=transpose(eigenvectors(A));
+if((A_1_1-A_2_2)^2+4*A_1_2*A_2_1~=0,
+  Nabel=1; R=[[1,0],[0,1]];
+           K=[(A_1_1+A_2_2)/2,(A_1_1+A_2_2)/2],
+  Nabel=0;
+);
+EV1=R_1/|R_1|;
+EV2=R_2/|R_2|;
+w=A*(X-Q);
+Y.xy=Q+w;
+N1=Nu(uq,vq);
+N2=Nv(uq,vq);
+
+//Tangentialraum
+fep1=4*|fe1|*(1,0);
+fep2=4*|fe2|*(cos(we1e2),sin(we1e2));
+FE1.xy=P+fep1;
+FE2.xy=P+fep2;
+X'.xy=P+(X.x-Q.x)*fep1+(X.y-Q.y)*fep2;
+Y'.xy=P+(Y.x-Q.x)*fep1+(Y.y-Q.y)*fep2;
+if(Text2.pressed,
+  repeat(24,i,
+    wi=(i-1)*pi/12;
+    wii=i*pi/12;
+    fillpoly([P,P+fep1*cos(wi)+fep2*sin(wi),                       P+fep1*cos(wii)+fep2*sin(wii)],
+            color->(0.83,0.64,1)););
+  plot(P+fep1*cos(z)+fep2*sin(z),z,steps->200,
+      start->0,stop->2*pi,size->3,color->(0.47,0,0.72));
+  Text1.visible=true;
+  //Hauptkrümmungen
+  if(Text1.pressed,
+    linecolor([1,0.5,0]);
+    draw(Q-1.2*EV1,Q+1.2*EV1);
+    draw(Q-1.2*EV2,Q+1.2*EV2);
+    draw(P-1.2*EV1_1*fep1-1.2*EV1_2*fep2,
+         P+1.2*EV1_1*fep1+1.2*EV1_2*fep2);
+    draw(P-1.2*EV2_1*fep1-1.2*EV2_2*fep2,
+        P+1.2*EV2_1*fep1+1.2*EV2_2*fep2)
+    );
+  siba,
+  unsi; Text1.pressed=false; Text1.visible=false;
+);
+
+
+//use("jrealityplugin");
+//init3d();
+
+begin3d();
+//lookat3d((-1,5,3),(0,0,0),(0,0,1));
+//
+
+draw3d([0,0,0],size->0.5);
+draw3d([0,0,0],[1,0,0],color->[0.9,0.9,0.9],size->0.4);
+draw3d([0,0,0],[0,1,0],color->[0.9,0.9,0.9],size->0.4);
+draw3d([0,0,-1],[0,0,2],color->[0.9,0.9,0.9],size->0.4);
+draw3d(fq,size->.5);
+//draw3d(fq-fe1,fq+fe1,size->0.3);
+draw3d(fq-fe2,fq+fe2,size->0.3,color->[1,0,0]);
+draw3d(fq-(X.x-Q.x)*fe1-(X.y-Q.y)*fe2,fq+1.5*(X.x-Q.x)*fe1+1.5*(X.y-Q.y)*fe2,size->0.4,color->[0.47,0,0.72]);
+draw3d(fq,fq+Nuv, size->0.3,color->[1,1,0]);
+
+fillpoly3d([fq+(X.x-Q.x)*fe1+(X.y-Q.y)*fe2+0.5*Nuv,fq-(X.x-Q.x)*fe1-(X.y-Q.y)*fe2+0.5*Nuv,fq-(X.x-Q.x)*fe1-(X.y-Q.y)*fe2-0.5*Nuv,
+fq+(X.x-Q.x)*fe1+(X.y-Q.y)*fe2-0.5*Nuv],color->[1,1,0], alpha->.7);
+if(Text2.pressed,
+   draw3d(fq,fq+0.3*(N1*(X.x-Q.x)+N2*(X.y-Q.y))/
+   |N1*(X.x-Q.x)+N2*(X.y-Q.y)|,size->0.3,
+     color->[1,1,1]);
+  draw3d(fq,fq+0.7*(fe1*w_1+fe2*w_2)/|fe1*w_1+fe2*w_2|,
+    size->0.3, color->[1,1,0]);
+);
+if(Text1.pressed,
+   draw3d(fq-EV1_1*fe1-EV1_2*fe2,fq+EV1_1*fe1+EV1_2*fe2,
+         size->0.3,color->[1,0.5,0]);
+   draw3d(fq-EV2_1*fe1-EV2_2*fe2,fq+EV2_1*fe1+EV2_2*fe2,
+         size->0.3,color->[1,0.5,0]);
+);
+drsurface(f,u0,u1,60,v0,v1,100,[0.4,0.4,1]);
+
+//Parameterlinien durch X(uq,vq)
+X(t):=f(t,vq);
+drawcurve(X(t),u0,u1,100,[0,0.9,0],0.4);
+X(t):=f(uq,t);
+drawcurve(X(t),v0,v1,100,[1,0,0],0.4);
+//if(u0*u1<=0, X(t):=f(0,t);
+//  drawcurve(X(t),v0,v1,100,[1,0,0],0.5);
+//  );
+//Parameterliniennetz
+if(Text0.pressed,
+  mv0=2*round(v1-v0);
+  repeat(mv0+1,i,
+  X(t):=f(t,v0+(v1-v0)/mv0*(i-1));
+  drawcurve(X(t),u0,u1,100,[0.098,0.6196,0.3059],0.3);
+  draw((u0,v0+(v1-v0)/mv0*(i-1)),(u1,v0+(v1-v0)/mv0*(i-1)),
+       color->[0.1,0.62,0.31]);
+  );
+  mu0=2*round(u1-u0);
+  repeat(mu0+1,i,
+  X(t):=f(u0+(u1-u0)/mu0*(i-1),t);
+  drawcurve(X(t),v0,v1,100, [0.7569,0,0] ,0.3);
+  draw((u0+(u1-u0)/mu0*(i-1),v0),(u0+(u1-u0)/mu0*(i-1),v1),
+       color->[0.76,0,0]);
+  );
+);
+//Tangentialebene
+repeat(24,i,
+    wi=(i-1)*pi/12;
+    wii=i*pi/12;
+    fillpoly3d([fq,fq+cos(wi)*fe1-sin(wi)*fe2,                             fq+cos(wii)*fe1-sin(wii)*fe2],
+            color->(0.5,0,0.5), alpha->.7););
+//render3d();
+end3d();
+
+/*
+drawtext(UV00+(-.3,-.6),"$x_0=$"+u0);
+drawtext(UV10+(-.3,-.6),"$x_1=$"+u1);
+drawtext(UV00+(-1,.2),"$y_0=$"+v0);
+drawtext(UV01+(-1,.2),"$y_1=$"+v1);
+*/
+if(Text1.pressed,
+  Te.visible=true;
+  drawtext(Te+(0.25, -0.1),if(Nabel==0,"$k_1$ = "+(-K_1)+" , $k_2$ = "+(-K_2),"$k_1\,=\,k_2$ = "+(-K_1)+if(K_1~=0,"  Flachpunkt","  Nabelpunkt"))+"
+$K = k_1\cdot k_2$ = "+(K_1*K_2)+" = $det(A)$ "+"
+$H = \frac{k_1 + k_2}{2}$ = "+(-(K_1+K_2)/2)+" =$ -\frac{spur(A)}{2}$"),
+  Te.visible=false
+);
+if(Text2.pressed,
+  We.visible=true;
+  drawtext(We+(0.25, -0.1),"$d_q N(v)\;=\;d_q f(w)\;=\;d_q f(Av)$
+mit $w\;=\;A\,v\;=\;-(\,g_{i\,j}\,)^{-1}(\,h_{i\,j}\,)\,v$
+$w\;=$ "+nM(A)+" $v$"),
+  We.visible=false
+);
+ drawtext(Ne+(0.25, -0.1),"$k(v)\;=\;\frac{v^T(\,h_{i\,j}\,)\,v}{v^T(\,g_{i\,j}\,)\,v}\;=$ "+knx )
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+mousekl=1;
+
+;
+</script>
+<body>
+  <canvas id="Cindy3D" width="800" height="452"></canvas>
+    <script type="text/javascript">
+  var cdy = CindyJS({
+           "scripts": "cs*",
+           "defaultAppearance": {
+               "dimDependent": 0.7,
+               "fontFamily": "sans-serif",
+               "lineSize": 1,
+               "pointSize": 5.0,
+               "textsize": 15.0
+           },
+           "angleUnit": "°",
+           "geometry": [{
+               "name": "Q",
+               "type": "Free",
+               "pos": [-2.0, -4.5, -2.0],
+               "color": [1.0, 0.0, 0.0],
+               "plane": 1,
+               "labeled": true,
+               "size": 3.0,
+               "printname": "$q$"
+           }, {
+               "name": "UV00",
+               "type": "Free",
+               "pinned": true,
+               "visible": false,
+               "pos": [-3.906976744186046, -4.0, 1.5953202244511915],
+               "color": [1.0, 0.0, 0.0],
+               "size": 3.0
+           }, {
+               "name": "UV10",
+               "type": "Free",
+               "pinned": true,
+               "visible": false,
+               "pos": [4.0, -2.615782781397512, 1.0432527934836602],
+               "color": [1.0, 0.0, 0.0],
+               "size": 3.0
+           }, {
+               "name": "UV01",
+               "type": "Free",
+               "pinned": true,
+               "visible": false,
+               "pos": [2.594406459414328, -4.0, -1.059363637449232],
+               "color": [1.0, 0.0, 0.0],
+               "size": 3.0
+           }, {
+               "name": "UV11",
+               "type": "Free",
+               "pinned": true,
+               "visible": false,
+               "pos": [4.0, 3.9391678422930814, 1.0432527934836602],
+               "color": [0.757, 0.0, 0.0],
+               "size": 3.0
+           }, {
+               "name": "Poly0",
+               "type": "Poly",
+               "color": [0.0, 1.0, 1.0],
+               "fillcolor": [0.0, 0.0, 1.0],
+               "fillalpha": 0.29914529914529914,
+               "args": ["UV00", "UV10", "UV11", "UV01"]
+           }, {
+               "name": "v0'",
+               "type": "Join",
+               "color": [0.098, 0.62, 0.306],
+               "args": ["UV00", "UV10"],
+               "clip": "inci"
+           }, {
+               "name": "vp'",
+               "type": "Parallel",
+               "color": [0.0, 1.0, 0.0],
+               "args": ["v0'", "Q"],
+               "size": 3,
+               "clip": "inci"
+           }, {
+               "name": "up'",
+               "type": "Orthogonal",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["v0'", "Q"],
+               "size": 3,
+               "clip": "inci"
+           }, {
+               "name": "v1'",
+               "type": "Join",
+               "color": [0.098, 0.62, 0.306],
+               "args": ["UV01", "UV11"],
+               "clip": "inci"
+           }, {
+               "name": "u0'",
+               "type": "Join",
+               "color": [0.757, 0.0, 0.0],
+               "args": ["UV00", "UV01"],
+               "clip": "inci"
+           }, {
+               "name": "u1'",
+               "type": "Join",
+               "color": [0.757, 0.0, 0.0],
+               "args": ["UV10", "UV11"],
+               "clip": "inci"
+           }, {
+               "name": "vp1",
+               "type": "Meet",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["up'", "v1'"],
+               "size": 0.0
+           }, {
+               "name": "up0",
+               "type": "Meet",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["vp'", "u0'"],
+               "size": 0.0
+           }, {
+               "name": "up1",
+               "type": "Meet",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["vp'", "u1'"],
+               "size": 0.0
+           }, {
+               "name": "vp0",
+               "type": "Meet",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["v0'", "up'"],
+               "size": 0.0
+           }, {
+               "name": "O",
+               "type": "Free",
+               "pos": [0.0, -0.0, 4.0],
+               "color": [1.0, 0.0, 0.0],
+               "pinned": true,
+               "visible": false,
+               "size": 2.0
+           }, {
+               "name": "C0",
+               "type": "CircleByFixedRadius",
+               "color": [0.467, 0.0, 0.718],
+               "fillcolor": [0.831, 0.639, 1.0],
+               "fillalpha": 0.7692307692307693,
+               "radius": 2.0,
+               "args": ["Q"],
+               "size": 3,
+               "printname": "$C_{0}$"
+           }, {
+               "name": "Y",
+               "type": "Free",
+               "pos": [{
+                   "r": -0.026632418605419022,
+                   "i": 8.06918905213795E-16
+               }, -4.0, {
+                   "r": -1.957392182396441,
+                   "i": -6.341035234981735E-16
+               }],
+               "color": [1.0, 0.784, 0.0],
+               "labeled": true,
+               "size": 2.0,
+               "printname": "$w$"
+           }, {
+               "name": "P",
+               "type": "Free",
+               "pos": [4.0, -0.0, 0.5],
+               "color": [1.0, 0.0, 0.0],
+               "plane": 2,
+               "labeled": true,
+               "size": 3.0,
+               "printname": "$p=f(q)$"
+           }, {
+               "name": "FE1",
+               "type": "Free",
+               "pos": [4.0, 0.0, 0.41666666678237785],
+               "color": [1.0, 0.0, 0.0],
+               "labeled": true,
+               "size": 0.0,
+               "printname": "$f_x$"
+           }, {
+               "name": "FE2",
+               "type": "Free",
+               "pos": [4.0, 1.6322418419760696, 0.5000000000000229],
+               "color": [1.0, 0.0, 0.0],
+               "labeled": true,
+               "size": 0.0,
+               "printname": "$f_y$"
+           }, {
+               "name": "X'",
+               "type": "Free",
+               "pos": [4.0, {
+                   "r": -0.22412399630407462,
+                   "i": 3.42369142805384E-15
+               }, {
+                   "r": 0.4176136807057969,
+                   "i": -2.906566959768859E-17
+               }],
+               "color": [1.0, 0.0, 0.0],
+               "labeled": true,
+               "size": 2.0,
+               "printname": "$d_q f(v)$"
+           }, {
+               "name": "Y'",
+               "type": "Free",
+               "pos": [4.0, {
+                   "r": 0.08852403515068327,
+                   "i": -1.3369317718138477E-15
+               }, {
+                   "r": 0.6228812579619242,
+                   "i": 6.46608530807416E-17
+               }],
+               "color": [1.0, 0.784, 0.0],
+               "labeled": true,
+               "size": 2.0,
+               "printname": "$d_q N(v)$"
+           }, {
+               "name": "y",
+               "type": "Segment",
+               "color": [1.0, 0.784, 0.0],
+               "args": ["Q", "Y"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "fx",
+               "type": "Segment",
+               "color": [0.0, 1.0, 0.0],
+               "args": ["P", "FE1"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "fy",
+               "type": "Segment",
+               "color": [1.0, 0.0, 0.0],
+               "args": ["P", "FE2"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "fx'",
+               "type": "Segment",
+               "color": [0.467, 0.0, 0.718],
+               "args": ["P", "X'"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "fy'",
+               "type": "Segment",
+               "color": [1.0, 0.784, 0.0],
+               "args": ["P", "Y'"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "Te",
+               "type": "Free",
+               "pos": [4.0, -1.0, 0.3333333333333333],
+               "color": [0.0, 0.0, 0.0],
+               "size": 2.0
+           }, {
+               "name": "We",
+               "type": "Free",
+               "pos": [4.0, 1.6666666666666667, 0.3333333333333333],
+               "color": [0.0, 0.0, 0.0],
+               "size": 2.0
+           }, {
+               "name": "Ne",
+               "type": "Free",
+               "pos": [4.0, -0.3333333333333333, 0.3333333333333333],
+               "color": [0.0, 0.0, 0.0],
+               "size": 2.0
+           }, {
+               "name": "X",
+               "type": "PointOnCircle",
+               "pos": [4.0, {
+                   "r": 3.6963484244925877,
+                   "i": 4.2587258222383996E-15
+               }, {
+                   "r": 2.013699272842722,
+                   "i": -4.223768842559297E-16
+               }],
+               "color": [1.0, 0.0, 0.0],
+               "args": ["C0"],
+               "plane": 5,
+               "labeled": true,
+               "size": 3.0,
+               "printname": "$v$"
+           }, {
+               "name": "x",
+               "type": "Segment",
+               "color": [0.467, 0.0, 0.718],
+               "args": ["Q", "X"],
+               "arrowshape": "jet",
+               "arrowsides": "==>",
+               "arrowsize": 1.0,
+               "arrowposition": 1.0
+           }, {
+               "name": "Text0",
+               "type": "ToggleButton",
+               "pos": [-6, -7.5],
+               "color": [0.0, 0.0, 0.0],
+               "fillcolor": [1.0, 1.0, 1.0],
+               "fillalpha": 0.27272728085517883,
+               "text": "Parameterlinien"
+           }, {
+               "name": "Text2",
+               "type": "ToggleButton",
+               "color": [0.0, 0.0, 0.0],
+               "fillcolor": [1.0, 1.0, 1.0],
+               "fillalpha": 0.27272728085517883,
+               "text": "Weingartenabbildung",
+               "pos": [0, -7.5],
+           }, {
+               "name": "Text1",
+               "type": "ToggleButton",
+               "color": [0.0, 0.0, 0.0],
+               "fillcolor": [1.0, 1.0, 1.0],
+               "fillalpha": 0.27272728085517883,
+               "text": "Hauptkrümmungen",
+               "pos": [8, -7.5],
+           }],
+           "ports": [{
+               "id": "CSCanvas",
+               "width": 800,
+               "height": 355,
+               "transform": [{
+                   "visibleRect": [-7.609465922678357, 7.201295336787564, 27.02672379434037, -8.309186927062573]
+               }],
+               //"axes": true,
+               //"grid": 1.0,
+               //"snap": true,
+               "background": "rgb(168,176,192)"
+           }],
+           "csconsole": false,
+           "use": ["katex", "Cindy3D"],
+           "cinderella": {
+               "build": 1898,
+               "version": [2, 9, 1898]
+           }
+       });/*
+       cdy.ports.forEach(function(port) {
+           var div = document.createElement("div");
+           div.setAttribute("id", port.id);
+           document.body.appendChild(div);
+       })
+       cdy = CindyJS(cdy);*/
+   </script>
+   <div id="CSCanvas"></div>
+
+</body>
+
+</html>

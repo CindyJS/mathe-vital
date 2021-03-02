@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Flower2New.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+fib=[1,2];
+repeat(20,i,
+  fib=fib++[fib_i+fib_(i+1)]
+);
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+n=round((|E,H|/|E,D|)*1250);
+k=round((|G,K|/|G,F|)*100);
+w=137.508°+C.x°*0.2;
+drawtext(A+(0.3,0.4),"Winkel="+format(w*180/pi,3)+"°",size->18);
+repeat(n,i,start->0,
+   r=sqrt(n-i)*0.2;
+   r1=1.5;
+   fillcircle((sin(i*w),cos(i*w))*r,0.1*r1*1,color->(1,0.8,0),alpha->0.9);
+
+   if(Text0.pressed&k>0,
+     fillcircle((sin(i*w),cos(i*w))*r,0.1*r1*1,color->hue(i/k),alpha->0.7);
+   );
+   if(k>1&mod(i,k)==0,
+     fillcircle((sin(i*w),cos(i*w))*r,0.1*r1*1,color->(0,0,0),alpha->0.9);
+   );
+ drawcircle((sin(i*w),cos(i*w))*r,0.1*r1*1,alpha->0.8,color->(0,0,0));
+);
+
+drawtext(K+(0.2,0.2),k,size->14);
+
+drawtext(H+(0.2,0.2),n,size->14);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [3.2, -4.0, -0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [-3.2, -4.0, -0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [0.0, -4.0, -0.4], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "D", type: "Free", pos: [4.0, 3.6, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, -2.4, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "Free", pos: [4.0, -3.6, -0.4], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, 2.4000000000000004, -0.4], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"]},
+    {name: "H", type: "PointOnSegment", pos: [4.0, 3.6, 0.4], color: [1.0, 1.0, 1.0], args: ["b"]},
+    {name: "K", type: "PointOnSegment", pos: [4.0, 2.4, -0.4], color: [1.0, 1.0, 1.0], args: ["c"]},
+    {name: "Text1", type: "Text", pos: [4.0, -2.8, 0.4], color: [0.0, 0.0, 0.0], text: "Körneranzahl"},
+    {name: "Text2", type: "Text", pos: [4.0, 2.8, -0.4], color: [0.0, 0.0, 0.0], text: "Körnermarkierung"},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Farbspiralen", dock: {corner: "LL", offset: [53.0, 37.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 663,
+    height: 557,
+    transform: [{visibleRect: [-11.86, 12.42, 14.66, -9.86]}],
+    background: "rgb(255,255,255)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

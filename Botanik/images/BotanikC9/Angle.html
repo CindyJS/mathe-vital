@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Angle.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+inc(w):=(cos(w),-sin(w))*.05;
+d=|B,D|/|B,C|;
+p=A.xy;
+w=1°;
+E.xy=A-(0,360*.05/pi/2);
+fillcircle(E,|A,E|,color->(1,1,1),alpha->0.5);
+repeat(360,i,
+  op=p;
+  p=p+inc(i*w);
+  draw(op,p);
+);
+p=A.xy;
+w=1°;
+repeat(360,i,
+  op=p;
+  if(i<d*360,
+    p=p+inc(i*w),
+    p=p+inc(d*360°)
+  );
+  col=if(i<0.618*360,q=p;(0.6,0,0),(0,0.6,0));
+  draw(op,p,size->2,color->col);
+  if(i<d*360,
+    draw(E,p,color->col,alpha->0.2);
+  );
+);
+draw(p,color->(1,1,1),size->4);
+draw(q,color->(1,1,1),size->4);
+draw(E,A,color->(0,0,0));
+if(d>0.618,draw(E,q,color->(0,0,0)));
+
+if(d~=1,
+  drawtext((4,3),"222.492...°",size->18,color->(0.4,0,0));
+  drawtext((-6.7,4),"137.508...°",size->18,color->(0,0.4,0))
+)
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 1.0,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.2838709677419355, -4.0, -0.6451612903225806], color: [1.0, 1.0, 1.0], pinned: true, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, -3.6, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, -1.894736842105263, 0.21052631578947367], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"]},
+    {name: "D", type: "PointOnSegment", pos: [4.0, -3.6000000000000023, 0.4000000000000002], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "E", type: "Free", pos: [-0.5277027411916698, -4.0, -1.1993244117992494], color: [0.0, 0.0, 0.0], size: 2.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 727,
+    height: 492,
+    transform: [{visibleRect: [-9.06, 9.34, 20.02, -10.34]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

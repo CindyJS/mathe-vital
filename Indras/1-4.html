@@ -1,0 +1,224 @@
+---
+title: Iterierte Drehstreckung
+layout: page
+category: Indras
+---
+
+        <h1>Iterierte Drehstreckung</h1>
+
+
+
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col):=(
+           n=b-a;
+           n=n/|n|*.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->3);
+           draw(b-n*.17+p*.07,b,color->col,size->3);
+           draw(b-n*.17-p*.07,b,color->col,size->3);
+
+        );
+
+        drawang(w):=(
+           pol=apply(0..round(w/pi*36/2),
+             (cos(#*10°),sin(#*10°))*.2;
+           );
+           fillpoly(pol++[(0,0)],alpha->0.2);
+           connect(pol);
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+                w=arctan2(D.x,D.y);
+
+        a=cos(w)*|D|;
+b=sin(w)*|D|;
+
+
+ww=format(w/pi*180,2);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+   //    javascript("renderEq('"+pa+"x"+mb+"y','"+pb+"x"+pa+"y','"+ww+"','"+pa+"','"+pb+"','"+mb+"')");
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        draw(line((0,1,0)),color->(1,1,1)*.4);
+        draw(line((1,0,0)),color->(1,1,1)*.4);
+        drawarrow(O,B,(0.0,0,0.7));
+        drawarrow(O,C,(0.0,0,0.7));
+       // D.xy=D.xy/|D.xy|;
+        drawarrow(O,D,(0.7,0,0));
+        w=arctan2(D.x,D.y);
+        if(w<0,w=w+2*pi);
+        ww=w/(2*pi)*360;
+        co=format(cos(w),4);
+        si=format(sin(w),4);
+
+    //    drawtext((-1.8,-1),"a = cos("+format(ww,2)+"°) ≈ "+co);
+    //    drawtext((-1.8,-1.25),"b = sin("+format(ww,2)+"°) ≈ "+si);
+
+        ee=(-D.y,D.x);
+        drawarrow(O,ee,(0.7,0,0));
+        if(mover()==E,
+          E1.xy=E+d1;
+          E2.xy=E+d2;
+          E3.xy=E+d3;
+          E4.xy=E+d4;
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+        drawang(w);
+        m=[[cos(w),-sin(w)],[sin(w),cos(w)]]*|D|;
+
+        draw(E,E2);
+        draw(E,E3);
+        draw(E2,E4);
+        draw(E3,E4);
+        draw(E,E4);
+        draw(E2,E3);
+        draw(E1,E2);
+        draw(E1,E4);
+
+        t=E.xy;
+        t1=E1.xy;
+        t2=E2.xy;
+        t3=E3.xy;
+        t4=E4.xy;
+        repeat(400,
+
+        t=m*t;
+        t1=m*t1;
+        t2=m*t2;
+        t3=m*t3;
+        t4=m*t4;
+al=1;
+        draw(t,t2,alpha->al);
+        draw(t,t3,alpha->al);
+        draw(t2,t4,alpha->al);
+        draw(t3,t4,alpha->al);
+        draw(t,t4,alpha->al);
+        draw(t2,t3,alpha->al);
+        draw(t1,t2,alpha->al);
+        draw(t1,t4,alpha->al);
+        );
+
+
+
+a=cos(w);
+b=sin(w);
+ww=format(w/pi*180,2);
+
+drawtext(B+(0.06,0),"$e_1$",size->22);
+drawtext(C+(0.06,0),"$e_2$",size->22);
+drawtext(D+(0.06,0),"$v_1$",size->22);
+drawtext(ee+(0.06,0),"$v_2$",size->22);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+
+        if(mover()==D,
+ //      javascript("renderEq('"+pa+"x"+mb+"y','"+pb+"x"+pa+"y','"+ww+"','"+pa+"','"+pb+"','"+mb+"')");
+        );
+
+        //  javascript("document.getElementById('q1').style.top='"+(-A.y*3.132*25+450)+"px';");
+        //  javascript("document.getElementById('q1').style.left='"+(A.x*3.132*25+60)+"px';");
+
+
+
+ //                    javascript("document.getElementById('tex').innerHTML='$P_i="+G.x+"$';"+
+ //                    "MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);");
+
+//inpa=-C.x;
+//inpb=-A.x-B.x;
+//inpc=-D.x-B.x;
+//inpa=round(inpa*100)/100;
+//inpb=round(inpb*100)/100;
+//inpc=round(inpc*100)/100;
+//if(or(or(oa~!=inpa,ob~!=inpb),oc~!=inpc) ,
+
+  //          oa=inpa;
+    //        ob=inpb;
+      //      oc=inpc;
+        </script>
+
+        <script type="text/javascript">
+        var renderEq=function(xx,yy,w,a,b,mb){
+        var latex="$\\left(\\begin{array}{cc}"+
+        "|&|\\\\[-3mm]"+
+        "v_1&v_2\\\\[-2mm]"+
+        "|&|\\\\"+
+        "\\end{array}\\right)\\quad\\approx\\quad"+
+        "\\left(\\begin{array}{cc}"+
+        ""+a+"&"+mb+"\\\\"+
+        ""+b+"&"+a+"\\\\"+
+        "\\end{array}\\right)"+
+
+        "$";
+        document.getElementById('tex').innerHTML=latex;
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+        }
+        </script>
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div style=" top:400px; left:30px; display:inline;z-index:4">
+         <div id="tex" style="font-size: 110%;" >$ $</div>
+</div>
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[1,0],color:[1,0,0],pinned:true,size:3},
+                      {name:"C", type:"Free", pos:[0,1],color:[1,0,0],pinned:true,size:3},
+                      {name:"D", type:"Free", pos:[4/5,2/5],color:[1,1,0],size:3},
+                      {name:"E", type:"Free", pos:[2,0],color:[0,0,1],size:3},
+                      {name:"E1", type:"Free", pos:[2.25,0.75],color:[0,1,0],size:3},
+                      {name:"E2", type:"Free", pos:[2,.5],color:[0,1,0],size:3},
+                      {name:"E3", type:"Free", pos:[2.5,0],color:[0,1,0],size:3},
+                      {name:"E4", type:"Free", pos:[2.5,0.5],color:[0,1,0],size:3},
+
+
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:.2,
+                        use:["katex"],
+                        transform:[{scale:5},{translate:[1,0]}],
+}
+                        );
+
+        </script>
+<div  style="width:800px; line-height: 1.5">
+<br>
+<br>
+Hier sieht man den Effekt einer <i>iterierten Drehstreckung</i>.
+<br>
+<br>
+
+Im Applet ist der Vektor $v_1$ und die Ecken des Hauses mit der Maus bewegbar.
+</div>
+</div>

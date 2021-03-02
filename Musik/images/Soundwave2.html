@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Soundwave2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+play():=(
+  f(x):=parse(Text0.val);
+  playfunction(f(x),stop->4);
+);
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+A.y=0;
+B.y=0;
+a=A.x;
+b=B.x;
+f(x):=parse(Text0.val);
+
+plot(f(x/30),alpha->0.7,pxlres->0.1,start->0,stop->30);
+
+
+plot(f(a/30+x*(b/30-a/30)/30)+4,alpha->0.7,pxlres->0.1,start->0,stop->30);
+
+draw((a,-1),(a,1),color->(0,0,0));
+draw((b,-1),(b,1),color->(0,0,0));
+
+draw((0,3),(0,5),color->(0,0,0));
+draw((30,3),(30,5),color->(0,0,0));
+draw((a,1),(0,3),color->(0,0,0));
+draw((b,1),(30,3),color->(0,0,0));
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "EditableText", pos: [1.6507936507936507, -4.0, 0.7936507936507936], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, alpha: 0.8999999761581421, minwidth: 600, text: "sin(x*440*2*π)*exp(-x*3)", textsize: 18.0},
+    {name: "A", type: "Free", pos: [4.0, 0.0, 0.6993006993006994], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 0.0, 0.3731343283582089], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Text1", type: "Button", pos: [0.128, -4.0, 0.8], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, script: "play();\n", text: "Play", textsize: 17.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 793,
+    height: 426,
+    transform: [{visibleRect: [-0.86, 10.22, 30.86, -6.82]}]
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

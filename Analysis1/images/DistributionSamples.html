@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DistributionSamples.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+maxchoice=6;
+choice=1;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+repeat(maxchoice,i,
+  if(|mouse().xy-(i-8+.5,12+.5)|<.7,choice=i);
+);
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+col2=(0,0,1);
+col1=(0,1,0);
+
+box(i,p):=(
+  w=0.4;
+  fillpoly((
+    p+(w,w),
+    p+(w,-w),
+    p+(-w,-w),
+    p+(-w,w)
+  ),color->if(choice==i,col1,col2),alpha->0.2);
+  connect((
+    p+(w,w),
+    p+(w,-w),
+    p+(-w,-w),
+    p+(-w,w),
+    p+(w,w)
+  ),color->(1,1,1)*.2,alpha->0.7,size->2);
+);
+repeat(maxchoice,i,
+  box(i,(i-8+.5,12+.5));
+  drawtext((i-7.75,12.1)+(.25,.15),align->"center",i,size->20)
+
+);
+
+text1=[
+"Sanft ansteigender Integrator, der die 
+Region um den Nullpunkt gewichtet.",
+"Integrator, der die region im Interval
+[-4,4] wie beim normalen Integral gewichtet.",
+"Treppenfuntion, nur Werte an den Sprungstellen
+werden in die Integration aufgenommen.",
+"Nur der Wert am Nullpunkt fließt in
+die Integration ein.",
+"Kontunuierliche Annäherung an eine Treppenfunktion",
+"Treppenfunktion mit unterschiedlichen Sprunghöhen.
+Werte des Integranden werden mit der Sprunghöhe gewichtet."
+];
+drawtext((1,12.7),text1_choice,size->14);
+
+
+
+drawtext((-8,-2),"Zu integriende Funktion $f(x)=$",size->14);
+drawtext((-8,9.4),"Integrator $\alpha(x)$",size->14);
+
+
+
+sp=1;
+p=F.x;
+F.y=0;
+
+a=A.x;
+b=B.x;
+A.y=0;
+B.y=0;
+
+if(choice==1,al(x):=arctan(x)+pi/2);
+if(choice==2,al(x):=if(x<-4,-4,if(x>4,4,x)));
+if(choice==3,al(x):=if(x<-4,-4,if(x>4,4,round(x))));
+if(choice==4,al(x):=if(x>0,1,0));
+if(choice==5,al(x):=sum(-3..3,r,(arctan((x-r)*100)+pi/2)/pi)-3.5);
+if(choice==6,al(x):=(arctan(round(x))+pi/2));
+
+
+f(x):=parse(Text0.val);
+
+
+d=1/33.3;
+s=0;
+
+apply((-280..480)*d,i,
+  if(i>a&i<b,
+   s=f(i)*(al(i+d/2)-al(i-d/2))+s;
+   if(f(i)>0,
+    draw((i,0),(i,f(i)),color->(.5,1,.5)),
+    draw((i,0),(i,f(i)),color->(1,0.5,0.5))
+   );
+  );
+  draw((i,0),(i,f(i)),color->(0,0,.71),alpha->20*(al(i+d)-al(i)))
+);
+draw((a,0),(a,f(a)),color->(0,0,0));
+draw((b,0),(b,f(b)),color->(0,0,0));
+
+draw((-100,8),(100,8),color->gray(.4));
+
+plot(f(x),size->2,color->gray(0));
+plot(8+al(x),color->red(.7),size->2);
+
+
+w=.2;
+fillpoly(((10-w,8),(10+w,8),(10+w,8+s),(10-w,8+s),(10-w,8)));
+connect(((10-w,8),(10+w,8),(10+w,8+s),(10-w,8+s),(10-w,8)),color->(0,0,0));
+
+
+drawtext((5.2,8.3),
+"Integral $\int_a^b f(x)d \alpha(x)",size->14);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "B", type: "Free", pos: [4.0, 0.0, 0.5922103030402543], color: [1.0, 1.0, 1.0], labeled: true, size: 3.0, printname: "b"},
+    {name: "F", type: "Free", pos: [0.0, 0.0, 4.0], color: [0.012, 0.655, 0.737], labeled: true, size: 3.0, printname: "p"},
+    {name: "Text0", type: "EditableText", pos: [-2.8923076923076922, -4.0, 2.0499587412931883], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "cos(x-p)", textsize: 14.0},
+    {name: "A", type: "Free", pos: [4.0, -0.0, -0.5416557649758422], color: [1.0, 1.0, 1.0], labeled: true, size: 3.0, printname: "a"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 757,
+    height: 553,
+    transform: [{visibleRect: [-8.420432135453252, 13.673821168267224, 14.3042278522049, -2.926888175424927]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

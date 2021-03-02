@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Dreieck_Gleitspiegelung.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+D(A,B,a):=[[cos(a),-sin(a)],[sin(a),cos(a)]]*(B-A)+A;
+start=0;
+a.color=[0,0,1];
+E1.visible=false;
+E2.visible=false;
+a.visible=true;
+b.visible=true;
+c.visible=true;
+b1.visible=false;
+c1.visible=false;
+c2.visible=false;
+b1b.visible=false;
+c1b.visible=false;
+E0.visible=false;
+s.visible=false;
+t.visible=false;
+u.visible=false;
+kA.visible=false;
+As.visible=false;
+Ha.visible=false;
+Hc.visible=false;
+M.visible=false;
+E3.visible=false;
+H.visible=false;
+h.visible=false;
+E4.visible=false;
+E5.visible=false;
+E6.visible=false;
+E7.visible=false;
+Text1.visible=false;
+Text2.visible=false;
+Text3.visible=false;
+Text4.visible=false;
+Text6.visible=false;
+Text7.visible=false;
+Text8.visible=false;
+Text9.visible=false;
+Text10.visible=false;
+Text11.visible=false;
+Text12.visible=false;
+Text13.visible=false;
+Text14.visible=false;
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+wg=(round(α0/pi*180));
+if(L.x==0,
+  a.color=[0,0,1];
+  a.visible=true;
+  b1.visible=false;
+  c1.visible=false;
+  c2.visible=false;
+  E0.visible=false;
+  s.visible=false;
+  u.visible=false;
+  As.visible=false;
+  Hc.visible=false;
+  M.visible=false;
+  Text1.visible=true;
+  Text2.visible=false;
+  Text3.visible=false;
+  Text4.visible=false;
+  Text6.visible=false;
+  Text7.visible=false;
+  Text8.visible=false;
+  Text9.visible=false;
+  Text10.visible=false;
+  Text11.visible=false;
+  Text12.visible=false;
+  Text13.visible=false;
+  Text14.visible=false;
+  B1b.xy=B0.xy;
+  C1b.xy=C0.xy;
+  );
+if(L.x>0 & L.x<1,
+  b.visible=true;
+  c.visible=true;
+  E0.visible=true;
+  E2.visible=false;
+  b1b.visible=false;
+  c1b.visible=false;
+  Text1.visible=true;
+  Text2.visible=true;
+  Text3.visible=false;
+  Text4.visible=false;
+  B1b.xy=B0.xy;
+  C1b.xy=C0.xy;
+  );
+if(L.x>=1 & L.x<=2,
+  b.visible=false;
+  c.visible=false;
+  b1.visible=false;
+  c1.visible=false;   
+  b1b.visible=true;
+  c1b.visible=true;
+  E1.visible=false;
+  E2.visible=true;
+  Text1.visible=false;
+  Text2.visible=false;
+  Text3.visible=true;
+  Text4.visible=true;
+  Text6.visible=false;
+  a.color=[0,0,1]; 
+  aw=(L.x-1)*wg°;
+  B1b.xy=D(A,B0,aw);
+  C1b.xy=D(A,C0,aw);
+  );
+if(L.x> 2 & L.x <=3,
+  a.visible=true;
+  a.color=[0.47,0,0.72];
+  b1.visible=true; 
+  E1.visible=true;
+  b1b.visible=false;
+  c1b.visible=false;
+  c1.visible=true;
+  Ha.visible=false;
+  t.visible=false;
+  kA.visible=false;
+  As.visible=false;
+  E5.visible=false;
+  E6.visible=false;
+  Text4.visible=false;
+  Text3.visible=true;
+  Text6.visible=true;
+  Text7.visible=false;
+  Text8.visible=false;
+  );
+if(L.x> 3 & L.x <=4,
+  a.visible=true;
+  b1.visible=true; 
+  Ha.visible=true;
+  t.visible=true;
+  kA.visible=true;
+  As.visible=false;
+  u.visible=false;
+  s.visible=false;
+  E0.visible=true;
+  E4.visible=false;
+  E5.visible=true;
+  E6.visible=true;
+  Text3.visible=false;
+  Text6.visible=false;
+  Text8.visible=true;
+  Text7.visible=true;
+  Text9.visible=false;
+  Text10.visible=false;
+  );
+if(L.x> 4 & L.x <=5,
+  E0.visible=false;
+  b1.visible=false;
+  a.visible=false;
+  As.visible=true;
+  u.visible=true;
+  s.visible=true;
+  M.visible=false;
+  c2.visible=false;
+  E3.visible=false;
+  E4.visible=true;
+  E5.visible=false;
+  //E6.visible=false;
+  E7.visible=false;
+  Text7.visible=false;
+  Text8.visible=false;
+  Text9.visible=true;
+  Text10.visible=true;
+  Text11.visible=false;
+  Text12.visible=false;
+  );
+if(L.x> 5 & L.x <=6,
+  M.visible=true;
+  c2.visible=true;
+  c1.visible=true;
+  E1.visible=true;
+  E3.visible=true;
+  E7.visible=true;
+  Text9.visible=false;
+  Text10.visible=false;
+  Text11.visible=true;
+  Text12.visible=true;
+  Text13.visible=false;
+  );
+if(L.x> 6 & L.x <=7,
+  c1.visible=false;
+  c2.visible=true;
+  E1.visible=false;
+  E4.visible=false;
+  Hc.visible=false;
+  H.visible=false;
+  h.visible=false;
+  Text11.visible=false;
+  Text12.visible=false;
+  Text14.visible=false;
+  Text13.visible=true;
+  );
+if(L.x> 7 & L.x <=8,
+  Hc.visible=true;
+  H.visible=true;
+  h.visible=true;
+  Text14.visible=true;
+  );
+err(inspect(c1));
+err(c1.incidences);
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -4.0, -2.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 14.0},
+    {name: "B", type: "Free", pos: [4.0, 1.0, 0.5], color: [1.0, 0.0, 0.0], labeled: true, textsize: 14.0},
+    {name: "C", type: "Free", pos: [-2.857142857142857, -4.0, -0.5714285714285714], color: [1.0, 0.0, 0.0], labeled: true, textsize: 14.0},
+    {name: "a", type: "Join", dimDependent: 1, color: [0.0, 0.0, 1.0], args: ["C", "B"], size: 3},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "A"], size: 3},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], size: 3},
+    {name: "E", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["A"], visible: false},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["E", "c"]},
+    {name: "", type: "SelectP", pos: [4.0, -4.0, -2.0], color: [1.0, 1.0, 1.0], args: ["Collection__1"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "B0", type: "SelectP", pos: [4.0, 4.0, 2.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], visible: false, labeled: true},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["E", "b"]},
+    {name: "C0", type: "SelectP", pos: [-1.6568542494923801, -4.0, -1.17157287525381], color: [1.0, 0.0, 0.0], args: ["Collection__2"], visible: false, labeled: true},
+    {name: "b1", type: "Parallel", color: [0.467, 0.0, 0.718], args: ["a", "A"], visible: false, labeled: true, textsize: 14.0, size: 3, printname: "$b_1$"},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["E", "b1"]},
+    {name: "C1", type: "SelectP", pos: [1.1079358597937337, -4.0, -1.076720116838555], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false, labeled: true},
+    {name: "F", type: "Compass", color: [0.0, 0.0, 1.0], args: ["C0", "B0", "C1"], visible: false},
+    {name: "Collection__4", type: "IntersectionCircleCircle", args: ["E", "F"]},
+    {name: "B1", type: "SelectP", pos: [-0.49242250247064323, -4.0, -1.0151549950587158], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false, labeled: true},
+    {name: "c1", type: "Join", color: [0.098, 0.62, 0.306], args: ["A", "B1"], visible: false, labeled: true, textsize: 14.0, size: 3, printname: "$c_1$"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "A"], visible: false},
+    {name: "Ha", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "d"], visible: false, labeled: true, textsize: 14.0, size: 3.0, printname: "$H_a$"},
+    {name: "C3", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["Ha", "A"], alpha: 0.8999999761581421, size: 0},
+    {name: "kA", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C3", "d", "A"], visible: false, labeled: true, textsize: 14.0, size: 3.0, printname: "$\\kappa(A)$"},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["c1", "kA"], visible: false, labeled: true},
+    {name: "f", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["e", "A"], visible: false, labeled: true},
+    {name: "As", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "f"], visible: false, labeled: true, textsize: 14.0, size: 3.0, printname: "$A*$"},
+    {name: "u", type: "Segment", color: [1.0, 0.29, 0.29], args: ["A", "As"], visible: false, labeled: true, textsize: 14.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "s", type: "Segment", color: [0.757, 0.0, 0.0], args: ["As", "kA"], visible: false, labeled: true, textsize: 14.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "t", type: "Segment", color: [0.467, 0.0, 0.718], args: ["A", "kA"], visible: false, labeled: true, textsize: 14.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "M", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "As"], visible: false, labeled: true, textsize: 14.0, size: 3.0},
+    {name: "c2", type: "Parallel", color: [0.757, 0.0, 0.0], args: ["c1", "M"], visible: false, labeled: true, textsize: 14.0, size: 3, printname: "$c_2$"},
+    {name: "α0", type: "Angle", angle: 1.3258176636680323, color: [0.0, 0.0, 1.0], args: ["b", "a", "C"]},
+    {name: "B1b", type: "Free", pos: [4.0, 4.0, 2.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "C1b", type: "Free", pos: [-1.6568542494923801, -4.0, -1.17157287525381], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "c1b", type: "Join", color: [0.098, 0.62, 0.306], args: ["A", "C1b"], alpha: 0.8999999761581421, visible: false, labeled: true, textsize: 14.0, size: 3, printname: "$b*$"},
+    {name: "b1b", type: "Join", color: [0.098, 0.62, 0.306], args: ["A", "B1b"], alpha: 0.8999999761581421, visible: false, labeled: true, textsize: 14.0, size: 3, printname: "$c*$"},
+    {name: "D", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "B1"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist0", type: "Dist", color: [0.0, 0.0, 1.0], args: ["A", "B1"], alpha: 0.8999999761581421},
+    {name: "Hc", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "c2"], alpha: 0.8999999761581421, visible: false, labeled: true, textsize: 14.0, size: 3.0, printname: "$H_c$"},
+    {name: "E0", type: "AngleMark", color: [0.0, 1.0, 0.0], args: ["A", "B1b", "C1b"]},
+    {name: "G", type: "Free", pos: [1.5200000000000002, -4.0, 1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false},
+    {name: "E1", type: "AngleMark", color: [0.51, 0.949, 1.0], args: ["A", "B", "B1"], alpha: 0.8999999761581421},
+    {name: "E2", type: "AngleMark", color: [0.51, 0.949, 1.0], args: ["C", "A", "B"], alpha: 0.8999999761581421},
+    {name: "c0", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, labeled: true, textsize: 14.0, printname: "c"},
+    {name: "b0", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.8999999761581421, labeled: true, textsize: 14.0, printname: "b"},
+    {name: "a0", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"], alpha: 0.8999999761581421, labeled: true, textsize: 14.0, printname: "a"},
+    {name: "E3", type: "AngleMark", color: [0.51, 0.949, 1.0], args: ["Hc", "B", "Ha"], alpha: 0.8999999761581421},
+    {name: "g", type: "Join", color: [1.0, 1.0, 1.0], args: ["Hc", "C"], alpha: 0.8999999761581421, size: 0},
+    {name: "C2", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["Hc", "C"], alpha: 0.8999999761581421, size: 0},
+    {name: "H", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C2", "g", "C"], visible: false, labeled: true, textsize: 14.0, size: 3.0, printname: "$C'$"},
+    {name: "h", type: "Segment", color: [0.502, 0.502, 0.502], args: ["H", "C"], alpha: 0.8999999761581421, visible: false},
+    {name: "K", type: "Free", pos: [0.0, -4.0, 1.0], color: [0.757, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "N", type: "Free", pos: [4.0, -2.0, 0.5], color: [0.502, 0.502, 0.502], alpha: 0.8999999761581421, pinned: true, textsize: 14.0, size: 0.0},
+    {name: "k", type: "Segment", color: [0.757, 0.0, 0.0], args: ["K", "N"], alpha: 0.8999999761581421},
+    {name: "L", type: "PointOnSegment", pos: [0.0, -4.0, 1.0], color: [0.757, 0.0, 0.0], args: ["k"], alpha: 0.8999999761581421, labeled: true, textsize: 14.0},
+    {name: "E4", type: "AngleMark", color: [1.0, 0.29, 0.29], args: ["A", "M", "B1"], alpha: 0.8999999761581421},
+    {name: "E5", type: "AngleMark", color: [0.467, 0.0, 0.718], args: ["A", "Ha", "C1"], alpha: 0.8999999761581421},
+    {name: "E6", type: "AngleMark", color: [0.467, 0.0, 0.718], args: ["Ha", "A", "B"], alpha: 0.8999999761581421},
+    {name: "E7", type: "AngleMark", color: [1.0, 0.29, 0.29], args: ["M", "Ha", "A"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", pos: [4.0, 3.333333333333333, 0.6172839506172839], color: [0.0, 0.0, 0.0], args: ["α0"], visible: false, text: "$\\gamma$= @#\"α0\""},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, text: "$\\kappa=\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c)$", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [45.0, -20.0]}},
+    {name: "Text8", type: "Text", color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "$\\kappa  =\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c)= \\sigma_a \\circ \\delta_{A , 2\\alpha}=  \\sigma_a \\circ (\\sigma_{b_1} \\circ \\sigma_{c_1})=(\\sigma_a \\circ \\sigma_{b_1}) \\circ \\sigma_{c_1}$", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [46.0, -20.0]}},
+    {name: "Text9", type: "Text", color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "$\\kappa  =\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c)= \\sigma_a \\circ \\delta_{A , 2\\alpha}=  \\sigma_a \\circ (\\sigma_{b_1} \\circ \\sigma_{c_1})=(\\sigma_a \\circ \\sigma_{b_1}) \\circ \\sigma_{c_1}=\\tau_t \\circ \\sigma_{c_1}$", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [45.0, -20.0]}},
+    {name: "Text4", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, pinned: true, text: "$\\delta_{A , 2\\alpha} = \\sigma_{b*} \\circ \\sigma_{c*}$ mit $A = b* \\cap c*$ und $<)(c*,b*) = \\alpha = <)(c,b)$\nDrehe daher b* ohne Einschränkung um den Winkel $\\gamma=<)(b,a)$ parallel zu a.", textsize: 16.0, textbold: true},
+    {name: "Text6", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, pinned: true, text: "$\\Rightarrow \\;\\; \\delta_{A , 2\\alpha}=\\sigma_{b_1} \\circ \\sigma_{c_1}$ mit $A = b_1 \\cap c_1, \\;\\; b_1 || a$ und $<)(c_1,b_1) = \\alpha = <)(c,b)$ \n$\\Rightarrow \\;\\; \\kappa  =...= \\sigma_a \\circ \\delta_{A , 2\\alpha}= \\sigma_a \\circ (\\sigma_{b_1}\\circ \\sigma_{c_1})$", textsize: 16.0, textbold: true},
+    {name: "Text11", type: "Text", color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "$\\kappa  =\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c)= \\sigma_a \\circ \\delta_{A , 2\\alpha}=  \\sigma_a \\circ (\\sigma_{b_1} \\circ \\sigma_{c_1})=(\\sigma_a \\circ \\sigma_{b_1}) \\circ \\sigma_{c_1}=\\tau_t \\circ \\sigma_{c_1}=\\tau_s \\circ \\tau_u \\circ \\sigma_{c_1}$", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [44.0, -20.0]}},
+    {name: "Text2", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, pinned: true, text: "$\\sigma_b \\circ \\sigma_c =  \\delta_{A , 2\\alpha$ ist Drehung mit $\\alpha = <)(c,b)$\n$\\Rightarrow\\;\\; \\kappa=\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c) = \\sigma_a \\circ \\delta_{A , 2\\alpha$", textsize: 16.0, textbold: true},
+    {name: "Text3", type: "Text", color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, visible: false, pinned: true, text: "$\\kappa=\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c) = \\sigma_a \\circ \\delta_{A , 2\\alpha$", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [45.0, -20.0]}},
+    {name: "Text10", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "Zerlege t orthogonal zu $c_1\\;\\; \\Rightarrow\\;\\; t = u+s$ mit $u \\bot c_1$ und $s || c_1$ \n$\\Rightarrow\\;\\; \\kappa=...=\\tau_t \\circ \\sigma_{c_1}=\\tau_s \\circ \\tau_u \\circ \\sigma_{c_1}$", textsize: 16.0, textbold: true},
+    {name: "Text7", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "$\\sigma_a \\circ \\sigma_{b_1} = \\tau_t$ ist Translation mit $t \\bot b_1$ und $|t|=2 \\cdot  d(A,H_a)=d(A,\\kappa(A))$\n$\\Rightarrow\\;\\;\\kappa=...=(\\sigma_a \\circ \\sigma_{b_1}) \\circ \\sigma{_c_1}= \\tau_t \\circ \\sigma_{c_1}$", textsize: 16.0, textbold: true},
+    {name: "Text12", type: "Text", pos: [2.1538461538461537, -4.0, -0.3076923076923077], color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "$\\tau_u = \\sigma_{c_2} \\circ \\sigma_{c_1}$ mit $c_2 || c_1$ durch den Mittelpunkt M von A und A*.\n$\\Rightarrow\\;\\; \\kappa=...=\\tau_s \\circ \\tau_u \\circ \\sigma_{c_1}=\\tau_s \\circ (\\sigma_{c_2} \\circ \\sigma_{c_1} )\\circ \\sigma_{c_1}=\\tau_s \\circ \\sigma_{c_2} $\nBeachte: $<)(c,c_1)=<)(c,c_2)=<)(b,a)=\\gamma$ und $H_a \\in c_2$", textsize: 16.0, textbold: true},
+    {name: "Text13", type: "Text", color: [0.0, 0.0, 0.0], visible: false, text: "$\\kappa  =\\sigma_a \\circ (\\sigma_b \\circ \\sigma_c)= \\sigma_a \\circ \\delta_{A , 2\\alpha}=  \\sigma_a \\circ (\\sigma_{b_1} \\circ \\sigma_{c_1})=(\\sigma_a \\circ \\sigma_{b_1}) \\circ \\sigma_{c_1}=\\tau_t \\circ \\sigma_{c_1}=\\tau_s \\circ \\tau_u \\circ \\sigma_{c_1}=\\tau_s \\circ (\\sigma_{c_2} \\circ \\sigma_{c_1})\\circ \\sigma_{c_1}=\\tau_s \\circ \\sigma_{c_2}$\nist eine Gleitspiegelung mit der Achse $c_2$ und der Schiebstrecke $s || c_2.", textsize: 16.0, textbold: true, dock: {corner: "UL", offset: [46.0, -20.0]}},
+    {name: "Text14", type: "Text", pos: [2.3333333333333335, -4.0, -0.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, pinned: true, text: "Beachte: Da für $C'=\\sigma_c(C)$ gilt: $\\kappa(C')=C$, liegt $H_c$ auf $c_2$. ", textsize: 16.0, textbold: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 781,
+    height: 514,
+    transform: [{visibleRect: [-8.78, 15.3, 22.46, -5.26]}],
+    background: "rgb(204,204,204)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

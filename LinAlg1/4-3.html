@@ -1,0 +1,261 @@
+---
+title: Kettenbruchentwicklung einer reellen Zahl
+layout: page
+category: LinAlg1
+---
+
+<h1>Kettenbruchentwicklung einer reellen Zahl</h1>
+
+
+In diesem Applet kann man die Kettenbruchentwicklung einer reellen Zahl schrittweise mitverfolgen.
+Die Eingabe der  Zahl erfolgt in dem Textfeld links oben (es können Zahlen, Brüche oder sogar mathematische Formelausdrücke (wie <i>sqrt(2)</i> oder
+<i>epx(1)</i> oder <i>(1+sqrt(5))/2</i>) eingegeben werden).
+
+Ausgangspunkt für die Berechnung ist die Fließkommadarstellung der reellen Zahl $x$. Das heißt, es wird keinerlei
+strukturelle Information über den Berechnungsausdruck übernommen.
+
+Die Berechnung wird dann gemäß dem vorher angegebenen Schema:
+
+\[
+\begin{array}{l}
+x_0={\color{DarkRed}{a_0}}+r_0;\quad x_1=1/r_0\\
+x_1={\color{DarkRed}{a_1}}+r_1;\quad x_2=1/r_1\\
+x_2={\color{DarkRed}{a_2}}+r_2;\quad x_3=1/r_2\\
+x_3={\color{DarkRed}{a_3}}+\ldots
+\end{array}
+\]
+
+durchgeführt, wobei $a_i\in\mathbb{N}$ und $0\leq r_i<1$ für alle $i=1,2,3,\ldots$ gilt.
+Die Folge ${\color{DarkRed}{a_0}}, {\color{DarkRed}{a_1}}, {\color{DarkRed}{a_2}},\ldots$ liefert die Kettenbruchkoeffizienten.
+<br>
+<br>
+
+
+
+   <script id='init' type='cindyscript'>
+
+
+a=1234/3211;
+
+
+</script>
+
+<script id='firstDrawing' type='cindyscript'>
+           x=C.x;
+   if(x<6,x=6);
+   if(x>18,x=18);
+   x=round(x);
+   C.xy=(x,8);
+//b=parse(Text1.val);
+
+x=a;
+i=1;
+kb=[];
+sh=7;
+//while(1/x>0.000001 & i<20,
+while(!(|(round(x)-x)|<0.00000001) & i<10,
+k=floor(x);
+r=x-k;
+px=format(x,8);
+pk=""+k;
+lx=length(px);
+drawtext((-2.5-(lx-1)*.36,sh-i),px,size->14,family->"Monaco");
+drawtext((-2,sh-i)," = ",family->"Monaco");
+drawtext((-1,sh-i),pk,size->14,color->(0.8,0,0),family->"Monaco");
+drawtext((0,sh-i),"+ "+format(r,8),size->14,family->"Monaco");
+
+x=1/r;
+drawtext((6,sh-i),"1/"+format(r,8),size->14,family->"Monaco");
+drawtext((11,sh-i),"= "+format(x,8),size->14,family->"Monaco");
+i=i+1;
+
+kb=kb++[k];
+);
+
+
+
+k=round(x);
+r=x-k;
+
+pk=""+k;
+kb=kb++[k];
+if(|(round(x)-x)|<0.00000001,
+px=format(x,8)+".0";
+lx=length(px);
+drawtext((-2.5-(lx-1)*.36,sh-i),px,size->14,family->"Monaco");
+drawtext((-2,sh-i)," = ",family->"Monaco");
+drawtext((-1,sh-i),pk,size->14,color->(0.8,0,0),family->"Monaco"),
+
+px=format(x,8);
+lx=length(px);
+drawtext((-2.5-(lx-1)*.36,sh-i),px,size->14,family->"Monaco");
+drawtext((-2,sh-i)," = ",family->"Monaco");
+drawtext((-1,sh-i),pk,size->14,color->(0.8,0,0),family->"Monaco");
+if(r>=0,
+drawtext((0,sh-i),"+ "+format(r,8),size->14,family->"Monaco"),
+drawtext((0,sh-i),"- "+format(-r,8),size->14,family->"Monaco")
+);
+);
+
+//err(kb);
+kn=length(kb);
+
+drawtext((-7,5-10),"Kettenbruch:",size->20,color->(0.6,0,0));
+drawtext((6,5-10),"Rückwärts einsetzen:",size->20,color->(0,0,0.8));
+
+
+//Hier wird der TeX Code gebaut
+
+
+t="";
+apply(1..(kn-1),i,
+
+t=t+"{"+kb_i+"+{1\over ";
+);
+t=t+kb_kn;
+apply(1..(kn-1)*2,t=t+"}");
+t1="$"+t+"$";
+//drawtext((-7,0-i),t,size->20,color->(0.6,0,0));
+//javascript("renderEq1('"+t+"')");
+
+//Rückwärts einsetzen
+
+p=0;
+q=1;
+pp=p;
+qq=q;
+nn=round(|A,C|/|A,B|*(kn-1)+1);
+//nn=4;
+
+apply(1..kn-nn+1,i,
+kk=kb_(kn-i+1);
+p=p+q*kk;
+sw=q;
+q=p;
+p=sw;
+);
+
+
+//Und nochmal TeX Code bauen
+
+if (nn!=1,
+t="";
+apply(1..nn-2,i,
+t=t+"{"+kb_i+"+{1 \over ";
+);
+t=t+kb_(nn-1)+"+{"+p+" \over "+q;
+apply(1..(nn-1)*2-1,t=t+"}");
+t=t+"",
+t="{ "+q+" \over "+p+"}"
+);
+
+t2="$"+t+"$";
+drawtext((6,3-i),t2,size->30,color->(0,0,0.8));
+drawtext((-6,3-i),t1,size->30,color->(0,0,0.8));
+
+
+
+
+
+
+    grestore();
+
+</script>
+
+  <div style="position:relative">
+<canvas  id="CSCanvas" width=800 height=600  style="border:2px solid #000000;"></canvas>
+
+
+</div>
+<div >
+
+       Input: <input type="text" name="inp" value="1234/3211"  onkeypress="typ(event, this)" size="10" style="font-size:18px"}>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+ var typ=function(a,b){
+             var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+if(chCode==13){
+
+cdy.evokeCS("a="+b.value+";repaint();");
+
+ }
+ }
+
+
+
+var renderEq=function(a){
+console.log(a);
+var latex=a;
+document.getElementById('tex').innerHTML=latex;
+
+MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+
+}
+var renderEq1=function(a){
+console.log(a);
+var latex=a;
+document.getElementById('tex1').innerHTML=latex;
+MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+
+}
+</script>
+
+<script type="text/javascript">
+
+    var gslp=[
+              {name:"A", type:"Free", pos:[6,8],color:[0,0,0],pinned:true,size:3},
+              {name:"B", type:"Free", pos:[18,8],color:[0,0,0],size:3},
+              {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+              {name:"C", type:"Free", pos:[18,8],color:[1,1,0],size:5}
+              ];
+
+    cdy=createCindy({canvasname:"CSCanvas",
+                movescript:"firstDrawing",
+                initscript:"init",
+                use:["katex"],
+                ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,10,10,-15]},],
+                        virtualwidth: 1200,
+                        virtualheight: 900,
+                        }],
+
+                geometry:gslp});
+
+
+setTimeout(function(){document.onkeydown={}}, 1000);
+
+
+
+    </script>
+
+
+
+
+
+
+
+<div >
+
+<br>
+Im Applet wird der Kettenbruch dargestellt (die Iteration wird nach zehn Schritten abgebrochen).
+Durch Verändern des Schiebereglers oben rechts, kann man nachvollziehen, wie sich
+der Kettenbruch durch rückwärtiges Einsetzen in einen echten Bruch umformen läst.
+
+<h4>Zahlenraten</h4>
+
+Startet man bei der gegebenen Rechengenauigkeit
+mit einem Bruch mit nicht allzu großem Zähler und Nenner (ca. <5000),
+so wird der (gekürzte) Bruch aus der Fließkommadarstellung vollständig rekonstruiert.
+Somit kann man Kettenbrüche einsetzen, um aus Fließkommadarstellungen
+exakte Brüche zu rekonstruieren.
+<br><br>
+<br><br>
+</div>
+</div>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SkalProd3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+v=B.xy;
+w=C.xy;
+
+
+layer(5);
+clrscr();
+drawtext(B+(0.2,0.2),"$v="+B.xy+"$",size->14);
+drawtext(C+(0.2,0.2),"$w="+C.xy+"$",size->14);
+drawtext(D+(0.2,0.2),"$v'$",size->14);
+
+fillpoly(((6.5,-1.5),(12.5,-1.5),(12.5,4.5),(6.5,4.5)),color->(1,1,1));
+drawall(cycle(((6.5,-1.5),(12.5,-1.5),(12.5,4.5),(6.5,4.5))),color->(0,0,0));
+draw((6.5,0.7),(12.5,0.7));
+
+
+drawtext((7,4),"Kanonisches Skalarprodukt:",size->18);
+drawtext((7,3),"$\langle v,w\rangle=\;\;v_x\cdot w_x\; +\; v_y\cdot w_y$"
+,size->16);
+
+drawtext((7,2),"$\langle v,w\rangle=\;\;"+v.x+"\cdot "+w.x+"\; +\; "+v.y+"\cdot "+w.y+"$"
+,size->16);
+
+
+drawtext((7,1),"$\langle v,w\rangle=\;\;"+(v*w)+"$"
+,size->16);
+
+drawtext((7,0),"$\;\; v'\;=\; {\langle v,w\rangle \over\langle w,w\rangle} \cdot w   $"
+,size->16);
+
+
+
+drawtext((7,-1),"$\langle v,w\rangle\;=\;\Vert v'\Vert\cdot \Vert w\Vert$"
+,size->16);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 1.0, 1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C", type: "Free", pos: [0.0, -4.0, -1.0], color: [0.0, 0.0, 1.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, visible: false},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.8999999761581421, visible: false},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["b", "B"], alpha: 0.6000000238418579, visible: false, size: 3, clip: "inci"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "A"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "D", type: "Meet", color: [1.0, 1.0, 1.0], args: ["b", "c"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["A", "D"], alpha: 0.8999999761581421, visible: false},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "d"]},
+    {name: "", type: "SelectP", pos: [4.0, -0.0, -4.0], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "E", type: "SelectP", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["b", "E"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "f", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["e", "C"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "f"], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.98, 1.0, 0.62], fillalpha: 0.4000000059604645, args: ["A", "E", "F", "C"], alpha: 0.8999999761581421},
+    {name: "Collection__2", type: "AngularBisector", args: ["d", "g", "A"]},
+    {name: "k", type: "SelectL", pos: [3.999999999999999, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["Collection__2"], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "k"]},
+    {name: "G", type: "SelectP", pos: [2.8284271247461903, 2.82842712474619, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__3"], alpha: 0.8999999761581421, visible: false, labeled: true},
+    {name: "C1", type: "ArcBy3", color: [0.098, 0.62, 0.306], args: ["D", "G", "E"], alpha: 0.699999988079071},
+    {name: "l", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "D"], alpha: 0.8999999761581421, size: 5},
+    {name: "m", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "E"], alpha: 0.8999999761581421, size: 5},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "B"], alpha: 0.6000000238418579, size: 3},
+    {name: "h", type: "Segment", color: [0.757, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 829,
+    height: 425,
+    transform: [{visibleRect: [-4.071428571428571, 5.275510204081633, 12.846938775510203, -3.3979591836734695]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

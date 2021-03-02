@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Kreisspiegelung1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+oldF=F.xy;
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(mover()==F,
+d=F-oldF;
+K.xy=K.xy+d;
+H.xy=H.xy+d;
+G.xy=G.xy+d;
+L.xy=L.xy+d;
+oldF=F.xy;
+)
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 2.9375, 1.5625], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "O"},
+    {name: "F", type: "Free", pos: [4.0, -0.2181818181818182, 0.6060606060606061], color: [0.0, 0.0, 1.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, 0.9939393939393968, 0.6060606060606067], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "f", type: "Segment", color: [0.098, 0.62, 0.306], args: ["F", "G"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "H", type: "Free", pos: [4.0, 0.7627906976744211, 0.46511627906976805], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "g", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "K", type: "Free", pos: [4.0, -0.16744186046511625, 0.46511627906976805], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "h", type: "Segment", color: [0.098, 0.62, 0.306], args: ["H", "K"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "k", type: "Segment", color: [0.098, 0.62, 0.306], args: ["K", "F"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "l", type: "Segment", color: [0.098, 0.62, 0.306], args: ["F", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "m", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "K"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "L", type: "Free", pos: [4.0, 1.3894736842105404, 0.5263157894736843], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 2.0},
+    {name: "n", type: "Segment", color: [0.098, 0.62, 0.306], args: ["G", "L"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "o", type: "Segment", color: [0.098, 0.62, 0.306], args: ["L", "H"], alpha: 0.8999999761581421, textsize: 0.0, size: 3},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.24038461538461547, yy: -0.24038461538461547, zz: 1.0, xy: 0.0, xz: 1.2307692307692313, yz: -0.9038461538461541}, color: [0.0, 0.0, 1.0], radius: 3.7746523018683455, args: ["A"], alpha: 0.8999999761581421, size: 3},
+    {name: "Tr0", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "C1", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "f"], alpha: 0.8999999761581421},
+    {name: "C2", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "g"], alpha: 0.8999999761581421},
+    {name: "C3", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "h"], alpha: 0.8999999761581421},
+    {name: "C4", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "k"], alpha: 0.8999999761581421},
+    {name: "C5", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "l"], alpha: 0.8999999761581421},
+    {name: "C6", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "m"], alpha: 0.8999999761581421},
+    {name: "C7", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "n"], alpha: 0.8999999761581421},
+    {name: "C8", type: "TrMoebiusSegment", color: [0.098, 0.62, 0.306], args: ["Tr0", "o"], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [-3.2484848484848485, -4.0, -0.6060606060606061], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C9", type: "CircleByRadius", pos: {xx: 0.014177800966358916, yy: 0.014177800966358916, zz: 1.0, xy: 0.0, xz: -0.15198602635936756, yz: 0.18714697275593767}, color: [0.098, 0.62, 0.306], radius: 1.3254433220624713, args: ["B"], alpha: 0.8999999761581421, size: 3},
+    {name: "C10", type: "TrMoebiusCircle", color: [0.098, 0.62, 0.306], args: ["Tr0", "C9"], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [-1.4207650273224042, -4.0, -0.5464480874316939], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "A"},
+    {name: "D", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "C"], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "A'"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 393,
+    height: 334,
+    transform: [{visibleRect: [-2.98, 8.94, 12.74, -4.42]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

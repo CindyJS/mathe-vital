@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HomCoordPoint1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="/deploy/Cindy.js"></script>
+
+<script id="csinit" type="text/x-cindyscript">
+// Variables //////////////////////////////////////////////////////////////////////////////////////
+mat      = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+a        = (0, 0, 1);
+rotating = true;
+dragging = true;
+aa       = (R.y, 1, R.x);
+bb       = (S.y, 1, S.x);
+
+
+
+// Specific functions /////////////////////////////////////////////////////////////////////////////
+map(pp) := (
+  p = s2 * pp;
+  o = (p - (p * a) * a) / (1 - p * a);
+  (o.x, o.y) * s1;
+);
+
+grid(n, al) := apply((-2*n..2*n) / n, i,
+    p1 = (i, 0, -2);
+    p2 = (i, 0, 2);
+    draw(map(mat * p1), map(mat * p2), alpha->al);
+    p1 = (-2, 0, i);
+    p2 = (2, 0, i);
+    draw(map(mat * p1), map(mat * p2), alpha->al)
+);
+
+
+gridhigh(n, al) := apply((-2*n..2*n) / n, i,
+    p1 = (i, 1, -2);
+    p2 = (i, 1, 2);
+    draw(map(mat * p1), map(mat * p2) ,alpha->al);
+    p1 = (-2, 1, i);
+    p2 = (2, 1, i);
+    draw(map(mat * p1), map(mat * p2), alpha->al)
+);
+
+arrow(pa, pb, col) := (
+   draw(map(mat * pa), map(mat * pb), color->col, size->2);
+   n = pb - pa;
+   n = n / |n|;
+
+   p = cross(n, (0, 1, 0));
+   fillpoly(apply((pb - n * 0.3 + p * 0.2,
+                   pb - n * 0.2 + p * 0.03,
+                   pa + p * 0.03,
+                   pa - p * 0.03,
+                   pb - n * 0.2 - p * 0.03,
+                   pb - n * 0.3 - p * 0.2,
+                   pb), map(mat * #)),color->col
+    );
+);
+
+arrow2(pa, pb, col) := (
+   draw(map(mat * pa), map(mat * pb), color->col, size->2);
+   n = pb - pa;
+   n = n / |n|;
+
+   p = cross(n, (0, 0, 1));
+   fillpoly(apply((pb - n * 0.3 + p * 0.2,
+                   pb - n * 0.2 + p * 0.03,
+                   pa + p * 0.03,
+                   pa - p * 0.03,
+                   pb - n * 0.2 - p * 0.03,
+                   pb - n * 0.3 - p * 0.2,
+                   pb), map(mat * #)), color->col);
+
+);
+
+line2(pa, pb, col) := (
+   draw(map(mat * pa), map(mat * pb), color->col, size->2);
+   n = pb - pa;
+   n = n / |n|;
+
+   p = cross(n, (0, 0, 1));
+   fillpoly(apply((pa + p * 0.03,
+                   pa - p * 0.03,
+                   pb - p * 0.03,
+                   pb + p * 0.03), map(mat * #)), color->col);
+);
+
+line(pa, pb, col) := (
+   draw(map(mat * pa), map(mat * pb), color->col, size->2);
+   n = pb - pa;
+   n = n / |n|;
+
+   p = cross(n, (0, 1, 0));
+   fillpoly(apply((pa + p * 0.03,
+                   pa - p * 0.03,
+                   pb - p * 0.03,
+                   pb + p * 0.03), map(mat * #)), color->col);
+);
+
+scheduleUpArr(start, end, col)  := (rayupper = rayupper :> [start, end, col, 1]);
+scheduleUpArr2(start, end, col) := (rayupper = rayupper :> [start, end, col, 2]);
+scheduleUpLin(start, end, col)  := (rayupper = rayupper :> [start, end, col, 3]);
+scheduleUpLin2(start, end, col) := (rayupper = rayupper :> [start, end, col, 4]);
+
+scheduleLowArr(start, end, col)  := (raylower = raylower :> [start, end, col, 1]);
+scheduleLowArr2(start, end, col) := (raylower = raylower :> [start, end, col, 2]);
+scheduleLowLin(start, end, col)  := (raylower = raylower :> [start, end, col, 3]);
+scheduleLowLin2(start, end, col) := (raylower = raylower :> [start, end, col, 4]);
+
+sortfun(vec) := (vec / |vec|) * aug;
+
+drawlist(list) := (
+   sortlist = sort(list, sortfun(#_2));
+   apply(sortlist, item,
+     if(item_4 == 1, arrow(item_1, item_2, item_3));
+     if(item_4 == 2, arrow2(item_1, item_2, item_3));
+     if(item_4 == 3, line(item_1, item_2, item_3));
+     if(item_4 == 4, line2(item_1, item_2, item_3));
+   );
+);
+
+drawlower() := (
+   scheduleLowArr((0, 0, 0), (2, 0, 0), (0.3, 0.3, 0.3));
+   scheduleLowLin2((0, 0, 0), (0, 1, 0), (0.3, 0.3, 0.3));
+   scheduleLowArr((0, 0, 0), (0, 0, 2), (0.3, 0.3, 0.3));
+   scheduleLowLin((0, 0, 0), (-1, 0, 0), (0.3, 0.3, 0.3));
+   scheduleLowLin2((0, 0, 0), (0, -1, 0), (0.3, 0.3, 0.3));
+   scheduleLowLin((0, 0, 0), (0, 0, -1), (0.3, 0.3, 0.3));
+   scheduleLowLin((0, 0, 0), aa, (0, 0, 0.6));
+   scheduleLowLin((0, 0, 0), -an * 0.5, (0, 0, 0.6));
+
+   drawlist(raylower);
+
+   connect(apply(((2, 0, 2), (2, 0, -2), (-2, 0, -2), (-2, 0, 2),(2, 0, 2)), map(mat * #)), color->(0, 0, 0), alpha->0.8, size->2);
+   linecolor((0, 0, 0));
+);
+drawupper() := (
+   scheduleUpArr(aa, aa * 2, (0, 0, 0.6));
+   scheduleUpArr2((0, 1, 0), (0, 2, 0), (0.3, 0.3, 0.3));
+   drawlist(rayupper);
+);
+
+mydrawtext(pos, txt, txtsize) := (
+    drawtext(pos, txt, color->(1, 1, 1), offset->(0, 2), size->txtsize);
+    drawtext(pos, txt, color->(1, 1, 1), offset->(0, -2), size->txtsize);
+    drawtext(pos, txt, color->(1, 1, 1), offset->(2, 0), size->txtsize);
+    drawtext(pos, txt, color->(1, 1, 1), offset->(-2, 0), size->txtsize);
+    drawtext(pos, txt, size->txtsize, color->(0, 0, 0));
+);
+mat=[[0.9127,-0.0635,-0.4036],[-0.0902,0.9322,-0.3506],[0.3985,0.3564,0.8451]];
+
+</script>
+
+<script id="csdraw" type="text/x-cindyscript">
+drawtext(E+(.2,.2),"scale");
+drawtext(F+(.2,.2),"dist");
+
+E.xy=(E.x,max(B.y+.01,min(E.y,A.y)));
+F.xy=(F.x,max(D.y,min(F.y,C.y)));
+
+s1  = dist(B, E) * 4;
+s2  = (dist(D,F) / dist(D,C) / 3) + 0.01;
+aug = inverse(mat) * (0,0,1);
+
+rayupper = [];
+raylower = [];
+
+K.xy = map(mat * (0, 1, 0));
+L.xy = map(mat * (1, 1, 0));
+M.xy = map(mat * (0, 1, 1));
+G.xy = map(mat * (1, 1, 1));
+sig  = -area(K,L,M);
+if(dragging,
+  N.xy = map(mat * aa);
+  H.xy = map(mat * bb);
+);
+
+aa = (R.y, 1, R.x);
+bb = (S.y, 1, S.x);
+cc = cross(bb, aa);
+
+lin = -cc; // cross(aa, bb) ???
+i1  = cross(lin, cross((2, 1, 2), (2, 1, -2)));
+i2  = cross(lin, cross((-2, 1, -2), (2, 1, -2)));
+i3  = cross(lin, cross((-2, 1, -2), (-2, 1, 2)));
+i4  = cross(lin, cross((2, 1, 2), (-2, 1, 2)));
+
+i1   = i1 / i1.y;
+i2   = i2 / i2.y;
+i3   = i3 / i3.y;
+i4   = i4 / i4.y;
+ints = select((i1, i2, i3, i4), abs(#.x) < 2.01 & abs(#.z) < 2.01);
+
+an = aa / |aa|;
+bn = bb / |bb|;
+cn = cc / |cc|;
+
+if(sig > 0,
+  drawlower(),
+  drawupper()
+);
+
+//grid(1,0.4);
+//grid(10,0.1);
+
+fillpoly(apply(((2, 1, 2), (2, 1, -2), (-2, 1, -2), (-2, 1, 2)), map(mat * #)), color->(1, 1, 1), alpha->0.4);
+connect(apply(((2, 1, 2), (2, 1, -2), (-2, 1, -2), (-2, 1, 2), (2, 1, 2)), map(mat * #)), color->(0, 0, 0), alpha->0.8, size->2);
+   fillpoly(apply(((2,0,2),(2,0,-2),(-2,0,-2),(-2,0,2),(2,0,2)),map(mat*#)),color->(0,0,0),alpha->0.1,size->2);linecolor((0,0,0));
+linecolor((0, 0, 0));
+
+gridhigh(1, 0.4);
+gridhigh(10, 0.1);
+
+
+if(sig < 0,
+ drawlower(),
+ drawupper()
+);
+
+mydrawtext(map(mat * aa) * 1.1 + (0.2, 0.2), "A", 20);
+//mydrawtext(E.xy + (0.5, 0), "scale", 15);
+//mydrawtext(F.xy + (0.5, 0), "dist", 15);
+
+//err(mat)
+</script>
+
+<script id="csmousedown" type="text/x-cindyscript">
+startx  = mouse().x;
+starty  = mouse().y;
+mm      = mouse().xy;
+rotating =   dist(mm, E) > 1
+           & dist(mm, F) > 1
+           & dist(mm, N) > 1
+           & dist(mm, H) > 1;
+
+dragging =    dist(mm, N) > 1
+            & dist(mm, H) > 1;
+</script>
+
+<script id="csmousedrag" type="text/x-cindyscript">
+if(rotating,
+    xx = mouse().x;
+    yy = mouse().y;
+    wy =  (startx - xx)*.1;
+    wx = -(starty - yy)*.1;
+
+    mmmx=[[1, 0, 0],
+          [0, cos(wx), sin(wx)],
+          [0, -sin(wx), cos(wx)]
+    ];
+
+    mmmy=[[cos(wy), 0, -sin(wy)],
+          [0, 1, 0],
+          [sin(wy), 0, cos(wy)]
+    ];
+
+    mat=mmmx * mmmy * mat;
+
+    startx = xx;
+    starty = yy;
+);
+</script>
+
+<script id="csmouseup" type="text/x-cindyscript">
+rotating = true;
+</script>
+
+    <script type="text/javascript">
+    lab = false;
+createCindy({
+	scripts: "cs*",
+	defaultAppearance: {},
+	geometry: [
+		{ name: "A", type: "Free", pos: [ 4.0, 2.3333333333333335, 0.3333333333333333 ], color: [ 0.3, 0.3, 0.3 ], alpha: 0.9145299145299145, pinned: true, size: 3.0, labeled: lab },
+		{ name: "B", type: "Free", pos: [ 4.0, -0.6666666666666666, 0.3333333333333333 ], color: [ 0.3, 0.3, 0.3 ], alpha: 0.9145299145299145, pinned: true, size: 3.0, labeled: lab },
+		{ name: "a", type: "Segment", pos: [ -0.3333333333333333, -0.0, 4.0 ], color: [ 0.0, 0.0, 0.5 ], args: [ "A", "B" ], size: 2, labeled: lab },
+		{ name: "C", type: "Free", pos: [ 3.75, 1.8666666666666667, 0.26666666666666666 ], color: [ 0.3, 0.3, 0.3 ], alpha: 0.9145299145299145, pinned: true, size: 3.0, labeled: lab },
+		{ name: "D", type: "Free", pos: [ 3.75, -0.5333333333333333, 0.26666666666666666 ], color: [ 0.3, 0.3, 0.3 ], alpha: 0.9145299145299145, pinned: true, size: 3.0, labeled: lab },
+		{ name: "b", type: "Segment", pos: [ -0.26666666666666666, -0.0, 4.0 ], color: [ 0.0, 0.0, 0.5 ], args: [ "C", "D" ], size: 2, labeled: lab  },
+		{ name: "E", type: "PointOnLine", pos: [ 4.0, 1.3773796433333334, 0.33333333333333337 ], color: [ 1.0, 1.0, 1.0 ], args: [ "a" ], alpha: 0.9145299145299145, labeled: false, size: 4.0 },
+		{ name: "F", type: "PointOnLine", pos: [ 4.0, 0.4164674826666667, 0.26666666666666666 ], color: [ 1.0, 1.0, 1.0 ], args: [ "b" ], alpha: 0.9145299145299145, labeled: false, size: 4.0},
+		{ name: "G", type: "Free", pos: [ -3.6271876271876273, -4.0, -1.9524622401685638 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "H", type: "Free", pos: [ -1.9413649064776335, -4.0, -1.168572713015312 ], color: [ 0.0, 1.0, 0.0 ], alpha: 0.9145299145299145, visible: false, size: 2.0},
+		{ name: "K", type: "Free", pos: [ 0.27247371808624754, -4.0, -1.2642283682786823 ], color: [ 0.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true, size: 2.0 },
+		{ name: "L", type: "Free", pos: [ 4.0, 3.966085727743759, 1.3051266508330739 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "M", type: "Free", pos: [ 3.21251719394773, -4.0, -1.770357767951811 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "N", type: "Free", pos: [ 2.5785123966942463, -4.0, -1.097551767312207 ], color: [ 0.0, 0.0, 1.0 ], alpha: 0.9145299145299145, size: 3.0, labeled: lab },
+		{ name: "O", type: "Free", pos: [ 0.0, -4.0, -4.0 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "P", type: "Free", pos: [ 4.0, 4.0, 4.0 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "Q", type: "Free", pos: [ 4.0, -0.0, 4.0 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.9145299145299145, visible: false, labeled: true },
+		{ name: "T", type: "Free", pos: [ 0.0, -0.0, 4.0 ], color: [ 1.0, 0.0, 0.0 ], visible: false, labeled: true },
+		{ name: "Tr0", type: "TrProjection", color: [ 0.0, 0.0, 1.0 ], args: [ "K", "T", "M", "Q", "G", "P", "L", "O" ] },
+		{ name: "R", type: "Transform", pos: [ -2.0888725158656793, -4.0, 3.9132171852984965 ], color: [ 1.0, 0.0, 0.0 ], args: [ "Tr0", "N" ], alpha: 0.9145299145299145, visible: false, labeled: true, size: 3.0 },
+		{ name: "S", type: "Transform", pos: [ -1.605822435751281, 1.7657265357406648, 4.0 ], color: [ 1.0, 0.0, 0.0 ], args: [ "Tr0", "H" ], alpha: 0.9145299145299145, visible: false, labeled: true, size: 3.0 } ],
+	ports: [
+		{ id: "CSCanvas", width: 850, height: 550, transform: [ { visibleRect: [ -11.029882634730537, 10.737053892215568, 16.13811736526946, -7.418328143712574 ] } ] } ] });
+</script>
+</head>
+<body>
+    <canvas id="CSCanvas" style="border:2px solid #000000" ></canvas>
+</body>
+</html>

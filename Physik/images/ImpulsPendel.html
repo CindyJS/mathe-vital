@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ImpulsPendel.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -4.0, -0.5714285714285714], color: [1.0, 0.0, 0.0]},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.013234515616728428, yy: -0.013234515616728428, zz: 1.0, xy: 0.0, xz: 0.0, yz: -0.185283218634198}, color: [0.0, 0.0, 1.0], radius: 11.160645142642965, args: ["A"], alpha: 0.0},
+    {name: "B", type: "Free", pos: [-1.1428571428571428, -4.0, -0.5714285714285714], color: [1.0, 0.0, 0.0]},
+    {name: "C1", type: "CircleByRadius", pos: {xx: -0.013664188893747268, yy: -0.013664188893747268, zz: 1.0, xy: 0.0, xz: 0.05465675557498907, yz: -0.19129864451246176}, color: [0.0, 0.0, 1.0], radius: 11.233165181728612, args: ["B"], alpha: 0.0},
+    {name: "C", type: "Free", pos: [-2.2857142857142856, -4.0, -0.5714285714285714], color: [1.0, 0.0, 0.0]},
+    {name: "C2", type: "CircleByRadius", pos: {xx: -0.01676502145922747, yy: -0.01676502145922747, zz: 1.0, xy: 0.0, xz: 0.13412017167381976, yz: -0.2347103004291846}, color: [0.0, 0.0, 1.0], radius: 11.164586870995272, args: ["C"], alpha: 0.0},
+    {name: "D", type: "Free", pos: [-3.4285714285714284, -4.0, -0.5714285714285714], color: [1.0, 0.0, 0.0]},
+    {name: "C3", type: "CircleByRadius", pos: {xx: -0.027777777777777776, yy: -0.027777777777777776, zz: 1.0, xy: 0.0, xz: 0.3333333333333333, yz: -0.38888888888888884}, color: [0.0, 0.0, 1.0], radius: 11.0, args: ["D"], alpha: 0.0},
+    {name: "E", type: "Free", pos: [1.1555555555555554, -4.0, -0.5688695231178892], color: [1.0, 0.0, 0.0]},
+    {name: "C4", type: "CircleByRadius", pos: {xx: -0.014829776439735341, yy: -0.014829776439735341, zz: 0.9999999999999999, xy: -0.0, xz: -0.06024801771295372, yz: -0.2085508305448398}, color: [0.0, 0.0, 1.0], radius: 11.0, args: ["E"], alpha: 0.0},
+    {name: "F", type: "PointOnCircle", pos: [{r: -2.079147978806213, i: -1.2537587961732646E-16}, -4.0, {r: 1.00794621603465, i: 9.015852137450959E-20}], color: [1.0, 0.784, 0.0], args: ["C4"], drawtrace: true, tracelength: 13, size: 9.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: 0.44364308975679795, i: 2.7543792477674982E-17}, -4.0, {r: -0.22183469626416225, i: 4.367078611316425E-21}], color: [1.0, 1.0, 1.0], args: ["F"], pinned: true, size: 0.0},
+    {name: "G", type: "PointOnCircle", pos: [0.0, -4.0, 0.9613893670006863], color: [0.0, 1.0, 1.0], args: ["C0"], drawtrace: true, tracelength: 13, size: 9.0},
+    {name: "H", type: "PointOnCircle", pos: [{r: 1.8898388455357211, i: 1.1571925465448235E-16}, -4.0, {r: 0.9449194227678592, i: -7.195357121457172E-33}], color: [0.0, 1.0, 0.0], args: ["C1"], drawtrace: true, tracelength: 13, size: 9.0},
+    {name: "K", type: "PointOnCircle", pos: [{r: 3.8419176969110156, i: 2.35249610505482E-16}, -4.0, {r: 0.9604794242277537, i: -1.9754152917226523E-32}], color: [0.0, 0.0, 1.0], args: ["C2"], drawtrace: true, tracelength: 13, size: 9.0},
+    {name: "L", type: "PointOnCircle", pos: [4.0, {r: 3.0681147939143174, i: 6.627374667840322E-17}, {r: 0.2538950563315531, i: 1.5663508803671237E-18}], color: [1.0, 0.0, 0.0], args: ["C3"], drawtrace: true, tracelength: 13, size: 9.0},
+    {name: "M", type: "Free", pos: [4.0, 2.0, 0.2857142857142857], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "N", type: "Free", pos: [4.0, 1.1428571428571428, 0.2857142857142857], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "N"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"], alpha: 0.8999999761581421, size: 3},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "G"], alpha: 0.8999999761581421, size: 3},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "H"], alpha: 0.8999999761581421, size: 3},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "K"], alpha: 0.8999999761581421, size: 3},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "L"], alpha: 0.8999999761581421, size: 3},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "D"], alpha: 0.8999999761581421, size: 3},
+    {name: "O", type: "Free", pos: [4.0, 3.75, 0.25], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 0.0], args: ["D", "O"], alpha: 0.8999999761581421, size: 3},
+    {name: "P", type: "Free", pos: [2.933333333333333, -4.0, -0.26666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "P"], alpha: 0.8999999761581421, size: 3},
+    {name: "Q", type: "Free", pos: [2.4, -4.0, -0.26666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "R", type: "Free", pos: [0.4444444444444444, -4.0, -0.4444444444444444], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "S", type: "Free", pos: [-2.2222222222222223, -4.0, -0.4444444444444444], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "T", type: "Free", pos: [-3.7333333333333334, -4.0, -0.26666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.831, 0.639, 1.0], fillalpha: 0.30000001192092896, args: ["P", "Q", "R", "E"], alpha: 0.30000001192092896},
+    {name: "Poly1", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.831, 0.639, 1.0], fillalpha: 0.30000001192092896, args: ["R", "E", "D", "S"], alpha: 0.30000001192092896},
+    {name: "Poly2", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.831, 0.639, 1.0], fillalpha: 0.30000001192092896, args: ["D", "O", "T", "S"], alpha: 0.30000001192092896},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 0.0], args: ["P", "Q"], alpha: 0.8999999761581421, size: 3},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 0.0], args: ["Q", "R"], alpha: 0.8999999761581421, size: 3},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 0.0], args: ["R", "S"], alpha: 0.8999999761581421, size: 3},
+    {name: "o", type: "Segment", color: [0.0, 0.0, 0.0], args: ["S", "T"], alpha: 0.8999999761581421, size: 3},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 0.0], args: ["T", "O"], alpha: 0.8999999761581421, size: 3}
+  ],
+  behavior: [
+    {type: "Environment", balls: true},
+    {geo: ["F"], type: "Mass", mass: 1.464, radius: 1.04},
+    {geo: ["G"], type: "Mass", mass: 1.464, radius: 1.04},
+    {geo: ["H"], type: "Mass", mass: 1.464, radius: 1.04},
+    {geo: ["K"], type: "Mass", mass: 1.464, radius: 1.04},
+    {geo: ["L"], type: "Mass", mass: 1.464, radius: 1.04},
+    {geo: ["f", "M", "N"], type: "Gravity", strength: 0.02},
+    {geo: ["g", "E", "D"], type: "Bouncer"},
+    {geo: ["h", "D", "O"], type: "Bouncer"},
+    {geo: ["k", "E", "P"], type: "Bouncer"}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.5,
+    speedRange: [0.0, 1.0],
+    accuracy: 16
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 703,
+    height: 435,
+    transform: [{visibleRect: [-15.286978723404255, 15.234893617021276, 21.328851063829784, -7.422127659574468]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

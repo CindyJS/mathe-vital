@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DoppelPendel.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+l=[];
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(Text2.pressed,
+ n=300;
+ l=[C.xy]++l; 
+
+ if(length(l)>n,
+   l=apply(1..(length(l)-1),l_#);
+ );
+
+ forall(reverse(1..length(l)),
+   r=exp(-#*.01)*0.3;
+   fillcircle(l_#,r,alpha->(1-#/n)/1.5,color->(1,1,0));
+   drawcircle(l_#,r,alpha->(1-#/n)/1.5,color->(0,0,0));
+ ),
+ l=[];
+);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 1.0,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.5789473684210527, 1.7543859649122808], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true},
+    {name: "B", type: "Free", pos: [-1.5555555555555556, -4.0, -0.6944444444444444], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, tracedim: 0.46153846153846156, size: 7.0},
+    {name: "a", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "B"], alpha: 0.8999999761581421, size: 5},
+    {name: "C", type: "Free", pos: [-0.36199095022624433, -4.0, -0.45248868778280543], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, tracelength: 163, size: 7.0},
+    {name: "b", type: "Segment", color: [0.098, 0.62, 0.306], args: ["B", "C"], alpha: 0.8999999761581421, size: 5},
+    {name: "D", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "C"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist0", type: "Dist", color: [0.0, 0.0, 1.0], args: ["B", "C"], alpha: 0.8999999761581421},
+    {name: "E", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist1", type: "Dist", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421},
+    {name: "F", type: "Free", pos: [3.4, -4.0, -0.5], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "G", type: "Free", pos: [4.0, -2.1882352941176473, -0.5882352941176471], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "G"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "Text0", type: "Text", pos: [4.0, 3.4181818181818175, 0.45454545454545453], color: [0.0, 0.0, 0.0], args: ["dist0"], alpha: 0.8999999761581421, visible: false, text: "|@$\"C\"@$\"B\"|= @#\"dist0\""},
+    {name: "Text1", type: "Text", pos: [4.0, 2.515837104072398, 0.45248868778280543], color: [0.0, 0.0, 0.0], args: ["dist1"], alpha: 0.8999999761581421, visible: false, text: "|@$\"B\"@$\"A\"|= @#\"dist1\""},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Spur", dock: {corner: "LL", offset: [10.0, 80.0]}}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2},
+    {type: "Motor", speed: 0.02},
+    {geo: ["B"], type: "Mass"},
+    {geo: ["a", "A", "B"], type: "Spring", strength: 30.0, restlength: 3.7202150475476548},
+    {geo: ["C"], type: "Mass", mass: 0.4838709677419355},
+    {geo: ["b", "B", "C"], type: "Spring", strength: 30.0, restlength: 3.4},
+    {geo: ["c", "F", "G"], type: "Gravity", strength: 5.0E-4}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 2.1443298969072164,
+    speedRange: [0.0, 8.0],
+    accuracy: 64
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 539,
+    height: 420,
+    transform: [{visibleRect: [-8.62, 10.7, 12.94, -6.1]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

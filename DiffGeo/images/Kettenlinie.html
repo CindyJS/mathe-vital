@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "init": "tli=[a,b,A,V,v,tan,Poly0];\nuli=[];\nsli=[S0,SM,S,S1];\nunsi(list):=(apply(list,#.visible=false););\nsiba(list):=(apply(list,#.visible=true););\nunsi(tli);\n\n;",
+                "draw": "T1.y=0;\nT0.xy=(-T1.x,T1.y);\nt0=T1.x;\nt=T.x;\ns1=(exp(t0)-exp(-t0))/2;\nS1.xy=(s1,-0.25);\nS0.xy=(-s1,S1.y);\nSM.xy=(0,-S1.y);\nf(x):=(exp(x)+exp(-x))/2;\nA0.xy=(-t0,f(t0));\nA1.xy=(t0,f(t0));\nP.xy=(T.x,f(T.x));\nV.xy=P.xy+(1,(exp(T.x)-exp(-T.x))/2);\nS.x=(exp(t)-exp(-t))/2; S.y=S1.y;\ndraw((T0,T1),size->3,color->(0.3,0.3,0.3));\nplot(f(x),x,start->-3,stop->3,steps->200,stize->2);\nplot(f(x),x,start->-t0,stop->t0,steps->200,size->3);\ndraw((0,1),size->2,color->(0.76,0,0));\ndraw((t0,f(t0)),size->2,color->(0.76,0,0));\ndraw((-t0,f(t0)),size->2,color->(0.76,0,0));\ndrawtext((-0.065,1.04),\"1\");\ndrawtext(T+(0.055,0.04),\"$t=x=\"+T.x+\"$\");\ndrawtext((T+P)*0.5+(0.055,0),\"$\\cosh(t)=\"+P.y+\"$\");\n//Tangente ausgeben\nif(Text0.pressed==true, siba(tli), unsi(tli) );\n//äqudistante Teilung\nn=4;\nif(Text1.pressed==true,\n  draw((0,f(0)),color->(0,0,1),size->4);\n  repeat(n,j,\n    draw((t0*j/n,0),color->(0,0,1));\n    draw((t0*j/n,f(t0*j/n)),color->(0,0,1),size->4);\n    draw((-t0*j/n,0),color->(0,0,1));\n    draw((-t0*j/n,f(t0*j/n)),color->(0,0,1),size->4);\n    );\n);\n//Bogenlänge\nif(Text2.pressed==true,\n  siba(sli);\n  draw(S0,S1,size->2,color->(0.2,0.2,0.2));\n  q(s):=log(s+sqrt(s^2+1));\n  if(t>=0,plot(f(x),x,start->0,stop->t,stepts->100,\n     color->(0,0.6,0),size->3),\n     plot(f(x),x,start->t,stop->0,stepts->100,\n     color->(0,0.6,0),size->3)\n     );\n  draw(SM,S,size->3,color->(0,0.6,0));\n  draw((0,f(0)));\n  repeat(n,i,\n    x=q(s1*i/n);\n    draw((s1*i/n,S1.y));  draw((x,f(x)));\n    draw((-s1*i/n,S1.y));  draw((-x,f(x)));\n    );\n  drawtext(S+(-.1,-.12),\"$s=\\sinh(t)=\"+S.x+\"$\");\n  if(Text0.pressed==true,\n     b.size=2; b.color=(0,0.6,0));\n  ,unsi(sli); b.size=1; b.color=(0.47,0,0.72);\n);\n\n\n\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "T0",
+                "type": "Free",
+                "pos": [4.0, -0.0, -3.030926801110525],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$-t_0$"
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [4.0, 0.0, 3.030926801110525],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$t_0$"
+            }, {
+                "name": "S1",
+                "type": "Free",
+                "pos": [4.0, -0.5755069919727203, 2.302027967890881],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$s_0=\\sinh(t_0)$"
+            }, {
+                "name": "tt",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T0", "T1"],
+                "labeled": true,
+                "size": 0,
+                "printname": "$I\\;=\\;[-t_0,t_0]$"
+            }, {
+                "name": "T",
+                "type": "PointOnSegment",
+                "pos": [2.5037132263370934, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["tt"],
+                "size": 4.0,
+                "printname": "t=x"
+            }, {
+                "name": "S0",
+                "type": "Free",
+                "pos": [4.0, 0.5755069919727203, -2.302027967890881],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$-s_0$"
+            }, {
+                "name": "ss",
+                "type": "Segment",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["S0", "S1"],
+                "size": 0
+            }, {
+                "name": "P",
+                "type": "Free",
+                "pos": [-2.082310042872721, -4.0, -3.326754911156007],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\gamma(t)$"
+            }, {
+                "name": "V",
+                "type": "Free",
+                "pos": [-3.4779567331444188, -4.0, -2.1390591056146606],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$\\frac{d\\gamma}{dt}$"
+            }, {
+                "name": "v",
+                "type": "Segment",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["P", "V"],
+                "visible": false,
+                "size": 3,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.6,
+                "arrowposition": 1.0
+            }, {
+                "name": "a",
+                "type": "Parallel",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["ss", "P"],
+                "visible": false,
+                "labeled": true,
+                "clip": "inci",
+                "printname": "1"
+            }, {
+                "name": "b",
+                "type": "Orthogonal",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a", "V"],
+                "visible": false,
+                "labeled": true,
+                "clip": "inci",
+                "printname": "$sinh(t)"
+            }, {
+                "name": "c",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T", "P"],
+                "printname": "cosh(t)"
+            }, {
+                "name": "A",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a", "b"],
+                "visible": false,
+                "size": 3.0
+            }, {
+                "name": "tan",
+                "type": "Join",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["P", "V"],
+                "visible": false,
+                "labeled": true,
+                "printname": "Tangente"
+            }, {
+                "name": "S",
+                "type": "PointOnSegment",
+                "pos": [2.670432890366776, -1.0, 4.0],
+                "color": [0.757, 0.0, 0.0],
+                "args": ["ss"],
+                "visible": false,
+                "plane": 1,
+                "size": 3.0
+            }, {
+                "name": "SM",
+                "type": "PointOnSegment",
+                "pos": [0.0, -1.0, 4.0],
+                "color": [0.757, 0.0, 0.0],
+                "args": ["ss"],
+                "visible": false,
+                "plane": 1,
+                "labeled": true,
+                "size": 3.0,
+                "printname": "0"
+            }, {
+                "name": "A0",
+                "type": "Free",
+                "pos": [2.6331289683318406, -4.0, -1.9952052902243709],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 0.0
+            }, {
+                "name": "a0",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T0", "A0"]
+            }, {
+                "name": "A1",
+                "type": "Free",
+                "pos": [-2.6331289683318406, -4.0, -1.9952052902243709],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 0.0
+            }, {
+                "name": "a1",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T1", "A1"]
+            }, {
+                "name": "Poly0",
+                "type": "Poly",
+                "color": [0.831, 0.639, 1.0],
+                "fillcolor": [0.831, 0.639, 1.0],
+                "fillalpha": 0.47863247863247865,
+                "args": ["P", "A", "V"],
+                "visible": false
+            }, {
+                "name": "O",
+                "type": "PointOnSegment",
+                "pos": [0.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["tt"],
+                "pinned": true,
+                "labeled": true,
+                "size": 3.0
+            }, {
+                "name": "d",
+                "type": "Segment",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["O", "P"],
+                "size": 3,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.6,
+                "arrowposition": 1.0
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 90,
+                "text": "Kurventangente",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [112.0, 26.0]
+                }
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "text": "äquidistante  Teilung von I",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [236.0, 26.0]
+                }
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 90,
+                "text": "   Bogenlänge",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [416.0, 26.0]
+                }
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 659,
+                "height": 446,
+                "transform": [{
+                    "visibleRect": [-2.3264925331898296, 2.492401238960255, 2.643227335115187, -0.8710207052947335]
+                }],
+                "axes": true,
+                "grid": 0.25,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

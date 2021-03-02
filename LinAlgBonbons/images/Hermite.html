@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Hermite.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+pts=[A,B,C,D,E];
+n=length(pts);
+
+forall(1..n,(pts_#).x=#);
+
+p1(x):=(1-x)^2*(1+2*x);
+p2(x):=(3-2*x)*x^2;
+
+q1(x):=x*(1-x)^2;
+q2(x):=-x^2*(1-x);
+
+f(y1,y2,h1,h2,x):=y1*p1(x)+y2*p2(x)+h1*q1(x)+h2*q2(x);
+
+
+plot(f(A.y,B.y,a.slope,b.slope,x-1),start->1,stop->2,size->2);
+plot(f(B.y,C.y,b.slope,c.slope,x-2),start->2,stop->3,size->2);
+plot(f(C.y,D.y,c.slope,d.slope,x-3),start->3,stop->4,size->2);
+plot(f(D.y,E.y,d.slope,e.slope,x-4),start->4,stop->5,size->2);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-2.154243860404998, -4.0, -2.154243860404998], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [-3.9016777214202114, -4.0, -1.9508388607101057], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [4.0, 3.0506666666666664, 1.3333333333333333], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [4.0, 1.1351999999999998, 1.0], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "E", type: "Free", pos: [4.0, 1.8233599999999992, 0.8], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "C0", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0},
+    {name: "C1", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["B"], alpha: 0.0},
+    {name: "C2", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["C"], alpha: 0.0},
+    {name: "C3", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["D"], alpha: 0.0},
+    {name: "C4", type: "CircleByFixedRadius", color: [0.0, 0.0, 1.0], args: ["E"], alpha: 0.0},
+    {name: "F", type: "PointOnCircle", pos: [{r: -2.671756292352488, i: -1.266310310606753E-17}, -4.0, {r: -2.301772164944665, i: 1.0058444359516262E-16}], color: [1.0, 0.0, 0.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: -1.699073907556846, i: 6.851745299362508E-17}, -4.0, {r: -2.024487651132133, i: -1.0987456006993801E-16}], color: [1.0, 1.0, 1.0], args: ["F"], pinned: true, size: 0.0},
+    {name: "G", type: "PointOnCircle", pos: [4.0, {r: 3.5669419094690338, i: 3.7782076351035095E-17}, {r: 1.8641633219103921, i: -1.0223082305549705E-16}], color: [1.0, 0.0, 0.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "H", type: "PointOnCircle", pos: [4.0, {r: 3.087881393631491, i: -3.3272752754046535E-16}, {r: 1.2723272840959425, i: -5.856400174578534E-17}], color: [1.0, 0.0, 0.0], args: ["C2"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "K", type: "PointOnCircle", pos: [4.0, {r: 1.0911061785800467, i: -6.722654824624278E-17}, {r: 0.9524421696530452, i: -8.208876626038414E-19}], color: [1.0, 0.0, 0.0], args: ["C3"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "L", type: "PointOnCircle", pos: [4.0, {r: 1.8564659439608637, i: -1.018556517707692E-15}, {r: 0.7748353088694696, i: -1.0636154614572236E-16}], color: [1.0, 0.0, 0.0], args: ["C4"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "A"], alpha: 0.8999999761581421},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "B"], alpha: 0.8999999761581421},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "C"], alpha: 0.8999999761581421},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "D"], alpha: 0.8999999761581421},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "E"], alpha: 0.8999999761581421}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [0.030799999999999998, 3.4364, 6.0148, 0.3564]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

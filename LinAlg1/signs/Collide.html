@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Collide.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+collision(A,B,C,D):=
+  and(
+    det(A,B,C)*det(A,B,D)<0,
+    det(C,D,A)*det(C,D,B)<0
+  );
+if(collision(v,w,u,t),
+  a.color=b.color=(1,0,0); //rot
+,// else
+  a.color=b.color=(0,1,0); //grün
+);
+drawtext(v+(0,.4),"$v$",color->(0,0,0),size->35);
+drawtext(w+(0,.4),"$w$",color->(0,0,0),size->35);
+drawtext(u+(0,.4),"$u$",color->(0,0,0),size->35);
+drawtext(t+(0,.4),"$t$",color->(0,0,0),size->35);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "v", type: "Free", pos: [-0.2602403132172252, -4.0, -0.8984744160928845], color: [1.0, 0.784, 0.0], size: 8.0},
+    {name: "w", type: "Free", pos: [4.0, 0.38158275102423705, 0.6633838056599454], color: [1.0, 0.784, 0.0], size: 8.0},
+    {name: "a", type: "Segment", dimDependent: 1, color: [1.0, 0.0, 0.0], args: ["v", "w"], labeled: false, size: 4},
+    {name: "u", type: "Free", pos: [2.120270473328317, 3.1422990232907826, 4.0], color: [1.0, 0.784, 0.0], size: 8.0},
+    {name: "t", type: "Free", pos: [4.0, 3.627391768077211, 0.8551896066513327], color: [1.0, 0.784, 0.0], size: 8.0},
+    {name: "b", type: "Segment", dimDependent: 1, color: [1.0, 0.0, 0.0], args: ["u", "t"], labeled: false, size: 4}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 765,
+    height: 429,
+    transform: [{visibleRect: [-6.276844477836211, 8.704432757325321, 16.713388429752055, -4.188129226145747]}],
+    //background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

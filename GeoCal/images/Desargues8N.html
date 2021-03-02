@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Desargues8N.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+fixdist=[B,C,D,E,F,G];
+
+apply(fixdist,p,p:"dist"=|A,p|);
+
+
+
+
+data=    [A,a,    b,    c,    C,G,D,F,B,E];
+
+
+
+
+B:"jump"=[B,[B,D],[B,C],[B,A],D,Z,C,X,A,E];
+C:"jump"=[C,[C,A],[C,B],[C,D],A,G,B,X,D,Y];
+D:"jump"=[D,[D,B],[D,A],[D,C],B,Z,A,F,C,Y];
+
+
+E:"jump"=[E,[E,F],[E,G],[E,A],Z,F,X,G,B,A];
+F:"jump"=[F,[F,E],[F,A],[F,G],Z,E,D,A,Y,G];
+G:"jump"=[G,[G,A],[G,E],[G,F],C,A,X,E,Y,F];
+
+
+X:"jump"=[X,[X,E],[X,Z],[X,B],E,G,Z,Y,B,C];
+Y:"jump"=[Y,[Y,C],[Y,G],[Y,X],C,D,G,F,X,Z];
+Z:"jump"=[Z,[Z,X],[Z,E],[Z,B],X,Y,E,F,B,D];
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+data=[A,a,b,c,C,G,D,F,B,E];
+
+t=key();
+if(t=="a",t="");
+if(t=="Aaaa",t="");
+if(t=="b",t="B");
+if(t=="c",t="C");
+if(t=="d",t="D");
+if(t=="e",t="E");
+if(t=="f",t="F");
+if(t=="g",t="G");
+if(t=="x",t="X");
+if(t=="y",t="Y");
+if(t=="z",t="Z");
+
+
+//Merken der alten position
+if(key()!=" ",
+prev=[
+  (data_1).xy,
+  (data_2).angle,
+  (data_3).angle,
+  (data_4).angle,
+  (data_5).xy,
+  (data_6).xy,
+  (data_7).xy,
+  (data_8).xy,
+  (data_9).xy,
+  (data_10).xy];
+);
+
+
+//Jump auf neue
+list=select(allpoints(),#.name==t);
+if(length(list)==1,
+  jumper=list_1;
+  err(jumper);
+  jump=jumper:"jump";
+  extract=[
+  (jump_1).xy,
+  arctan2((jump_2_1-jump_2_2).x,(jump_2_1-jump_2_2).y),
+  arctan2((jump_3_1-jump_3_2).x,(jump_3_1-jump_3_2).y),
+  arctan2((jump_4_1-jump_4_2).x,(jump_4_1-jump_4_2).y),
+  (jump_5).xy,
+  (jump_6).xy,
+  (jump_7).xy,
+  (jump_8).xy,
+  (jump_9).xy,
+  (jump_10).xy];
+
+
+  (data_1).xy=extract_1;
+  (data_2).angle=extract_2;
+  (data_3).angle=extract_3;
+  (data_4).angle=extract_4;
+  (data_5).xy=extract_5;
+  (data_6).xy=extract_6;
+  (data_7).xy=extract_7;
+  (data_8).xy=extract_8;
+  (data_9).xy=extract_9;
+  (data_10).xy=extract_10;
+
+
+  apply(fixdist,p,p:"dist"=|A,p|);
+
+);
+
+
+
+moving=false;
+//Kontinuierlicher move auf neue
+if(key()==" ",
+moving=true;
+n=30;
+cur=[
+  (data_1).xy,
+  (data_2).angle,
+  (data_3).angle,
+  (data_4).angle,
+  (data_5).xy,
+  (data_6).xy,
+  (data_7).xy,
+  (data_8).xy,
+  (data_9).xy,
+  (data_10).xy];
+
+ repeat(10,j,
+
+  n=(3*|(cur-prev)_j|);
+  if(j>1&j<5, n=n*10);
+  n=round(n);
+  n=min(n,50);
+
+err(n);
+  repeat(n,i,
+    extract=(1-i/n)*cur+(i/n)*prev;
+moving=(j>4);
+   if(j==1,(data_1).xy=extract_1);
+   if(j==2,(data_2).angle=extract_2);
+   if(j==3,(data_3).angle=extract_3);
+   if(j==4,(data_4).angle=extract_4);
+   if(j==5,(data_5).xy=extract_5);
+   if(j==6,(data_6).xy=extract_6);
+   if(j==7,(data_7).xy=extract_7);
+   if(j==8,(data_8).xy=extract_8);
+   if(j==9,(data_9).xy=extract_9);
+   if(j==10,(data_10).xy=extract_10);
+   layer(2);
+   clrscr();
+apply(fixdist,p,
+  if(!moving,
+    p.xy=A+(p:"dist")*(p-A)/|p-A|;
+  );
+);
+
+apply(fixdist,p,p:"dist"=|A,p|);
+
+   apply(allpoints(),p,
+    col=(1,1,1);
+    if(p==A,col=(0,0,0));
+    drawtext(p.xy,p.name,align->"center",offset->(1,-5),size->10,color->col);
+  );
+
+   repaint();
+  );
+cur=[
+  (data_1).xy,
+  (data_2).angle,
+  (data_3).angle,
+  (data_4).angle,
+  (data_5).xy,
+  (data_6).xy,
+  (data_7).xy,
+  (data_8).xy,
+  (data_9).xy,
+  (data_10).xy];
+  );
+ moving=false;
+)
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+layer(2);
+clrscr();
+
+
+
+apply(fixdist,p,
+  if(p!=mover()&!moving,
+    p.xy=A+(p:"dist")*(p-A)/|p-A|;
+  );
+);
+
+apply(fixdist,p,p:"dist"=|A,p|);
+
+
+apply(allpoints(),p,
+  col=(1,1,1);
+  if(p==A,col=(0,0,0));
+  drawtext(p.xy,p.name,align->"center",offset->(1,-5),size->10,color->col);
+);
+
+;
+</script>
+
+    <script type="text/javascript">
+createCindy({
+	scripts: "cs*",
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 },
+	angleUnit: "°",
+	geometry: [
+		{ name: "A", type: "Free", pos: [ 3.2982456140350616, -4.0, -1.7543859649122666 ], color: [ 1.0, 1.0, 1.0 ], textsize: 10.0, size: 9.0 },
+		{ name: "a", type: "Through", pos: [ 0.7627968957369048, -1.1254130859713154, 4.0 ], color: [ 0.0, 0.0, 0.0 ], args: [ "A" ], size: 3 },
+		{ name: "b", type: "Through", pos: [ -2.653051815875482, -3.9419900937920325, 4.0 ], color: [ 0.0, 0.0, 0.0 ], args: [ "A" ], size: 3 },
+		{ name: "c", type: "Through", pos: [ 2.277149954597363, 0.12326399765045666, 4.0 ], color: [ 0.0, 0.0, 0.0 ], args: [ "A" ], size: 3 },
+		{ name: "B", type: "PointOnLine", pos: [ 4.0, 2.303340860300151, -2.3481297051954226 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "c" ], textsize: 10.0, size: 7.0 },
+		{ name: "C", type: "PointOnLine", pos: [ 4.0, 0.17243074649502965, -0.7142829411045776 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "a" ], textsize: 10.0, size: 7.0 },
+		{ name: "d", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "B", "C" ], size: 3 },
+		{ name: "D", type: "PointOnLine", pos: [ 1.251533068267789, 3.216552456733005, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "b" ], textsize: 10.0, size: 7.0 },
+		{ name: "e", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "C", "D" ], size: 3 },
+		{ name: "f", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "D", "B" ], size: 3 },
+		{ name: "E", type: "PointOnLine", pos: [ 1.3203918736608833, -4.0, -0.628418576138945 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "c" ], textsize: 10.0, size: 7.0 },
+		{ name: "F", type: "PointOnLine", pos: [ 4.0, -3.2261813412008298, -0.5263419060721085 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "b" ], textsize: 10.0, size: 7.0 },
+		{ name: "g", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "F" ], size: 3 },
+		{ name: "G", type: "PointOnLine", pos: [ -0.48565246028042136, -4.0, -1.0327995386940914 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "a" ], textsize: 10.0, size: 7.0 },
+		{ name: "h", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "G" ], size: 3 },
+		{ name: "k", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "G", "F" ], size: 3 },
+		{ name: "X", type: "Meet", color: [ 0.0, 0.0, 0.0 ], args: [ "d", "h" ], textsize: 10.0, size: 7.0 },
+		{ name: "Y", type: "Meet", color: [ 0.0, 0.0, 0.0 ], args: [ "e", "k" ], textsize: 10.0, size: 7.0 },
+		{ name: "Z", type: "Meet", color: [ 0.0, 0.0, 0.0 ], args: [ "f", "g" ], textsize: 10.0, size: 7.0 },
+		{ name: "Poly0", type: "Poly", color: [ 0.0, 0.0, 0.0 ], args: [ "B", "D", "C" ], size: 0 },
+		{ name: "Poly1", type: "Poly", color: [ 0.0, 0.0, 0.0 ], args: [ "E", "F", "G" ], size: 0 },
+		{ name: "l", type: "Join", color: [ 1.0, 1.0, 1.0 ], args: [ "X", "Z" ], size: 3, overhang: 1.09 } ],
+	ports: [
+		{ id: "CSCanvas", width: 554, height: 423, transform: [ { visibleRect: [ -10.74, 11.5, 11.42, -5.42 ] } ], background: "rgb(168,176,192)" } ],
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

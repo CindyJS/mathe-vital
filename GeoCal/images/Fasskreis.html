@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Fasskreis.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+E.xy=D.xy;
+if(|E,D|<0.25,D.xy=E.xy);
+
+calcwin(A,B,C):=(
+w1=arctan2((C-A).x,(C-A).y);
+w2=arctan2((C-B).x,(C-B).y);
+s=if(area(A,B,C)>0,1,-1);
+ww=(w2-w1)*s;
+if(ww<0,ww=ww+180°);
+if(ww<0,ww=ww+180°);
+if(ww>180°,ww=ww-180°);
+if(ww>180°,ww=ww-180°);
+ww;
+);
+ww=calcwin(A,B,D);
+
+drawtext((-8,-7),"$\alpha=$"+calcwin(A,B,C),color->(0,0.5,0),size->17);
+drawtext((-8,-8),"$\beta=$"+calcwin(A,B,D),color->(0.5,0,0),size->17);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "F", type: "Free", pos: [2.56, 1.76, 4.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true, textsize: 17.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.02753425261024715, yy: -0.02753425261024715, zz: 1.0, xy: 0.0, xz: 0.035243843341116354, yz: -0.024230142297017494}, color: [0.0, 0.0, 0.0], radius: 6.076314672562638, args: ["F"], size: 3},
+    {name: "B", type: "PointOnCircle", pos: [4.0, {r: -3.7610615819830326, i: -9.33797791360509E-18}, {r: 0.8864818385963537, i: 1.1710618248733963E-18}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 17.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: 2.5238482795074373, i: 7.082848624222763E-18}, -4.0, {r: -0.7808407943604068, i: -7.513291513602239E-19}], color: [1.0, 1.0, 1.0], args: ["B"], pinned: true, size: 0.0},
+    {name: "A", type: "PointOnCircle", pos: [{r: -3.8387672532682613, i: -6.054341771678043E-17}, -4.0, {r: 1.0433484854457884, i: 8.101913775233505E-18}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 17.0, printname: "A"},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "A"], overhang: 1.065},
+    {name: "C", type: "PointOnCircle", pos: [{r: 2.182270630478625, i: 8.738343039111124E-18}, -4.0, {r: -0.7461533338470314, i: -8.463311954784854E-19}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 17.0, printname: "$\\alpha$"},
+    {name: "b", type: "Segment", color: [0.098, 0.62, 0.306], args: ["C", "B"], size: 3, overhang: 1.09},
+    {name: "c", type: "Segment", color: [0.098, 0.62, 0.306], args: ["C", "A"], size: 3, overhang: 1.09},
+    {name: "E0", type: "AngleMark", color: [0.098, 0.62, 0.306], args: ["C", "B", "A"]},
+    {name: "E", type: "PointOnCircle", pos: [{r: -3.2042634770382645, i: 4.044506946572883E-17}, -4.0, {r: -0.7519641422368343, i: 3.538853777928644E-18}], color: [1.0, 0.0, 0.0], args: ["C0"], visible: false, labeled: true, textsize: 17.0},
+    {name: "D", type: "Free", pos: [-3.1529411764705886, -4.0, -0.5882352941176471], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, printname: "$\\beta$"},
+    {name: "d", type: "Segment", color: [0.757, 0.0, 0.0], args: ["B", "D"], size: 3, overhang: 1.075},
+    {name: "e", type: "Segment", color: [0.757, 0.0, 0.0], args: ["D", "A"], size: 3, overhang: 1.075},
+    {name: "E1", type: "AngleMark", color: [0.757, 0.0, 0.0], args: ["D", "B", "A"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 551,
+    height: 450,
+    transform: [{visibleRect: [-11.22, 8.38, 10.82, -9.62]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

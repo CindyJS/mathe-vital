@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>HNF.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csmove" type="text/x-cindyscript">
+layer(20);
+clrscr();
+drawtext((4,4),"$G_{n,d}\;:=\;\left\{v\;\in\;\R^2 \;|\; \left\langle p,n \right\rangle\; - \;d \;=\;0 \right\}$",size->16,family->"Lucida Sans Unicode");
+
+n=D.xy;
+p=F.xy;
+
+d=A.xy*n;
+drawtext((4,3),"$n\approx$"+n,size->16);
+drawtext((4,2),"$d\approx$"+d,size->16);
+drawtext((4,1),"$\left\langle p,n \right\rangle\;-\;d\;\approx\;$"+((p*n)-d),size->16);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.0, -4.0, -1.0], color: [1.0, 0.0, 0.0], labeled: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 0.9655172413793103, 1.655862068965517], color: [1.0, 0.0, 0.0], labeled: true, size: 3.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], labeled: true, printname: "$G_{n,d}$"},
+    {name: "C", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 1.0, yy: 1.0, zz: -1.0, xy: 0.0, xz: -0.0, yz: -0.0}, color: [0.0, 0.0, 1.0], radius: 1.0, args: ["C"], pinned: true},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["a", "C"], alpha: 0.38461538461538464, visible: false, labeled: true, clip: "inci", printname: "d"},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "", type: "SelectP", pos: [-2.447946451353713, -3.1634724862569557, 4.0], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "D", type: "SelectP", pos: [2.447946451353713, 3.1634724862569557, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], labeled: true, textsize: 16.0, size: 0.0, printname: "n"},
+    {name: "c", type: "Segment", color: [0.098, 0.62, 0.306], args: ["C", "D"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "E", type: "Meet", color: [0.0, 0.0, 0.0], args: ["a", "b"], size: 1.0},
+    {name: "F", type: "Free", pos: [-1.3333333333333333, -4.0, -1.3333333333333333], color: [1.0, 1.0, 1.0], labeled: true, printname: "p"},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "E"], alpha: 0.37606837606837606, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [-4.383590170762183, 5.279050395668472, 9.777176176593088, -2.0095793419408583]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

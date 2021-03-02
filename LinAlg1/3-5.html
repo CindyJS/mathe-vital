@@ -1,0 +1,119 @@
+---
+title: Grauwerte der Gruppentafeln
+layout: page
+category: LinAlg1
+---
+
+        <h1>Grauwerte und Multiplikation modulo p</h1>
+<div  style=" line-height: 1.5">
+Zuweilen offenbaren andere Darstellungsmethoden neue Zusammenhänge.
+Hier werden die Zahlen der Multiplikationsgruppentafel modulo p durch Grauwerte ersetzt.
+(0 ist schwarz, p ist weiß). Es treten geometrische Strukturen auf, die Einsicht in das Teilerverhalten der
+Zahlen geben.
+<br>
+<br>
+</div>
+
+        <script id='init' type='cindyscript'>
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+
+
+
+           x=C.x;
+           if(x<0,x=0);
+           if(x>12,x=12);
+           x=round(8*x)/8;
+           C.xy=(x,6);
+
+
+
+
+
+n=round(8*|A,C|)+2;
+
+
+drawtext((0,7),"p="+n,size->14,color->(0,0,0));
+
+p=(0,2);
+
+p0=round(p);
+
+
+
+
+apply(0..n-1,i,
+  apply(0..n-1,j,
+   //  fillcircle(p+(i,-j)/6.5+(.2,.3),.07,color->mod(i*j,n)/n*(1,1,1));
+     fillpoly([p+(i,-j),p+(i+1.1,-j),p+(i+1.1,-j+1.1),p+(i,-j+1.1)]/6.5,color->mod(i*j,n)/n*(1,1,1));
+  )
+);
+
+
+
+
+
+
+
+        </script>
+
+
+
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[0,6],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[12,6],color:[0,0,0],pinned:true,size:3},
+                      {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+                      {name:"C", type:"Free", pos:[5,6],color:[1,1,0],size:5},
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,10,30,-15]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                        );
+
+          var check=function(){
+              var ch1=document.getElementById("ch1");
+             if(document.getElementById("ch1").checked){
+                evokeCS('show1=true;repaint();');
+             } else {
+                 evokeCS('show1=false;repaint();');
+
+             }
+              var ch2=document.getElementById("ch2");
+             if(document.getElementById("ch2").checked){
+                evokeCS('show2=true;repaint();');
+             } else {
+                 evokeCS('show2=false;repaint();');
+
+             }
+
+          }
+
+        </script>
+
+
+
+
+<br>
+<br>
+Die folgende Grafik zeigt ein nach dem gleichen Verfahren hergestelltes Bild für p=604.
+<br>
+<br>
+     <img src="Grid604.png" alt="Grid604.png" width='603' height='603' />

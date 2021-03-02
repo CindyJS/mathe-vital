@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Normalengleichung.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+mat=[[1,0,0],[0,1,0],[0,0,1]];
+a=(0,0,1);
+
+
+mat=[[0.8936,-0.4487,0.0006],[0.0562,0.113,0.9921],[-0.4452,-0.8866,0.1261]];
+rotating=true;
+
+
+embed(p):=(p.x,0,p.y);
+
+
+map(pp):=(
+  p=mat*(pp) - [0,0,3];
+  o=(p-(p*a)*a)/(1-p*a);
+  (o.x,o.y)*5;
+);
+
+
+arrow(pa,pb,col,alpha,scale):=(
+   draw(map(pa),map(pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(1,1,1));
+   fillpoly(apply(
+    (pb-n*0.1*scale+p*0.1*scale,
+     pb-n*0.1*scale+p*0.015*scale,
+     pa+p*0.015*scale,
+     pa-p*0.015*scale,
+     pb-n*0.1*scale-p*0.015*scale,
+     pb-n*0.15*scale-p*0.1*scale,
+     pb),map(#)),color->col,alpha->alpha);
+);
+
+
+arrow2(pa,pb,col):=(
+   draw(map(mat*pa),map(mat*pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(0,0,1));
+   fillpoly(apply(
+    (pb-n*0.3+p*0.2,
+     pb-n*0.2+p*0.03,
+     pa+p*0.03,
+     pa-p*0.03,
+     pb-n*0.2-p*0.03,
+     pb-n*0.3-p*0.2,
+     pb),map(mat*#)),color->col);
+);
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+
+
+if(rotating,
+ xx=mouse().x;
+ yy=mouse().y;
+ wy=(startx-xx)*.1;
+ wx=-(starty-yy)*.1;
+err([xx,yy,wy,wx]);
+ mmmx=[
+  [1,0,0],
+  [0,cos(wx),sin(wx)],
+  [0,-sin(wx),cos(wx)]
+ ];
+
+
+ mmmy=[
+  [cos(wy),0,-sin(wy)],
+  [0,1,0],
+  [sin(wy),0,cos(wy)]
+ ];
+
+ mat=mmmx*mmmy*mat;
+
+
+ startx=xx;
+ starty=yy;
+);
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+//apply(allpoints(),#.selected=false);
+rotating=true;
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+n = 10;
+nn = (-n..n)/n;
+
+aa = [1,1,1];
+bb = [A.x,B.x,C.x];
+xx = cross(aa,cross(aa,bb));
+
+M = transpose([aa,xx]);
+M2 = transpose([aa,bb]);
+
+
+forall(nn, i,
+  draw([map(M*[i,1]),map(M*[i,-1])], size->2, color->gray(0.5));
+  draw([map(M*[1,i]),map(M*[-1,i])], size->2, color->gray(0.5));
+);
+
+
+fillpoly([map(M*[1,1]),map(M*[1,-1]),map(M*[-1,-1]),map(M*[-1,1])],color->(1,1,1),alpha->0.6);
+
+
+arrow([0,0,0], [0.5,0,0], red(0.8), 0.5, 0.3); // x
+arrow([0,0,0], [0,0.5,0], green(0.6), 0.5, 0.3); // y
+arrow([0,0,0], [0,0,0.5], blue(0.8), 0.5, 0.3); // z
+arrow([-1,-1,-1], [1,1,1], gray(0.4), 0.5, 0.3); // 111
+drawtext(map([0.5,0,0]) + [0,0.05], "$x$", color->red(0.8), size->8);
+drawtext(map([0,0.5,0]) + [0,0.05], "$y$", color->green(0.6), size->8);
+drawtext(map([0,0,0.5]) + [0,0.05], "$z$", color->blue(0.8), size->8);
+
+yy = [A.y,B.y,C.y];
+arrow([0,0,0], yy, gray(0), 1, 1);
+draw(map(yy), color->gray(1));
+drawtext(map(yy) + [0,0.05], "$b$", size->14);
+
+
+xx = linearsolve(transpose(M2)*M2, transpose(M2)*yy);
+arrow([0,0,0], M2*xx, gray(0), 1, 1); // z
+draw([map(M2*xx), map(yy)], color->gray(0.5), size->2, alpha->0.8); // z
+draw(map(M2*xx), color->gray(1));
+drawtext(map(M2*xx) - [0.3,0], "$A x$", size->14);
+
+
+drawtext(
+  [2.5,2.4], 
+  "$|A x - b| = \left|" + 
+  "\begin{pmatrix}" + M2_1_1 + "&" + M2_1_2 + "\\" +
+  M2_2_1 + "&" + M2_2_2 + "\\" +
+  M2_3_1 + "&" + M2_3_2 + "\end{pmatrix}" + 
+  "\begin{pmatrix}" + xx_1 + "\\" + xx_2 + "\end{pmatrix}" +
+  "-" + "\begin{pmatrix}" + yy_1 + "\\" + yy_2 + "\\" + yy_3 + "\end{pmatrix}" +
+  "\right| = $ " + |M2*xx - yy|, 
+  size->16
+);
+
+
+drawtext([2.5,1.7], "$|\alpha| = $" + arccos(yy*(M2*xx)/(|M2*xx|*|yy|))/pi*180, size->16);
+
+// Regressionsgerade
+f(x):=xx_2*x + xx_1;
+plot(f(x), start->(min([A.x, B.x, C.x]) - 1), stop->(max([A.x, B.x, C.x]) + 1));
+
+sq(x,y1,y2):=(
+   d=y2-y1;
+   p=((x,y1),(x,y2),(x+d,y2),(x+d,y1),(x,y1));
+   fillpoly(p,color->(1,0.5,0.5),alpha->0.4);
+   connect(p,color->(.8,0,0))
+);
+
+forall(allpoints(),sq(#.x,#.y,(f(#.x))));
+
+drawtext([3.8,1.7], "Fehlerquadratesumme = " + sum(allpoints(),(#.y-f(#.x))^2), size->16);
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+startx=mouse().x;
+starty=mouse().y;
+mm=mouse().xy;
+
+rotating=(   |mm,A|>0.1 
+           & |mm,B|>0.1
+           & |mm,C|>0.1
+);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.6803278688524591, 0.7349403952383823], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.2906574394463668, 0.6205033094746204], color: [0.0, 1.0, 0.0], labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 0.6482504604051565, 0.6604989187409402], color: [0.0, 0.0, 1.0], labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-3.1841547281765394, 2.9722495098390462, 7.478023626067845, -3.6191180710798143]}],
+    axes: true,
+    grid: 0.5,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

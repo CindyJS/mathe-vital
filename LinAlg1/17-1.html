@@ -1,0 +1,224 @@
+---
+title: Drehung (Rotation)
+layout: page
+category: LinAlg1
+---
+  
+        <h1>Drehung (Rotation)</h1>
+
+
+
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col):=(
+           n=b-a;
+           n=n/|n|*.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->3);
+           draw(b-n*.17+p*.07,b,color->col,size->3);
+           draw(b-n*.17-p*.07,b,color->col,size->3);
+
+        );
+
+        drawang(w):=(
+           pol=apply(0..round(w/pi*36/2),
+             (cos(#*10°),sin(#*10°))*.2;
+           );
+           fillpoly(pol++[(0,0)],alpha->0.2);
+           connect(pol);
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+                w=arctan2(D.x,D.y);
+
+        a=cos(w);
+b=sin(w);
+
+
+ww=format(w/pi*180,2);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        draw(line((0,1,0)),color->(1,1,1)*.4);
+        draw(line((1,0,0)),color->(1,1,1)*.4);
+        drawarrow(O,B,(0.0,0,0.7));
+        drawarrow(O,C,(0.0,0,0.7));
+        D.xy=D.xy/|D.xy|;
+        drawarrow(O,D,(0.7,0,0));
+        w=arctan2(D.x,D.y);
+        if(w<0,w=w+2*pi);
+        ww=w/(2*pi)*360;
+        co=format(cos(w),4);
+        si=format(sin(w),4);
+
+    //    drawtext((-1.8,-1),"a = cos("+format(ww,2)+"°) ≈ "+co);
+    //    drawtext((-1.8,-1.25),"b = sin("+format(ww,2)+"°) ≈ "+si);
+
+        ee=(-D.y,D.x);
+        drawarrow(O,ee,(0.7,0,0));
+        if(mover()==E,
+          E1.xy=E+d1;
+          E2.xy=E+d2;
+          E3.xy=E+d3;
+          E4.xy=E+d4;
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+        drawang(w);
+        m=[[cos(w),-sin(w)],[sin(w),cos(w)]];
+        t=m*E.xy;
+        t1=m*E1.xy;
+        t2=m*E2.xy;
+        t3=m*E3.xy;
+        t4=m*E4.xy;
+        draw(E,E2);
+        draw(E,E3);
+        draw(E2,E4);
+        draw(E3,E4);
+        draw(E,E4);
+        draw(E2,E3);
+        draw(E1,E2);
+        draw(E1,E4);
+        draw(t,t2);
+        draw(t,t3);
+        draw(t2,t4);
+        draw(t3,t4);
+        draw(t,t4);
+        draw(t2,t3);
+        draw(t1,t2);
+        draw(t1,t4);
+        draw(t,size->3);
+        draw(t1,size->3);
+        draw(t2,size->3);
+draw(t3,size->3);
+draw(t4,size->3);
+a=cos(w);
+b=sin(w);
+ww=format(w/pi*180,2);
+
+drawtext(B+(0.06,0),"$e_1$",size->22);
+drawtext(C+(0.06,0),"$e_2$",size->22);
+drawtext(D+(0.06,0),"$v_1$",size->22);
+drawtext(ee+(0.06,0),"$v_2$",size->22);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+
+
+
+        latex="$\left(\begin{array}{cc}"+
+        "\cos("+ww+"^\circ)& -\sin("+ww+"^\circ)\\ "+
+        "\sin("+ww+"^\circ)&\cos("+ww+"^\circ) "+
+        "\end{array}\right)\quad=\quad"+
+        "\left(\begin{array}{cc}"+
+        "|&|\\ "+
+        "v_1&v_2\\ "+
+        "|&| "+
+        "\end{array}\right)\quad\approx\quad"+
+        "\left(\begin{array}{cc}"+
+        ""+pa+"&"+mb+"\\ "+
+        ""+pb+"&"+pa+" "+
+        "\end{array}\right)"+
+        "$";
+drawtext((-1.5,-1.5),latex);
+
+
+        </script>
+
+        <script type="text/javascript">
+        var renderEq=function(xx,yy,w,a,b,mb){
+
+        }
+        </script>
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div style=" top:400px; left:30px; display:inline;z-index:4">
+</div>
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[1,0],color:[1,0,0],pinned:true,size:3},
+                      {name:"C", type:"Free", pos:[0,1],color:[1,0,0],pinned:true,size:3},
+                      {name:"D", type:"Free", pos:[2,1],color:[1,1,0],size:3},
+                      {name:"E", type:"Free", pos:[2,0],color:[0,0,1],size:3},
+                      {name:"E1", type:"Free", pos:[2.25,0.75],color:[0,1,0],size:3},
+                      {name:"E2", type:"Free", pos:[2,.5],color:[0,1,0],size:3},
+                      {name:"E3", type:"Free", pos:[2.5,0],color:[0,1,0],size:3},
+                      {name:"E4", type:"Free", pos:[2.5,0.5],color:[0,1,0],size:3},
+
+
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        use:["katex"],
+                        grid:.2,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,3,3,-3]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+}
+                        );
+
+        </script>
+<div  style=" line-height: 1.5">
+<br>
+<br>
+Eine <i>Drehung</i> eines Vektors um den Nullpunkt kann durch Multiplikation dieses Vektors mit einer Matrix erreicht werden.
+Repräsentiert man den Vektor als Spaltenvektor, so ergibt sich die Matrixmultiplikation als
+
+\[
+\left(\begin{array}{c} x\\ y \end{array}\right)
+\mapsto
+\left(\begin{array}{cc} a &b\\ c&d \end{array}\right)
+\left(\begin{array}{c} x\\ y \end{array}\right)
+=
+\left(\begin{array}{c} ax+by\\ cx+dy \end{array}\right)
+\]
+
+Die Parameter $a,b,c,d$ müssen dabei geeignet gewählt werden.
+Für die Matrix
+
+\[
+\left(\begin{array}{cc} a &b\\ c&d \end{array}\right) =
+\left(\begin{array}{cc}  \cos(\alpha)&-\sin(\alpha)\\ \sin(\alpha)&\cos(\alpha)\end{array}\right)
+\]
+
+erhält man eine Drehung um den Winkel $\alpha$.
+
+Es gilt dabei die generelle Merkregel:
+"Die Spalten der Matrix sind die Bilder der Einheitsvektoren."
+ <br>
+<br>
+Im Applet ist der Vektor $v_1$ und die Ecken des Hauses mit der Maus bewegbar.
+</div>
+</div>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>pNorm.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+res = 1;
+
+
+uhc(x, p) := (
+  if(p == -1000, uhc = max(abs(x_1), abs(x_2)), uhc = (abs(x_1)^p + abs(x_2)^p)^(1/p));
+);
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+res = 1;
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+p = if(C.x ~< B.x, (C.x - A.x)/(B.x - C.x), -1000);
+max = uhc([4,4], p);
+
+colorplot(if(abs(uhc(#, p) - 1) < 0.02, if(abs(uhc - 1) > 0.015, 1/2*(gray(0) + hue(abs(uhc/max))), gray(0)), hue(abs(uhc/max))), [-4,-4], [4,4], pxlres->res, alpha->0.8);
+
+drawtext(C + [0, 0.2], "p = " + if(p == -1000, "$\infty$", p), align->"center");
+drawtext([-3.8,3.7], "$|XZ| =$" + uhc(Z.xy - X.xy, p), size->13, align->"left");
+drawtext([-3.8,3.4], "$|XY| + |YZ| =$" + uhc(X.xy - Y.xy, p) + " + " + uhc(Y.xy - Z.xy, p) + " = " + (uhc(Z.xy - Y.xy, p) + uhc(Y.xy - X.xy, p)), size->13, align->"left");
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+res = 4;
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-2.857142857142857, -4.0, 1.1428571428571428], color: [0.502, 0.502, 0.502], pinned: true, size: 4.0, border: false},
+    {name: "B", type: "Free", pos: [2.857142857142857, -4.0, 1.1428571428571428], color: [0.502, 0.502, 0.502], pinned: true, size: 4.0, border: false},
+    {name: "a", type: "Segment", color: [0.502, 0.502, 0.502], args: ["A", "B"], size: 3},
+    {name: "C", type: "PointOnSegment", pos: [0.0, -4.0, 1.1428571428571428], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "Z", type: "Free", pos: [4.0, 3.0, 2.0], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "Y", type: "Free", pos: [4.0, -0.0, 2.0], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "X", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["Z", "Y"]},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["Y", "X"]},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["X", "Z"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 470,
+    height: 470,
+    transform: [{visibleRect: [-4.003141705294191, 4.020140183872935, 3.986143226715447, -3.9691447481367033]}],
+    axes: true,
+    grid: 0.5,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

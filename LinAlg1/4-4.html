@@ -1,0 +1,279 @@
+---
+title: (Best-)Aproximierende Brüche
+layout: page
+category: LinAlg1
+---
+
+
+        <h1>(Best-)Aproximierende Brüche</h1>
+
+
+Mit diesem Applet kann man beobachten, wie gut eine nach $i$ Iterationsschritten abgebrochene
+Kettenbruchentwicklung eine gegebene Zahl approximiert. Am Schieberegler kann man eine Iterationstiefe
+zwischen 1 und 20 einstellen.
+
+Neben der Zahl wird der expandierte Bruch dargestellt sowie die sich aus diesem
+Bruch ergebende Fließkommaapproximation. Es wird ebenso dargestellt, wie viele Stellen der
+zu approximierenden Zahl durch den Kettenbruch bereits korrekt approximiert werden.
+Man kan beweisen, dass unter allen Brüchen die durch Kettenbrüche erzeugten Aproximationen
+die gegebene Zahl "am besten" approximieren.
+
+Ist $p/q$ der Bruch, der sich aus der $i$-ten Kettenbruchapproximation von $x$ ergibt, so
+approximiert dieser Bruch die Zahl $x$ besser als jeder andere Bruch mit kleinerem Nenner.
+Tatsächlich ist in der Praxis die Approximationsgüte einer Kettenbruchapproxiation wesentlich besser, als man
+von der Größe des Nenners her erwarten könnte. Es gilt z.B.
+
+\[
+|x-p/q|<1/q^2
+\]
+
+für jeden aus einer Kettenbruchapproximation entstehenden Bruch $p/q$.
+<br>
+<br>
+
+
+
+           <script id='init' type='cindyscript'>
+
+
+a=1234/3211;
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+                   x=C.x;
+           if(x<6,x=6);
+           if(x>18,x=18);
+         //  x=round(x);
+           C.xy=(x,8);
+//b=parse(Text1.val);
+max=round(|A,C|/|A,B|*19)+1;
+x=a;
+i=1;
+kb=[];
+sh=7;
+//while(1/x>0.000001 & i<20,
+while(!(|(round(x)-x)|<0.00000001) & i<max,
+  k=floor(x);
+  r=x-k;
+  px=format(x,8);
+  pk=""+k;
+  lx=length(px);
+
+  x=1/r;
+  i=i+1;
+
+  kb=kb++[k];
+);
+
+
+
+  k=round(x);
+  r=x-k;
+
+  pk=""+k;
+  kb=kb++[k];
+
+kn=length(kb);
+drawtext((12-5,7),"Maximale Tiefe:"+max,size->16,color->(.6,0,0));
+
+drawtext((-7-2,4),"Kettenbruch Approximation:",size->20,color->(0,0,0));
+drawtext((12-3,4),"Einsetzen:",size->20,color->(0,0,0));
+
+
+//Hier wird der TeX Code gebaut
+
+
+t="$";
+apply(1..(kn-1),i,
+
+  t=t+"{"+kb_i+"+{1 \over ";
+);
+t=t+kb_kn;
+apply(1..(kn-1)*2,t=t+"}");
+t=t+"$";
+//drawtext((-7,0),t,size->20,color->(0.6,0,0));
+
+//Rückwärts einsetzen
+
+p=0;
+q=1;
+pp=p;
+qq=q;
+
+nn=1;
+apply(1..kn-nn+1,i,
+   kk=kb_(kn-i+1);
+   p=p+q*kk;
+   sw=q;
+   q=p;
+   p=sw;
+);
+
+//Und nochmal TeX Code bauen
+//t="$\overline{X}={"+q+"\over "+p+"}$";
+
+if(q~=p*a & (kn<13),
+drawtext((12-3,2),"$x = {"+q+"\over"+p+"}$",size->30),
+drawtext((12-3,2),"$x \approx {"+q+"\over"+p+"}$",size->30);
+);
+
+
+
+drawtext((12-3,-1),"Vergleich:",size->20,color->(0,0,0));
+
+
+
+
+ta=format(q/p,13);
+tb=format(a,13);
+
+if(indexof(ta,".")==0,ta=ta+".0");
+if(indexof(tb,".")==0,tb=tb+".0");
+
+
+if(length(format(q/p,14))>length(format(q/p,12)),s="...",s="");
+//drawtext((12,-5),"$\overline{X}=$",size->20,color->(0,0,0.8));
+sh=2;
+shx=-3;
+
+inc=0;
+repeat(length(ta),j,
+  drawtext((13.9+inc+shx,-5+sh),ta_j,size->20,color->(0,0,0.8));
+  inc=inc+if(ta_j!=".",0.53,0.2);
+);
+
+drawtext((13.9+inc+shx,-5+sh),s,size->20,color->(0,0,0.8));
+diff=select(1..length(tb),ta_#!=tb_#);
+nd=if(length(diff)==0,0,diff_1);
+tta=(substring(tb,0,nd-1));
+ttb=(substring(tb,nd-1,length(tb)));
+
+if(nd==0,ttb="";tta=tb);
+if(length(format(a,14))>length(format(a,12)),s="...",s="");
+//drawtext((12.8+shx,-6+sh),"$x=$",size->20,color->(0,0.4,0));
+
+//off=if(indexof(ttb,".")!=0,.3,0);
+//drawtext((14.16+off+(length(tta)-1)*0.52,-6+sh),ttb+s,size->20,color->(0.6,0,0));
+
+inc=0;
+repeat(length(tta),j,
+  drawtext((13.9+inc+shx,-6+sh),tta_j,size->20,color->(0,0.4,0));
+  inc=inc+if(tta_j!=".",0.53,0.2);
+);
+
+repeat(length(ttb),j,
+  drawtext((13.9+inc+shx,-6+sh),ttb_j,size->20,color->(0.6,0,0));
+  inc=inc+if(ttb_j!=".",0.53,0.2);
+);
+drawtext((13.9+inc+shx,-6+sh),s,size->20,color->(0.6,0,0));
+
+//javascript("renderEq('"+t+"')");
+drawtext((-9,0),t,size->27,color->(0,0,0.8));
+
+
+
+            grestore();
+
+        </script>
+
+          <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=600  style="border:2px solid #000000;"></canvas>
+
+
+        </div>
+       <div >
+
+               X= <input id="inp" type="text" name="inp" value="1234/3211"  onkeypress="typ(event, this)" size="10" style="font-size:18px"}>
+</div>
+
+
+
+
+
+ <script type="text/javascript">
+         var typ=function(a,b){
+                     var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+if(chCode==13){
+
+cdy.evokeCS("a="+b.value+";repaint();");
+
+         }
+         }
+
+          var doScript=function(a){
+
+
+cdy.evokeCS("a="+a+";repaint();");
+        document.getElementById('inp').value=a;
+
+
+         }
+
+
+        var renderEq=function(a){
+        console.log(a);
+        var latex=a;
+        document.getElementById('tex').innerHTML=latex;
+
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+
+        }
+        var renderEq1=function(a){
+        console.log(a);
+        var latex=a;
+        document.getElementById('tex1').innerHTML=latex;
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+
+        }
+        </script>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[6,8],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[18,8],color:[0,0,0],size:3},
+                      {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+                      {name:"C", type:"Free", pos:[12,8],color:[1,1,0],size:5}
+                      ];
+
+            cdy=createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,10,10,-15]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+
+                        geometry:gslp});
+
+
+  setTimeout(function(){document.onkeydown={}}, 1000);
+
+
+
+            </script>
+
+
+
+
+
+
+<div >
+  <br>
+Hier einige Zahlen mit interessanten Kettenbruchentwicklungen<br />
+
+ <input type="button" value="(1+sqrt(5))/2" style="width: 100px;  font-size:20px;" onclick="doScript('(1+sqrt(5))/2')" />
+ <input type="button" value="sqrt(2)" style="width: 100px;  font-size:20px;" onclick="doScript('sqrt(2)')" />
+ <input type="button" value="exp(1)" style="width: 100px;  font-size:20px;" onclick="doScript('exp(1)')" />
+ <input type="button" value="Pi" style="width: 100px;  font-size:20px;" onclick="doScript('pi')" />
+
+
+<br><br>
+<br><br>
+</div>
+</div>

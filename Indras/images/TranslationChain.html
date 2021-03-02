@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>TranslationChain.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+
+gc(z):=conjugate(z);
+gb(z):=conjugate(i*z)/i;
+ga(z):=conjugate(w*(z-l))/w+l;
+w=exp(i*60°);
+
+stickler=[[[2.14,0.1],[1.62,0.1]],[[1.62,0.1],[1.46,1.26]],[[1.46,1.26],[0.78,2.1]],[[0.78,2.1],[0.5,1.02]],[[0.5,1.02],[-0.06,0.3]],[[-0.06,0.3],[0.34,0.06]],[[0.78,2.1],[0.7,3.78]],[[0.7,3.78],[1.34,3.02]],[[1.34,3.02],[1.7,2.9]],[[1.7,2.9],[2.06,3.3]],[[0.7,3.78],[-0.14,3.14]],[[-0.14,3.14],[-0.1,2.82]],[[-0.1,2.82],[0.34,2.38]],[[0.7,3.78],[0.7,4.3]],[[0.7,4.3],[1.18,4.38]],[[1.18,4.38],[1.46,4.78]],[[1.46,4.78],[1.42,5.38],[1.43,5.19],[1.44,5.08]],[[1.42,5.38],[1.02,5.86]],[[1.02,5.86],[0.58,5.86]],[[0.58,5.86],[0.18,5.5]],[[0.18,5.5],[0.14,4.9]],[[0.14,4.9],[0.34,4.54]],[[0.7,4.3],[0.34,4.54]],[[1.43,5.19],[1.6,5.19]],[[1.6,5.19],[1.6,5.03]],[[1.6,5.03],[1.44,5.08]],[[1.42,5.38],[1.46,4.78]]]*.4 ;
+
+
+
+chain:=(
+tree="[aaaaaaaaaaaaaaaaaaaaaaaaaaa]bbbbbbbbbbbbbbbbbbbbbbbbbbb";
+l=1.5;
+w=exp(i*60°);
+ga(z):=z+l;
+gb(z):=z-l;
+gc(z):=z;
+);
+
+
+l=3;
+
+p6mm:=(
+tree="[a[b[a[b[a[b[c[a[b[a[b[a[c[a[b]]]][c[a[b[a]]]]][c[a]]]]]]][c[a[b[a[b[a[c[a[b[a]]]]][c[a[b[a[b][c]]]]]][c[a]]]]]]][c[a[b[a[b[a[c[a[b[a[b][c]]]]]][c[a[b[a[b[c]][c]]]]]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a][c]][c[a]]]]]]][c[a[b[a[b[c[a]]]]]]]][c[a]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a[c]][c[a]]][c[a]]]]]]][c[a[b[a[b[c[a[b]]]]]]]]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a[c[a]]][c[a[b]]]][c[a]]]]]]][c[a[b[a[b[c[a[b[a]]]]]]]]]][c[a]]]]]]][b[a[b[a[b[c[a[b[a[b[a[c[a[b[a]]]]][c[a[b[a[b][c]]]]]]]]]]][c[a[b[a[b[a[c[a[b[a[b][c]]]]]][c[a[b[a[b[c]][c]]]]]][c[a]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a][c]][c[a]]]]]]][c[a[b[a[b[c[a]]]]]]]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a[c]][c[a]]][c[a]]]]]]][c[a[b[a[b[c[a[b]]]]]]]]][c[a]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a[c[a]]][c[a[b]]]][c[a]]]]]]][c[a[b[a[b[c[a[b[a]]]]]]]]]]]]]]][c[a[b[a[b[a[c[a[b[a[b[a[c[a[b]]]][c[a[b[a]]]]][c[a]]]]]]][c[a[b[a[b[c[a[b[a[b][c]]]]]]]]]]]]]]]";
+l=1.5;
+w=exp(i*60°);
+ga(z):=conjugate(w*(z-l))/w+l;
+gb(z):=conjugate(i*z)/i;
+gc(z):=conjugate(z);
+
+
+);
+
+p6:=(tree="[a[a[a[a[a[b[a[a[a][c]]][b[a[a]][b[a]]]][c[b[b[a][b]]][c[b[b]]]]][b[a[a[a[c]][c[c]]]][b[a[a[a][c]]][b[a[a]]]]][c[b[b[a[a]][b[a]]]][c[b[b[a]]]]]][b[a[a[a[c[b][c]]][c[c[b]]]]][b[a[a[a[c]][c[c]]]][b[a[a[c]]]]]][c[b[b[a[a[a][c]]][b[a[a]]]]][c[b[b[a[a]]]]]]][b[a[a[a[c[b[b]][c[b]]]][c[c[b[b]]]]]][b[a[a[a[c[b][c]]][c[c[b]]]]][b[a[a[c[c]]]]]]][c[b[b[a[a[a[c]][c[c]]]][b[a[a[c]]]]]][c[b[b[a[a[c]]]]]]]][b[a[a[a[c[b[b[a][b]]][c[b[b]]]]][c[c[b[b[a]]]]]]][b[a[a[a[c[b[b]][c[b]]]][c[c[b[b]]]]]][b[a[a[c[c[b]]]]]]]][c[b[b[a[a[a[c[b][c]]][c[c[b]]]]][b[a[a[c[c]]]]]]][c[b[b[a[a[c[c]]]]]]]]][b[a[a[a[c[b[b[a[a]][b[a]]]][c[b[b[a]]]]]][c[c[b[b[a[a]]]]]]]][b[a[a[a[c[b[b[a][b]]][c[b[b]]]]][c[c[b[b[a]]]]]]][b[a[a[c[c[b[b]]]]]]]]][c[b[b[a[a[a[c[b[b]][c[b]]]][c[c[b[b]]]]]][b[a[a[c[c[b]]]]]]]][c[b[b[a[a[c[c[b]]]]]]]]]";
+l=4;
+w=exp(i*60°);
+ga(z):=z*w;
+gb(z):=(z-l*w)*w+l*w;
+gc(z):=(z-l)*w+l;
+);
+
+p3:=(tree="[a[a[b[a[a[b[a[a[b[a[a[b[a][b]][c[b]]][c[b[a]]]][b[a[c[b]]]]][c[b[a[c[b]]]]]][c[b[a[c[b[a]]]]]]][b[a[c[b[a[c[b]]]]]]]][c[b[a[c[b[a[c[b]]]]]]]]][c[b[a[c[b[a[c[b[a]]]]]]]]]][b[a[c[b[a[c[b[a[c[b]]]]]]]]]]][c[b[a[c[b[a[c[b[a[c[b]]]]]]]]]]]][b[a[a[b[a[a[b[a[a[b[a[a][c]][b[a]]][c[b[a]]]][c[b[a[c]]]]][b[a[c[b[a]]]]]][c[b[a[c[b[a]]]]]]][c[b[a[c[b[a[c]]]]]]]][b[a[c[b[a[c[b[a]]]]]]]]][c[b[a[c[b[a[c[b[a]]]]]]]]]][c[b[a[c[b[a[c[b[a[c]]]]]]]]]]][b[a[c[b[a[c[b[a[c[b[a]]]]]]]]]]]][c[b[a[c[b[a[c[b[a[c[b[a]]]]]]]]]]]]][b[a[a[b[a[a[b[a[a[b[a[a[b][c]][c[b]]][b[a[c]]]][c[b[a[c]]]]][c[b[a[c[b]]]]]][b[a[c[b[a[c]]]]]]][c[b[a[c[b[a[c]]]]]]]][c[b[a[c[b[a[c[b]]]]]]]]][b[a[c[b[a[c[b[a[c]]]]]]]]]][c[b[a[c[b[a[c[b[a[c]]]]]]]]]]][c[b[a[c[b[a[c[b[a[c[b]]]]]]]]]]]][b[a[c[b[a[c[b[a[c[b[a[c]]]]]]]]]]]]][c[b[a[c[b[a[c[b[a[c[b[a[c]]]]]]]]]]]]]";
+l=2;
+w=exp(i*60°);
+ga(z):=z*w*w;
+gb(z):=(z-l*w)*w*w+l*w;
+gc(z):=(z-l)*w*w+l;
+);
+
+
+p4gm:=(tree="[a[b[a[b[a[b[a[b[a[b[a[b[a[b[a][b]]][b[a[b]][b[a]]]]][b[a[b[b[a][b]]]][b[a]]]]][b[a[b[b[a[b[b]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a][b]]]][b[a]]]]]]]][b[a]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b]][b[a][b]]]][b[a[b[b]]][b[a]]]]][b[a[b[b[a[b]][b]]]][b[a]]]]][b[a[b[b[a[b[b[a][b]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b]]]]]]]]]]]][b[a[b[b[a[b[b[a[b[b[a[b]][b]]]][b[a]]]]]]]]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b[a[b]][b[a][b]]]][b[a[b[b]]][b[a]]]]][b[a[b[b[a[b]][b]]]][b[a]]]]][b[a[b[b[a[b[b[a][b]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b]]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a[b]][b]]]]]]]]]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b[a][b]]][b[a[b]][b[a]]]]][b[a[b[b[a][b]]]][b[a]]]]][b[a[b[b[a[b[b]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a][b]]]]]]]]]]]]][b[a[b[b[a[b[b[a[b[b[a[b[b]]]]]]]]]]]]]]]";
+l=1.5;
+w=exp(i*60°);
+gb(z):=(z+l*i)*i-l*i;
+ga(z):=conjugate(z);
+gc(z):=z;
+);
+
+p3m1:=(tree="[a[b[a[b[a[b[a[b[a[b[a[b[a[b[a][b]]][b[a[b]][b[a]]]]][b[a[b[b[a][b]]]][b[a]]]]][b[a[b[b[a[b[b]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a][b]]]][b[a]]]]]]]][b[a]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b]][b[a][b]]]][b[a[b[b]]][b[a]]]]][b[a[b[b[a[b]][b]]]][b[a]]]]][b[a[b[b[a[b[b[a][b]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b]]]]]]]]]]]][b[a[b[b[a[b[b[a[b[b[a[b]][b]]]][b[a]]]]]]]]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b[a[b]][b[a][b]]]][b[a[b[b]]][b[a]]]]][b[a[b[b[a[b]][b]]]][b[a]]]]][b[a[b[b[a[b[b[a][b]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b]]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a[b]][b]]]]]]]]]]]]][b[a[b[a[b[a[b[a[b[a[b[a[b[a][b]]][b[a[b]][b[a]]]]][b[a[b[b[a][b]]]][b[a]]]]][b[a[b[b[a[b[b]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b]][b[a]]]]]]]][b[a]]]]][b[a[b[b[a[b[b[a[b[b[a][b]]]]]]]]]]]]][b[a[b[b[a[b[b[a[b[b[a[b[b]]]]]]]]]]]]]]]";
+l=1.5;
+w=exp(i*60°);
+gb(z):=(z+l*i)/i-l*i;
+ga(z):=conjugate(z);
+gc(z):=z;
+);
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+chain;
+
+l=|E,F|;
+
+b=complex(B);
+z=complex(A);
+r=(b-z);
+complexstickler=apply(stickler,s,apply(s,complex(#)));
+objs=apply(complexstickler,s,apply(s,#*r+z));
+
+
+aa(objs):=apply(objs,r,apply(r,ga(#)));
+bb(objs):=apply(objs,r,apply(r,gb(#)));
+cc(objs):=apply(objs,r,apply(r,gc(#)));
+
+nn=1;
+
+dr(objs):=apply(objs,s,draw(gauss(s_1),gauss(s_2),alpha->(0.95)^nn));
+
+dr(objs);
+
+count=0;
+stack=zerovector(100);
+
+
+//objs=complex(A);
+
+
+process(s):=(
+
+   if(s=="[",count=count+1;stack_count=objs);
+   if(s=="]"& (count!=0),objs=stack_count;count=count-1;nn=0;);
+   if(s=="a",objs=aa(objs);dr(objs);nn=nn+1);
+   if(s=="b",objs=bb(objs);dr(objs);nn=nn+1);
+   if(s=="c",objs=cc(objs);dr(objs));
+);
+
+repeat(length(tree),k,process(tree_k));
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1.2835536700762342, 1.1979834254044854, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, 1.058823529411765, 3.5778043775649797], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, 0.1593625498007968, -0.48464282405262665], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "D", type: "Free", pos: [4.0, -0.1081081081081081, 0.3287712130735386], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "D"], alpha: 0.0, labeled: true},
+    {name: "E", type: "PointOnLine", pos: [1.446828848635473, -1.315298953304975, 4.0], color: [0.0, 1.0, 0.0], args: ["a"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "F", type: "PointOnLine", pos: [4.0, -0.8510638297872338, 2.588198911429985], color: [0.0, 1.0, 0.0], args: ["a"], size: 2.0},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["E", "F"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.6000000000000001, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 672,
+    height: 141,
+    transform: [{visibleRect: [-9.22353391005114, 3.5348659370071216, 12.873488505472448, -1.101562873392917]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Det3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+det=(B.x*C.y-B.y*C.x);
+if(det>0,sig="\;>\;0");
+if(det<0,sig="\;<\;0");
+if(det==0,sig="");
+drawtext((1,-4),"$
+{1\over 2}\det\begin{pmatrix}
+\quad|\quad&\quad|\quad\\
+v_1&v_2\\
+|&|
+\end{pmatrix}\;=\;
+{1\over 2}\det\begin{pmatrix}
+"+B.x+"&"+C.x+"\\
+"+B.y+"&"+C.y+"
+\end{pmatrix}\;=\;
+"+det/2+sig+"
+$",size->16);
+
+fillpoly(((0,0),B,C,(0,0)),
+         color->if(det>0,(0,0.5,0),(0.7,0,0)),alpha->0.4);
+drawall(cycle(((0,0),B,C,(0,0))),color->(0,0,0),alpha->0.8);
+
+drawtext((B+C+O)/3-(0.3,0.3),if(det>0,"+","-"),size->min(20,|det|*3));
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "O", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.757, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 15.0, size: 0.0, printname: "$v_1"},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "B"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "C", type: "Free", pos: [-2.0, -4.0, -1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 15.0, size: 0.0, printname: "$v_2"},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "C"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.4000000000000001, arrowposition: 1.0},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["O", "C"], alpha: 0.4000000059604645},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["O", "B"], alpha: 0.4000000059604645}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 678,
+    height: 395,
+    transform: [{visibleRect: [-7.3, 9.06, 19.82, -6.74]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

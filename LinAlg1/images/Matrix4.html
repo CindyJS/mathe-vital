@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Matrix4.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+init():=(
+  m=apply(1..n,(apply(1..n,randominteger(9)+1)));
+  a=apply(1..n,randominteger(9)+1);
+
+me=[[a_1,0,0,0,0],
+[0,a_2,0,0,0],
+[0,0,a_3,0,0],
+[0,0,0,a_4,0],
+[0,0,0,0,a_5]
+];
+
+mm=me*m;
+
+
+sp=0.03;
+
+res=transpose(m)*a;
+
+ p1=(0,-3.4);
+ p2=(0,-1.7);
+ p3=(0,0);
+ p4=(0,1.7);
+ p5=(0,3.4);
+
+
+ q1=(0,0);
+ q2=(0,0);
+ q3=(0,0);
+ q4=(0,0);
+ q5=(0,0);
+
+reached=false;
+
+ p1r=false;
+ p2r=false;
+ p3r=false;
+ p4r=false;
+ p5r=false;
+ p1b=false;
+ p2b=false;
+ p3b=false;
+ p4b=false;
+ p5b=false;
+
+waited=false;
+waited2=false;
+waited3=false;
+
+);
+n=5;
+init();
+stage=1;
+count=0;
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+n=5;
+
+
+
+textsize(20);
+brackheight="";repeat(n,brackheight=brackheight+" \\");
+
+
+left="\left(\begin{matrix}"+brackheight+"\end{matrix}\right.";
+right="\left.\begin{matrix}"+brackheight+"\end{matrix}\right)";
+
+columnvec(v):=(
+   txt="$\begin{matrix}";
+   repeat(n,txt=txt+v_#+"\\");
+   txt=txt+"\end{matrix}$";
+);
+
+
+
+spread=1;
+
+//Matrix auseinanderziehen
+spreadmatrix(mspread):=(
+  x=0;
+  drawtext((0,0),"$"+left+"$");
+  repeat(n,
+    if(#==1,
+      x=x+mspread/2+spread,
+      x=x+mspread+spread
+    );
+    drawtext((x,0),columnvec(m_#),color->(0,0,0.8));
+  );
+  x=x+0.7;
+  drawtext((x,0),"$"+right+"\cdot"+left+"$");
+  x=x+2.1;
+  drawtext((x,0),columnvec(a),color->(0.8,0,0));
+  x=x+.5;
+  drawtext((x,0),"$"+right+"$");
+);
+
+
+
+
+//Coeffizienten bewegen
+movecoefs(mspread,t):=(
+  x=0;
+  drawtext((0,0),"$"+left+"$");
+  repeat(n,
+     if(#==1,
+      x=x+mspread/2+spread,
+      x=x+mspread+spread
+      );
+      drawtext((x,0),columnvec(m_#),color->(0,0,0.8));
+    );
+    x=x+0.7;
+
+    if(!p1b,
+      drawtext((x,0),"$"+right+"\cdot"+left+"$"),
+      drawtext((x,0),"$"+right+"$")
+    );
+    x=x+2.0;
+
+    drawtext((x,0)+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+p5,a_1,color->(0.8,0,0));
+
+    if(p1b,bbr(p1));
+    if(p2b,bbr(p2));
+    if(p3b,bbr(p3));
+    if(p4b,bbr(p4));
+    if(p5b,bbr(p5));
+
+    if(p1r,br(p1));
+    if(p2r,br(p2));
+    if(p3r,br(p3));
+    if(p4r,br(p4));
+    if(p5r,br1(p5));
+
+
+    updateps();
+
+  x=x+.5;
+    if(!p1b,  drawtext((x,0),"$"+right+"$"));
+);
+
+
+spreadcoefs(mspread,t):=(
+  x=0;
+  drawtext((0,0),"$"+left+"$");
+  repeat(n,
+     if(#==1,
+      x=x+mspread/2+spread,
+      x=x+mspread+spread
+      );
+      drawtext((x,0),columnvec(m_#),color->(0,0,0.8));
+    );
+    x=x+0.7;
+    drawtext((x,0),"$"+right+"$");
+    x=x+2.0;
+
+    drawtext((x,0)+q1+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q1+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q1+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q1+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q1+p5,a_1,color->(0.8,0,0));
+
+    drawtext((x,0)+q2+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q2+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q2+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q2+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q2+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q3+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q3+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q3+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q3+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q3+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q4+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q4+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q4+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q4+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q4+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q5+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q5+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q5+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q5+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q5+p5,a_1,color->(0.8,0,0));
+
+    bbr(p1);
+    bbr(p2);
+    bbr(p3);
+    bbr(p4);
+    bbr(p5);
+
+    br(p1+q1);
+    br(p2+q1);
+    br(p3+q1);
+    br(p4+q1);
+    br1(p5+q1);
+
+    br(p1+q2);
+    br(p2+q2);
+    br(p3+q2);
+    br(p4+q2);
+    br1(p5+q2);
+
+    br(p1+q3);
+    br(p2+q3);
+    br(p3+q3);
+    br(p4+q3);
+    br1(p5+q3);
+
+    br(p1+q4);
+    br(p2+q4);
+    br(p3+q4);
+    br(p4+q4);
+    br1(p5+q4);
+
+    br(p1+q5);
+    br(p2+q5);
+    br(p3+q5);
+    br(p4+q5);
+    br1(p5+q5);
+
+
+    updateps2();
+
+  x=x+.5;
+);
+
+
+
+wait(mspread,t):=(
+  x=0;
+  drawtext((0,0),"$"+left+"$");
+  repeat(n,
+     if(#==1,
+      x=x+mspread/2+spread,
+      x=x+mspread+spread
+      );
+      drawtext((x,0),columnvec(m_#),color->(0,0,0.8));
+    );
+    x=x+0.7;
+    drawtext((x,0),"$"+right+"$");
+    x=x+2.0;
+
+    drawtext((x,0)+q1+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q1+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q1+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q1+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q1+p5,a_1,color->(0.8,0,0));
+
+    drawtext((x,0)+q2+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q2+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q2+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q2+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q2+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q3+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q3+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q3+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q3+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q3+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q4+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q4+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q4+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q4+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q4+p5,a_1,color->(0.8,0,0));
+
+
+    drawtext((x,0)+q5+p1,a_5,color->(0.8,0,0));
+    drawtext((x,0)+q5+p2,a_4,color->(0.8,0,0));
+    drawtext((x,0)+q5+p3,a_3,color->(0.8,0,0));
+    drawtext((x,0)+q5+p4,a_2,color->(0.8,0,0));
+    drawtext((x,0)+q5+p5,a_1,color->(0.8,0,0));
+
+
+    br(p1+q1);
+    br(p2+q1);
+    br(p3+q1);
+    br(p4+q1);
+    br1(p5+q1);
+
+    br(p1+q2);
+    br(p2+q2);
+    br(p3+q2);
+    br(p4+q2);
+    br1(p5+q2);
+
+    br(p1+q3);
+    br(p2+q3);
+    br(p3+q3);
+    br(p4+q3);
+    br1(p5+q3);
+
+    br(p1+q4);
+    br(p2+q4);
+    br(p3+q4);
+    br(p4+q4);
+    br1(p5+q4);
+
+    br(p1+q5);
+    br(p2+q5);
+    br(p3+q5);
+    br(p4+q5);
+    br1(p5+q5);
+
+
+  x=x+.5;
+);
+
+
+
+wait2(mspread):=(
+  x=0;
+  drawtext((0,0),"$"+left+"$");
+  repeat(n,
+    if(#==1,
+      x=x+mspread/2+spread,
+      x=x+mspread+spread
+    );
+    drawtext((x-1,0),columnvec(mm_#),color->(0,0,0.0));
+  );
+  x=x+0.7;
+  drawtext((x,0),"$"+right+"$");
+);
+
+
+contract(t):=(
+   mspread=60*sp;
+  x=t*7;
+  drawtext((x,0),"$"+left+"$");
+  repeat(n,
+    if(#==1,
+      x=x+(mspread/2+spread),
+      x=x+(mspread+spread)*(1-t);
+    );
+    drawtext((x-1,0),columnvec(mm_#),color->(0,0,0.0));
+  );
+  x=x+0.7;
+  drawtext((x,0),"$"+right+"$");
+);
+
+
+
+wait3(t):=(
+   mspread=60*sp;
+  x=t*7;
+  drawtext((x,0),"$"+left+"$");
+  repeat(n,
+    if(#==1,
+      x=x+(mspread/2+spread),
+      x=x+(mspread+spread)*(1-t);
+    );
+    drawtext((x-1,0),columnvec(mm_#),color->(0,0,0.0));
+  );
+  x=x+0.7;
+  drawtext((x,0),"$"+right+"$");
+);
+
+final(t):=(
+   mspread=60*sp;
+  x=t*7;
+  drawtext((x,0),"$"+left+"$");
+    x=x+(mspread/2+spread),
+    drawtext((x-1.2,0),columnvec(res),color->(0,0.5,0.0));
+
+  x=x+0.7;
+  drawtext((x,0),"$"+right+"$");
+);
+
+
+
+
+
+
+
+br(p):=(
+         drawtext((x,0)+p+(-0.7,0),"$+$");
+         drawtext((x,0)+p+(0.4,0),"$\cdot$");
+);
+
+br1(p):=(
+         drawtext((x,0)+p+(0.4,0),"$\cdot$");
+);
+
+
+bbr(p):=(
+         drawtext((x,0)+(p.x,0)+(0.7,0),"$"+left+"$",alpha->0.3);
+         drawtext((x,0)+(p.x,0)+(1.3,0),"$"+right+"$",alpha->0.3);
+);
+
+
+f=0.935;
+updateps():=(
+
+  if (p1.x==0 & p1.y<5, p1=p1+(0,0.1));
+  if (p2.x==0 & p2.y<5, p2=p2+(0,0.1));
+  if (p3.x==0 & p3.y<5, p3=p3+(0,0.1));
+  if (p4.x==0 & p4.y<5, p4=p4+(0,0.1));
+  if (p5.x==0 & p5.y<5, p5=p5+(0,0.1));
+
+  if (p1.x>-4*f & p1.y>=5, p1=p1-(0.1,0));
+  if (p2.x>-7*f & p2.y>=5, p2=p2-(0.1,0));
+  if (p3.x>-10*f & p3.y>=5, p3=p3-(0.1,0));
+  if (p4.x>-13*f & p4.y>=5, p4=p4-(0.1,0));
+  if (p5.x>-16*f & p5.y>=5, p5=p5-(0.1,0));
+
+
+  if (p1.x<=-4*f & p1.y>=0, p1=p1-(0,0.1); p1b=true);
+  if (p2.x<=-7*f & p2.y>=0, p2=p2-(0,0.1); p2b=true);
+  if (p3.x<=-10*f & p3.y>=0, p3=p3-(0,0.1); p3b=true);
+  if (p4.x<=-13*f & p4.y>=0, p4=p4-(0,0.1); p4b=true);
+  if (p5.x<=-16*f & p5.y>=0, p5=p5-(0,0.1); p5b=true);
+
+  if (p1.x<=-4*f & p1.y<0, p1r=true);
+  if (p2.x<=-7*f & p2.y<0, p2r=true);
+  if (p3.x<=-10*f & p3.y<0, p3r=true);
+  if (p4.x<=-13*f & p4.y<0, p4r=true);
+  if (p5.x<=-16*f & p5.y<0, p5r=true);
+
+
+);
+
+
+updateps2():=(
+
+  if (q1.y<3.4, q1=q1+(0,0.1));
+  if (q2.y<1.7, q2=q2+(0,0.1));
+
+  if (q4.y>-1.7, q4=q4-(0,0.1));
+  if (q5.y>-3.4, q5=q5-(0,0.1),reached=true);
+
+
+
+
+);
+
+
+ //  init();
+
+
+animate():=(
+   err("start");
+init();
+   stage=2;
+   count=0;
+
+);
+
+if(stage==1 ,
+  spreadmatrix(0);
+);
+
+
+
+if(stage==2,
+drawtext((0,6.5),"Multiplikation Matrix-Vektor",size->25);
+   spreadmatrix(count*sp);
+);
+
+if(stage==3,
+drawtext((0,6.5),"Verteilen des Vektors auf die Matrix",size->25);
+   movecoefs(60*sp,count/60);
+);
+
+if(stage==4,
+drawtext((0,6.5),"Skalarmultiplikation mit Spalten",size->25);
+   spreadcoefs(60*sp,count/60);
+);
+
+
+if(stage==5,
+drawtext((0,6.5),"Viele Produkte berechnen" ,size->25);  wait(60*sp,count/60);
+);
+
+
+if(stage==6,
+drawtext((0,6.5),"Aufsummieren" ,size->25);
+ wait2(60*sp);
+);
+
+if(stage==7,
+drawtext((0,6.5),"Aufsummieren" ,size->25);
+ contract(count/60);
+);
+
+
+if(stage==8,
+drawtext((0,6.5),"Aufsummieren" ,size->25);
+  wait3(1);
+);
+
+
+
+if(stage==9,
+drawtext((0,6.5),"Ergebnis" ,size->25);
+ final(1);
+);
+
+
+
+
+
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+
+
+if(stage==2,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.03,
+     count=count+1;
+     oldsecs=seconds();
+   );
+   if(count==60,count=0;stage=3);
+);
+
+
+if(stage==3,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.03,
+     count=count+1;
+     oldsecs=seconds();
+   );
+ //  movecoefs(80*0.02,count/60);
+   if(p5r,count=0;stage=4);
+);
+
+
+
+if(stage==4,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.03,
+     count=count+1;
+     oldsecs=seconds();
+   );
+ //  movecoefs(80*0.02,count/60);
+   if(reached,count=0;stage=5);
+);
+
+
+if(stage==5,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.1,
+     count=count+1;
+     oldsecs=seconds();
+
+     if(count==10,waited=true);
+   );
+ //  movecoefs(80*0.02,count/60);
+   if(waited,count=0;stage=6);
+);
+
+
+if(stage==6,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.1,
+     count=count+1;
+     oldsecs=seconds();
+
+     if(count==10,waited2=true);
+   );
+ //  movecoefs(80*0.02,count/60);
+   if(waited2,count=0;stage=7);
+);
+
+if(stage==7,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.03,
+     count=count+1;
+     oldsecs=seconds();
+
+   );
+   if(count==60,count=0;stage=8);
+);
+
+
+if(stage==8,
+   if(count==0,oldsecs=seconds();count=count+1);
+   if (seconds()-oldsecs>0.1,
+     count=count+1;
+     oldsecs=seconds();
+
+     if(count==10,waited3=true);
+   );
+ //  movecoefs(80*0.02,count/60);
+   if(waited3,count=0;stage=9);
+);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, script: "animate();", text: "Start", textsize: 18.0, dock: {corner: "LR", offset: [-51.0, 33.0]}}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.16494845360824742,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: true,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 733,
+    height: 393,
+    virtualwidth: 733,
+    virtualheight: 393,
+    transform: [{visibleRect: [-4.34, 9.54, 24.98, -6.18]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>BMI.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+drawm(p,t):=(
+  draw(p-(0.2,0),p+(0.2,0),color->(0,0,0));
+  drawtext(p+(0.4,-0.2),t);
+);
+
+
+drawm1(p):=draw(p-(0.1,0),p+(0.1,0),alpha->0.5,color->(0,0,0));
+
+a=log(30);
+b=log(180);
+x=20;
+f(t):=(1-t)*D+t*C;
+repeat(16,i,
+  y=x+10*i;
+  c=log(y);
+  t=(c-a)/(b-a);
+  drawm(f(t),y);
+);
+
+x=30;
+repeat(150,i,
+  y=x+1*i;
+  c=log(y);
+  t=(c-a)/(b-a);
+  drawm1(f(t));
+);
+
+
+a=log(10);
+b=log(70);
+x=0;
+f(t):=(1-t)*E+t*F;
+repeat(7,i,
+  y=x+10*i;
+  c=log(y);
+  t=(c-a)/(b-a);
+  drawm(f(t),y);
+);
+
+x=10;
+repeat(60,i,
+  y=x+1*i;
+  c=log(y);
+  t=(c-a)/(b-a);
+  drawm1(f(t));
+);
+
+
+
+
+a=log(1/2.10^2);
+b=log(1/1.25^2);
+x=1.2;
+f(t):=(1-t)*H+t*G;
+repeat(18,i,
+  y=x+0.05*i;
+  c=log(1/y^2);
+  t=(c-a)/(b-a);
+  drawm(f(t),y*100);
+);
+x=1.25;
+repeat(85,i,
+  y=x+0.01*i;
+  c=log(1/y^2);
+  t=(c-a)/(b-a);
+  drawm1(f(t));
+);
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "E", type: "Free", pos: [3.4181818181818184, -4.0, 0.36363636363636365], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "e", type: "VerticalLine", pos: [-0.2544529262086514, -0.0, 4.0], color: [0.0, 0.0, 1.0], alpha: 0.0, labeled: true},
+    {name: "C", type: "PointOnLine", pos: [4.0, 1.882951653944021, 0.25445292620865145], color: [0.0, 0.0, 0.0], args: ["e"], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "D", type: "PointOnLine", pos: [4.0, -3.236641221374045, 0.25445292620865145], color: [0.0, 0.0, 0.0], args: ["e"], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], alpha: 0.8999999761581421},
+    {name: "c", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "E"], alpha: 0.0, labeled: true},
+    {name: "F", type: "PointOnLine", pos: [4.0, 1.2255319148936172, 0.425531914893617], color: [0.0, 0.0, 0.0], args: ["c"], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "B", type: "PointOnSegment", pos: [4.0, -1.4452926025445283, 0.25445292620865145], color: [1.0, 1.0, 1.0], args: ["b"], alpha: 0.8999999761581421, textsize: 20.0, size: 3.0},
+    {name: "K", type: "Free", pos: [0.6122448979591837, -4.0, -0.5102040816326531], color: [0.0, 0.0, 0.0], alpha: 0.0, pinned: true, size: 2.0},
+    {name: "f", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["c", "K"], alpha: 0.0, labeled: true},
+    {name: "G", type: "PointOnLine", pos: [1.025641025641025, -4.0, -0.8547008547008543], color: [0.0, 0.0, 0.0], args: ["f"], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "H", type: "PointOnLine", pos: [-0.3125, -4.0, 0.2604166666666667], color: [0.0, 0.0, 0.0], args: ["f"], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], alpha: 0.8999999761581421},
+    {name: "A", type: "PointOnSegment", pos: [-1.6666665388888997, -4.0, 1.3888887824074165], color: [1.0, 1.0, 1.0], args: ["d"], alpha: 0.8999999761581421, textsize: 19.0, size: 3.0},
+    {name: "a", type: "Join", color: [0.757, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3, overhang: 1.02, clip: "inci"},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "E"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", pos: [1.2183908045977012, -4.0, -0.5747126436781609], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.5, alpha: 0.8999999761581421, text: "Größe \nin cm", textsize: 19.0},
+    {name: "Text1", type: "Text", pos: [4.0, 1.7422222222222223, 0.4444444444444444], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.5, alpha: 0.8999999761581421, text: "BMI", textsize: 19.0},
+    {name: "Text2", type: "Text", pos: [4.0, -3.9889807162534434, 0.27548209366391185], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.5, alpha: 0.8999999761581421, text: "Gewicht\n  in kg", textsize: 19.0},
+    {name: "Text3", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.20000000298023224, alpha: 0.8999999761581421, text: "Der Body/Mass Index \ngibt nach Aussagen \neiniger Diätspezialisten\nAuskunft darüber, wie\nweit Sie von Ihrem\n\"Idealgewicht\" weg sind.\n\nUnd so gehts.\nGewicht einstellen,\nGröße einstellen,\nin der mittleren Skala\nden BMI ablesen.\n", textsize: 20.0, dock: {corner: "UL", offset: [10.0, -80.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 920,
+    height: 646,
+    transform: [{visibleRect: [-17.18, 8.82, 19.62, -17.02]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

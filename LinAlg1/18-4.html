@@ -1,0 +1,123 @@
+---
+title: Fläche eines Polygons
+layout: page
+category: LinAlg1
+---
+
+        <h1>Fläche eines Polygons</h1>
+<div  style=" line-height: 1.5">
+In vollkommen analoger Weise kann man durch Aufsummieren von $2\times 2 $-Determinanten die Fläche eines beliebigen
+Polygons ermitteln. Hat das Polygon $n$ Eckpunkte, so kann man  die Fläche
+als
+
+\[
+{1\over 2}\sum_{i=1}^n\det(v_i,v_{i+1})
+\]
+
+berechnen (hierbei werden Indizes modulo $n$ gerechnet).
+
+Das folgende Applet zeigt das Ergebnis einer solchen Berechnung.
+Hierbei werden Kanten, bei denen die Determinante positives Vorzeichen hat, grün markiert,
+Kanten mit negativem Gewicht werden rot markiert.
+<br><br>
+  </div>
+
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col):=(
+           n=b-a;
+           n=n/|n|*2.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->4);
+           draw(b-n*.17+p*.07,b,color->col,size->4);
+           draw(b-n*.17-p*.07,b,color->col,size->4);
+
+        );
+
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        draw((0,0),color->(0,0,0));
+  draw(line((0,1,0)),color->(0,0,0),size->0.5);
+        draw(line((1,0,0)),color->(0,0,0),size->0.5);
+
+        data=((A,B),(B,C),(C,D),(D,E),(E,F),(F,G),(G,A));
+
+ar=0;
+apply(data,d,
+  v=(d_1).xy;
+  w=(d_2).xy;
+  det=det((v,w));
+  draw(d_1,d_2);
+
+  if(det>0,drawarrow(d_1,d_2,(0,0.5,0)));
+  if(det<0,drawarrow(d_1,d_2,(0.5,0.0,0)));
+  if(det~=0,drawarrow(d_1,d_2,(0,0.0,0)));
+ar=ar+det/2;
+);
+
+          pts=allpoints();
+          pts=[pts_(length(pts))]++pts++[pts_1];
+apply(2..(length(pts)-1),i,
+d1=pts_i-pts_(i-1);
+d2=pts_i-pts_(i+1);
+d1=d1/|d1|;
+d2=d2/|d2|;
+d3=d1+d2;
+d3=d3/|d3|;
+
+p=pts_i;
+drawtext(p.xy+d3*.8+(-.2,-.2);,p);
+);
+fillpoly(pts,color->(.5,.5,1),alpha->0.3);
+drawtext((-8,-3),"$(\det(A,B)+\det(B,C)+....+\det(F,G)+\det(G,A))/2="+format(ar,4)+"$",size->26)
+
+        </script>
+
+        <script type="text/javascript">
+        var renderEq=function(tt){
+        var latex=tt;
+        document.getElementById('tex').innerHTML=latex;
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'ttex']);
+        }
+        </script>
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=850 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[8,2],color:[1,1,1],size:3},
+                      {name:"B", type:"Free", pos:[8,7],color:[1,1,1],size:3},
+                      {name:"C", type:"Free", pos:[5,8],color:[1,1,1],size:3},
+                      {name:"D", type:"Free", pos:[1,8],color:[1,1,1],size:3},
+                      {name:"E", type:"Free", pos:[-2,6],color:[1,1,1],size:3},
+                      {name:"F", type:"Free", pos:[0,3],color:[1,1,1],size:3},
+                      {name:"G", type:"Free", pos:[4,2],color:[1,1,1],size:3}
+
+
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:1,
+                        snap:true,
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,12,12,-6]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+}
+                        );
+
+        </script>
+
+</div>

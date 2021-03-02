@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Gleitspiegelung_Eigenschaften.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+P2.xy=Pa+(D-C);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 0.24000000000000002, -0.6666666666666666], color: [1.0, 0.0, 0.0], labeled: true, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, 2.721311475409836, 0.819672131147541], color: [1.0, 0.0, 0.0], labeled: true, size: 4.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], labeled: true, size: 3},
+    {name: "C", type: "Free", pos: [4.0, -2.2222222222222223, -0.5555555555555556], color: [1.0, 0.0, 0.0], size: 4.0},
+    {name: "b", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["a", "C"], visible: false, labeled: true},
+    {name: "D", type: "PointOnLine", pos: [0.8189047873314609, -4.0, -0.6646133686211689], color: [1.0, 0.0, 0.0], args: ["b"], size: 4.0},
+    {name: "s", type: "Segment", color: [0.098, 0.62, 0.306], args: ["C", "D"], labeled: true, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "P", type: "Free", pos: [4.0, 3.1818181818181817, -2.272727272727273], color: [1.0, 0.0, 0.0], labeled: true},
+    {name: "d", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["a", "P"], size: 0},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "d"], size: 4.0},
+    {name: "C0", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["F", "P"], size: 0},
+    {name: "Pa", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C0", "d", "P"], labeled: true, size: 4.0, printname: "P*"},
+    {name: "P2", type: "Free", pos: [-2.139638084453097, -4.0, -0.7907024561952677], color: [1.0, 0.0, 0.0], labeled: true, printname: "P'=$\\gamma_{a,s}(P)"},
+    {name: "M", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P", "P2"], labeled: true, size: 4.0, printname: "$M_{PP'}$"},
+    {name: "e", type: "Segment", color: [0.502, 0.502, 0.502], args: ["P", "P2"]},
+    {name: "f", type: "Segment", color: [0.098, 0.62, 0.306], args: ["Pa", "P2"], labeled: true, size: 3, printname: "s", arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "g", type: "Segment", color: [0.502, 0.502, 0.502], args: ["P", "Pa"]},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], text: "Gleitspiegelung $\\gamma_{a,s} = \\tau_s \\circ \\sigma_a = \\sigma_a \\circ \\tau_s$ mit s parallel zu a.", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -20.0]}},
+    {name: "Text1", type: "Text", pos: [4.0, -0.7111111111111111, 1.1111111111111112], color: [0.0, 0.0, 0.0], text: "Beachte: Der Mittelpunkt $M_{PP'}$ von P und \nP'=$\\gamma_{a,s}(P)$ liegt stets auf der Spiegelachse a.\nFür s=0 ist $\\gamma_{a,s}$ die Achsenspiegelung $\\sigma_a$.\n", textsize: 16.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 304,
+    transform: [{visibleRect: [-9.1, 8.14, 18.1, -4.02]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

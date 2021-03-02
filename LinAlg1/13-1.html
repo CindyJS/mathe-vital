@@ -1,0 +1,165 @@
+---
+title: Komplexe Funktionen (zum Experimentieren)
+layout: page
+category: LinAlg1
+---
+      
+        <h1>Komplexe Funktionen (zum Experimentieren)</h1>
+<div  style=" line-height: 1.5">
+In diesem Applet kann man beobachten, wie eine komplexe Funktion
+$f\colon\mathbb{C}\to\mathbb{C}$ eine Zahl $z$ auf $f(z)$ abbildet.
+Die Funktion ist frei editierbar. Die Position von $z$ ist frei bewegbar. Insbesondere ist es oftmals interessant zu beaobachten,
+was passiert, wenn sich $z$ auf der reellen Achse, der imaginären Achse oder dem Einheitskreis bewegt.
+
+Einige interessante Funktionen zum Ausprobieren sind unten direkt zum Anklicken angegeben.
+ <br> <br> <br>
+</div>
+
+        <script id='init' type='cindyscript'>
+ drawarrow(a,b,col,alp):=(
+        regional(n);
+           n=b-a;
+           n=n/|n|*1.4;
+           p=(n_2,-n_1);
+           draw(a,b-n*.1,color->col,size->4,alpha->alp);
+           fillpoly([b-n*.17+p*.07,b,b-n*.17-p*.07,b-n*.1],color->col,alpha->alp)
+
+        );
+        drawl(a,b,col,alp):=(
+           draw(a,b,color->col,size->2,alpha->alp);
+
+        );
+
+
+label=false;
+snap=false;
+f(z):=z^2;
+setfunction(t):=(
+  parse("f(z):="+t);
+);
+
+sc=false;
+sx=false;
+sy=false;
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+
+        draw(line((0,1,0)),color->(0,0,0),size->0.5);
+        draw(line((1,0,0)),color->(0,0,0),size->0.5);
+        e=exp(1);
+
+n=|B.xy|;
+if(n>0.9 & n<1.1 & (!sx) & (!sy),B.xy=B.xy/n;sc=true;sx=false;sy=false,sc=false);
+if(B.y<.1 & B.y>-0.1 & (!sc)& (!sx),B.xy=(B.x,0);sy=true;sx=false;sc=false,sy=false);
+if(B.x<.1 & B.x>-0.1 & (!sc)& (!sy),B.xy=(0,B.y);sx=true;sy=false;sc=false,sx=false);
+
+
+        z=complex(B.xy);
+
+        ff=gauss(f(z));
+
+        drawarrow((0,0),gauss(z),(0.6,0,0),1);
+        drawarrow((0,0),ff,(0,0,0.8),1);
+
+ drawcircle((0,0),1);
+drawtext(gauss(z)*1.2+(-.03,-.03),"z");
+drawtext(ff*1.2+(-.07,-.03),"f(z)");
+        </script>
+
+
+
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=500 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+                   <div style="font-size:18px;  top:23px; left:20px; display:inline;z-index:4">
+
+               f(z)= <input id="f" type="text" name="inp" value="z^2"  onkeypress="typ(event, this)" size="30" style="font-size:18px; background-color:#FFEEDD"}>
+</div>
+
+
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[.65,.5],color:[1,.9,0],size:4},
+                      {name:"C", type:"Free", pos:[-3,3],color:[1,0,0],size:0.01},
+
+
+
+
+                    ];
+                     cdy=createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:.25,
+                        snap:false,
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-1.5,1.5,1.5,-1.5]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                        );
+  setTimeout(function(){document.onkeydown={}}, 1000);
+
+var typ=function(a,b){
+    var chCode = ('charCode' in event) ? event.charCode : event.keyCode;
+    if(chCode==13){
+
+        cdy.evokeCS('setfunction("'+b.value+'");repaint();');
+
+    }
+}
+
+var define=function(a){
+console.log("HALLO");
+console.log(a);
+    document.getElementById("f").value=a;
+
+    cdy.evokeCS('setfunction("'+a+'");repaint();');
+
+}
+
+
+</script>
+
+  <!--      END ADD-->
+
+<div  style=" line-height: 1.5">
+
+<button style="width:100px;" onclick='define("z^2");' type="button" >z^2</button>
+<button style="width:100px;" onclick='define("z^3");' type="button" >z^3</button>
+<button style="width:100px;" onclick='define("1/z");' type="button" >1/z</button>
+<button style="width:100px;" onclick='define("conjugate(z)");' type="button" >conjugate(z)</button><br>
+<button style="width:100px;" onclick='define("exp(z)");' type="button" >exp(z)</button>
+<button style="width:100px;" onclick='define("sin(z)");' type="button" >sin(z)</button>
+<button style="width:100px;" onclick='define("cos(z)");' type="button" >cos(z)</button>
+<button style="width:100px;" onclick='define("sqrt(z)");' type="button" >sqrt(z)</button><br>
+<br>
+<br>
+Eine spannende Übung ist es, genau zu beobachten, was bei den jeweiligen Funktionen
+alles an Besonderheiten auftritt.
+<ul>
+<li>Wie kann man aus den vier Grundrechenarten und der komplexen Konjugation den Realteil von $z$ berechnen?</li>
+<li>Wie kann man aus den vier Grundrechenarten der Wurzel und der komplexen Konjugation den Betrag von $z$ berechnen?</li>
+<li>Warum zeigt die Wurzelfunktion ein "sprunghaftes" Verhalten?</li>
+</ul>
+
+
+</div>
+<br>
+<br>
+
+<br>
+<br>
+
+
+
+
+</div>

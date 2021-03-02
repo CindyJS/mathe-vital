@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>MoebiusSeqDemo.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+f(z):=exp(i*.1+.05)*z;
+
+f(z):=1.2*z;
+
+//t(z):=2*z/(z+1);
+t(z):=(1+z)/(z-1);
+ti(z):=(-1-z)/(-z+1);
+
+f(z):=1.2*(exp(i*10°))*z;
+
+b=ti(complex(B));
+c=ti(complex(C));
+f(z):=b/c*z;
+
+
+
+
+start=c;
+//draw(gauss(start),size->20);
+
+while(|start|>0.02 & |start|<50,start=start*(c/b));
+//start=t(start);
+
+//f(z):=1*(exp(i*10°))*z;
+
+arrow(a,b):=(
+  if(|a-b|<10,
+    draw(gauss(a),gauss(b),color->(0,0,0));
+    //draw(gauss(.7*b+.3*a),gauss(a));
+    draw(gauss(.7*b+.3*a+(b-a)*i*.15 ),gauss(b),color->(0,0,0));
+    draw(gauss(.7*b+.3*a-(b-a)*i*.15 ),gauss(b),color->(0,0,0));
+    //draw(gauss(.7*b+.3*a-(b-a)*i*.2 ),gauss(.7*b+.3*a+(b-a)*i*.2)));
+
+)
+);
+
+
+iterate(z):=(
+  z0=z;
+  cou=0;
+
+  while((cou<100) & ((|z0|<0.03&|z|<50) % (|z0|>50&|z|>0.03)),
+
+    z1=f(z);
+    arrow(t(z),t(z1));
+    z=z1;
+    cou=cou+1;
+  );
+);
+
+
+repeat(20,k,
+  iterate(start*exp(i*k*2*pi/20));
+);
+
+
+draw((1,0),size->7);
+draw((-1,0),size->7);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "B", type: "Free", pos: [0.3399985470102761, 1.5299934615462425, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C", type: "Free", pos: [0.056666424501712685, 1.2844389553721542, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 566,
+    height: 486,
+    transform: [{visibleRect: [-1.27735565230944, 1.154578399222396, 1.3954107033546748, -1.1404117930969677]}],
+    axes: true,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

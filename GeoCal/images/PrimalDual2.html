@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PrimalDual2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ -0.593554080493756, -0.18701018974460806, 0.7827648066059802 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "B", type: "Free", pos: [ -0.047616046557699174, -0.6666246518077884, 0.743871148595212 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "a", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "B" ], labeled: true }, 
+		{ name: "C", type: "Free", pos: [ 0.48373405174670864, 0.5936736089618697, 0.6430808760979457 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "D", type: "PointOnLine", pos: [ 0.8181284605189725, -0.3129390305397801, -0.48242614486953206 ], color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "a" ], labeled: true } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 409, height: 385, transform: [ { visibleRect: [ -4.537906382978723, 5.3649588652482265, 4.3637900709219855, -3.0143886524822694 ] } ], background: "rgb(168,176,192)" }, 
+		{ id: "CSCanvas", width: 409, height: 386, transform: [ { visibleRect: [ -3.2629218484765286, 3.226362500034215, 4.213464907976694, -3.8295917493323963 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

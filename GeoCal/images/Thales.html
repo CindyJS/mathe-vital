@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Thales.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csmousedrag" type="text/x-cindyscript">
+if(hit&false,
+  C.xy=mouse().xy;
+  D.xy=(-C.x,C.y);
+  E.xy=(-C.x,-C.y);
+  
+
+);
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+A.homog=(-1,1,0);
+B.homog=(1,1,0);
+
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+mat=C0.matrix;
+
+m=mouse().xy++[1];
+m=(m_1,-m_2,m_3);
+
+s(x):=if(x<0,-1,1);
+f(m):=s(m*mat*m);
+r=0.2;
+li=[f(m+(r,r,0)),f(m+(-r,r,0)),f(m+(-r,-r,0)),f(m+(r,-r,0))];
+hit=min(li)!=max(li);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -4.0, 0.0], color: [1.0, 0.0, 0.0]},
+    {name: "B", type: "Free", pos: [4.0, 4.0, 0.0], color: [1.0, 0.0, 0.0]},
+    {name: "C", type: "Free", pos: [4.0, 0.8499999999999999, 1.2499999999999998], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "D", type: "Free", pos: [4.0, -0.8499999999999998, -1.2499999999999998], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "E", type: "Free", pos: [4.0, 0.8499999999999998, -1.2499999999999998], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "C0", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "E"], size: 3},
+    {name: "F", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 4.0},
+    {name: "a", type: "Through", pos: [-1.6727272727272728, -4.0, 0.0], color: [0.098, 0.62, 0.306], args: ["F"], size: 3},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "a"]},
+    {name: "G", type: "SelectP", pos: [4.0, -1.6727272727272728, 1.1619928590939863], color: [1.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "H", type: "SelectP", pos: [4.0, -1.6727272727272728, -1.1619928590939863], color: [1.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "b", type: "Through", pos: [0.33967805388854033, -1.9664049689695446, 4.0], color: [0.0, 0.0, 1.0], args: ["H"], size: 3},
+    {name: "K", type: "OtherIntersectionCL", color: [0.0, 1.0, 1.0], args: ["C0", "b", "H"], size: 6.0},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["G", "K"]},
+    {name: "Collection__2", type: "AngularBisector", args: ["b", "c", "K"]},
+    {name: "d", type: "SelectL", pos: [-2.831238507805341, 2.8312385078053395, 4.0], color: [0.757, 0.0, 0.0], args: ["Collection__2"], clip: "inci"},
+    {name: "e", type: "SelectL", pos: [-0.5779779359666778, -0.5779779359666779, 4.0], color: [0.757, 0.0, 0.0], args: ["Collection__2"], clip: "inci"},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.0431436295941502, yy: 0.0431436295941502, zz: 1.0, xy: 0.0, xz: -0.3595369486279899, yz: 0.23762950925060355}, color: [0.0, 0.0, 1.0], radius: 1.3294825309119334, args: ["K"], visible: false, pinned: true},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C1", "e"]},
+    {name: "L", type: "SelectP", pos: [-3.493924981801528, -4.0, -1.0828308233176929], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false},
+    {name: "N", type: "SelectP", pos: [4.0, 1.4207238523782797, 0.7832646959107341], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false},
+    {name: "Collection__4", type: "IntersectionConicLine", args: ["C1", "d"]},
+    {name: "O", type: "SelectP", pos: [4.0, 2.893396379356415, 0.7832646959107341], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false},
+    {name: "M", type: "SelectP", pos: [4.0, 2.2485789713345747, 1.2396726649343994], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 539,
+    height: 438,
+    transform: [{visibleRect: [-10.78, 9.22, 10.78, -8.3]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

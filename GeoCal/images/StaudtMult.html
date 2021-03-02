@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>StaudtMult.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+layer(1);
+clrscr();
+p=D.xy;
+al=.2;
+repeat(100,i,
+al=al*.9;
+alpha(al);
+l1=join(p,H);
+draw(l1);
+draw(p,color->(1,1,1),alpha->1);
+drawtext(p.xy+(.3,-.8),i,alpha->1);
+p1=meet(l1,b);
+l2=join(p1,K);
+draw(l2);
+p=meet(l2,a);
+p=p/|p|;
+draw(p1);
+
+);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "a", type: "HorizontalLine", pos: [0.0, 2.941176470588235, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3},
+    {name: "A", type: "Free", pos: [4.0, -0.8780487804878057, -0.4878048780487805], color: [1.0, 1.0, 1.0], plane: 6, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, 0.4144144144144144, 0.2252252252252252], color: [1.0, 1.0, 1.0], plane: 5, labeled: true},
+    {name: "b", type: "Join", color: [0.757, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "C", type: "PointOnLine", pos: [4.0, 0.834355828220859, -0.6134969325153374], color: [1.0, 1.0, 1.0], args: ["a"], plane: 5, labeled: true, printname: "0"},
+    {name: "D", type: "PointOnLine", pos: [4.0, 1.2363636363636363, -0.9090909090909091], color: [1.0, 1.0, 1.0], args: ["a"], plane: 5},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "b"], labeled: true, printname: "$\\infty$"},
+    {name: "G", type: "PointOnLine", pos: [4.0, -2.8262683433597537, -1.5626046878956805], color: [1.0, 1.0, 1.0], args: ["b"], alpha: 0.1452991452991453, size: 3.0},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "G"], alpha: 0.1623931623931624},
+    {name: "e", type: "Join", color: [0.0, 0.0, 1.0], args: ["G", "D"], alpha: 0.1623931623931624},
+    {name: "L", type: "PointOnLine", pos: [4.0, 2.3859649122807025, -1.754385964912281], color: [0.0, 1.0, 0.0], args: ["a"], labeled: true, textsize: 17.0, size: 7.0, printname: "x"},
+    {name: "M", type: "PointOnLine", pos: [4.0, -2.72, 2.0], color: [0.0, 1.0, 0.0], args: ["a"], labeled: true, textsize: 17.0, size: 7.0, printname: "y"},
+    {name: "E", type: "Free", pos: [4.0, -3.0673575129533677, -0.5181347150259067], color: [1.0, 1.0, 1.0], plane: 6, labeled: true, printname: "C"},
+    {name: "c", type: "Join", color: [0.757, 0.0, 0.0], args: ["E", "F"], plane: -1, textsize: 17.0, size: 3},
+    {name: "H", type: "Meet", color: [0.0, 0.0, 0.0], args: ["c", "d"], plane: 5, size: 3.0},
+    {name: "K", type: "Meet", color: [0.0, 0.0, 0.0], args: ["c", "e"], plane: 5, size: 3.0},
+    {name: "f", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "K"], labeled: true},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "f"]},
+    {name: "g", type: "Join", color: [0.0, 0.0, 1.0], args: ["D", "N"], plane: -1, labeled: true},
+    {name: "h", type: "Join", color: [0.0, 0.0, 1.0], args: ["N", "L"], labeled: true},
+    {name: "O", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "c"], plane: -1, labeled: true},
+    {name: "k", type: "Join", color: [0.0, 0.0, 1.0], args: ["O", "M"], plane: -1, labeled: true},
+    {name: "P", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "h"], labeled: true},
+    {name: "Q", type: "Meet", color: [1.0, 0.0, 0.0], args: ["f", "k"], labeled: true},
+    {name: "l", type: "Join", color: [0.0, 0.0, 1.0], args: ["P", "Q"], labeled: true},
+    {name: "R", type: "Meet", color: [0.0, 1.0, 0.0], args: ["a", "l"], labeled: true, textsize: 17.0, size: 7.0, printname: "$x\\cdot y$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 769,
+    height: 418,
+    transform: [{visibleRect: [-10.14, 10.86, 20.62, -5.86]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

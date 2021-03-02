@@ -1,0 +1,150 @@
+---
+title: Projektion eines Würfels II
+layout: page
+category: LinAlg1
+---
+
+  <h1>Projektion eines Würfels II</h1>
+<div  style=" line-height: 1.5">
+Projektion eines Würfels
+
+In endlich erzeugten Vektorräumen können lineare Abbildungen bequem als Matrizen geschrieben werden. Hierbei gilt:
+
+Die Spalten der Matrix sind die Bilder der Einheitsvektoren.
+
+Im folgenden Beispiel wird eine Matrix konstruiert, die eine spezielle Abbildung von $\mathbb{R}^3\to \mathbb{R}^2$ darstellt. Die Einheitsvektoren sollen dabei auf die drei im $\mathbb{R}^2$ dargestellten Vektorspitzen abgebildet werden. Gezeigt werden die Bilder von insgesamt acht Punkten im $\mathbb{R}^3$ mit den Koordinaten $(0,0,0), (0,0,1), (0,1,0), (0,1,1), (1,0,0), (1,0,1), (1,1,0), (1,1,1)$. Diese stellen die Ecken eines Würfels im $\mathbb{R}^3$ dar. <br>
+<br>
+<br>
+
+Der gesamte Programmcode für die Projektion ergibt sich zu:
+<br>
+
+<pre>
+<code>
+M=[
+[B.x,C.x,D.x],
+[B.y,C.y,D.y]
+];
+draw(M*(1,1,1));
+draw(M*(1,1,0));
+draw(M*(1,0,1));
+draw(M*(1,0,0));
+draw(M*(0,1,1));
+draw(M*(0,1,0));
+draw(M*(0,0,1));
+draw(M*(0,0,0));
+</code>
+</pre>
+
+<br>
+Die Abbildung wird einfach durch eine Matrixmultiplikation durchgeführt. Die Spalten der Matrix sind genau die Koordinaten der drei Vektorspitzen.
+<br>
+</div>
+
+  <script id='init' type='cindyscript'>
+  drawarrow(a,b,col,alp):=(
+     n=b-a;
+     n=n/|n|*1.5;
+     p=(n_2,-n_1);
+     draw(a,b,color->col,size->2,alpha->alp);
+     draw(b-n*.17+p*.07,b,color->col,size->2,alpha->alp);
+     draw(b-n*.17-p*.07,b,color->col,size->2,alpha->alp);
+
+  );
+  drawl(a,b,col,alp):=(
+     draw(a,b,color->col,size->2,alpha->alp);
+
+  );
+
+
+
+
+  </script>
+
+  <script id='firstDrawing' type='cindyscript'>
+  off=(.1,-.5);
+  draw(line((0,1,0)),color->(0,0,0),size->0.5);
+  draw(line((1,0,0)),color->(0,0,0),size->0.5);
+  drawarrow(O,B,(0.0,0,0),1);
+  drawarrow(O,C,(0.0,0,0),1);
+  drawarrow(O,D,(0.0,0,0),1);
+  off=(.1,.1);
+
+
+  drawtext(B+off,"B");
+  drawtext(C+off,"C");
+  drawtext(D+off,"D");
+
+
+
+M=[
+[B.x,C.x,D.x],
+[B.y,C.y,D.y]
+];
+
+pts=[
+(1,1,1),
+(1,1,0),
+(1,0,1),
+(1,0,0),
+(0,1,1),
+(0,1,0),
+(0,0,1),
+(0,0,0)
+];
+
+segs=pairs(pts);
+segs=select(segs,s,|s_1,s_2|==1);
+
+apply(segs,s,draw(M*s_1,M*s_2,color->(0,0,0)));
+apply(pts,p,draw(M*p));
+
+
+
+  </script>
+
+
+
+  <div style="position:relative">
+  <canvas  id="CSCanvas" width=800 height=700  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+</div>
+
+  <script type="text/javascript">
+
+      var gslp=[
+                {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                {name:"B", type:"Free", pos:[3,1],color:[1,0,0],size:0.01},
+                {name:"C", type:"Free", pos:[1,2],color:[1,0,0],size:0.01},
+                {name:"D", type:"Free", pos:[-1,3],color:[1,0,0],size:0.01},
+
+
+
+
+              ];
+               createCindy({canvasname:"CSCanvas",
+                  movescript:"firstDrawing",
+                  initscript:"init",
+                  geometry:gslp,
+                  grid:1,
+                  snap:true,
+                  ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-10,10,10,-10]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                  );
+
+  </script>
+<div  style=" line-height: 1.5">
+<script type="text/javascript">
+var statement=new Array()
+statement[1]='(cc=C.xy;repeat(60, ll=#/60;mm=1-ll; C.xy=mm*cc+ll*(-B); repaint()  );)'
+statement[0]='(cc=C.xy;repeat(60, ll=#/60;mm=1-ll; C.xy=mm*cc+ll*(0,0); repaint()  );)'
+</script>
+
+
+
+</div>
+</div>

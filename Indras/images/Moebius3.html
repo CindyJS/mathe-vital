@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Moebius3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+text="exp(a*z)";
+
+sc=false;
+sx=false;
+sy=false;
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+
+
+//Text1.color = [1,1,1];
+drawtext([-2.4688995215311005, -4.0, -1.2625207832253105], "Iterationsanzahl", color->[1,1,1]);
+drawtext([2.67,-0.44], "Möbiustransformation
+      $z\to {az+b\over cz+d}$", size-> 18.0, color->[1,1,1]);
+
+
+
+iter=(|C,E|/|C,D|)*100;
+
+e=exp(1);
+
+n=|M.xy|;
+if(n>0.95 & n<1.05 & (!sx) & (!sy),M.xy=M.xy/n;sc=true;sx=false;sy=false,sc=false);
+if(M.y<.1 & M.y>-0.1 & (!sc)& (!sx),M.y=0;sy=true;sx=false;sc=false,sy=false);
+if(M.x<.1 & M.x>-0.1 & (!sc)& (!sy),M.x=0;sx=true;sy=false;sc=false,sx=false);
+
+
+
+stickler=[[[2.14,0.1],[1.62,0.1]],[[1.62,0.1],[1.46,1.26]],[[1.46,1.26],[0.78,2.1]],[[0.78,2.1],[0.5,1.02]],[[0.5,1.02],[-0.06,0.3]],[[-0.06,0.3],[0.34,0.06]],[[0.78,2.1],[0.7,3.78]],[[0.7,3.78],[1.34,3.02]],[[1.34,3.02],[1.7,2.9]],[[1.7,2.9],[2.06,3.3]],[[0.7,3.78],[-0.14,3.14]],[[-0.14,3.14],[-0.1,2.82]],[[-0.1,2.82],[0.34,2.38]],[[0.7,3.78],[0.7,4.3]],[[0.7,4.3],[1.18,4.38]],[[1.18,4.38],[1.46,4.78]],[[1.46,4.78],[1.42,5.38],[1.43,5.19],[1.44,5.08]],[[1.42,5.38],[1.02,5.86]],[[1.02,5.86],[0.58,5.86]],[[0.58,5.86],[0.18,5.5]],[[0.18,5.5],[0.14,4.9]],[[0.14,4.9],[0.34,4.54]],[[0.7,4.3],[0.34,4.54]],[[1.43,5.19],[1.6,5.19]],[[1.6,5.19],[1.6,5.03]],[[1.6,5.03],[1.44,5.08]],[[1.42,5.38],[1.46,4.78]]]*.4 ;
+
+b=complex(B);
+
+
+z=complex(A);
+
+r=(b-z);
+
+
+complexstickler=apply(stickler,s,apply(s,complex(#)));
+
+
+complexstickler=apply(complexstickler,s,apply(s,#*r+z));
+
+cs=complexstickler;
+
+apply(complexstickler,s,draw(gauss(s_1),gauss(s_2)));
+
+
+a=complex(F);
+b=complex(G);
+c=complex(M);
+d=complex(N);
+
+mat=((a,b),(c,d));
+mati=inverse(mat);
+
+fi(z):=(vv=mati*(z,1);vv_1/vv_2);
+
+f(z):=parse(Text0.val);
+//f(z):=parse(text);
+f(z):=(a*z+b)/(c*z+d);
+n=12;
+m=12;
+dd=|B,D|*1/24;
+alpha=1;
+dim=0.98;
+
+repeat(iter,
+
+  complexstickler=apply(complexstickler,s,apply(s,f(#)));
+  apply(complexstickler,s,draw(gauss(s_1),gauss(s_2),color->(1,0.0,0),alpha->alpha));
+  alpha=alpha*dim;
+);
+
+complexstickler=cs;
+alpha=1;
+
+repeat(iter,
+
+  complexstickler=apply(complexstickler,s,apply(s,fi(#)));
+  apply(complexstickler,s,draw(gauss(s_1),gauss(s_2),color->(0,1,0),alpha->alpha));
+  alpha=alpha*dim;
+);
+
+
+
+//draw(gauss(f(complex(A.xy))),color->(0,1,0),size->2);
+
+
+//drawtext(A+(0.1,0.1),"z="+complex(A),size->14);
+
+
+//drawtext((-11,-1),"f(z) := "+text,size->16);
+//drawtext((-3.9,3),"f(z) := ",size->16);
+
+//drawtext(gauss(f(complex(A)))+(0.1,0.1),"f(z)="+f(complex(A)),size->14);
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.310344827586207, -4.0, -2.2747141697766367], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "M", type: "Free", pos: [-3.160220994475138, -4.0, -1.4578278657132038], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, textsize: 17.0, size: 2.0, printname: "c"},
+    {name: "N", type: "Free", pos: [3.5169253817878805, -0.6670030896494256, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, textsize: 17.0, size: 2.0, printname: "d"},
+    {name: "O", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [1.0, 1.0, 1.0], args: ["O", "M"], alpha: 0.4000000059604645, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "e", type: "Segment", color: [1.0, 1.0, 1.0], args: ["O", "N"], alpha: 0.4000000059604645, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "B", type: "Free", pos: [1.2753623188405796, -4.0, -1.9120785774934048], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C", type: "Free", pos: [-2.6464646464646466, -4.0, -1.3326608267378277], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, 2.407294832826748, 0.8020268805291486], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"], alpha: 0.8999999761581421},
+    {name: "E", type: "PointOnSegment", pos: [4.0, 3.0229007898956937, 1.007125366452207], color: [0.0, 1.0, 0.0], args: ["a"], size: 3.0},
+    {name: "G", type: "Free", pos: [4.0, -1.4825174825174827, -1.8452226831754537], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 2.0, printname: "b"},
+    {name: "F", type: "Free", pos: [4.0, 0.5783132530120482, -1.5895592993619871], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 2.0, printname: "a"},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["O", "G"], alpha: 0.4000000059604645, labeled: true, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "c", type: "Segment", color: [1.0, 1.0, 1.0], args: ["O", "F"], alpha: 0.4000000059604645, labeled: true, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    //{name: "Text1", type: "Text", pos: [-2.4688995215311005, -4.0, -1.2625207832253105], color: [1.0, 1.0, 1.0], alpha:0, text: "Iterationsanzahl"},
+    //{name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.5, alpha: 0.8999999761581421, text: "Möbiustransformation\n      $z\\to {az+b\\over cz+d}$", textsize: 16.0, dock: {corner: "LR", offset: [-185.0, 202.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 678,
+    height: 542,
+    transform: [{visibleRect: [-4.782715336008949, 4.464372952312632, 5.495195909043563, -3.751892379278019]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

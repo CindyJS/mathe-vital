@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Diff.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+f(x) := (
+  1/16*x^2;
+);
+
+
+df(x, eps) := (
+  (f(x + eps) - f(x))/eps;
+);
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+e = floor((H.x - F.x)/(G.x - F.x)*15 + 0.01);
+drawtext(H + [0,0.5], "$\delta x = 10^{-" + e + "}$");
+
+plot(f(#), size->2, color->blue(0.8));
+plot(1/8*C.x*(# - C.x) + f(C.x), size->2, color->green(0.8));
+plot(df(C.x, 10^(-e))*(# - C.x) + f(C.x), size->2, color->red(0.8));
+
+draw([C.x, f(C.x)], color->gray(1), size->4);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -0.2857142857142857], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.25], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "x", type: "Join", color: [0.0, 0.0, 0.0], args: ["A", "B"], labeled: true},
+    {name: "C", type: "PointOnLine", pos: [0.0, -0.0, 4.0], color: [1.0, 1.0, 1.0], args: ["x"], labeled: true, printname: "$x_0$"},
+    {name: "D", type: "Free", pos: [0.0, -4.0, -0.36363636363636365], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "E", type: "Free", pos: [0.0, -4.0, 1.3333333333333333], color: [0.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "y", type: "Join", color: [0.0, 0.0, 0.0], args: ["D", "E"], labeled: true, printname: "f(x)"},
+    {name: "F", type: "Free", pos: [4.0, 1.0666666666666667, -0.26666666666666666], color: [0.502, 0.502, 0.502], pinned: true, size: 4.0},
+    {name: "G", type: "Free", pos: [-3.0, -4.0, 1.0], color: [0.502, 0.502, 0.502], pinned: true, size: 4.0},
+    {name: "a", type: "Segment", color: [0.502, 0.502, 0.502], args: ["F", "G"], size: 3},
+    {name: "H", type: "PointOnSegment", pos: [4.0, 1.0666666666666664, -0.2666666666666666], color: [1.0, 1.0, 1.0], args: ["a"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 792,
+    height: 447,
+    transform: [{visibleRect: [-15.74, 12.5, 15.94, -5.38]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

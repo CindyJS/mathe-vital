@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Lorenz.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+dim=11;
+arrows=false;
+left=join((-dim,dim,1),(-dim,-dim,1));
+right=join((dim,dim,1),(dim,-dim,1));
+bot=join((dim,-dim,1),(-dim,-dim,1));
+top=join((dim,dim,1),(-dim,dim,1));
+
+bounds(l):=(
+  pts=apply((left,bot,right,top),meet(l,#));
+  pts=apply(pts,#/#_3);
+  pts=select(pts,|#.x|~<=dim&|#.y|~<=dim);
+  pts;
+);
+
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+lig(a):=(
+p1=(incidences(a)_1).homog;
+p2=(incidences(a)_2).homog;
+p1=p1/p1_3;
+p2=p2/p2_3;
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  if(det(pp,p1.homog,p2.homog)<0,pp=-pp);
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+
+
+
+drawlieline(p,col,size):=( 
+s=if(p_5>0,1,-1);
+
+  bd=bounds((p_3,p_4,-p_1));
+  if(length(bd)==2,
+      p1=bd_1; 
+      p2=bd_2;
+      draw(p1,p2,size->size,color->col);
+      if(arrows,
+       nn=(p_4,-p_3);
+       nn=nn/|nn|;
+       np=perp(nn);
+       nw=round(.6*|p1,p2|);
+       repeat(nw,#,i=#-.4;
+         pos=((p1*i+p2*(nw-i))/nw).xy;
+         draw(pos,pos-s*nn*.3-np*.2,color->col);    
+         draw(pos,pos-s*nn*.3+np*.2,color->col);    
+         fillpoly((pos,pos-s*nn*.3-np*.2,pos-s*nn*.3+np*.2),color->col);    
+       );
+      ); 
+  );
+ 
+);
+
+radbound=100;
+drawliecircle(p,col,size):=(
+//  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->0.2);
+rad=|p_5|;
+
+//if(rad>400,drawlieline(p/p_5,col,size+1),
+  if(rad<radbound,
+   drawcircle((p_3,p_4),|p_5|,size->size,color->col),
+   nw=round(|p_5|*4);
+   nw=min(nw,800);
+   repeat(nw,i,
+     w=i*360°/nw;
+     pos1=(sin(w),cos(w))*|p_5|+(p_3,p_4);
+     w=(i+1)*360°/nw;
+     pos2=(sin(w),cos(w))*|p_5|+(p_3,p_4);
+     if(|pos1|<3*dim, 
+      draw(pos2,pos1,color->col,size->size+1);
+     );
+   );
+
+
+  );
+  if(arrows,
+   nw=round(|p_5|*4);
+   nw=min(nw,5000);
+   s=if(p_5>0,-1,1);
+   repeat(nw,i,
+     w=(i+.4*s)*360°/nw;
+     pos=(sin(w),cos(w));
+     ppos=perp(pos);
+     if(abs((p_3,p_4)+|p_5|*pos)<3*dim,
+      fillpoly(((p_3,p_4)+|p_5|*pos,
+              (p_3,p_4)+|p_5|*pos+s*ppos*.3-pos*.2,
+              (p_3,p_4)+|p_5|*pos+s*ppos*.3+pos*.2),color->col);
+      draw((p_3,p_4)+|p_5|*pos,(p_3,p_4)+|p_5|*pos+s*ppos*.3+pos*.2,color->col);
+      draw((p_3,p_4)+|p_5|*pos,(p_3,p_4)+|p_5|*pos+s*ppos*.3-pos*.2,color->col);
+     );
+   );
+  );
+  
+);
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..4,randomint(100))/100;
+yy=apply(1..4,randomint(100))/100;
+orth(a,b,c):=(
+   m=transpose([a,b,c]);
+   [
+      det([m_2,m_3,m_4]),
+     -det([m_1,m_3,m_4]),
+      det([m_1,m_2,m_4]),
+     -det([m_1,m_2,m_3])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+lorentzquad=[[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
+
+findlor(a,b,c):=(
+   al=(a_1,a_2,a_3,a_4);
+   bl=(b_1,b_2,b_3,b_4);
+   cl=(c_1,c_2,c_3,c_4);
+   aa=orth(lorentzquad*al,lorentzquad*bl,lorentzquad*cl);   
+
+roo=sqrt((aa*lorentzquad*aa));
+
+aa=aa/roo;
+lie1=aa++[1];
+   if(isreal(roo),
+     [lie1,lie1],
+     [inf,inf]);
+);
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+arrows=false;
+drawall((left,right,top,bot));
+//err(g(lip(A),lip(B)));
+//err(sqrt(-g(lip(A),lip(B)*2)));
+//err((g(lig(a),lic(C1))));
+//drawlie(lie(b),1,1);
+
+inbounds(p):=(|p.x|<dim&|p.y|<dim);
+activateinf(A):=if(inbounds(A),active=active++[A];A.color=(1,.9,0),;A.color=(1,1,.8));
+activatepl(A):=if(inbounds(A),active=active++[A];A.color=(1,.4,0),;A.color=(1,.8,.8));
+activatept(A):=if(inbounds(A),active=active++[A];A.color=(0,0,1),;A.color=(1,1,1));
+
+activateln(E,F,a):=(
+  if(inbounds(E)&inbounds(F),
+     active=active++[a];a.color=(0,0,1);
+     drawlie(lie(a),a.color,1),
+     a.color=(1,1,1);
+
+  );
+);
+activateci(P,c):=(
+  if(inbounds(P),
+     active=active++[c];c.color=(0,0,1);
+     drawlie(lie(c),c.color,1),
+     c.color=(1,1,1);
+
+  );
+);
+
+active=[];
+activatept(A);
+activatept(B);
+activatept(C);
+activateinf(D);
+activatepl(P);
+activateln(E,F,a);
+activateln(G,H,b);
+activateln(K,L,c);
+activateci(M,C0);
+activateci(N,C1);
+activateci(O,C2);
+
+liedef(p):=(
+  out=lie(p);
+  if(p==D,out=inf);
+  if(p==P,out=ee);
+  out;
+);
+
+if(length(active)==3,
+  lie1=liedef(active_1);
+  lie2=liedef(active_2);
+  lie3=liedef(active_3);
+  erg=findlor(lie1,lie2,lie3); 
+  drawlie(erg_1,(0.6,0,0),2);
+  drawlie(erg_2,(0.6,0,0),2);
+);
+
+if(length(active)<3,
+  drawtext((-10,-10),"Zu wenige Objekte vorhanden",size->16,color->(.8,0,0));
+);
+
+if(length(active)>3,
+  drawtext((-10,-10),"Zu viele Objekte vorhanden",size->16,color->(.8,0,0));
+);
+
+fillpoly(((dim,-30),(dim,30),(40,30),(40,-30)),color->(.8,.7,.5));
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.312, 0.26666666666666666], dimDependent: 1, color: [1.0, 1.0, 1.0]},
+    {name: "B", type: "Free", pos: [4.0, 2.130030959752322, 0.30959752321981426], dimDependent: 1, color: [1.0, 1.0, 1.0]},
+    {name: "C", type: "Free", pos: [4.0, 1.6624999999999999, 0.31249999999999994], dimDependent: 1, color: [1.0, 1.0, 1.0]},
+    {name: "D", type: "Free", pos: [4.0, 2.2493638676844783, 0.2544529262086514], dimDependent: 1, color: [1.0, 1.0, 0.8], labeled: true, size: 8.0, printname: "infinity"},
+    {name: "E", type: "Free", pos: [4.0, -0.1440443213296399, 0.2770083102493075], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "F", type: "Free", pos: [4.0, -0.4945054945054945, 0.2747252747252747], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "a", type: "Join", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["E", "F"], clip: "inci"},
+    {name: "G", type: "Free", pos: [4.0, -0.7636363636363637, 0.30303030303030304], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "H", type: "Free", pos: [4.0, -0.3506493506493507, 0.3246753246753247], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "b", type: "Join", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["G", "H"], clip: "inci"},
+    {name: "K", type: "Free", pos: [4.0, -0.036923076923076927, 0.3076923076923077], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "L", type: "Free", pos: [4.0, 0.781456953642384, 0.33112582781456956], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "c", type: "Join", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["K", "L"], clip: "inci"},
+    {name: "M", type: "Free", pos: [4.0, 0.35320088300220753, 0.22075055187637968], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.0030724005033820985, yy: 0.0030724005033820985, zz: 1.0, xy: 0.0, xz: -0.11134379424256725, yz: 0.009831681610822717}, dimDependent: 1, color: [1.0, 1.0, 1.0], radius: 2.327230113246217, args: ["M"]},
+    {name: "O", type: "Free", pos: [4.0, -1.3333333333333333, 0.2237136465324385], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "C2", type: "CircleByRadius", pos: {xx: 0.0029849320629462476, yy: 0.0029849320629462476, zz: 1.0, xy: 0.0, xz: -0.1067411705709578, yz: -0.035580390190319264}, dimDependent: 1, color: [1.0, 1.0, 1.0], radius: 4.494441010848846, args: ["O"]},
+    {name: "N", type: "Free", pos: [4.0, -1.15, 0.25], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.003641024147272145, yy: 0.003641024147272145, zz: 1.0, xy: 0.0, xz: -0.11651277271270864, yz: -0.033497422154903735}, dimDependent: 1, color: [1.0, 1.0, 1.0], radius: 1.584929020492716, args: ["N"]},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], text: "Bitte genau drei Objekte in den Aktivbereich ziehen", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -20.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 803,
+    height: 541,
+    transform: [{visibleRect: [-10.78, 10.78, 21.34, -10.86]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

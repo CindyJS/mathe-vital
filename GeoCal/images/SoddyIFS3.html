@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>SoddyIFS3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+lig(a):=(
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  erg=if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+  erg=erg/|erg|
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+drawliecircle(p,col,size):=(
+//  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->0.2);
+  drawcircle((p_3,p_4),|p_5|,size->size,color->col);
+);
+
+drawlieline(p,col,size):=(
+  draw(line((p_3,p_4,-p_1)),size->size,color->col);
+);
+
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..5,randomint(100))/100;
+yy=apply(1..5,randomint(100))/100;
+orth(a,b,c,d):=(
+   m=transpose([a,b,c,d]);
+   [
+      det([m_2,m_3,m_4,m_5]),
+     -det([m_1,m_3,m_4,m_5]),
+      det([m_1,m_2,m_4,m_5]),
+     -det([m_1,m_2,m_3,m_5]),
+      det([m_1,m_2,m_3,m_4])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+
+findlie(a,b,c):=(
+   aa=orth(liequad*a,liequad*b,liequad*c,xx);
+   bb=orth(liequad*a,liequad*b,liequad*c,yy);
+   r1=aa*liequad*aa;
+   r2=2*bb*liequad*aa;
+   r3=bb*liequad*bb;
+   roo=roots([r1,r2,r3]);
+   if(isreal(roo_1),
+     [aa+roo_1*bb,aa+roo_2*bb],
+     [inf,inf]);
+);
+
+mid(c):=((c_3,c_4)/(c_1+c_2));
+rad(c):=(c_5/(c_1+c_2));
+
+
+theother(a,b,c,d):=(
+  circs=findlie(rev(a),rev(b),rev(c));
+  out=if(|g(circs_1,d)|<0.00000001,circs_2,circs_1);
+  out=out/|out|;
+);
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+d1=|A,B|;
+d2=|B,C|;
+d3=|C,A|;
+C2.radius=(-d1+d2+d3)/2;
+C0.radius=(+d1-d2+d3)/2;
+C1.radius=(+d1+d2-d3)/2;
+
+
+ca=lie(C0);
+cb=lie(C1);
+cc=lie(C2);
+cd=rev(findlie(ca,cb,cc)_1);
+ce=theother(ca,cb,cc,cd);
+
+
+r1=C0.radius;
+r2=C1.radius;
+r3=C2.radius;
+r4=rad(cd);
+r5=rad(ce);
+
+rmin=min((r1,r2,r3));
+if(|r5|<rmin,
+  hh=ce;
+  ce=cd;
+  cd=hh;
+  r4=rad(cd);
+  r5=rad(ce);
+
+);
+
+eps=0.05;
+
+
+
+D.xy=mid(ce);
+C3.radius=rad(ce);
+
+layer(4);
+clrscr();
+
+drawlie(ca,(0,0,1),2);
+drawlie(cb,(0,0,1),2);
+drawlie(cc,(0,0,1),2);
+drawlie(cd,(1,0,0),2);
+drawlie(ce,(0,.6,0),2);
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.2533333333333332, 0.6666666666666666], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "B", type: "Free", pos: [0.5378151260504201, -4.0, 0.8403361344537815], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], visible: false, labeled: true},
+    {name: "C", type: "Free", pos: [4.0, -2.5806451612903225, -1.6129032258064515], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"], visible: false, labeled: true},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "A"], visible: false, labeled: true},
+    {name: "C0", type: "CircleByRadius", pos: {xx: {r: 0.0672791176348238, i: 6.210665689890732E-17}, yy: {r: 0.0672791176348238, i: 6.210665689890732E-17}, zz: 1.0, xy: 0.0, xz: {r: -0.8073494116178856, i: -7.452798827868878E-16}, yz: {r: 0.25296948230693744, i: 2.3352102993989147E-16}}, color: [0.0, 0.0, 1.0], radius: 4.966985709896035, args: ["A"]},
+    {name: "C1", type: "CircleByRadius", pos: {xx: {r: 0.09663917708218046, i: 1.732094104627822E-17}, yy: {r: 0.09663917708218046, i: 1.732094104627822E-17}, zz: {r: 1.0, i: -2.465190328815662E-32}, xy: 0.0, xz: {r: -0.123698146665191, i: -2.2170804539236124E-17}, yz: {r: -0.920004965822358, i: -1.6489535876056867E-16}}, color: [0.0, 0.0, 1.0], radius: 3.566430956363735, args: ["B"]},
+    {name: "C2", type: "CircleByRadius", pos: {xx: -0.2729733912423359, yy: -0.2729733912423359, zz: 1.0000000000000002, xy: -0.0, xz: -1.3539480205619863, yz: -0.8735148519754748}, color: [0.0, 0.0, 1.0], radius: 3.517635672346076, args: ["C"]},
+    {name: "D", type: "Free", pos: [4.0, {r: 0.15978053179251483, i: 8.487007751480767E-18}, {r: 1.5417950369586957, i: -4.780022816663769E-16}], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "C3", type: "CircleByRadius", pos: {xx: {r: -0.0141162945888242, i: 1.7716988949905746E-18}, yy: {r: -0.0141162945888242, i: 1.7716988949905746E-18}, zz: 0.9999999999999999, xy: -0.0, xz: {r: 0.07324602427917853, i: 1.3515529022339065E-17}, yz: {r: -0.0029258221777536497, i: -6.952894976172601E-19}}, color: [0.0, 0.0, 1.0], radius: 8.80804517041535, args: ["D"], visible: false},
+    {name: "Collection__1", type: "IntersectionCircleCircle", args: ["C0", "C3"]},
+    {name: "", type: "SelectP", pos: [4.0, {r: 1.6059642562305636, i: -1.13739669775909E-10}, {r: 0.38447097197509716, i: -4.714990562885324E-12}], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "E", type: "SelectP", pos: [4.0, {r: 1.6059611439686508, i: 1.1374008475232195E-10}, {r: 0.38447084296017253, i: 4.71489811654989E-12}], color: [1.0, 0.0, 0.0], args: ["Collection__1"], visible: false, labeled: true},
+    {name: "Collection__2", type: "IntersectionCircleCircle", args: ["C0", "C2"]},
+    {name: "F", type: "SelectP", pos: [{r: -2.414145438076492, i: -5.4763041983395824E-8}, -4.0, {r: -2.3308868633977315, i: -5.0131730151195654E-8}], color: [1.0, 0.0, 0.0], args: ["Collection__2"], visible: false, labeled: true},
+    {name: "Collection__3", type: "IntersectionCircleCircle", args: ["C2", "C3"]},
+    {name: "G", type: "SelectP", pos: [4.0, {r: -1.7731098276981745, i: 3.481204859715377E-11}, {r: -0.6832939836990354, i: 1.5508784723027095E-12}], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false, labeled: true},
+    {name: "Collection__4", type: "IntersectionCircleCircle", args: ["C0", "C1"]},
+    {name: "H", type: "SelectP", pos: [4.0, {r: -2.75666633984523, i: -7.447089961584054E-9}, {r: 1.3888201164462932, i: -2.1900860678281985E-8}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], visible: false, labeled: true},
+    {name: "Collection__5", type: "IntersectionCircleCircle", args: ["C1", "C3"]},
+    {name: "K", type: "SelectP", pos: [{r: -0.34192553331148184, i: -1.8235423706078752E-10}, -4.0, {r: 0.4957089809734729, i: 8.779336279164987E-12}], color: [1.0, 0.0, 0.0], args: ["Collection__5"], visible: false, labeled: true},
+    {name: "Collection__6", type: "IntersectionCircleCircle", args: ["C1", "C2"]},
+    {name: "L", type: "SelectP", pos: [{r: -2.3894427636313758, i: -9.898665732208007E-8}, -4.0, {r: 2.5672358117064986, i: -4.408471656075343E-8}], color: [1.0, 0.0, 0.0], args: ["Collection__6"], visible: false, labeled: true},
+    {name: "C4", type: "CircleBy3", color: [0.0, 0.0, 1.0], args: ["F", "L", "H"], visible: false},
+    {name: "C5", type: "CircleBy3", color: [0.0, 0.0, 1.0], args: ["H", "E", "K"], visible: false},
+    {name: "C6", type: "CircleBy3", color: [0.0, 0.0, 1.0], args: ["K", "L", "G"], visible: false},
+    {name: "C7", type: "CircleBy3", color: [0.0, 0.0, 1.0], args: ["G", "F", "E"], visible: false},
+    {name: "Tr0", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C7"], dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C5"], dock: {offset: [0.0, -0.0]}},
+    {name: "Tr2", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C4"], dock: {offset: [0.0, -0.0]}},
+    {name: "Tr3", type: "TrReflectionC", color: [0.0, 0.0, 1.0], args: ["C6"], dock: {offset: [0.0, -0.0]}},
+    {name: "IFS0", type: "IFS", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1", "Tr2", "Tr3"], ifs: [{prob:  0.25, color: [1.0, 0.884, 0.0]}, {prob:  0.25, color: [1.0, 0.0, 0.0]}, {prob:  0.25, color: [1.0, 0.884, 0.0]}, {prob:  0.25, color: [1.0, 0.0, 0.0]}], dock: {offset: [0.0, -0.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 667,
+    height: 475,
+    transform: [{visibleRect: [-9.06, 9.34, 17.62, -9.66]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

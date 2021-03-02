@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Soddy1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+lig(a):=(
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  erg=if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+  erg=erg/|erg|
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+drawliecircle(p,col,size):=(
+//  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->0.2);
+  drawcircle((p_3,p_4),|p_5|,size->size,color->col);
+);
+
+drawlieline(p,col,size):=(
+  draw(line((p_3,p_4,-p_1)),size->size,color->col);
+);
+
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..5,randomint(100))/100;
+yy=apply(1..5,randomint(100))/100;
+orth(a,b,c,d):=(
+   m=transpose([a,b,c,d]);
+   [
+      det([m_2,m_3,m_4,m_5]),
+     -det([m_1,m_3,m_4,m_5]),
+      det([m_1,m_2,m_4,m_5]),
+     -det([m_1,m_2,m_3,m_5]),
+      det([m_1,m_2,m_3,m_4])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+
+findlie(a,b,c):=(
+   aa=orth(liequad*a,liequad*b,liequad*c,xx);
+   bb=orth(liequad*a,liequad*b,liequad*c,yy);
+   r1=aa*liequad*aa;
+   r2=2*bb*liequad*aa;
+   r3=bb*liequad*bb;
+   roo=roots([r1,r2,r3]);
+   if(isreal(roo_1),
+     [aa+roo_1*bb,aa+roo_2*bb],
+     [inf,inf]);
+);
+
+mid(c):=((c_3,c_4)/(c_1+c_2));
+rad(c):=(c_5/(c_1+c_2));
+
+
+theother(a,b,c,d):=(
+  circs=findlie(rev(a),rev(b),rev(c));
+  out=if(|g(circs_1,d)|<0.00000001,circs_2,circs_1);
+  out=out/|out|;
+);
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+d1=|A,B|;
+d2=|B,C|;
+d3=|C,A|;
+C2.radius=(-d1+d2+d3)/2;
+C0.radius=(+d1-d2+d3)/2;
+C1.radius=(+d1+d2-d3)/2;
+
+ca=lie(C0);
+cb=lie(C1);
+cc=lie(C2);
+cd=rev(findlie(ca,cb,cc)_1);
+ce=theother(ca,cb,cc,cd);
+
+
+r1=C0.radius;
+r2=C1.radius;
+r3=C2.radius;
+r4=rad(cd);
+r5=rad(ce);
+
+rmin=min((r1,r2,r3));
+if(|r5|<rmin,
+  hh=ce;
+  ce=cd;
+  cd=hh;
+  r4=rad(cd);
+  r5=rad(ce);
+
+);
+
+drawlie(ca,(0,0,1),2);
+drawlie(cb,(0,0,1),2);
+drawlie(cc,(0,0,1),2);
+drawlie(cd,(1,0,0),2);
+drawlie(ce,(0,.6,0),2);
+
+
+dc2(cir):=(
+  ra=rad(cir)/12;
+  mi=mid(cir);
+  tsiz=ra^(1.05)*300;
+  k=1/ra*8/3*4;
+  if(k>0,
+  //  drawtext(mi,offset->(1,-tsiz/2.5-1),k,size->tsiz,align->"center")
+  )
+);
+
+dc(cir):=(
+  drawlie(cir,(0.7,0,0),2);
+  dc2(cir);
+);
+
+there=[ca,cb,cc,cd];
+
+//ce=theother(cb,cc,cd,ca);
+
+
+//dc(ca);
+
+//dc(cb);
+//dc(cc);
+//dc(cd);
+r1=C0.radius;
+r2=C1.radius;
+r3=C2.radius;
+r4=rad(cd);
+r5=rad(ce);
+
+
+drawtext((8,8),"$r_1=$"+r1,size->14,color->(0,0,0.8));
+drawtext((8,7),"$r_2=$"+r2,size->14,color->(0,0,0.8));
+drawtext((8,6),"$r_3=$"+r3,size->14,color->(0,0,0.8));
+drawtext((8,5),"$r_4=$"+r4,size->14,color->(0.6,0,0));
+drawtext((8,4),"$r_5=$"+r5,size->14,color->(0,0.5,0));
+val1=2*((1/r1)^2+(1/r2)^2+(1/r3)^2+(1/r4)^2);
+val2=((1/r1)+(1/r2)+(1/r3)+(1/r4))^2;
+
+//drawtext((8,2),"$2\cdot\sum {1\over r_i^2} \quad=\quad $"+val1,size->16);
+//drawtext((8,-1),"$\left(\sum {1\over r_i}\right)^2 \quad=\quad $"+val2,size->16);
+
+drawtext((8,2),"${2\over r_1^2}+{2\over r_2^2}+{2\over r_3^2}+{2\over r_4^2}\;=\; $"+val1,size->16);
+
+drawtext((8,-1),"$\left({1\over r_1}+{1\over r_2}+{1\over r_3}+{1\over r_4}\right)^2\;=\; $"+val1,size->16);
+val1=2*((1/r1)^2+(1/r2)^2+(1/r3)^2+(1/r5)^2);
+val2=((1/r1)+(1/r2)+(1/r3)+(1/r5))^2;
+
+
+drawtext((8,-4),"${2\over r_1^2}+{2\over r_2^2}+{2\over r_3^2}+{2\over r_5^2}\;=\; $"+val1,size->16);
+
+drawtext((8,-7),"$\left({1\over r_1}+{1\over r_2}+{1\over r_3}+{1\over r_5}\right)^2\;=\; $"+val1,size->16);
+
+val1=2*((1/r1)+(1/r2)+(1/r3));
+
+val2=((1/r4)+(1/r5));
+drawtext((-5,-11),"$2\cdot\left({1\over r_1}+{1\over r_2}+{1\over r_3}\right)\;=\; $"+val1,size->16);
+
+drawtext((8,-11),"${1\over r_4}+{1\over r_5}\;=\; $"+val2,size->16);
+
+err(format(1/r4+1/r5,12));
+err(format(2*(1/r1+1/r2+1/r3),12))
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -3.058823529411765, -1.1764705882352942], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "B", type: "Free", pos: [1.5499999999999996, -4.0, 1.2499999999999998], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], visible: false, labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 1.8426966292134832, 1.1235955056179776], color: [1.0, 1.0, 1.0], labeled: true, textsize: 14.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"], visible: false, labeled: true},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "A"], visible: false, labeled: true},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.29411764705882354, yy: 0.29411764705882354, zz: -0.6822958484898244, xy: 0.0, xz: 2.0, yz: 1.5294117647058825}, color: [0.0, 0.0, 1.0], radius: 4.543105312984215, args: ["A"]},
+    {name: "C1", type: "CircleByRadius", pos: {xx: {r: 0.28925549375053716, i: 2.0013679523831508E-15}, yy: {r: 0.28925549375053716, i: 2.0013679523831508E-15}, zz: {r: 0.9999999999999999, i: -7.888609052210118E-31}, xy: 0.0, xz: {r: -0.717353624501332, i: -4.963392521910213E-15}, yz: {r: -1.851235160003438, i: -1.2808754895252166E-14}}, color: [0.0, 0.0, 1.0], radius: 2.8845188024371518, args: ["B"]},
+    {name: "C2", type: "CircleByRadius", pos: {xx: {r: 0.10870799331063737, i: -1.8113777588649435E-78}, yy: {r: 0.10870799331063737, i: -1.8113777588649435E-78}, zz: {r: 0.9999999999999999, i: -1.9176146348819244E-93}, xy: 0.0, xz: {r: -0.774000912371738, i: 1.2897009643118397E-77}, yz: {r: 0.35656221805889055, i: -5.941319049077014E-78}}, color: [0.0, 0.0, 1.0], radius: 2.4827896478011944, args: ["C"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 674,
+    height: 496,
+    transform: [{visibleRect: [-9.06, 9.34, 17.9, -12.5]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

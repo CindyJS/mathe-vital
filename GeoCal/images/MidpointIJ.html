@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>MidpointIJ.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+l1=(|F,N|/|F,G|)^(1/4);
+l2=(|H,O|/|H,K|)^(1/4);
+lh=L.homog;
+lh=lh/lh_3;
+mh=M.homog;
+mh=mh/mh_3;
+B.xy=(1-l1)*lh+l1*(1,0,0);
+C.xy=(1-l2)*mh+l2*(0,1,0);
+
+d1=|B,L|;
+d2=|M,C|;
+if(d1+""=="NaN",d1=1/0);
+if(d2+""=="NaN",d2=1/0);
+
+drawtext(N+(0.2,0.2),d1,size->18);
+drawtext(O+(0.2,0.2),d2,size->18);
+
+
+f(v):=(
+ if(v_1!=0,v=v/v_1);
+ if(v_2!=0,v=v/v_2);
+ if(v_3!=0,v=v/v_3);
+ apply(v,format(#,2));
+);
+drawtext((6,-5.5),"P="+f(E.homog),size->16);
+drawtext((6,-6.8),"Q="+f(D.homog),size->16);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.2876712328767055, 1.3698630136986267], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.23665278303673107, yy: -0.23665278303673107, zz: 0.9999999999999999, xy: 0.0, xz: 1.3820522529345127, yz: -1.1359333585763096}, color: [0.0, 0.0, 0.0], radius: 4.302557379047954, args: ["A"], size: 3},
+    {name: "B", type: "Free", pos: [4.0, -0.2364532019704434, 0.4926108374384237], color: [1.0, 0.498, 0.0], size: 2.0},
+    {name: "C", type: "Free", pos: [-1.0000000000000036, -4.0, -0.48076923076923056], color: [0.0, 1.0, 0.0], size: 2.0},
+    {name: "a", type: "Join", color: [0.098, 0.62, 0.306], args: ["B", "C"], size: 3},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "a"]},
+    {name: "D", type: "SelectP", pos: [4.0, 0.634260693003821, 0.5693225848601899], color: [1.0, 1.0, 1.0], args: ["Collection__1"], labeled: true, textsize: 17.0, size: 6.0, printname: "Q"},
+    {name: "E", type: "SelectP", pos: [-1.9100088150192838, -4.0, -0.5975786146986097], color: [1.0, 1.0, 1.0], args: ["Collection__1"], labeled: true, textsize: 17.0, size: 6.0, printname: "P"},
+    {name: "F", type: "Free", pos: [4.0, 3.3333333333333335, -0.6666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "G", type: "Free", pos: [3.2, -4.0, 0.8], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"]},
+    {name: "H", type: "Free", pos: [-3.4285714285714284, -4.0, 0.5714285714285714], color: [0.0, 1.0, 0.0], pinned: true, size: 2.0},
+    {name: "K", type: "Free", pos: [2.2857142857142856, -4.0, 0.5714285714285714], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "K"]},
+    {name: "L", type: "Free", pos: [4.0, -0.23645320197044337, 0.4926108374384237], color: [1.0, 0.498, 0.0]},
+    {name: "M", type: "Free", pos: [-1.0000000000000036, -4.0, -0.48076923076923056], color: [0.0, 1.0, 0.0]},
+    {name: "N", type: "PointOnSegment", pos: [4.0, 3.3333333333333313, -0.6666666666666661], color: [1.0, 0.498, 0.0], args: ["b"]},
+    {name: "O", type: "PointOnSegment", pos: [-3.4285714285714293, -4.0, 0.5714285714285713], color: [0.0, 1.0, 0.0], args: ["c"]},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "M"], alpha: 0.5213675213675214, arrowshape: "jet", arrowsides: "<==", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "B"], alpha: 0.5213675213675214, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "f", type: "PolarOfPoint", color: [0.0, 0.0, 1.0], args: ["D", "C0"], size: 3},
+    {name: "g", type: "PolarOfPoint", color: [0.0, 0.0, 1.0], args: ["E", "C0"], size: 3},
+    {name: "P", type: "Meet", color: [0.0, 1.0, 1.0], args: ["f", "g"], labeled: true, textsize: 17.0, size: 7.0, printname: "M"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 662,
+    height: 462,
+    transform: [{visibleRect: [-9.06, 9.82, 17.42, -8.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>5Body2Chain.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1.657666012549268, -0.0, 1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, drawtrace: true},
+    {name: "B", type: "Free", pos: [1.657666012549268, -0.593785277963254, 1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "C", type: "Free", pos: [0.4397750504262926, 0.1697168623196236, 1.0], color: [0.0, 0.0, 1.0], alpha: 0.8999999761581421, drawtrace: true},
+    {name: "D", type: "Free", pos: [-1.3830104372009622, 0.2979648679196736, 1.0], color: [0.0, 0.0, 1.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "E", type: "Free", pos: [-1.268608056700923, 0.267650773258184, 1.0], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, drawtrace: true},
+    {name: "F", type: "Free", pos: [-2.5401719932758233, 0.43629540663978317, 1.0], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["E", "F"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "G", type: "Free", pos: [-1.268608056700929, -0.2676507732581855, 1.0], color: [1.0, 0.784, 0.0], alpha: 0.8999999761581421, drawtrace: true},
+    {name: "H", type: "Free", pos: [0.0029558798739690584, -0.0990061398766039, 1.0], color: [1.0, 0.784, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "K", type: "Free", pos: [0.4397750504262912, -0.1697168623196222, 1.0], color: [0.467, 0.0, 0.718], alpha: 0.8999999761581421, drawtrace: true},
+    {name: "L", type: "Free", pos: [2.262560538053548, -0.04146885671959921, 1.0], color: [0.467, 0.0, 0.718], alpha: 0.8999999761581421, size: 0.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "L"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2, newton: true},
+    {type: "Motor", speed: 0.02},
+    {geo: ["A"], type: "Mass"},
+    {geo: ["a", "A", "B"], type: "Velocity"},
+    {geo: ["C"], type: "Mass"},
+    {geo: ["b", "C", "D"], type: "Velocity"},
+    {geo: ["E"], type: "Mass"},
+    {geo: ["c", "E", "F"], type: "Velocity"},
+    {geo: ["G"], type: "Mass"},
+    {geo: ["d", "G", "H"], type: "Velocity"},
+    {geo: ["K"], type: "Mass"},
+    {geo: ["e", "K", "L"], type: "Velocity"}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.015625,
+    speedRange: [0.0, 0.03125],
+    accuracy: 4
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 671,
+    height: 362,
+    transform: [{visibleRect: [-2.4863492063492068, 1.4008163265306124, 2.869478458049887, -1.4886167800453516]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

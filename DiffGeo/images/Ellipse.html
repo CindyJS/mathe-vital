@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "init": "Anim0.run=true;\n\n\n\n\n\n\n\n\n\n;",
+                "draw": "A.y=0;if(A.x<0, A.x=0);\nB.x=0;if(B.y<0, B.y=0);\nt=|T0,T|/|T0,T1|*2*pi;\nif(Anim0.run==true,\n  if(An.y>0,t=arccos(An.x),t=2*pi-arccos(An.x));\n  T.x=T0.x+t*|T0,T1|/2/pi,\n  An.xy=(cos(t),sin(t));  \n  );\nif(Text1.pressed==true,\n  D.x=round(D.x*3)/3,\n  D.x=round(D.x*30)/30);\nd=|D0,D|/|D0,D1|*18-6;\nx(t):=(A.x*cos(t),B.y*sin(t));\ndx(t):=(-A.x*sin(t),B.y*cos(t));\nm(t):=x(t)+1/(A.x*B.y)*((A.x*sin(t))^2+(B.y*cos(t))^2)*(-B.y*cos(t),-A.x*sin(t));\np(t,d):=x(t)+d/sqrt((A.x*sin(t))^2+(B.y*cos(t))^2)*(-B.y*cos(t),-A.x*sin(t));\nplot(x(t),t,start->0,stop->2*pi,steps->200,size->3);\nX.xy=x(t);\n//X.xy=(A.x*An.x,B.y*An.y);\nM.xy=m(t);\nP.xy=p(t,d);\n\n//Normalenschar;\nif(Text0.pressed==true,\nrepeat(36,i,\n   tn=2*pi/36*i; draw(x(tn)-6*(m(tn)-x(tn)),x(tn)+10*(m(tn)-x(tn)),color->(0,0.7,0));\n););\n\n//Parallelkurvenschar\nif(Text1.pressed==true,\n  repeat(19,i,\n    ds=-7+i;\n    if(|ds|>=0.1,\n       plot(p(t,ds),t,start->0,stop->2*pi,steps->200,\n            color->hue((i+10)/20));\n       );\n    );\n  if(|d|>=0.1,tan2.visible=true;P.visible=true\n             ,tan2.visible=false;P.visible=false);\n  ,\n  if(|d|>=0.1,plot(p(t,d),t,start->0,stop->2*pi,\n     steps->200,color->(0.47,0,0.72));\n     tan2.visible=true;P.visible=true\n    ,tan2.visible=false;P.visible=false\n    ););\n\n//Ellipse als Evolvente\nplot(m(t),t,start->0,stop->2*pi,steps->200,color->(0.7,0,0),size->2);\nif(Text2.pressed==true,\n  tsc=(round((t-pi/4)/pi*2));\n  if(tsc~=4, tsc=3); \n  if(A.x>B.y,\n    if(tsc~=0  tsc~=2, \n      ta=t; te=(tsc+1)*pi/2,\n      ta=tsc*pi/2; te=t),\n     if(tsc~=0  tsc~=2,\n      ta=tsc/2*pi; te=t,\n      ta=t; te=(tsc+1)*pi/2);\n     );\n  a.visible=true; \n  if((te-ta)>0.01, plot(m(t),t,start->ta,stop->te,size->4,\n     color->(0.1,0.62,0.31)););\n, a.visible=false;);\n\ndrawtext(T+(-.3,-.5),\"$t=\"+t+\"$\");\ndrawtext(D+(-.3,-.5),\"$d=\"+d+\"$\");\n\nerr(ddd.color);\n\n\n\n\n\n\n\n\n\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "O",
+                "type": "Free",
+                "pos": [0.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0
+            }, {
+                "name": "A",
+                "type": "Free",
+                "pos": [4.0, 0.0, 1.0038851305458198],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$S_1$"
+            }, {
+                "name": "B",
+                "type": "Free",
+                "pos": [0.0, -4.0, -1.5983907946532858],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$S_2$"
+            }, {
+                "name": "T0",
+                "type": "Free",
+                "pos": [4.0, 3.4285714285714284, -0.5714285714285714],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [-0.6666666666666673, -4.0, 0.6666666666666666],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "D0",
+                "type": "Free",
+                "pos": [0.6666666666666661, -4.0, 0.6666666666666666],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "D1",
+                "type": "Free",
+                "pos": [4.0, -3.42857142857143, 0.5714285714285718],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "tt",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T0", "T1"],
+                "size": 3
+            }, {
+                "name": "d",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["D0", "D1"],
+                "size": 3
+            }, {
+                "name": "T",
+                "type": "PointOnSegment",
+                "pos": [4.0, 3.858336258461303, -0.6430560430768837],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["tt"],
+                "size": 4.0
+            }, {
+                "name": "D",
+                "type": "PointOnSegment",
+                "pos": [2.000000026666664, -2.0, 0.6666666666666666],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["d"],
+                "size": 4.0
+            }, {
+                "name": "An1",
+                "type": "Free",
+                "pos": [4.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "pinned": true,
+                "labeled": true,
+                "size": 0.0
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["O", "An1"],
+                "visible": false,
+                "printname": "$C_{0}$"
+            }, {
+                "name": "An",
+                "type": "PointOnCircle",
+                "pos": [2.7390973153521534, 2.9150207369812353, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C0"],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0
+            }, {
+                "name": "X",
+                "type": "Free",
+                "pos": [4.0, 2.67359259381451, 1.4660087101239114],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "M",
+                "type": "Free",
+                "pos": [2.084291627987129, -4.0, 2.6902751520890065],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "P",
+                "type": "Free",
+                "pos": [4.0, 2.673592593814505, 1.4660087101239134],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "n",
+                "type": "Join",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["X", "M"],
+                "labeled": true
+            }, {
+                "name": "d1",
+                "type": "Segment",
+                "color": [1.0, 0.784, 0.0],
+                "args": ["X", "P"],
+                "labeled": true,
+                "size": 3,
+                "printname": "d"
+            }, {
+                "name": "a",
+                "type": "Segment",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["M", "X"],
+                "visible": false,
+                "plane": -1,
+                "labeled": true,
+                "size": 3
+            }, {
+                "name": "tan1",
+                "type": "Orthogonal",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["n", "X"]
+            }, {
+                "name": "tan2",
+                "type": "Orthogonal",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["n", "P"],
+                "visible": false
+            }, {
+                "name": "b",
+                "type": "Join",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["O", "A"],
+                "size": 0
+            }, {
+                "name": "C1",
+                "type": "CircleMP",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["O", "A"],
+                "size": 0,
+                "printname": "$C_{1}$"
+            }, {
+                "name": "S3",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C1", "b", "A"],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$S_3$"
+            }, {
+                "name": "c",
+                "type": "Join",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["O", "B"],
+                "size": 0
+            }, {
+                "name": "C2",
+                "type": "CircleMP",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["O", "B"],
+                "size": 0,
+                "printname": "$C_{2}$"
+            }, {
+                "name": "E",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C2", "c", "B"],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$S_3$"
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "pos": [3.0, -1.216374269005848, 0.48887301209282635],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 100,
+                "text": "Ellipsennormalen"
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "pos": [3.0, -1.695906432748538, 0.48887301209282635],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 100,
+                "text": "   Parallelkurven"
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "pos": [3.0, -2.1924198250728866, 0.48744772634328454],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 100,
+                "text": "Ellipse als Evolvente ihrer Evolute"
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 815,
+                "height": 522,
+                "transform": [{
+                    "visibleRect": [-7.667713125845737, 5.729851150202977, 11.830527740189446, -6.758592692828146]
+                }],
+                "axes": true,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

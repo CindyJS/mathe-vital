@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>SchwebungFine1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+play():=(
+
+  playfunction(f(x),stop->4);
+);
+
+
+looping=true;
+
+ 
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+A.y=5;
+B.y=7;
+if(A.x<5,A.x=5);
+if(B.x<5,B.x=5);
+
+if(A.x>25,A.x=25);
+if(B.x>25,B.x=25);
+
+a=5*(A.x-15);
+b=5*(B.x-15);
+drawtext((0,9),"Grundfrequenz",size->16);
+drawtext((2,6.8),"Offset 2",size->16);
+drawtext((2,4.8),"Offset 1",size->16);
+
+
+drawtext((5,6.2),"-50Hz",size->10,align->"center",color->(0,0.5,0));
+drawtext((25,6.2),"+50Hz",size->10,align->"center",color->(0,0.5,0));
+
+drawtext((5,4.2),"-50Hz",size->10,align->"center",color->(0.6,0,0));
+drawtext((25,4.2),"+50Hz",size->10,align->"center",color->(0.6,0,0));
+
+
+drawtext((1,-3),"Ton an/aus mit 'space' Taste",size->16);
+
+fr1=a+parse(Text0.val);
+fr2=b+parse(Text0.val);
+
+
+drawtext((26,6.8),fr2+"Hz",size->16,color->(0,0.5,0));
+drawtext((26,4.8),fr1+"Hz",size->16,color->(0.6,0,0));
+
+drawtext(A+(0.2,0.2),a);
+drawtext(B+(0.2,0.2),b);
+
+draw((5,5),(25,5),color->(0,0,0));
+draw((5,4.8),(5,5.2),color->(0,0,0));
+draw((25,4.8),(25,5.2),color->(0,0,0));
+draw((15,4.8),(15,5.2),color->(0,0,0),size->2);
+
+draw((5,7),(25,7),color->(0,0,0));
+draw((5,6.8),(5,7.2),color->(0,0,0));
+draw((25,6.8),(25,7.2),color->(0,0,0));
+draw((15,6.8),(15,7.2),color->(0,0,0),size->2);
+
+f1(x):=sin(fr1*x*2*π);
+f2(x):=sin(fr2*x*2*π);
+
+f(x):=(f1(x)+f2(x))/2;
+
+
+s=if(looping,10,0);
+playsin(fr1,stop->s,amp->0.5,line->"1");
+playsin(fr2,stop->s,amp->0.5,line->"2");
+
+
+plot((sin(π/2+(fr1-fr2)*π*x/60)),alpha->0.7,pxlres->0.1,start->0,stop->30,color->(1,1,1));
+plot((-sin(π/2+(fr1-fr2)*π*x/60)),alpha->0.7,pxlres->0.1,start->0,stop->30,color->(1,1,1));
+
+
+plot(f(x/60),pxlres->1,start->0,stop->30,size->2);
+
+plot(f1(x/60)/2+3,alpha->0.7,pxlres->1,start->0,stop->30,color->(0.6,0,0),size->1);
+plot(f2(x/60)/2+3,alpha->0.7,pxlres->1,start->0,stop->30,color->(0,0.6,0),size->1);
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+if(key()==" ",looping=!looping);
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "EditableText", pos: [-2.3423423423423424, -4.0, -0.4504504504504504], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, alpha: 0.8999999761581421, minwidth: 67, text: "100 ", textsize: 18.0},
+    {name: "A", type: "Free", pos: [4.0, 1.3333333333333333, 0.26666666666666666], color: [0.757, 0.0, 0.0], alpha: 0.8999999761581421, textsize: 0.0, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 1.8666666666666667, 0.26666666666666666], color: [0.098, 0.62, 0.306], alpha: 0.8999999761581421, textsize: 0.0, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 793,
+    height: 426,
+    transform: [{visibleRect: [-0.94, 11.9, 30.78, -5.14]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

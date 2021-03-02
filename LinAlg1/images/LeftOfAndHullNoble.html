@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>LeftOfAndHullNoble.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+pts=allpoints();
+
+
+forall(pts,
+       #.color=if(area(A,B,#)>0.001,
+                  (0,1,0),
+                  if(area(A,B,#)<-0.001,(1,0,0),(1,1,0))));
+
+
+segs=pairs(pts);
+
+leftfrom(seg):=
+   select(pts,area(#,seg_1,seg_2)>=0.00001);
+
+rightfrom(seg):=
+   select(pts,area(#,seg_1,seg_2)<=-0.00001);
+
+
+extrem(seg):=
+   (length(rightfrom(seg))*(length(leftfrom(seg)))==0);
+
+hull=select(segs,extrem(#));
+
+todos=apply(2..length(hull),hull_#);
+que=hull_1;
+
+next():=(
+   pt=que_(length(que));
+   a=select(todos,contains(#,pt));
+
+   todos=todos--a;
+   que=que++(a_1--[pt]); 			
+
+);
+
+while(todos!=[],next());
+
+fillpoly(que,alpha->0.3);
+forall(hull,draw(#_1,#_2,color->(0,0,0),size->2))
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.864864864864865, -4.0, -3.295400663821716], dimDependent: 1, color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 3.5081967213114758, 0.999424791486914], dimDependent: 1, color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 5, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "b", type: "Join", color: [0.0, 0.0, 0.0], args: ["B", "A"], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [4.0, 1.1657142857142857, 0.5714285714285714], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [-1.8838709677419352, -4.0, -0.6451612903225806], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "E", type: "Free", pos: [0.09230769230769231, -4.0, -0.9379217273954117], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "F", type: "Free", pos: [4.0, 3.384615384615384, 1.923076923076923], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "G", type: "Free", pos: [4.0, 0.6376811594202899, 0.7246376811594204], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "H", type: "Free", pos: [4.0, 2.3849765258215965, 0.46948356807511743], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "K", type: "Free", pos: [-1.617777777777778, -4.0, -0.5419103313840156], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "L", type: "Free", pos: [4.0, 3.149425287356322, 0.5747126436781609], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "M", type: "Free", pos: [4.0, 3.293023255813954, 0.46511627906976744], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "N", type: "Free", pos: [-1.6923076923076925, -4.0, -0.9379217273954117], dimDependent: 1, color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421},
+    {name: "O", type: "Free", pos: [4.0, -0.6717557251908397, 0.7633587786259541], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "P", type: "Free", pos: [4.0, 0.23529411764705882, 0.45248868778280543], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "Q", type: "Free", pos: [4.0, 1.2436974789915967, 0.42016806722689076], dimDependent: 1, color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2, friction: 0.1},
+    {type: "Motor", speed: 0.02}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 417,
+    height: 327,
+    virtualwidth: 600,
+    virtualwidth: 450,
+    transform: [{visibleRect: [-3.0345323741007193, 8.480287769784173, 10.64546762589928, -2.2471942446043167]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

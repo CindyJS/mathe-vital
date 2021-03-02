@@ -1,0 +1,277 @@
+---
+title: Nebenklassen von $(\mathbb{Z}_p,\oplus_p)$
+layout: page
+category: LinAlg1
+---
+
+
+        <h1>Nebenklassen von $(\mathbb{Z}_p,\oplus_p)$</h1>
+
+Hier können die Nebenklassen von   $(\mathbb{Z}_p,\oplus_p)$ betrachtet werden.
+Durch Anklicken können Elemente ausgewählt werden, die zur erzeugenden Untergruppe gehören sollen.
+Die Elemente dieser Untergruppe werden rot markiert. Diese Elemente bilden die Nebenklasse
+des neutralen Elementes. Elemente, die zur gleichen Nebenklasse gehören, werden gleich eingefärbt.
+
+<br>
+<br>
+
+
+
+
+           <script id='init' type='cindyscript'>
+nold=0;
+n=0;
+sellist=[];
+all=[];
+
+f(x,y):=mod(x+y,n);
+
+type(i,nkl):=(select(1..length(nkl),contains(nkl_#,i))_1-1)/length(nkl);
+
+
+mark(i,j,col,alpha):=(
+   fillpolygon([q+[i-1,-j+1],q+[i,-j+1],q+[i,-j+2],q+[i-1,-j+2]],
+      color->col,alpha->alpha)
+);
+
+mark1(i,j,col,alpha):=(
+   connect([q+[i-1,-j+1],q+[i,-j+1],q+[i,-j+2],q+[i-1,-j+2],q+[i-1,-j+1]],
+      color->(0,0,0),alpha->alpha)
+);
+
+pp(i):=perm_(i+1);
+
+drawtable2():=(
+p=p+(17,0);
+q=q+(17,0);
+if(sellist!=[],
+  apply(gr,i,
+    mark(0,i+1,hue(colcode_(pp(i)+1)),0.3);
+    mark(i+1,0,hue(colcode_(pp(i)+1)),0.3);
+  );
+
+
+//  apply(sellist,i,
+//    mark(0,pp(i),(1,0,0),0.4);
+//    mark(pp(i),0,(1,0,0),0.4);
+//  );
+
+
+  apply(gr,i,
+    apply(gr,j,
+      mark(i+1,j+1,hue(colcode_(f(pp(i),pp(j))+1)),0.2);
+    );
+  );
+);
+
+apply(gr,i,
+  apply(gr,j,
+     drawtext(p+(i,-j),f(pp(i),pp(j)),size->14);
+  )
+);
+
+apply(gr,i,
+  drawtext(p+(-1,-i),pp(i),size->14,bold->true);
+  drawtext(p+(i,1),pp(i),size->14,bold->true);
+);
+
+draw(q+(-1,1),q+(n,1),size->2);
+draw(q+(0,2),q+(0,-n+1),size->2);
+if(sellist!=[],
+ repeat(length(nebenkl)-1,i,
+     draw(q+(-1,1-i*length(all)),q+(n,1-i*length(all)),size->1,color->(0,0,0),alpha->0.6);           draw(q+(0+i*length(all),2),q+(i*length(all),-n+1),size->1,color->(0,0,0),alpha->0.6);
+   );
+);
+drawtext(p+(-1.2,1),"⊕",size->24,color->(0.8,0,0));
+
+p=p-(17,0);
+q=q-(17,0);
+
+);
+
+
+drawtable():=(
+
+if(sellist!=[],
+  apply(gr,i,
+    mark(0,i+1,hue(colcode_(i+1)),0.3);
+    mark(i+1,0,hue(colcode_(i+1)),0.3);
+  );
+
+
+  apply(sellist,i,
+    mark(0,i,(1,0,0),0.5);
+    mark(i,0,(1,0,0),0.5);
+    mark1(0,i,(1,0,0),1);
+    mark1(i,0,(1,0,0),1);
+  );
+
+
+  apply(gr,i,
+    apply(gr,j,
+      mark(i+1,j+1,hue(colcode_(f(i,j)+1)),0.2);
+    );
+  );
+);
+
+apply(gr,i,
+  apply(gr,j,
+     drawtext(p+(i,-j),f(i,j),size->14);
+  )
+);
+
+apply(gr,i,
+  drawtext(p+(-1,-i),i,size->14,bold->true);
+  drawtext(p+(i,1),i,size->14,bold->true);
+);
+
+draw(p+(-1,1)+(-0.2,-0.2),p+(n,1)+(+0.2,-0.2),size->2);
+draw(p+(0,2)+(-0.2,-0.2),p+(0,-n+1)+(-0.2,-0.2),size->2);
+
+drawtext(p+(-1.2,1),"⊕",size->24,color->(0.8,0,0));
+
+
+);
+
+n=round(|A,C|)+2;
+perm=0..(n-1);
+
+        </script>
+
+<script id='click' type='cindyscript'>
+m=mouse().xy;
+h=m-q;
+x=floor(h.x+1);
+y=floor(-h.y+2);
+sel=-1;
+
+if(x==0&y>0&y<=n,sel=y);
+if(y==0&x>0&x<=n,sel=x);
+
+if (sel!=-1,
+  if(contains(sellist,sel),sellist=sellist--[sel],
+  sellist=sellist++[sel]);
+);
+
+
+all=apply(sellist,#-1);
+
+
+
+
+
+sat(l):=set(all++apply(pairs(l)++apply(l,(#,#)),w,f(w_1,w_2)));
+repeat(n,  all=sat(all););
+
+
+nebenkl=set(apply(gr,g,set(apply(all,f(#,g)))));
+
+colcode=apply(gr,type(#,nebenkl));
+
+perm=gr;
+
+if(sellist!=[],
+  perm=[];
+  forall(nebenkl,perm=perm++#);
+);
+
+</script>
+
+        <script id='firstDrawing' type='cindyscript'>
+  x=C.x;
+           if(x<A.x,x=A.x);
+           if(x>B.x,x=B.x);
+         //  x=round(x);
+           C.xy=(x,A.y);
+C.xy=round(C);
+
+n=round(|A,C|)+2;
+drawtext(A+(0,-1),"n="+n,size->14);
+
+if(n!=nold,all=[];sellist=[];perm=0..(n-1));
+nold=n;
+gr=0..(n-1);
+
+if(n!=nold,all=[];sellist=[];perm=gr);
+nold=n;
+
+p=(0.2,3.2);
+q=round(p);
+drawtext(p+(-1,2.5),"Gruppentafel (Elemente Anklicken)",size->14);
+drawtext(p+(-1+17,2.5),"Umgestellte Gruppentafel",size->14);
+drawtable();
+drawtable2();
+
+
+
+        </script>
+
+          <div style="position:relative">
+        <canvas  id="CSCanvas" width=850 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+<!--div style="border:1px solid #000000; padding:10px;  top:20px; left:420px; display:inline;z-index:4; width:340px; background:#AAAAFF" >
+         <div id="tex" style="font-size: 100%;" >
+        Hier können Untergruppen berechnet werden.<br>
+        Die Gruppenelemente lassen sich anclicken. <br>
+        Dadurch werden sie in die Untergruppe aufgenommen (rot markiert). <br>
+        Es werden sukzessive alle Elemente hinzugenommen, die durch Verknüpfung dieser Elemente gebildet werden können (blau markiert).<br>
+        Ist $U_0$ die Menge der initialien Elemente, wo werden die weiteren Elemente gemäß
+        \[U_{i+1}=\big\{a\oplus b \,\big\vert\, a,b\in U_i\big\}
+        \]
+
+        Alle anderen dadurch erzeugten Elemente werden blau markiert.
+
+         </div>
+
+        </div-->
+
+
+
+</div>
+
+
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[0,8],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[12,8],color:[0,0,0],pinned:true,size:3},
+                      {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+                      {name:"C", type:"Free", pos:[7,8],color:[1,1,0],size:5}
+                      ];
+
+            createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        mouseupscript:"click",
+                        grid:1,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,10,30,-15]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+
+                        geometry:gslp});
+
+
+                document.onkeydown={}
+
+
+
+            </script>
+
+
+
+
+
+<div style=" top:750px;left:10px; line-height: 1.5">
+  <br>
+    Die Nebenklassen bilden eine Partition der Grupenelemente. Auf der rechten Seite sieht man die gleiche Gruppentafel,
+allerdings mit entsprechend umsortierten Gruppenelementen. Elemente einer Nebenklasse sind zusammen sortiert worden.
+Hierbei sieht man, dass die Nebenklassen "repräsentantenweise" verknüpft werden können. Die Nebenklassen selbst
+bilden wieder die Gruppenelemente der so genannten <i>Quotientengruppe</i>.
+
+<br><br>
+<br><br>
+</div>
+</div>

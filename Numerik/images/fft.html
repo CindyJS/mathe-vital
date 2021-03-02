@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>fft.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+// begin misc
+/*
+inspect(S1B, "pinning", true);
+inspect(S1B, "labeled", false);
+inspect(S1B, "ptsize", 3);
+inspect(S1B, "color", 15);
+inspect(S1B, "pointborder", 0);
+
+inspect(S1E, "pinning", true);
+inspect(S1E, "labeled", false);
+inspect(S1E, "ptsize", 3);
+inspect(S1E, "color", 15);
+inspect(S1E, "pointborder", 0);
+
+inspect(S1P, "pinning", false);
+inspect(S1P, "labeled", false);
+inspect(S1P, "ptsize", 5);
+inspect(S1P, "color", 0);
+inspect(S1P, "pointborder", true);
+
+inspect(sl1, "linesize", 2);
+inspect(sl1, "color", 15);
+inspect(sl1, "labeled", false);
+*/
+
+noPoints = [S1B, S1E, S1P];
+noLines = [sl1];
+// end misc
+
+
+
+
+
+
+
+
+;radix2fft(x) := (
+  // calculate roots of unity only once!
+  radix2fftRecursion(x, apply(0..(length(x) - 1), exp(-2*pi*i*#/length(x))))/length(x);
+);
+
+
+radix2fftRecursion(x, omega) := (
+  if(length(x) > 1,
+    local(y, m, even, odd, head, tail, yEven, tmp, yOdd);
+
+    y = x;
+    m = length(x);
+
+    even = apply(1..(m + 1)/2, 2*# - 1);
+    odd = apply(1..(m/2), 2*#);
+    head = 1..(m/2);
+    tail = (m/2 + 1)..m;
+
+    yEven = radix2fftRecursion(x_head + x_tail, omega_even);
+
+    tmp = x_head - x_tail;
+    repeat(length(tmp), tmp_# = (tmp_#)*omega_#);
+    yOdd = radix2fftRecursion(tmp, omega_even);
+
+    repeat(length(even), y_(even_#) = yEven_#; y_(odd_#) = yOdd_#);
+
+    release(m, even, odd, head, tail, yEven, tmp, yOdd, y);
+    ,
+    // else
+    x;
+  );
+);
+
+
+fk(c) := (
+  c_((length(c)/2 + 2)..length(c))++c_(1..(length(c)/2 + 1));
+);
+
+
+ak(c) := (
+  local(fk, m, ak);
+
+  fk = fk(c);
+  m = length(fk)/2;
+
+  ak = [2*fk_m];
+  forall(1..(m - 1),
+    ak = append(ak, fk_(m + #) + fk_(m - #));
+  );
+
+  release(fk, m, ak);
+);
+
+
+bk(c) := (
+  local(fk, m, bk);
+
+  fk = fk(c);
+  m = length(fk)/2;
+
+  bk = [];
+  forall(1..(m - 1),
+    bk = append(bk, i*(fk_(m + #) - fk_(m - #)));
+  );
+
+  release(fk, m, bk);
+);
+
+
+
+;n = 31;
+
+a = 0;
+b = 2*pi;
+
+h(t) := parse(TextInput.val);
+
+f(t) := (
+  h(mod(t, 2*pi));
+);
+
+g(t) := (
+  local(ret);
+
+  ret = (ak_1)/2;
+  repeat(length(bk), ret = ret + (ak_(# + 1))*cos(#*t) + (bk_#)*sin(#*t));
+
+  release(ret);
+);
+
+
+init() := (
+  data = [];
+  forall(0..n, data = append(data, [a + (b - a)*#/n, f(a + (b - a)*#/n)]));
+
+  ck = radix2fft(apply(data, #_2));
+  ak = ak(ck);
+  bk = bk(ck);
+
+  maxak = max(apply(ak, #^2));
+  maxbk = max(apply(bk, #^2));
+  maxab = max(maxak, maxbk);
+
+  aktmp = [];
+  repeat(length(ak),
+    aktmp = append(aktmp, [-11 + (# - 1)/length(ak)*10, 3*(ak_#)^2/maxab - 6]);
+  );
+
+  bktmp = [];
+  repeat(length(bk),
+    bktmp = append(bktmp, [-11 + (# - 1)/length(bk)*10, 3*(bk_#)^2/maxab - 10]);
+  );
+);
+
+
+init();
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+forall(-3..3, draw([[2*pi*#, -0.5],[2*pi*#, 0.5]], color->gray(0.85), size->2));
+
+n = floor((S1P.x - S1B.x)/(S1E.x - S1B.x)*6) + 1;
+n = (2^n - 1);
+drawtext(S1P + [0, 0.4], "n = " + (n + 1));
+
+init();
+
+plot(f(t), size->2);
+plot(g(t), color->red(0.8), size->2);
+
+repeat(length(aktmp),
+  if(|mouse().x - aktmp_#_1| < 0.01,
+    draw([[aktmp_#_1, -6], aktmp_#], size->3, color->red(0.8));
+    k = #;
+    plot(ak_k*cos(k*#), color->red(0.8));
+    ,
+    draw([[aktmp_#_1, -6], aktmp_#], size->2);
+  );
+);
+
+repeat(length(bktmp),
+  if(|mouse().x - bktmp_#_1| < 0.01,
+    draw([[bktmp_#_1, -10], bktmp_#], size->3, color->green(0.8));
+    k = #;
+    plot(bk_k*sin(k*#), color->green(0.8));
+    ,
+    draw([[bktmp_#_1, -10], bktmp_#], size->2);
+  );
+);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "S1B", type: "Free", pos: [4.0, -4.0, -1.0], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S1E", type: "Free", pos: [-1.0, -4.0, -1.0], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl1", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S1B", "S1E"], size: 2},
+    {name: "S1P", type: "PointOnSegment", pos: [0.5439331499999998, -4.0, -1.0], color: [1.0, 1.0, 1.0], args: ["sl1"]},
+    {name: "A", type: "Free", pos: [4.0, -0.0, -2.2222222222222223], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 2.2222222222222223], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "a", type: "Join", color: [0.502, 0.502, 0.502], args: ["A", "B"], labeled: true},
+    {name: "TextInput", type: "EditableText", color: [0.0, 0.0, 0.0], fillcolor: [0.0, 0.0, 1.0], fillalpha: 0.5, minwidth: 250, text: "0.5*(t - pi)", dock: {corner: "UL", offset: [46.0, -40.0]}},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 1.0], text: "f(t) =", dock: {corner: "UL", offset: [10.0, -40.0]}},
+    {name: "Text1", type: "Text", pos: [4.0, 1.9916463626870866, -0.33275321963104765], color: [0.0, 0.0, 0.0], text: "$a_k$:", textsize: 18.0},
+    {name: "Text2", type: "Text", pos: [4.0, 3.3069993069993076, -0.3312543312543313], color: [0.0, 0.0, 0.0], text: "$b_k$:", textsize: 18.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-12.986401673640168, 5.017782426778243, 13.013598326359833, -11.055439330543933]}],
+    axes: true,
+    grid: 0.5,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

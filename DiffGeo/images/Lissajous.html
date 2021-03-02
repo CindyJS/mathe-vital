@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "draw": "a=|A1,A|/|A1,A2|*6;\nb=|B1,B|/|B1,B2|*6;\nif(Text0.pressed==true,\n  O1.x=round(O1.x*10)/10;\n  O2.x=round(O2.x*10)/10;\n  o1=|O11,O1|/|O11,O12|*6;\n  o2=|O21,O2|/|O21,O22|*6;\n  drawtext((9.4,-6.8),\"$\\omega_1\\;/\\;\\omega_2 = $\"+(o1*10)+\"$\\;/\\;$\"+(o2*10))\n  );\no1=|O11,O1|/|O11,O12|*6;\nd1=|D11,D1|/|D11,D12|;\no2=|O21,O2|/|O21,O22|*6;\nd2=|D21,D2|/|D21,D22|;\nif(K.x<K1.x,K.x=K1.x);\nK.x=round(K.x*2)/2;\nk=(K.x-K1.x)*2+1;;\nt=(|T1,T|/|T1,T2|*2*pi-pi)*k;\nx(t):=(a*cos(o1*t-d1*pi),b*sin(o2*t-d2*pi));\nX.xy=x(t);\nlinesize(3);\nplot(X(t),t,start->-pi*k,stop->pi*k, steps->200*k);\ndraw(X(-k*pi),size->2,color->(0,0.7,0));\ndraw(X(k*pi),size->2,color->(0.7,0.7,0));\nif(|X(-k*pi)-X(k*pi)|~=0, draw(X(k*pi),size->3,color->(0,0,0.7));\n  );\ndrawtext(T1+(.2,-.4),\"$t_1=-$\"+k+\"$\\cdot \\pi\");\ndrawtext(T+(.5,-.1),\"t=\"+t);\ndrawtext(T2+(.2,.2),\"$t_2=$\"+k+\"$\\cdot \\pi\");\ndrawtext(A+(.2,.3),\"a=\"+a);\ndrawtext(B+(.2,.3),\"b=\"+b);\ndrawtext(O1+(.2,.3),\"$\\omega_1=$\"+o1);\ndrawtext(D1+(.2,.3),\"$\\delta_1=$\"+d1+\"$\\cdot \\pi$\");\ndrawtext(O2+(.2,.3),\"$\\omega_2=$\"+o2);\ndrawtext(D2+(.2,.3),\"$\\delta_2=$\"+d2+\"$\\cdot \\pi$\");\ndrawtext(K+(.2,.3),\"Intervallgrenzen [$-$\"+k+\"$\\cdot \\pi\\;,\\; $\"+k+\"$\\cdot \\pi ]$\");\n\nerr(T1.color);\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "A1",
+                "type": "Free",
+                "pos": [4.0, 0.75, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "A2",
+                "type": "Free",
+                "pos": [4.0, 0.4285714285714287, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "a#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["A1", "A2"]
+            }, {
+                "name": "B1",
+                "type": "Free",
+                "pos": [4.0, 0.25, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "B2",
+                "type": "Free",
+                "pos": [4.0, 0.14285714285714285, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "b#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["B1", "B2"]
+            }, {
+                "name": "O11",
+                "type": "Free",
+                "pos": [4.0, -0.5, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "O12",
+                "type": "Free",
+                "pos": [4.0, -0.28571428571428586, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "o1#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["O11", "O12"]
+            }, {
+                "name": "D11",
+                "type": "Free",
+                "pos": [4.0, -1.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "D12",
+                "type": "Free",
+                "pos": [4.0, -0.5714285714285717, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "d1#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["D11", "D12"]
+            }, {
+                "name": "O21",
+                "type": "Free",
+                "pos": [4.0, -1.5, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "O22",
+                "type": "Free",
+                "pos": [4.0, -0.8571428571428574, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "o2#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["O21", "O22"]
+            }, {
+                "name": "D21",
+                "type": "Free",
+                "pos": [4.0, -2.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "D22",
+                "type": "Free",
+                "pos": [4.0, -1.1428571428571435, 0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "d2#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["D21", "D22"]
+            }, {
+                "name": "A",
+                "type": "PointOnSegment",
+                "pos": [4.0, 0.4999999916666669, 0.33333332777777785],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a#"],
+                "size": 4.0
+            }, {
+                "name": "B",
+                "type": "PointOnSegment",
+                "pos": [4.0, 0.15384615621301778, 0.30769231242603556],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["b#"],
+                "size": 4.0
+            }, {
+                "name": "O1",
+                "type": "PointOnSegment",
+                "pos": [4.0, -0.3636363636363637, 0.36363636363636365],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["o1#"],
+                "size": 4.0
+            }, {
+                "name": "D1",
+                "type": "PointOnSegment",
+                "pos": [4.0, -0.6896551724137931, 0.3448275862068965],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["d1#"],
+                "size": 4.0
+            }, {
+                "name": "O2",
+                "type": "PointOnSegment",
+                "pos": [4.0, -1.3333333303703705, 0.44444444345679013],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["o2#"],
+                "size": 4.0
+            }, {
+                "name": "D2",
+                "type": "PointOnSegment",
+                "pos": [4.0, -1.3793103448275863, 0.3448275862068965],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["d2#"],
+                "size": 4.0
+            }, {
+                "name": "T2",
+                "type": "Free",
+                "pos": [4.0, -2.823529411764706, -0.47058823529411764],
+                "color": [1.0, 1.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [4.0, 2.823529411764706, -0.47058823529411764],
+                "color": [0.0, 1.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "t#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T2", "T1"]
+            }, {
+                "name": "T",
+                "type": "PointOnSegment",
+                "pos": [4.0, -1.92, -0.4705882352941176],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["t#"],
+                "size": 4.0
+            }, {
+                "name": "X",
+                "type": "Free",
+                "pos": [2.4111162600739786, -4.0, -3.2168579153751202],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true
+            }, {
+                "name": "K1",
+                "type": "Free",
+                "pos": [4.0, 3.75, -0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "h",
+                "type": "Through",
+                "pos": [0.0, 0.5333333333333333, 4.0],
+                "color": [0.0, 0.0, 0.0],
+                "args": ["K1"],
+                "pinned": true
+            }, {
+                "name": "K",
+                "type": "PointOnLine",
+                "pos": [4.0, 3.75, -0.5],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["h"],
+                "size": 4.0
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "pos": [4.0, -2.816326530612245, 0.5102040816326531],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "text": "rationales Frequenzverhältnis"
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 680,
+                "height": 403,
+                "transform": [{
+                    "visibleRect": [-9.38, 7.18, 17.82, -8.94]
+                }],
+                "axes": true,
+                "grid": 1.0,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

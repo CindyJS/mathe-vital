@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SimplePendel.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+l=[];
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+l=[F.y]++l;
+n=300;
+apply(2..length(l),j,i=length(l)-j+1;draw((-i*0.05+E.x,l_i),(-(i+1)*0.05+E.x,l_(i+1)),color->(0.6,0,0),size->2,alpha->(n-i)/n));
+if(length(l)>n,l=apply(1..length(l)-1,l_#));
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.2, 0.4], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "D", type: "Free", pos: [4.0, 4.0, 0.5], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "E", type: "Free", pos: [4.0, -1.0, 0.5], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "d", type: "Join", color: [0.0, 0.0, 0.0], args: ["D", "E"], clip: "inci"},
+    {name: "B", type: "Free", pos: [4.0, -0.8, 0.4], color: [0.0, 0.0, 0.0], visible: false, size: 3.0},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], visible: false, labeled: true},
+    {name: "C", type: "PointOnLine", pos: [4.0, 1.2000000000000006, 0.4], color: [1.0, 1.0, 0.0], args: ["c"], size: 7.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "C"], labeled: true},
+    {name: "e", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["d", "C"], alpha: 0.41025641025641024, clip: "inci"},
+    {name: "F", type: "Meet", color: [0.757, 0.0, 0.0], args: ["d", "e"], size: 3.0}
+  ],
+  behavior: [
+    {geo: ["C"], type: "Mass"},
+    {geo: ["a", "A", "C"], type: "Spring", restlength: 4.999999999999998}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.1958762886597938,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [-9.06, 9.34, 18.14, -4.66]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SimilarityPlant1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.4280882249076321, -3.6261590815705307, 1.0], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, size: 4.0},
+    {name: "C", type: "Free", pos: [4.0, 0.9917355371900828, -1.3127748869888638], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "A"},
+    {name: "D", type: "Free", pos: [4.0, -1.0810810810810811, 1.4310428948256984], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "B"},
+    {name: "E", type: "Free", pos: [-0.6666666666666666, -4.0, -3.3092866942844275], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "C"},
+    {name: "Tr0", type: "TrSimilarity", color: [0.0, 0.0, 1.0], args: ["C", "C", "D", "E"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrSimilarity", color: [0.0, 0.0, 1.0], args: ["D", "D", "C", "E"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "IFS0", type: "IFS", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "TG0", type: "TG", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1"], dock: {offset: [0.0, -0.0]}},
+    {name: "E0", type: "MTransform", color: [0.0, 1.0, 0.0], args: ["A", "TG0"], alpha: 0.699999988079071, size: 2.0},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.20000000298023224, alpha: 0.8999999761581421, text: "Abbildungen:\n$(A,B) \\to (A,C)$\n$(A,B) \\to (C,B)$", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 504,
+    height: 427,
+    transform: [{visibleRect: [-6.156915940583298, 6.005825978851193, 6.534640844913562, -4.74674296441698]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

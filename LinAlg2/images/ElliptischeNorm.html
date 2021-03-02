@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ElliptischeNorm.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+c.size=2;
+c.color=[0,0.6,0];
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true},
+    {name: "a", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0, labeled: true},
+    {name: "b", type: "Through", pos: [4.0, -0.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0, labeled: true},
+    {name: "B", type: "PointOnLine", pos: [4.0, -0.0, 3.8377192982456143], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.0},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.0},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "D", type: "SelectP", pos: [0.0, -2.0845714285714285, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0},
+    {name: "", type: "SelectP", pos: [0.0, 2.0845714285714285, 4.0], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "C1", type: "ConicFromPrincipalDirections", color: [0.0, 0.0, 1.0], args: ["A", "B", "D"], alpha: 0.8999999761581421},
+    {name: "E", type: "Free", pos: [4.0, 1.3658536585365852, 1.4976465554129226], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "Tr0", type: "TrTranslation", color: [0.0, 0.0, 1.0], args: ["A", "E"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "C2", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C1"], alpha: 0.8999999761581421},
+    {name: "Collection__2", type: "IntersectionConicConic", args: ["C1", "C2"]},
+    {name: "F", type: "SelectP", pos: [4.0, {r: 1.4955554516344429E-15, i: -2.000000000000001}, {r: 6.884134135216903E-16, i: -8.285199750607806E-16}], color: [1.0, 0.0, 0.0], args: ["Collection__2"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "G", type: "SelectP", pos: [4.0, {r: 0.44584139026576647, i: 1.7619594749995067}, {r: 2.3535992046264926, i: 1.2289386751357714}], color: [1.0, 0.0, 0.0], args: ["Collection__2"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "H", type: "Mid", color: [0.0, 1.0, 0.0], args: ["A", "E"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "c", type: "Join", dimDependent: 1, color: [0.0, 0.6, 0.0], args: ["G", "H"], labeled: true, size: 2}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 637,
+    height: 443,
+    transform: [{visibleRect: [-4.8748571428571426, 5.309142857142857, 8.957142857142857, -4.3102857142857145]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

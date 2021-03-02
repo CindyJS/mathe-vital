@@ -1,0 +1,230 @@
+---
+title: Euklidischer Algorithmus
+layout: page
+category: LinAlg1
+---
+
+
+        <h1>Euklidischer Algorithmus</h1>
+
+
+Der größte gemeinsame Teiler (kurz: ggT) zweier natürlicher Zahlen $a$ und $b$ ist die größte natürliche Zahl, die sowohl $a$
+als auch $b$ teilt. Der ggT ist z.B. beim  Kürzen von Brüchen $a/b$ wichtig, da dies die größte Zahl ist, durch die man Zähler und Nenner kürzen kann.
+Man kann den ggT zweier Zahlen für kleine Zahlen oft relativ schnell erraten, für größere Zahlen ist jedoch ein algorithmisches Vorgehen notwendig.
+Wir bezeichnen den ggT von $a$ und $b$ kurz mit $\mbox{ggT}(a,b)$.
+
+Ein sehr effizienter Algorithmus zur Berechnung des ggT ist der so genannte _Euklidische Algorithmus_. Hierbei wird durch sukzessives Abspalten von Resten iterativ der ggT bestimmt.
+Es gelte o.B.d.A $a\geq b$. Die Hauptidee des Algorithmus ist die folgende:
+<ol>
+<li> Entweder geht $b$ ohne Rest in $a$ auf, dann ist $b$ der gesuchte $\mbox{ggT}(a,b)$. </li>
+<li> Andernfalls gilt $a=k\cdot b+r$ für ein $r<b$. In diesem Fall ist  $\mbox{ggT}(a,b)=\mbox{ggT}(b,r)$ </li>
+</ol>
+
+
+Aus dieser Erkenntnis lässt sich wahlweise ein iterativer oder ein rekursiver Algorithmus aufbauen.
+
+Rekursiv läßt sich eine ggT Funktion z.B. folgendermaßen definieren:
+<pre>
+<code>
+   ggT(a,b):= {
+      r=mod(a,b);                //Der Rest von a beim Teilen durch b;
+      if (r==0)
+         return b;               //Wir haben den ggT gefunden
+      else
+         return ggT(b,r);        //Wir müssen iterieren
+   }
+</code>
+</pre>
+Das folgende Applet verdeutlicht (rechte Seite) tabellarisch die Berechnung des ggT.
+Die Zahlen $a$ und $b$ lassen sich mit der Maus einstellen.
+<br>
+<br>
+
+
+
+
+        <script id='firstDrawing' type='cindyscript'>
+            linecolor((0,0,0));
+            sq(a,b):=(
+                      n1=a-b;
+                      n2=(-n1_2,n1_1);
+                      pol=(a,a-n2,b-n2,b);
+                    fillpoly(pol,color->col*.2+.8*(1,1,1),alpha->1);
+                      draw(a,b,size->2);
+                      draw(a,a-n2,size->2);
+                      draw(b,b-n2,size->2);
+                      draw(a-n2,b-n2,size->2);
+                      );
+
+
+            i=0;
+
+            ii=complex((0,1));
+            arrow(aa,bb):=(
+                           a1=complex(aa);
+                           b1=complex(bb);
+                           draw(gauss(a1),gauss(b1),color->(0,0,0.6));
+                           draw(gauss(b1-((b1-a1)/|b1-a1|)*exp(ii*.4) ),gauss(b1),color->(0,0,0.6));
+                           draw(gauss(b1-((b1-a1)/|b1-a1|)*exp(-ii*.4) ),gauss(b1),color->(0,0,0.6));
+
+                           );
+
+
+
+            kb(a,b,c,n):=if(n>0,
+                            col=hue(.3*n/2);
+                            if(abs(a-b)<abs(a-c),
+                               (sq(b,a);nn=perp(a-b);kb(a+nn,b+nn,c,n-1)),
+                               (sq(a,c);nn=perp(a-c);kb(a-nn,b,c-nn,n-1))
+                               )
+                               );
+
+
+            nn=2.5;
+
+              a=round((A.x+10)*nn);
+              b=round((A.y+10)*nn);
+              if (a<0,a=0);
+              if (b<0,b=0);
+            A.xy=(a/nn-10,b/nn-10);
+
+            if(mover()==B,
+              a=round((A.x+10)*nn);
+              b=round((B.y+10)*nn);
+              if (a<0,a=0);
+              if (b<0,b=0);
+              B.xy=(-10,b/nn-10);
+              A.xy=(a/nn-10,b/nn-10);
+
+            );
+
+
+
+
+            if(mover()==C,
+              a=round((C.x+10)*nn);
+              b=round((A.y+10)*nn);
+              if (a<0,a=0);
+              if (b<0,b=0);
+              C.xy=(a/nn-10,-10);
+              A.xy=(a/nn-10,b/nn-10);
+
+            );
+
+            B.xy=(-10,b/nn-10);
+            C.xy=(a/nn-10,-10);
+
+            drawtext(A+(.2,.2),"("+a+","+b+")");
+            gsave();
+            translate((-10,-10));
+            scale(1/nn);
+            apply(0..nn*20,
+                  draw((0,#),(nn*20,#),color->(0,0,0),alpha->0.2);
+                  draw((#,0),(#,nn*20),color->(0,0,0),alpha->0.2);
+
+                  );
+            kb((0,0),(0,b),(a,0),200);
+            grestore();
+            gsave();
+            translate((-10,-10));
+            scale(1/5);
+
+            translate((40,40));
+            drawtext((65,50-i*4),"Euklidischer Algorithmus:",size->20,color->(0.6,0,0));
+                     while(b>0,
+                           k=floor(a/b);
+                           r=a-k*b;
+                           drawtext((65,43-i*7),a,size->16);
+                           drawtext((70,43-i*7),"= "+k,size->16);
+                           drawtext((77,43-i*7),"* "+b,size->16);
+                           drawtext((87,43-i*7),"+ "+r,size->16);
+                           if(r==0,
+                              drawtext((87,43-i*7),"+ "+r,size->16,color->(0.6,0,0));
+                              );
+                           a=round(b);
+                           b=round(r);
+                           if (b>0,
+                               arrow((89,42.5-i*7),(83,40-i*7));
+                               arrow((78,42.5-i*7),(69,40-i*7)),
+                               arrow((78,42.5-i*7),(69,36-i*7));
+                               i=i+1;
+                               );
+                           i=i+1;
+
+                           );
+
+                     drawtext((65,43-i*7),a+" ist der ggT",size->20,color->(0.6,0,0));
+
+
+
+
+
+            grestore();
+
+        </script>
+
+          <div >
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000;"></canvas>
+
+
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", kind:"P", type:"Free", pos:[4,8,1],size:4,color:[0,0,0]},
+                      {name:"B", kind:"P", type:"Free", pos:[-10,8,1],size:4,color:[0,0,0]},
+                      {name:"C", kind:"P", type:"Free", pos:[4,-10,1],size:4,color:[0,0,0]}
+                      ];
+
+            createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        geometry:gslp,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,10,10,-10]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+                      
+                      });
+
+
+
+
+
+            </script>
+
+<div >
+  <br>
+
+Die Grafik auf der linken Seite gibt eine geometrische Interpretation des Euklidischen Algorithmus an.
+Ausgehend von einem Rechteck mit Kantenlängen $a$ und $b$ beginnt man, an der kürzeren Seite (angenommen dies sei $b$) Quadrate der Größe
+$b\cdot b$ abzuspalten. Entweder geht dieser Prozess auf oder es verbleibt ein Rechteck, dessen längere Kante die Länge $b$ hat. Mit diesem Rechteck verfährt man iterativ
+so weiter. Sofern $a$ und $b$ ganze Zahlen sind, stoppt dieser iterative Prozess spätestens bei einem $1\cdot 1$ Quadrat.
+
+Die Kantenlänge des letzten Quadrates ist der gesuchte ggT.
+<br>
+<hr>
+<br>
+Man kann den Prozess des Auffindens des ggT auch komplett geometrisch interpretieren. Gegeben seien zwei Längen $a$ und $b$. Gesucht ist ein größtmöglicher
+Maßstab mit Länge $l$, so dass ich sowohl $a$ als auch $b$ durch Hintereinanderlegen von Maßstäben der Länge $l$ exakt vermessen lassen. Es soll also gelten
+$a=s\cdot l$ und $b=t\cdot l$ für geeignete ganze Zahlen $s$  und $t$. Strecken, für die dieses möglich ist, nennt man <i>kommensurabel</i>.
+
+Strecken, für die dieses nicht möglich ist, nennt man <i>inkommensurabel</i>. Das Verhältnis von $a$ zu $b$
+ist in diesem Fall <i>irrational</i>.
+
+<br>
+<hr>
+<br>
+
+Eine kleine Fingerübung:</br> Es sei $\tau$ der <i>Goldene Schnitt</i>, also (per Definition) ein Zahlenverhältnis $a/b$ mit der Eigenschaft,
+dass ${a\over b}= {a+b\over a}$ gilt. (In Prosa: Die Strecke $a+b$ wird so unterteilt, dass das Verhältnis ihrer Gesamtlänge zur größeren Teilstrecke $a$
+gleich dem  Verhältnis der größeren zur kleineren Teilstrecke ist.) Man Zeige (ohne Rechnen!!), dass der Goldene Schnitt irrational ist.
+
+
+
+
+<br><br>
+</div>
+</div>
+</div>

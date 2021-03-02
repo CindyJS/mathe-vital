@@ -1,0 +1,45 @@
+---
+layout: default
+---
+
+<div class="navigationshortcuts">
+  {% for item in site.data.navigation.Navigation %}{% if item.category == page.category %}
+  {% assign i = 0 %}
+  {% for chapter in item.chapters %}{% if page.url == chapter.url %}
+  {% assign next = i | plus: 1 %}{% assign prev = i | minus: 1 %}
+      {% if item.chapters[prev] %}
+        <a title="Strg+Alt+J" href="{{item.chapters[prev].url}}" accesskey="j">Previous &#8678;</a>
+      {% endif %}
+      {% if item.chapters[prev] %}
+        <a title="Strg+Alt+L" href="{{item.chapters[next].url}}" accesskey="l">&#8680; Next</a>
+      {% endif %}
+    {% endif %}{% assign i = i | plus: 1 %}{% endfor %}
+    {% endif %}{% endfor %}
+</div>
+
+
+
+
+<div id="lecture">
+  {% for item in site.data.navigation.Navigation %}{% if item.category == page.category %}
+  {% for chapter in item.chapters %}{% if chapter.url == page.url %}
+    <h2> {{ chapter.chapternr }}. {{chapter.title}}</h2>
+    <table>
+      <tr >
+        <td ><a href={{chapter.url}}><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
+            <td>
+              <table>
+                {% for topic in chapter.topics %}
+                  <tr>
+                    <td><a href="{{topic.url}}">{{topic.title}}</a></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </td>
+      </tr>
+    </table>
+    {% endif %}{% endfor %}
+    {% endif %}{% endfor %}
+
+
+</div>

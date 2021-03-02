@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>maxNorm.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+sgn(x):=(
+	if(x<0, 
+		return=-1;
+	,
+		if(x>0, 
+			return=1;
+		, 
+			return=0;
+		);
+	);
+	return;
+);
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+linecolor([0,0.6,0]);
+Poly0.fillcolor=[0,0.6,0];//OPM
+Poly1.fillcolor=[0,0.6,0];//QRN
+Poly0.color=[0,0.6,0];//OPM
+Poly1.color=[0,0.6,0];//QRN
+Poly0.fillalpha=1;//OPM
+Poly1.fillalpha=1;//QRN
+linesize(2);
+M.size = 1;
+N.size = 1;
+O.size = 1;
+Q.size = 1;
+P.size = 1;
+R.size = 1;
+
+if((L.x ~= 0)&(L.y ~= 0),
+	M.xy=[-100,-100];
+	O.xy=[100,100];
+	P.xy=[100,-100];
+	N.xy=[-100,-100];
+	Q.xy=[100,100];
+	R.xy=[-100,100];
+,
+if(L.y ~= 0,
+	M.xy=[L.x/2,abs(L.x/2)];
+	N.xy=[L.x/2,-abs(L.x/2)];
+	O.x=M.x-100;
+	O.y=M.y+100;
+	P.x=M.x+100;
+	P.y=M.y+100;
+	Q.x=N.x-100;
+	Q.y=N.y-100;
+	R.x=N.x+100;
+	R.y=N.y-100;
+,
+if(L.x ~=0,
+	M.xy=[abs(L.y/2),(L.y/2)];
+	N.xy=[-abs(L.y/2),(L.y/2)];
+	O.y=M.y-100;
+	O.x=M.x+100;
+	P.y=M.y+100;
+	P.x=M.x+100;
+	Q.y=N.y-100;
+	Q.x=N.x-100;
+	R.y=N.y+100;
+	R.x=N.x-100;
+,
+if(abs(L.x)>abs(L.y),
+	M.x=L.x/2;
+	N.x=L.x/2;
+	M.y = (L.y)/2 + (abs(L.x)/2-abs(L.y)/2);
+	N.y = (L.y)/2 - (abs(L.x)/2-abs(L.y)/2);
+	O.xy=M.xy+[-sgn(L.x)*sgn(L.y)*100,100];
+	P.xy=M.xy+[-sgn(L.x)*sgn(L.y)*100,100];
+	Q.xy=N.xy+[sgn(L.x)*sgn(L.y)*100,-100];
+	R.xy=N.xy+[sgn(L.x)*sgn(L.y)*100,-100];
+,
+	M.y=L.y/2;
+	N.y=L.y/2;
+	M.x = (L.x)/2 + (abs(L.y)/2-abs(L.x)/2);
+	N.x = (L.x)/2 - (abs(L.y)/2-abs(L.x)/2);
+	O.xy=M.xy+[100,-sgn(L.y)*sgn(L.x)*100];
+	P.xy=M.xy+[100,-sgn(L.y)*sgn(L.x)*100];
+	Q.xy=N.xy+[-100,sgn(L.y)*sgn(L.x)*100];
+	R.xy=N.xy+[-100,sgn(L.y)*sgn(L.x)*100];
+);
+
+);
+);
+);
+draw(M,N);
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true},
+    {name: "a", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0},
+    {name: "B", type: "PointOnLine", pos: [2.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.0},
+    {name: "C", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C0", "a", "B"], alpha: 0.0},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "A"], alpha: 0.0},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "E", type: "SelectP", pos: [0.0, -2.0, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0},
+    {name: "D", type: "SelectP", pos: [0.0, 2.0, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0},
+    {name: "c", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["a", "D"], alpha: 0.0},
+    {name: "d", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["a", "E"], alpha: 0.0},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "C"], alpha: 0.0},
+    {name: "f", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "B"], alpha: 0.0},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "e"], alpha: 0.0},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "e"], alpha: 0.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"], alpha: 0.8999999761581421},
+    {name: "H", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "f"], alpha: 0.0},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"], alpha: 0.8999999761581421},
+    {name: "K", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "f"], alpha: 0.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "K"], alpha: 0.8999999761581421},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "F"], alpha: 0.8999999761581421},
+    {name: "L", type: "Free", pos: [4.0, 2.597701149425287, 2.185268752253662], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "Tr0", type: "TrTranslation", color: [0.0, 0.0, 1.0], args: ["A", "L"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "m", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "g"], alpha: 0.8999999761581421},
+    {name: "n", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "h"], alpha: 0.8999999761581421},
+    {name: "o", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "k"], alpha: 0.8999999761581421},
+    {name: "p", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "l"], alpha: 0.8999999761581421},
+    {name: "M", type: "Free", pos: [3.660876947858071, 3.660876947858071, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "N", type: "Free", pos: [3.660876947858071, 1.0940551798196534, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "O", type: "Free", pos: [3.9274464847713055, -4.0, -0.03963723242385653], color: [1.0, 0.0, 0.0], alpha: 0.0, size: 1.0},
+    {name: "P", type: "Free", pos: [3.9274464847713055, -4.0, -0.03963723242385653], color: [1.0, 0.0, 0.0], alpha: 0.0, size: 1.0},
+    {name: "Q", type: "Free", pos: [4.0, -3.9528819125238943, 0.03963723242385653], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "R", type: "Free", pos: [4.0, -3.9528819125238943, 0.03963723242385653], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "Poly0", type: "Poly", dimDependent: 1, color: [0.0, 0.6, 0.0], fillcolor: [0.0, 0.6, 0.0], fillalpha: 1.0, args: ["O", "M", "P"], size: 3},
+    {name: "Poly1", type: "Poly", dimDependent: 1, color: [0.0, 0.6, 0.0], fillcolor: [0.0, 0.6, 0.0], fillalpha: 1.0, args: ["N", "Q", "R"], size: 3},
+    {name: "S", type: "Mid", color: [0.0, 1.0, 0.0], args: ["A", "L"], alpha: 0.8999999761581421, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 636,
+    height: 443,
+    transform: [{visibleRect: [-1.888297161323344, 2.8455954436655406, 4.802271053727613, -1.8146588319124057]}],
+    axes: true,
+    grid: 0.5,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

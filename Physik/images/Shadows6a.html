@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Shadows6a.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+//Das Schattenelement
+Text2.pressed=true;
+block(a,b):=(
+ (area(H,G,a)*area(H,G,b)<0) &
+ (area(a,b,H)*area(a,b,G)<0)
+);
+
+
+// Die Farbfunktion
+
+f(p,y):=
+ if(!p:"active",0,
+   if(block(p,(0,y)),
+     0,
+     ex/|p,(0,y)|^(inten*2);
+   );
+)*p:"color";
+
+
+//Die Strahlen
+
+ray(A,w):=(
+  ray=join(A,A+(sin(w),cos(w)));
+  pp=meet(screen,ray);
+  if(block(A,pp),pp=meet(shade,ray));
+  draw(A,pp,color->A:"color",alpha->0.4);
+);
+
+miniray(A,w):=(
+  pp=A+(sin(w),cos(w));
+  draw(A,pp,color->A:"color",alpha->0.4);
+);
+
+
+ mainray(A):=
+  if(A:"active",
+   if(G.x<A.x,draw(A,meet(screen,join(A,G)),color->A.color,size->2));
+   if(H.x<A.x,draw(A,meet(screen,join(A,H)),color->A.color,size->2));
+  );
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+fillpoly(((-100,-100),(100,-100),(100,100),(-100,100)),color->(0,0,0));
+if(A.x<0.1,A.x=0.1);
+if(B.x<0.1,B.x=0.1);
+if(C.x<0.1,C.x=0.1);
+
+inten=|T,V|/|T,U|;
+ex=exp(inten*4.5);
+err(ex);
+
+red=(|P,R|/|P,Q|,0,0);
+green=(0,|N,S|/|N,O|,0);
+blue=(0,0,|D,F|/|D,E|);
+A.color=(1,0,0)*.9;
+B.color=(0,1,0)*.9;
+C.color=(0,0,1)*.9;
+A:"color"=red;
+B:"color"=green;
+C:"color"=blue;
+
+R.color=A.color;
+S.color=B.color;
+F.color=C.color;
+
+
+A:"active"=!(A.x>L.x & A.y>L.y);
+B:"active"=!(B.x>L.x & B.y>L.y);
+C:"active"=!(C.x>L.x & C.y>L.y);
+
+
+draw((0,10),(0,-10),color->(0.2,0.2,0.2),size->6);
+y=9;
+sc=|D,F|;
+screen=join((0,1),(0,-1));
+shade=join(H,G);
+
+
+
+
+repeat(450,
+  col=(f(A,y)+f(C,y)+f(B,y));
+  draw((-1,y),(0,y),color->col);
+  y=y-1/25;
+);
+if(Text1.pressed,
+ n=90;
+ repeat(n-1,
+   w=#*(180/n)°;
+   if(A:"active",ray(A,w));
+   if(B:"active",ray(B,w));
+   if(C:"active",ray(C,w));
+ );
+);
+n=20;
+
+repeat(n,
+  w=#*(360/n)°;
+  if(!A:"active",miniray(A,w));
+  if(!B:"active",miniray(B,w));
+  if(!C:"active",miniray(C,w));
+);
+
+if(Text2.pressed,
+ mainray(A);
+ mainray(B);
+ mainray(C);
+);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 0.7604790419161676, 0.1497005988023952], dimDependent: 1, color: [0.898, 0.0, 0.0], size: 8.0},
+    {name: "B", type: "Free", pos: [4.0, 0.9850746268656718, 0.24875621890547267], dimDependent: 1, color: [0.0, 0.898, 0.0], size: 8.0},
+    {name: "C", type: "Free", pos: [4.0, -0.46540880503144655, 0.31446540880503143], dimDependent: 1, color: [0.0, 0.0, 0.898], size: 8.0},
+    {name: "D", type: "Free", pos: [4.0, -1.2173913043478262, 0.17391304347826086], color: [0.0, 0.0, 1.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, -1.0, 0.14285714285714285], color: [0.0, 0.0, 1.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [4.0, -1.051051051051051, 0.1501501501501501], dimDependent: 1, color: [0.0, 0.0, 0.898], args: ["a"]},
+    {name: "G", type: "Free", pos: [4.0, 1.639751552795031, 0.6211180124223601], color: [1.0, 1.0, 1.0], size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, -0.8447204968944098, 0.6211180124223601], color: [1.0, 1.0, 1.0], size: 2.0},
+    {name: "b", type: "Segment", color: [0.502, 0.502, 0.502], args: ["G", "H"], size: 5},
+    {name: "K", type: "Free", pos: [4.0, 1.7391304347826086, 0.17391304347826086], color: [1.0, 0.0, 0.0]},
+    {name: "L", type: "Free", pos: [4.0, 0.5217391304347826, 0.17391304347826086], color: [1.0, 0.0, 0.0], visible: false, pinned: true},
+    {name: "c", type: "Segment", color: [1.0, 1.0, 1.0], args: ["K", "L"], alpha: 0.3504273504273504, labeled: true, size: 5},
+    {name: "M", type: "Free", pos: [4.0, 0.3870967741935484, 0.12903225806451613], color: [1.0, 0.0, 0.0]},
+    {name: "d", type: "Segment", color: [1.0, 1.0, 1.0], args: ["L", "M"], alpha: 0.3504273504273504, labeled: true, size: 5},
+    {name: "N", type: "Free", pos: [4.0, -0.8695652173913043, 0.17391304347826086], color: [1.0, 0.0, 0.0], pinned: true, size: 1.0},
+    {name: "O", type: "Free", pos: [4.0, -0.7142857142857143, 0.14285714285714285], color: [1.0, 0.0, 0.0], pinned: true, size: 1.0},
+    {name: "e", type: "Segment", color: [0.0, 1.0, 0.0], args: ["N", "O"]},
+    {name: "P", type: "Free", pos: [4.0, -0.5217391304347826, 0.17391304347826086], color: [1.0, 0.0, 0.0], pinned: true, size: 1.0},
+    {name: "Q", type: "Free", pos: [4.0, -0.42857142857142855, 0.14285714285714285], color: [1.0, 0.0, 0.0], pinned: true, size: 1.0},
+    {name: "f", type: "Segment", color: [1.0, 0.0, 0.0], args: ["P", "Q"]},
+    {name: "R", type: "PointOnSegment", pos: [4.0, -0.42857142857142844, 0.14285714285714282], dimDependent: 1, color: [0.898, 0.0, 0.0], args: ["f"]},
+    {name: "S", type: "PointOnSegment", pos: [4.0, -0.7429420505200595, 0.1485884101040119], dimDependent: 1, color: [0.0, 0.898, 0.0], args: ["e"]},
+    {name: "T", type: "Free", pos: [4.0, -0.0, 0.17391304347826086], color: [1.0, 1.0, 1.0], pinned: true, size: 1.0},
+    {name: "U", type: "Free", pos: [4.0, -0.0, 0.14285714285714285], color: [1.0, 1.0, 1.0], pinned: true, size: 1.0},
+    {name: "g", type: "Segment", color: [1.0, 1.0, 1.0], args: ["T", "U"]},
+    {name: "V", type: "PointOnSegment", pos: [4.0, -0.0, 0.1739130434782609], color: [1.0, 1.0, 1.0], args: ["g"]},
+    {name: "Text0'", type: "Text", color: [1.0, 1.0, 1.0], pinned: true, text: "Lampen", dock: {corner: "UL", offset: [607.0, -20.0]}},
+    {name: "Text0", type: "Text", pos: [4.0, -0.33793103448275863, 0.17241379310344826], color: [1.0, 1.0, 1.0], pinned: true, text: "Intensitäten"},
+    {name: "Text1", type: "ToggleButton", pos: [4.0, 0.28178694158075596, 0.17182130584192437], color: [1.0, 1.0, 1.0], fillcolor: [0.467, 0.0, 0.718], fillalpha: 0.27272728085517883, pinned: true, text: "Strahlen"},
+    {name: "Text2", type: "ToggleButton", pos: [4.0, 0.25386996904024767, 0.15479876160990713], color: [0,0,0], fillcolor: [0.467, 0.0, 0.718], fillalpha: 0.27272728085517883, pressed: true, pinned: true, text: "Ränder", },
+    {name: "Text3", type: "Text", pos: [4.0, -0.1522491349480969, 0.17301038062283738], color: [1.0, 1.0, 1.0], pinned: true, text: "1"},
+    {name: "Text4", type: "Text", pos: [4.0, -0.12618296529968454, 0.15772870662460567], color: [1.0, 1.0, 1.0], pinned: true, text: "r"},
+    {name: "Text5", type: "Text", pos: [4.0, -0.11594202898550723, 0.14492753623188404], color: [1.0, 1.0, 1.0], pinned: true, text: "$r^2$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 745,
+    height: 443,
+    transform: [{visibleRect: [-1.02, 8.94, 28.78, -8.78]}],
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

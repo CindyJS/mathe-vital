@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>MittelSenkr.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+c(A,B):=(
+translate(A);
+linecolor([0,0.8,0]);
+
+linesize(2);
+pts = 500;
+list  = zerovector(pts);
+list1 = zerovector(pts);
+list2 = zerovector(pts);
+list3 = zerovector(pts);
+u=B.x-A.x;
+v=B.y-A.y;
+linecolor((0,0.6,0));
+if(abs(u)<abs(v),
+	repeat(pts,
+		list_# = #/10-25;
+		a=list_#-u/2;
+		help = sqrt(v*v*v*v*v*v*v*v+432*a*a*a*a*a*a*u*u+216*a*a*a*a*u*u*u*u+27*a*a*u*u*u*u*u*u);
+		help = pow((-108*u*a*a*a-27*a*u*u*u+3*sqrt(3)*help)*v*v,1/3);
+		list1_# = 1/6*(help)/v-1/2*v*v*v/(help);
+	);
+	repeat(pts-1,
+		pointcolor([1,0,0]);
+		draw([list_#,list1_#+v/2],[list_(#+1),list1_(#+1)+v/2]);
+	);
+,
+	repeat(pts,
+		list_# = #/10-10;
+		b=list_#-v/2;
+		help = sqrt(u*u*u*u*u*u*u*u+432*b*b*b*b*b*b*v*v+216*b*b*b*b*v*v*v*v+27*b*b*v*v*v*v*v*v);
+		help = pow((-108*v*b*b*b-27*b*v*v*v+3*sqrt(3)*help)*u*u,1/3);
+		list1_# = 1/6*(help)/u-1/2*u*u*u/(help);
+	);
+	repeat(pts-1,
+		pointcolor([1,0,0]);
+		draw([list1_#+u/2,list_#],[list1_(#+1)+u/2,list_(#+1)]);
+	);
+);
+
+translate(-A);
+
+
+);
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+pts=101;
+list=zeromatrix(pts,2);
+s = abs(A.xy-C.xy);
+if(mover()!=C,C.xy=A-dd);
+dd=A.xy-C.xy;
+s=(|dd.x|^4+|dd.y|^4)^(1/4);
+
+
+repeat(pts,start->0,
+	list_(#+1)_1=#/(pts-1);
+	list_(#+1)_2=re(sqrt(re(sqrt(1-list_(#+1)_1*list_(#+1)_1*list_(#+1)_1*list_(#+1)_1))));
+);
+
+linecolor((0,0,0.8));
+repeat(pts-1,
+	draw([A.x+s*list_#_1,A.y+s*list_#_2],[A.x+s*list_(#+1)_1,A.y+s*list_(#+1)_2]);
+	draw([A.x+s*list_#_1,A.y+s*(-list_#_2)],[A.x+s*list_(#+1)_1,A.y+s*(-list_(#+1)_2)]);
+	draw([A.x+s*(-list_#_1),A.y+s*list_#_2],[A.x+s*(-list_(#+1)_1),A.y+s*list_(#+1)_2]);
+	draw([A.x+s*(-list_#_1),A.y+s*(-list_#_2)],[A.x+s*(-list_(#+1)_1),A.y+s*(-list_(#+1)_2)]);
+	draw([B.x+s*list_#_1,B.y+s*list_#_2],[B.x+s*list_(#+1)_1,B.y+s*list_(#+1)_2]);
+	draw([B.x+s*list_#_1,B.y+s*(-list_#_2)],[B.x+s*list_(#+1)_1,B.y+s*(-list_(#+1)_2)]);
+	draw([B.x+s*(-list_#_1),B.y+s*list_#_2],[B.x+s*(-list_(#+1)_1),B.y+s*list_(#+1)_2]);
+	draw([B.x+s*(-list_#_1),B.y+s*(-list_#_2)],[B.x+s*(-list_(#+1)_1),B.y+s*(-list_(#+1)_2)]);
+	draw([E.x+s*list_#_1,E.y+s*list_#_2],[E.x+s*list_(#+1)_1,E.y+s*list_(#+1)_2]);
+	draw([E.x+s*list_#_1,E.y+s*(-list_#_2)],[E.x+s*list_(#+1)_1,E.y+s*(-list_(#+1)_2)]);
+	draw([E.x+s*(-list_#_1),E.y+s*list_#_2],[E.x+s*(-list_(#+1)_1),E.y+s*list_(#+1)_2]);
+	draw([E.x+s*(-list_#_1),E.y+s*(-list_#_2)],[E.x+s*(-list_(#+1)_1),E.y+s*(-list_(#+1)_2)]);
+);
+
+
+c(A,B);
+c(A,E);
+c(B,E);
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [4.0, 0.45901639344262296, 0.813950156782465], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "b", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0},
+    {name: "D", type: "Mid", color: [0.0, 1.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "E", type: "Free", pos: [2.8842105263157896, -4.0, 1.306604199045536], color: [1.0, 0.0, 0.0]},
+    {name: "F", type: "Mid", color: [0.0, 1.0, 0.0], args: ["B", "E"], size: 3.0},
+    {name: "G", type: "Mid", color: [0.0, 1.0, 0.0], args: ["A", "E"], size: 3.0},
+    {name: "a", type: "Segment", color: [0.757, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "c", type: "Segment", color: [0.757, 0.0, 0.0], args: ["B", "E"], size: 3},
+    {name: "d", type: "Segment", color: [0.757, 0.0, 0.0], args: ["E", "A"], size: 3},
+    {name: "C", type: "Free", pos: [2.577996500464474, 1.4823479877670727, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 701,
+    height: 487,
+    transform: [{visibleRect: [-2.7149525645516492, 2.9083023020864847, 8.579894603108327, -4.938474546202258]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+---
+title: Verschiebung (Translation)
+layout: page
+category: LinAlg1
+---
+
+        <h1>Verschiebung (Translation)</h1>
+
+
+
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col):=(
+           n=b-a;
+           n=n/|n|*.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->3);
+           draw(b-n*.17+p*.07,b,color->col,size->3);
+           draw(b-n*.17-p*.07,b,color->col,size->3);
+
+        );
+
+        drawang(w):=(
+           pol=apply(0..round(w/pi*36/2),
+             (cos(#*10°),sin(#*10°))*.2;
+           );
+           fillpoly(pol++[(0,0)],alpha->0.2);
+           connect(pol);
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+                w=arctan2(D.x,D.y);
+
+        a=cos(w)*|D|;
+b=sin(w)*|D|;
+
+
+ww=format(w/pi*180,2);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        draw(line((0,1,0)),color->(1,1,1)*.4);
+        draw(line((1,0,0)),color->(1,1,1)*.4);
+        drawarrow(O,D,(0.0,0,0.7));
+
+        if(mover()==E,
+          E1.xy=E+d1;
+          E2.xy=E+d2;
+          E3.xy=E+d3;
+          E4.xy=E+d4;
+
+        );
+        d1=E1-E;
+        d2=E2-E;
+        d3=E3-E;
+        d4=E4-E;
+        t=E.xy+D;
+        t1=E1.xy+D;
+        t2=E2.xy+D;
+        t3=E3.xy+D;
+        t4=E4.xy+D;
+        draw(E,E2);
+        draw(E,E3);
+        draw(E2,E4);
+        draw(E3,E4);
+        draw(E,E4);
+        draw(E2,E3);
+        draw(E1,E2);
+        draw(E1,E4);
+        draw(t,t2);
+        draw(t,t3);
+        draw(t2,t4);
+        draw(t3,t4);
+        draw(t,t4);
+        draw(t2,t3);
+        draw(t1,t2);
+        draw(t1,t4);
+        draw(t,size->3);
+        draw(t1,size->3);
+        draw(t2,size->3);
+draw(t3,size->3);
+draw(t4,size->3);
+a=cos(w);
+b=sin(w);
+ww=format(w/pi*180,2);
+
+
+drawtext(D+(0.06,0),"t",size->16);
+
+if (a>0,pa="+"+format(|a|,2);ma="-"+format(|a|,2));
+if (a<0,pa="-"+format(|a|,2);ma="+"+format(|a|,2));
+if (a==0,pa="+0";ma="+0");
+
+if (b>0,pb="+"+format(|b|,2);mb="-"+format(|b|,2));
+if (b<0,pb="-"+format(|b|,2);mb="+"+format(|b|,2));
+if (b==0,pb="+0";mb="+0");
+
+
+
+        //  javascript("document.getElementById('q1').style.top='"+(-A.y*3.132*25+450)+"px';");
+        //  javascript("document.getElementById('q1').style.left='"+(A.x*3.132*25+60)+"px';");
+
+
+
+ //                    "MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);");
+
+//inpa=-C.x;
+//inpb=-A.x-B.x;
+//inpc=-D.x-B.x;
+//inpa=round(inpa*100)/100;
+//inpb=round(inpb*100)/100;
+//inpc=round(inpc*100)/100;
+//if(or(or(oa~!=inpa,ob~!=inpb),oc~!=inpc) ,
+
+  //          oa=inpa;
+    //        ob=inpb;
+      //      oc=inpc;
+        </script>
+
+        <script type="text/javascript">
+        var renderEq=function(xx,yy,w,a,b,mb){
+        var latex="$\\left(\\begin{array}{cc}"+
+        "|&|\\\\[-3mm]"+
+        "v_1&v_2\\\\[-2mm]"+
+        "|&|\\\\"+
+        "\\end{array}\\right)\\quad\\approx\\quad"+
+        "\\left(\\begin{array}{cc}"+
+        ""+a+"&"+mb+"\\\\"+
+        ""+b+"&"+a+"\\\\"+
+        "\\end{array}\\right)"+
+
+        "$";
+        document.getElementById('tex').innerHTML=latex;
+        MathJax.Hub.Queue(['Typeset',MathJax.Hub,'tex']);
+        }
+        </script>
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div style=" top:400px; left:30px; display:inline;z-index:4">
+         <div id="tex" style="font-size: 110%;" >$ $</div>
+</div>
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"D", type:"Free", pos:[4/5,2/5],color:[1,1,0],size:3},
+                      {name:"E", type:"Free", pos:[2,0],color:[0,0,1],size:3},
+                      {name:"E1", type:"Free", pos:[2.25,0.75],color:[0,1,0],size:3},
+                      {name:"E2", type:"Free", pos:[2,.5],color:[0,1,0],size:3},
+                      {name:"E3", type:"Free", pos:[2.5,0],color:[0,1,0],size:3},
+                      {name:"E4", type:"Free", pos:[2.5,0.5],color:[0,1,0],size:3},
+
+
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:.2,
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,3,3,-3]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+}
+                        );
+
+        </script>
+<div  style=" line-height: 1.5">
+<br>
+<br>
+Eine Verschiebung lässt sich als Abbildung einfach durch eine Addition eines Vektors ausdrücken.
+
+\[
+\left(\begin{array}{cc} x\\ y \end{array}\right) \mapsto
+\left(\begin{array}{cc} x\\ y \end{array}\right) +
+\left(\begin{array}{cc} t_x\\ t_y \end{array}\right)
+\]
+
+So einfach diese Abbildung ist, hat sie doch ihre Tücken:
+Das Hauptproblem kommt daher, dass diese Abbildung nicht linear ist. Somit lässt sich eine Verkettung einer solchen Abbildung
+mit beispielsweise einer Drehung nicht einfach durch Matrizenmultiplikation durchführen.
+
+Es gibt jedoch einen "Trick", mit dem man auch Translationen als Matrizenmultiplikationen auffassen kann:
+Hierzu bettet man die normale $x,y$-Ebene quasi in den dreidimensionalen Raum auf eine $z=1$-Ebene ein. Man repräsentiert
+Punkte durch Vektoren der Form
+
+\[
+\left(\begin{array}{cc} x\\ y \\1\end{array}\right).
+\]
+
+Eine <i>Translation</i> kann man dann durch Multiplikation mit einer geeigneten $3\times 3$ Matrix durchführen, wie man leicht nachrechnet.
+
+\[
+\left(\begin{array}{cc} x\\ y \\1\end{array}\right) \mapsto
+\left(\begin{array}{ccc} 1&0&t_x\\ 0&1&t_y \\0&0&1\end{array}\right) \cdot
+\left(\begin{array}{cc} x\\ y \\1\end{array}\right) =
+\left(\begin{array}{cc} x+t_x\\ y+t_y \\1\end{array}\right)
+\]
+
+Lineare Transformationen in $\mathbb{R}^2\to\mathbb{R}^2$ kann man in dieser Darstellung ebenso durch Multiplikation geeigneter $3\times 3$  Matrizen ausdrücken.
+
+\[
+\left(\begin{array}{cc} x\\ y \\1\end{array}\right) \mapsto
+\left(\begin{array}{ccc} a&b&0\\ c&d&0 \\0&0&1\end{array}\right) \cdot
+\left(\begin{array}{cc} x\\ y \\1\end{array}\right) =
+\left(\begin{array}{cc} ax+by\\ cx+dy \\1\end{array}\right)
+\]
+
+
+Somit lassen sich solche Transformationen in dieser Darstellung durch einfache Matrizenmultiplikation miteinander verknüpfen.
+Man braucht keinen strukturellen Unterschied zwischen Verschiebungen und Drehungen vorzunehmen.
+
+</div>
+</div>

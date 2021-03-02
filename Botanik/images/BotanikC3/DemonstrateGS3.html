@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DemonstrateGS3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+tau=(sqrt(5)-1)/2;
+
+resetclock();
+
+n=50;
+
+queue = [];
+
+move(els,dest):=(
+   orig=apply(els,#.xy);
+   dest1=apply(dest,#.xy);
+   repeat(n,i,start->0,stop->1,
+       pos=(1-i)*orig+i*dest1;
+       forall(1..length(els),
+        queue = queue ++ [[seconds()+i*.3,els_#, pos_#]];
+      );
+        //putc;
+  //     repaint();
+  );
+  queue = sort(queue, #_1);
+);
+
+
+
+//poss=[[C.xy,U.xy],[C.xy,F.xy],[P.xy,S.xy],[P1.xy,Z.xy]]; 
+poss = [[[-2.5918,6.2711],[-0.5699,0.0171]],[[-2.5918,6.2711],[0.6798,-3.8481]],[[8.25,2.1651],[15.5312,2.1651]],[[22.618,-1.2361],[19,6]]];
+
+demonstrate(i):=(
+  move([M,N],poss_i) 
+);
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+if(length(queue)>0,
+  while(length(queue)>0 & seconds()>=queue_1_1,
+    (queue_1_2).xy = queue_1_3;
+    queue = apply(2..length(queue),queue_#);
+  );
+);
+
+tau=(sqrt(5)-1)/2;
+O.xy=M+tau*(N-M);
+;
+
+v0 = complex(H)-complex(G);
+forall(0..2,k,
+  pt0 = gauss(complex(G) + v0*exp(2*pi*i*k/3));
+  pt1 = gauss(complex(G) + v0*exp(2*pi*i*(k+1)/3));
+  draw(pt0, color -> [1.0, 0.0, 0.0], size->3);
+  draw((pt0+pt1)/2, color -> [0.0, 0.0, 0.0], size->2);
+  draw(pt0, pt1, color->[0,0,0]);
+);
+
+v0 = complex(B)-complex(A);
+forall(0..4,k,
+  pt0 = gauss(complex(A) + v0*exp(2*pi*i*k/5));
+  pt1 = gauss(complex(A) + v0*exp(2*pi*i*(k+2)/5));
+  draw(pt0, color -> [1.0, 0.0, 0.0], size->3);
+  draw(pt0, pt1, color->[0,0,0]);
+);
+
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -1.0461538461538462, -1.5384615384615383], color: [1.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 3.529411764705882, 1.4705882352941175], color: [1.0, 0.0, 0.0], pinned: true, size: 3.0},
+    /*{name: "Collection__1", type: "PolygonMP5_2", args: ["A", "B"]},
+    {name: "C", type: "SelectP", pos: [1.6531928634975885, -4.0, -0.6378435889047495], color: [1.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0},
+    {name: "D", type: "SelectP", pos: [4.0, -1.2207303603581063, -0.505372038820488], color: [1.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0},
+    {name: "E", type: "SelectP", pos: [4.0, 2.605491224027647, -0.6787737531700343], color: [1.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0},
+    {name: "F", type: "SelectP", pos: [0.7066194722723211, -4.0, 1.0394709368859016], color: [1.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0},
+    {name: "a", type: "SelectP", pos: [-0.002426387829900245, -1.6639167604594465, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "b", type: "SelectP", pos: [0.862147848553178, -0.2815194212777711, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "c", type: "SelectP", pos: [0.8694756334840279, 1.193068040207433, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "d", type: "SelectP", pos: [2.8972675820319944, -4.0, 1.7194321768729737], color: [0.0, 0.0, 0.0], args: ["Collection__1"]},
+    {name: "e", type: "SelectP", pos: [4.0, 1.2932330827067668, 2.2573545430403343], color: [0.0, 0.0, 0.0], args: ["Collection__1"]},*/
+    {name: "G", type: "Free", pos: [4.0, 0.3299144395369289, 0.38095238095238104], color: [1.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "H", type: "Free", pos: [4.0, -0.46188021535170054, 0.26666666666666666], color: [1.0, 0.0, 0.0], pinned: true, size: 3.0},
+    /*{name: "Collection__2", type: "PolygonMP3", args: ["G", "H"]},
+    {name: "K", type: "SelectP", pos: [4.0, 2.3094010767585056, 0.3809523809523811], color: [1.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0},
+    {name: "L", type: "SelectP", pos: [4.0, -1.154700538379254, 0.6666666666666674], color: [1.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0},
+    {name: "f", type: "SelectP", pos: [-0.2857142857142857, -0.16495721976846459, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__2"]},
+    {name: "g", type: "SelectP", pos: [-0.5714285714285718, 0.3299144395369292, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__2"]},
+    {name: "h", type: "SelectP", pos: [-5.608641168618708E-16, 2.3094010767584994, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__2"]},*/
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 0.0], args: ["G", "H"]},
+    {name: "M", type: "Free", pos: [-1.2292682926829268, -4.0, -0.4878048780487805], color: [1.0, 0.0, 0.0], size: 4.0},
+    {name: "N", type: "Free", pos: [4.0, 3.4723404255319146, 0.42553191489361697], color: [1.0, 0.0, 0.0], size: 4.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["M", "N"]},
+    {name: "O", type: "PointOnSegment", pos: [-3.3134400136979383, -4.0, -0.4892799592430557], color: [1.0, 1.0, 0.0], args: ["k"], size: 4.0},
+    //{name: "P", type: "Mid", color: [0.0, 0.0, 0.0], args: ["K", "L"], size: 2.0},
+    //{name: "Q", type: "Mid", color: [0.0, 0.0, 0.0], args: ["L", "H"], size: 2.0},
+    //{name: "R", type: "Mid", color: [0.0, 0.0, 0.0], args: ["H", "K"], size: 2.0},
+    {name: "l", type: "Segment", color: [0.098, 0.62, 0.306], args: ["M", "O"], size: 5},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "N"], size: 5},
+    //{name: "n", type: "Join", color: [0.0, 0.0, 1.0], args: ["P", "R"], visible: false},
+    //{name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "n"]},
+    {name: "", type: "SelectP", pos: [4.0, 1.5835612072665155, 0.7314155914348569], color: [1.0, 1.0, 1.0], args: ["Collection__3"], size: 0.0},
+    //{name: "S", type: "SelectP", pos: [4.0, 0.5576053539665368, 0.2575468809713248], color: [1.0, 0.0, 0.0], args: ["Collection__3"], visible: false},
+    //{name: "T", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "e"], visible: false},
+    //{name: "U", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "e"], visible: false},
+    {name: "V", type: "Free", pos: [4.0, 0.21052631578947367, 0.21052631578947367], color: [1.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.002967359050445103, yy: 0.002967359050445103, zz: 1.0, xy: 0.0, xz: -0.11275964391691394, yz: 0.005934718100890206}, color: [0.0, 0.0, 0.0], radius: 5.0, args: ["V"], visible: false},
+    {name: "Z", type: "PointOnCircle", pos: [4.0, {r: 1.2631578947368431, i: 1.549788419918115E-17}, {r: 0.21052631578947367, i: 2.582980699863527E-18}], color: [1.0, 0.0, 0.0], args: ["C1"], pinned: true, size: 3.0},
+    {name: "W", type: "OtherPointOnCircle", pos: [4.0, {r: -0.8421052631578958, i: 9.529330733033988E-18}, {r: 0.21052631578947367, i: -2.3823326832585046E-18}], color: [1.0, 0.0, 0.0], args: ["Z"], pinned: true, size: 3.0},
+    {name: "o", type: "Join", color: [0.0, 0.0, 0.0], args: ["V", "W"], clip: "inci"},
+    {name: "p", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["o", "V"], clip: "inci"},
+    {name: "Collection__4", type: "IntersectionConicLine", args: ["C1", "p"]},
+    {name: "X", type: "SelectP", pos: [4.0, {r: 0.16666666666666663, i: 3.5834254110680135E-17}, {r: 0.16666666666666663, i: 1.298076782516997E-31}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], size: 0.0},
+    {name: "Y", type: "Mid", color: [1.0, 0.0, 0.0], args: ["X", "V"], size: 3.0},
+    {name: "C2", type: "CircleMP", color: [0.0, 0.0, 0.0], args: ["Y", "V"]},
+    {name: "q", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["o", "W"], clip: "inci"},
+    {name: "r", type: "Join", color: [0.0, 0.0, 0.0], args: ["Z", "Y"], plane: -3, clip: "inci"},
+    {name: "P0", type: "Meet", color: [1.0, 0.0, 0.0], args: ["q", "r"], size: 3.0, printname: "$P_{0}$"},
+    {name: "Collection__5", type: "IntersectionConicLine", args: ["C2", "r"]},
+    {name: "P3", type: "SelectP", pos: [4.0, {r: 0.6350845596962709, i: 1.4224679607377652E-17}, {r: 0.19625192181127882, i: 9.882139569659726E-19}], color: [0.0, 0.0, 0.0], args: ["Collection__5"], size: 2.0, printname: "$P_{1}$"},
+    {name: "P1", type: "SelectP", pos: [4.0, {r: -0.2185986594793511, i: 2.907902820568337E-17}, {r: 0.17685003046637832, i: -8.02478535188135E-19}], color: [0.0, 0.0, 0.0], args: ["Collection__5"], size: 2.0, printname: "$P_{1}$"},
+    {name: "t", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["o", "Z"], clip: "inci"},
+    {name: "s", type: "Parallel", color: [0.0, 0.0, 0.0], args: ["o", "P0"], clip: "inci"},
+    {name: "P2", type: "Meet", color: [1.0, 0.0, 0.0], args: ["t", "s"], size: 3.0, printname: "$P_{2}$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 878,
+    height: 388,
+    transform: [{visibleRect: [-9.06, 9.34, 26.06, -6.18]}],
+    background: "rgb(168,176,192)"
+  }],
+  autoplay: true,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+  <div>
+  <input type="button" value="1" style="width: 80px; " onclick="cdy.evokeCS('demonstrate(1)')" /> 
+  <input type="button" value="2" style="width: 80px; " onclick="cdy.evokeCS('demonstrate(2)')" /> 
+  <input type="button" value="3" style="width: 80px; " onclick="cdy.evokeCS('demonstrate(3)')" /> 
+  <input type="button" value="4" style="width: 80px; " onclick="cdy.evokeCS('demonstrate(4)')" /> 
+
+  <br>
+  <br>
+  </div>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Moeb12.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+micromove=false;
+finetuning;
+
+drawp(p):=draw(gauss(p_1/p_2));
+d(p):=gauss(p_1/p_2);
+
+circby3(a,b,c):=(
+   ap=gauss(a_1/a_2);
+   bp=gauss(b_1/b_2);
+   cp=gauss(c_1/c_2);
+   mc=(ap+bp)/2;
+   ma=(cp+bp)/2;
+   mb=(ap+cp)/2;
+   ha=perp(ma,join(bp,cp));
+   hb=perp(mb,join(ap,cp));
+   mid=meet(ha,hb);
+   mid=(mid_1,mid_2)/mid_3;
+   rad=|mid-ap|;
+  // drawcircle(mid,rad,size->1,alpha->1,color->(1,.7,0));
+   [mid,rad]
+);
+
+
+lor(p,r):=(
+  1-r^2+p.x^2+p.y^2,
+  1+r^2-p.x^2-p.y^2,
+  2*p.x,
+  2*p.y
+)/(2*r);
+
+gg(a,b):=-a_1*b_1+a_2*b_2+a_3*b_3+a_4*b_4;
+
+
+swr(r):=(
+
+  p1=[complex(E.xy+(1,0)*r),1];
+  p2=[complex(E.xy+(0,-1)*r),1];
+  p3=[complex(E.xy+(0,1)*r),1];
+
+  q1=mi*p1;
+  q2=mi*p2;
+  q3=mi*p3;
+
+
+   sig=if(area(d(p1),d(p2),d(p3))*area(d(q1),d(q2),d(q3))>0,1,-1);
+
+   t1=circby3(p1,p2,p3);
+   t2=circby3(q1,q2,q3);
+   l1=lor(t1_1,t1_2);
+   l2=lor(t2_1,t2_2);
+   sig*gg(l1,l2);
+);
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+fillpoly(20*[(-1,-1),(1,-1),(1,1),(-1,1)],color->(0,0,0));
+
+
+if(micromove,
+  micromover.xy=movxy-0.05*(start-mouse().xy);
+
+);
+
+controlrad=Text0.pressed;
+showtrace=Text1.pressed;
+finetuning=Text2.pressed;
+
+nn=round(1+30*|F,H|/|F,G|);
+
+win=-(|K,M|/|K,L|)*3+2.5;
+if(|win-1|<0.1,M.xy=(K+L)/2;win=1);
+
+
+
+aa=complex(A)++[1];
+bb=complex(B)++[1];
+cc=complex(C)++[1];
+dd=complex(D)++[1];
+
+//Transformation berechnen
+m1=transpose((aa,bb));
+v=linearsolve(m1,cc);
+m1=inverse(transpose((aa*v_1,bb*v_2)));
+m2=transpose((aa,bb));
+v=linearsolve(m2,dd);
+m2=transpose((aa*v_1,bb*v_2));
+m=m2*m1;
+
+r=C0.radius;
+
+
+
+//Radius per Newton anpassen
+if(controlrad,
+ mi=product(1..nn,m);
+ eps=0.0000000001;
+ r1=0.000001;
+ csw=win;
+ hor=join((0,0),(1,0));
+ repeat(200,
+  r2=r1+eps;
+  w1=swr(r1)+csw;
+  w2=swr(r2)+csw;
+  p=meet(hor,join((r1,w1),(r2,w2)));
+  r1=p_1/p_3;
+ );
+
+ C0.radius=r1;
+ r=r1;
+);
+
+
+if(showtrace,
+ fillcircle(E,r,color->(1,0.2,0.2)*.6);
+);
+
+
+p1=[complex(E.xy+(1,0)*r),1];
+p2=[complex(E.xy+(0,-1)*r),1];
+p3=[complex(E.xy+(0,1)*r),1];
+
+dc=showtrace;
+
+inside(m,r,p):=(|m-p|<r);
+
+repeat(300,
+//  drawp(p1);
+  p1=m*p1;
+  p2=m*p2;
+  p3=m*p3;
+  erg=circby3(p1,p2,p3);
+//  fillcircle(erg_1,erg_2,size->1,alpha->.2,color->(0,0,1));
+if(mod(#,nn)==0&dc&!inside(erg_1,erg_2,E.xy),
+  fillcircle(erg_1,erg_2,size->1,alpha->1,color->(1,0.2,0));
+);
+  drawcircle(erg_1,erg_2,size->1,alpha->.51,color->(1,.7,0));
+
+);
+
+m=inverse(m);
+
+p1=[complex(E.xy+(1,0)*r),1];
+p2=[complex(E.xy+(0,-1)*r),1];
+p3=[complex(E.xy+(0,1)*r),1];
+
+
+
+repeat(300,
+//  drawp(p1);
+  p1=m*p1;
+  p2=m*p2;
+  p3=m*p3;
+
+  erg=circby3(p1,p2,p3);
+if(mod(#,nn)==0&dc&!inside(erg_1,erg_2,E.xy),
+  fillcircle(erg_1,erg_2,size->1,alpha->1,color->(1,0.2,0));
+);
+ // fillcircle(erg_1,erg_2,size->1,alpha->.2,color->(0,0,1));
+  drawcircle(erg_1,erg_2,size->1,alpha->.51,color->(1,.7,0));
+);
+
+
+fillpoly(20*[(-1,-1),(1,-1),(1,-.68),(-1,-.68)],color->(.6,.8,1)*.5);
+
+
+controls=[c,b,M,H];
+
+if(!controlrad,
+  apply(controls,#.alpha=0.3);
+  drawtext(H+(0.2,0.2),nn,color->(1,1,1),alpha->0.3),
+  apply(controls,#.alpha=1);
+  drawtext(H+(0.2,0.2),nn,color->(1,1,1));
+);
+
+drawall(connect(20*[(-1,-1),(1,-1),(1,-.68),(-1,-.68)]),color->(0,0,0));
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+micromove=false;
+if(keydownlist()==[16] % finetuning,
+  start=mouse().xy;
+  near=select(allpoints(),|#-start|<0.2);
+  if (length(near)==1,
+    micromover=near_1;
+    if(contains([A,B,C,D],micromover),
+      movxy=micromover.xy;
+      micromove=true;
+    )
+  )
+)
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.19161676646706588, 0.5734630973090702], color: [0.0, 1.0, 0.0], size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, -0.6427405184605015], color: [0.0, 1.0, 0.0], size: 4.0},
+    {name: "C", type: "Free", pos: [1.3333333333333335, -4.0, 3.5469754537264713], color: [0.0, 1.0, 1.0], size: 3.0},
+    {name: "D", type: "Free", pos: [1.5999999999999999, -4.0, 1.3681191035802103], color: [0.0, 1.0, 1.0], size: 3.0},
+    {name: "E", type: "Free", pos: [1.9473684210526316, -4.0, -1.2601097006659832], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.08626386796210567, yy: 0.08626386796210567, zz: 1.0, xy: 0.0, xz: 0.26662366341355037, yz: 0.5476594167413467}, color: [0.757, 0.0, 0.0], radius: 0.9339487673314848, args: ["E"]},
+    {name: "a", type: "Segment", color: [1.0, 1.0, 1.0], args: ["C", "D"], arrowshape: "full", arrowsides: "==>", arrowsize: 1.0, arrowposition: 0.65},
+    {name: "F", type: "Free", pos: [3.1525423728813564, -4.0, 0.27053202613168004], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0, border: false},
+    {name: "G", type: "Free", pos: [4.0, -3.2551724137931033, 0.22015709712784992], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0, border: false},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "G"], alpha: 0.3, size: 3},
+    {name: "H", type: "PointOnSegment", pos: [3.152542372881357, -4.0, 0.27053202613168004], color: [0.0, 1.0, 0.0], args: ["b"], alpha: 0.3, size: 4.0},
+    {name: "K", type: "Free", pos: [1.0429396029846545, -4.0, 0.2696560249207792], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0, border: false},
+    {name: "L", type: "Free", pos: [2.7380281690140857, -4.0, 0.2697699640862387], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0, border: false},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "L"], alpha: 0.3, size: 3},
+    {name: "M", type: "PointOnSegment", pos: [1.8903048651693313, -4.0, 0.2697129824702239], color: [0.0, 1.0, 0.0], args: ["c"], alpha: 0.3, size: 4.0},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0],  text: "Control Radius", dock: {corner: "LL", offset: [38.0, 33.0]}},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0],  text: "Show Trace", dock: {corner: "LL", offset: [166.0, 33.0]}},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0],  text: "Fine Tuning", dock: {corner: "LL", offset: [281.0, 33.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 803,
+    height: 553,
+    transform: [{visibleRect: [-14.430656725128943, 11.674004499778697, 19.108612016632392, -11.423399752019582]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

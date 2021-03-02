@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Norm1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+ii=complex((0,1));
+arrow(aa,bb,col):=(
+a=complex(aa);
+b=complex(bb);
+    draw(gauss(a),gauss(0.9*b+0.1*a),color->col,size->2);
+ //   draw(gauss(b-((b-a)/|b-a|)*exp(ii*.4)*.5 ),gauss(b),color->(0,0,0));
+ //   draw(gauss(b-((b-a)/|b-a|)*exp(-ii*.4)*.5 ),gauss(b),color->(0,0,0));
+   fillpolygon(
+    [gauss(b-((b-a)/|b-a|)*exp(-ii*.3)*.3 ),gauss(b),(gauss(b-((b-a)/|b-a|)*exp(ii*.3)*.3 ))],color->col);
+
+);
+
+eigenvectors=false;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+if(mover()==G,
+  a11=parse(format((|A,G|-2)*5,1));
+  Text0.val=a11;
+);
+
+if(mover()==H,
+  a12=parse(format((|C,H|-2)*5,1));
+  a21=a12;
+  Text2.val=a12;
+  Text3.val=a12;
+);
+
+if(mover()==K,
+  a22=parse(format((|E,K|-2)*5,1));
+  Text1.val=a22;
+);
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+
+
+
+a11=parse(Text0.val);
+a12=parse(Text3.val);
+a21=parse(Text2.val);
+a22=parse(Text1.val);
+
+
+
+
+
+//if(a12!=ao12,a21=a12;Text2.val=a12);
+//if(a21!=ao21,a12=a21;Text3.val=a21);
+
+G.x=A.x+(a11)/5+2;
+H.x=C.x+(a12)/5+2;
+K.x=E.x+(a22)/5+2;
+
+
+drawtext((4.5,3),"$\begin{pmatrix}x&y\end{pmatrix}\cdot \begin{pmatrix}\quad \quad &\quad\\\quad &\quad\\\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}\;=\;1$",size->25);
+
+
+m=((a11,a21),(a12,a22));
+sb=if(a12<0,"-","+");
+sc=if(a22<0,"-","+");
+
+
+drawtext((4.5,1),"$"+a11+"\cdot x^2\;"+sb+"\;"+|2*a12|+"\cdot xy\;"+sc+"\;"+|a22|+"\cdot y^2\;=\;1$",size->25);
+
+
+f(v):=(v.x,v.y)*m*(v.x,v.y);
+errc(g((0,1)));
+g(v):=if(f(v)>1,grey(0.9),grey(0.4));
+
+
+colorplot(g(#),alpha->0.7,(-4,-4),(4,4),startres->4,pxlres->1);
+
+
+ao11=a11;
+ao12=a12;
+ao21=a21;
+ao22=a22;
+
+drawtext(G+(0.15,0.15),a11,size->14);
+drawtext(H+(0.15,0.15),a12,size->14);
+drawtext(K+(0.15,0.15),a22,size->14);
+drawtext(B+(0.2,0),"$a_11$");
+drawtext(D+(0.2,0),"$a_12\;=\;a_21$");
+drawtext(F+(0.2,0),"$a_22$");
+
+if(Text4.pressed,
+
+ m=((a11,a12),(a21,a22));
+ ew=eigenvalues(m);
+ ev=transpose(eigenvectors(m));
+ ev1=ev_1;
+ ev2=ev_2;
+ col1=if(ew_1<0,(0.8,0,0),(0,0.8,0));
+ col2=if(ew_2<0,(0.8,0,0),(0,0.8,0));
+ if(ew_2~=0,col2=(0.8,0.8,0));
+ if(ew_1~=0,col1=(0.8,0.8,0));
+ if(ev1.x<0,ev1=-ev1);
+ if(ev2.x<0,ev2=-ev2);
+ arrow((0,0),ev1/|ev1|,col1);
+ arrow((0,0),ev2/|ev2|,col2);
+);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "EditableText", pos: [4.3, 2.094117647058823, 0.624641341890807], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 37, text: "1", textsize: 17.0},
+    {name: "Text1", type: "EditableText", pos: [4.3, 1.4974358974358977, 0.5445591185714728], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 37, text: "1", textsize: 17.0},
+    {name: "Text2", type: "EditableText", pos: [4.3, 1.8256410256410256, 0.5445591185714728], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 37, text: "0", textsize: 17.0},
+    {name: "Text3", type: "EditableText", pos: [4.3, 1.7294117647058822, 0.624641341890807], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 37, text: "0", textsize: 17.0},
+    {name: "A", type: "Free", pos: [4.0, -0.8, 0.8], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -0.4444444444444444, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "Free", pos: [4.0, -1.6, 0.8], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -0.8888888888888888, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"]},
+    {name: "E", type: "Free", pos: [4.0, -2.4, 0.8], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "F", type: "Free", pos: [4.0, -1.3333333333333333, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"]},
+    {name: "G", type: "PointOnSegment", pos: [4.0, -0.5555555555555556, 0.5555555555555556], color: [1.0, 0.0, 0.0], args: ["a"]},
+    {name: "H", type: "PointOnSegment", pos: [4.0, -1.142857142857143, 0.5714285714285715], color: [1.0, 0.0, 0.0], args: ["b"]},
+    {name: "K", type: "PointOnSegment", pos: [4.0, -1.6666666666666665, 0.5555555555555557], color: [1.0, 0.0, 0.0], args: ["c"]},
+    {name: "Text4", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Eigenvektoren", dock: {corner: "LL", offset: [348.0, 25.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 825,
+    height: 465,
+    transform: [{visibleRect: [-4.209474442960465, 4.510823843798798, 11.328854037766085, -4.247143118065257]}],
+    axes: true,
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

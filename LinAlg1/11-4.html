@@ -1,0 +1,123 @@
+---
+title:   Taylorentwicklung von $\sin(x)$ um einen beliebigen Punkt
+layout: page
+category: LinAlg1
+---
+
+
+        <h1>  Taylorentwicklung von $\sin(x)$ um einen beliebigen Punkt</h1>
+
+Man kann eine Taylorreihe nicht nur um den Nullpunkt einer Funktion entstehen lassen.
+Man kann durch geeignete Verschiebung des Koordinatensystems jeden beliebigen
+Punkt zum Ursprung der Taylorentwicklung machen. Es ergibt sich die folgende Formel:
+
+\[
+T_{k,p}(x):=\sum_{i=0}^k (x-p)^i\cdot{f^{(i)}(p)\over i!},
+\]
+
+wobei $f^{(i)}(x)$ die $i$-te Ableitung von $f(x)$ bezeichnen soll.
+
+Im Applet unten kann man die Entwicklung der Sinusfunktion beobachten.
+Der Entwicklungspunkt und die Entwicklungsordnung sind frei einstellbar.<br>
+<br>
+
+
+
+
+           <script id='init' type='cindyscript'>
+
+              </script>
+
+
+        <script id='firstDrawing' type='cindyscript'>
+           x=C.x;
+           if(x<-9,x=-9);
+           if(x>18,x=18);
+           x=round(x);
+           C.xy=(x,8);
+
+
+
+n=round(|C,A|)+2;
+
+drawtext((-9,6),"Taylorpolynom für sin(x) mit k="+(n-1));
+f(x):=sin(x);
+plot(f(x),alpha->0.8,color->(0,0.6,0),stop->22,size->3);
+D.xy=(D.x,f(D.x));
+p=D.x;
+coeffs=[ sin(p), cos(p), -sin(p), -cos(p)];
+coeffs=coeffs++coeffs++coeffs++coeffs++coeffs++coeffs++coeffs++coeffs++coeffs++coeffs;
+fa=1;
+factors=[1]++apply(1..30,i,fa=fa*i;fa);
+t(x):=sum(1..n,i,((x-p)^(i-1))*coeffs_i/factors_i);
+
+g(x):=max((min((50,t(x))),-50));
+linesize(1);
+  cur=apply((-400..420)/10,(#,g(#)));
+
+connect(cur);
+
+         oldn=n;
+
+        </script>
+
+          <div style="position:relative;">
+        <canvas  id="CSCanvas" width=800 height=500  style=" border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div style=" top:360px; left:40px; display:inline;z-index:4">
+<div id="texall">
+         <div id="tex" style="font-size: 130%;" ></div><br>
+         <div id="tex1" style="font-size: 130%;" ></div>
+</div>
+        </div>
+       <div style=" top:20px; left:20px; display:inline;z-index:4">
+<br><br>
+<br><br>
+</div>
+
+
+
+</div>
+
+
+
+ <script type="text/javascript">
+
+
+        </script>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"A", type:"Free", pos:[-9,8],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[18,8],color:[0,0,0],size:3},
+                      {name:"a", type:"Segment", args:["A","B"],color:[0,0,0],size:1},
+                      {name:"C", type:"Free", pos:[-9,8],color:[1,1,0],size:5},
+                      {name:"D", type:"Free", pos:[6,0],color:[1,1,0],size:5}
+                      ];
+
+            createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-5,20,20,-20]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+
+                        geometry:gslp});
+
+
+                document.onkeydown={}
+
+
+
+            </script>
+
+
+
+
+
+         </div>
+
+    

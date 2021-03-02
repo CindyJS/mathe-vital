@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PolyKond.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+c = (D.y - B.y)/(C.y - B.y);
+drawtext(D + [0.2,0.1], "c = " + c);
+
+plot(1/4*(x^2 - 2*x + c));
+draw([1 + sqrt(1 - c), 0], color->red(1), size->4);
+draw([1 - sqrt(1 - c), 0], color->red(1), size->4);
+
+drawtext([-3,-1.2], "absolute Kondition: " + abs(1/(2*sqrt(1 - c))));
+drawtext([-3,-1.5], "relative Kondition: " + abs(1/(2*sqrt(1 - c))*c/(1 + sqrt(1 - c))));
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "B", type: "Free", pos: [4.0, -2.2857142857142856, -1.1428571428571428], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0},
+    {name: "C", type: "Free", pos: [4.0, 2.857142857142857, -1.1428571428571428], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0},
+    {name: "a", type: "Segment", color: [0.502, 0.502, 0.502], args: ["B", "C"], size: 3},
+    {name: "D", type: "PointOnSegment", pos: [4.0, 2.85714288462814E-8, -1.1428571428571428], color: [1.0, 1.0, 1.0], args: ["a"], printname: "c"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 550,
+    height: 375,
+    transform: [{visibleRect: [-3.827314285714286, 2.5166857142857144, 3.841257142857143, -2.7118857142857142]}],
+    axes: true,
+    grid: 0.5,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ProjTrans1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -3.2, -0.8], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, 2.742857142857143, -0.7142857142857143], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "C", type: "Free", pos: [-3.0, -4.0, -1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "D", type: "Free", pos: [3.0, -4.0, 1.0], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], size: 3},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "D"], size: 3},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "A"], size: 3},
+    {name: "P8", type: "Free", pos: [4.0, 0.9185185185185185, 0.37037037037037035], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$A'$"},
+    {name: "P9", type: "Free", pos: [4.0, -3.3499999999999996, 0.6249999999999999], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$B'$"},
+    {name: "P10", type: "Free", pos: [4.0, -0.7795275590551182, 0.1968503937007874], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$D'$"},
+    {name: "P11", type: "Free", pos: [4.0, 0.6372549019607844, 0.2450980392156863], color: [1.0, 0.0, 0.0], labeled: true, textsize: 17.0, size: 4.0, printname: "$C'$"},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["C", "P11", "A", "P8", "D", "P10", "B", "P9"], dock: {offset: [0.0, -0.0]}},
+    {name: "u", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "a"], size: 3},
+    {name: "v", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "b"], size: 3},
+    {name: "x", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "d"], size: 3},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], size: 3},
+    {name: "e", type: "TransformSegment", color: [0.0, 0.0, 0.0], args: ["Tr0", "c"], size: 3},
+    {name: "E", type: "Free", pos: [4.0, -0.2711864406779661, -1.6949152542372883], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.2707972270363952, yy: 0.2707972270363952, zz: 1.0, xy: 0.0, xz: 1.2781629116117852, yz: 0.08665511265164645}, color: [0.0, 0.0, 1.0], radius: 1.3792751719653333, args: ["E"]},
+    {name: "F", type: "Free", pos: [2.258064516129032, -4.0, 1.6129032258064515], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.14534883720930225, yy: 0.14534883720930225, zz: 0.9999999999999999, xy: 0.0, xz: -0.40697674418604635, yz: -0.7209302325581393}, color: [0.0, 0.0, 1.0], radius: 1.1092339699089637, args: ["F"]},
+    {name: "G", type: "Free", pos: [4.0, -2.7555555555555555, -1.1111111111111112], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "H", type: "Free", pos: [4.0, -1.446808510638298, 2.127659574468085], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "f", type: "Segment", color: [0.467, 0.0, 0.718], args: ["G", "H"]},
+    {name: "K", type: "Free", pos: [-0.04938271604938271, -4.0, -1.2345679012345678], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "L", type: "Free", pos: [-2.685714285714286, -4.0, 1.4285714285714286], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "g", type: "Segment", color: [0.467, 0.0, 0.718], args: ["K", "L"]},
+    {name: "M", type: "Free", pos: [-1.7500000000000002, -4.0, -3.125], color: [0.0, 1.0, 0.0], size: 3.0},
+    {name: "N", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "E"], size: 3.0},
+    {name: "O", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "F"], size: 3.0},
+    {name: "P", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "G"], size: 3.0},
+    {name: "Q", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "H"], size: 3.0},
+    {name: "R", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "K"], size: 3.0},
+    {name: "S", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "L"], size: 3.0},
+    {name: "T", type: "TransformP", color: [0.0, 1.0, 0.0], args: ["Tr0", "M"], size: 3.0},
+    {name: "h", type: "TransformSegment", color: [0.467, 0.0, 0.718], args: ["Tr0", "f"]},
+    {name: "k", type: "TransformSegment", color: [0.467, 0.0, 0.718], args: ["Tr0", "g"]},
+    {name: "C2", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C0"]},
+    {name: "C3", type: "TransformConic", color: [0.0, 0.0, 1.0], args: ["Tr0", "C1"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 780,
+    height: 528,
+    transform: [{visibleRect: [-9.06, 9.34, 22.14, -11.78]}],
+    grid: 1.0,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

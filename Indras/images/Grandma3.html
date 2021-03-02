@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Grandma3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+n(x):=x_1/x_2;
+
+
+
+
+ta=complex(A)*5;
+tb=complex(B);
+nn=1.91+0.05*i;
+//ta=1.889+0.05*i;
+tb=2;
+
+
+ta=-4-4*i+8*(|N,V|/|N,O|+i*|P,W|/|P,Q|);
+tb=-4-4*i+8*(|R,X|/|R,S|+i*|T,Y|/|T,U|);
+
+
+drawtext((1.1,0.2),"ta = "+ta,color->(1,1,1),size->20,alpha->0.7);
+drawtext((1.1,0),"tb = "+tb,color->(1,1,1),size->20,alpha->0.7);
+
+tab=ta*tb/2-sqrt((ta*tb/2)^2-ta^2-tb^2);
+
+
+z0=((tab-2)*tb)/(tb*tab-2*ta+2*i*tab);
+
+
+ma=[[ta/2,(ta*tab-2*tb+4*i)/((2*tab+4)*z0)],
+    [(ta*tab-2*tb-4*i)*z0/(2*tab-4),ta/2]];
+
+mb=[[(tb-2*i)/2,tb/2],[tb/2,(tb+2*i)/2]];
+
+
+
+//ma=[[1,0],[-2*i,1]];
+//mb=[[1-i,1],[1,1.0+i]];
+//drawtext((0,0),ma);
+
+z=|A,Z|/|A,B|;
+
+
+F.xy=z*gauss(n(ma*(complex(C/z),1)));
+G.xy=z*gauss(n(ma*(complex(D/z),1)));
+H.xy=z*gauss(n(ma*(complex(E/z),1)));
+
+
+K.xy=z*gauss(n(mb*(complex(C/z),1)));
+L.xy=z*gauss(n(mb*(complex(D/z),1)));
+M.xy=z*gauss(n(mb*(complex(E/z),1)));
+
+
+
+
+//mai=inverse(ma);
+//mbi=inverse(mb);
+//mm=ma*mb*mai*mai*mb;
+//v=transpose(eigenvectors(mm))_1;
+
+//draw(gauss(v_1/v_2));
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "C", type: "Free", pos: [2.0, -4.0, -1.5902493169398908], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "D", type: "Free", pos: [4.0, -1.7806451612903225, -1.2516801075268817], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "E", type: "Free", pos: [4.0, 1.2972972972972974, -0.873920795795796], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "F", type: "Free", pos: [-0.10519508236603811, 1.623248674637188, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "G", type: "Free", pos: [-0.20323517799320026, 1.7525523418697566, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "H", type: "Free", pos: [-0.18257287925110857, 1.913337596404655, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "K", type: "Free", pos: [3.839363003524096, -2.738204726252752, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "L", type: "Free", pos: [4.0, -2.6469783485624596, 3.5648148259077117], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "M", type: "Free", pos: [4.0, -3.317159060106171, 3.413230295043523], color: [1.0, 0.0, 0.0], alpha: 0.0},
+    {name: "Tr0", type: "TrMoebius", color: [0.0, 0.0, 1.0], args: ["C", "F", "D", "G", "E", "H"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrMoebius", color: [0.0, 0.0, 1.0], args: ["C", "K", "D", "L", "E", "M"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr2", type: "TrInverseMoebius", color: [0.0, 0.0, 1.0], args: ["Tr0"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr3", type: "TrInverseMoebius", color: [0.0, 0.0, 1.0], args: ["Tr1"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "IFS0", type: "IFS", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1", "Tr2", "Tr3"], alpha: 0.80000001192092896, ifs: [{prob:  0.25, color: [1.0, 0.884, 0.0]}, {prob:  0.25, color: [1.0, 0.0, 0.0]}, {prob:  0.25, color: [1.0, 0.884, 0.0]}, {prob:  0.25, color: [1.0, 0.0, 0.0]}], dock: {offset: [0.0, -0.0]}},
+  {name: "N", type: "Free", pos: [4.0, -1.090909090909091, 3.6363636363636362], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "O", type: "Free", pos: [4.0, -0.6315789473684218, 2.1052631578947367], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["N", "O"], alpha: 0.8999999761581421},
+    {name: "P", type: "Free", pos: [4.0, -1.8181818181818181, 3.6363636363636362], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "Q", type: "Free", pos: [4.0, -1.0526315789473688, 2.1052631578947367], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P", "Q"], alpha: 0.8999999761581421},
+    {name: "R", type: "Free", pos: [4.0, -2.545454545454545, 3.6363636363636362], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "S", type: "Free", pos: [4.0, -1.4736842105263164, 2.1052631578947367], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["R", "S"], alpha: 0.8999999761581421},
+    {name: "T", type: "Free", pos: [4.0, -3.2727272727272725, 3.6363636363636362], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "U", type: "Free", pos: [4.0, -1.8947368421052644, 2.1052631578947367], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["T", "U"], alpha: 0.8999999761581421},
+    {name: "V", type: "PointOnSegment", pos: [4.0, -0.7058823529411772, 2.3529411764705883], color: [1.0, 1.0, 1.0], args: ["a"], alpha: 0.6000000238418579, size: 3.0},
+    {name: "W", type: "PointOnSegment", pos: [4.0, -1.3333333333333337, 2.666666666666667], color: [1.0, 1.0, 1.0], args: ["b"], alpha: 0.6000000238418579, size: 3.0},
+    {name: "X", type: "PointOnSegment", pos: [4.0, -1.6470588235294126, 2.3529411764705883], color: [1.0, 1.0, 1.0], args: ["c"], alpha: 0.6000000238418579, size: 3.0},
+    {name: "Y", type: "PointOnSegment", pos: [4.0, -2.400000000000001, 2.6666666666666665], color: [1.0, 1.0, 1.0], args: ["d"], alpha: 0.6000000238418579, size: 3.0},
+    {name: "A", type: "Free", pos: [4.0, 2.909090909090909, 3.6363636363636362], color: [0.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "B", type: "Free", pos: [4.0, 2.0, 2.4999999999999996], color: [0.0, 0.0, 0.0], pinned: true, size: 0.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421},
+    {name: "Z", type: "PointOnSegment", pos: [4.0, 2.0405558563426993, 2.550694820428374], color: [1.0, 1.0, 1.0], args: ["e"], alpha: 0.6000000238418579, size: 3.0},
+    {name: "Text0", type: "Text", pos: [4.0, 2.6407766990291264, 3.6238026725982624], color: [1.0, 1.0, 1.0], alpha: 0.4000000059604645, text: "zoom"},
+    {name: "Text1", type: "Text", color: [1.0, 1.0, 1.0], args: ["N"], alpha: 0.4000000059604645, text: "ta.real", dock: {to: "N", offset: [1.0673678959626614, -18.01837306253526]}},
+    {name: "Text2", type: "Text", pos: [4.0, -2.019417475728155, 3.6238026725982624], color: [1.0, 1.0, 1.0], alpha: 0.4000000059604645, text: "ta.imag"},
+    {name: "Text3", type: "Text", pos: [4.0, -2.7225806451612904, 3.612112986557623], color: [1.0, 1.0, 1.0], alpha: 0.4000000059604645, text: "tb.real"},
+    {name: "Text4", type: "Text", pos: [4.0, -3.495145631067961, 3.6238026725982624], color: [1.0, 1.0, 1.0], alpha: 0.4000000059604645, text: "tb.imag"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 875,
+    height: 613,
+    transform: [{visibleRect: [-1.127032226590219, 1.0913101274906876, 1.998651444618788, -1.0984545473105938]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

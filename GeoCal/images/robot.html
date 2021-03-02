@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>robot.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+dragging = false;
+mat=[[1,0,0],[0,1,0],[0,0,1]];
+matb=[[1,0,0],[0,1,0],[0,0,1]];
+a=(0,0,1);
+
+
+mat=[[0.9127,-0.0635,-0.4036],[-0.0902,0.9322,-0.3506],[0.3985,0.3564,0.8451]];
+
+
+rotating=true;
+ball=false;
+
+embed(p):=(p.x,0,p.y);
+
+map(pp):=(
+  p=s2*pp;
+  o=(p-(p*a)*a)/(1-p*a);
+  (o.x,o.y)*s1;
+);
+
+
+
+
+
+grid(n,al,siz):=(
+ apply((-siz*n..siz*n)/n,i,
+    p1=(i,0,-siz);
+    p2=(i,0,siz);
+    draw(map(mat*p1),map(mat*p2),alpha->al);
+    p1=(-siz,0,i);
+    p2=(siz,0,i);
+    draw(map(mat*p1),map(mat*p2),alpha->al)
+ )
+);
+
+
+
+drawgrid(siz):=(
+ fillpoly(apply(((siz,0,siz),(siz,0,-siz),(-siz,0,-siz),(-siz,0,siz))
+    ,map(mat*#)),color->(1,1,1),alpha->0.6);
+ connect(apply(((siz,0,siz),(siz,0,-siz),(-siz,0,-siz),(-siz,0,siz),(siz,0,siz))
+    ,map(mat*#)),color->(0,0,0),alpha->0.8,size->2);
+ linecolor((0,0,0));
+ grid(1,0.4,siz);
+ grid(10,0.1,siz);
+);
+
+
+
+
+
+
+
+aa=(R.y,0,R.x);
+bb=(S.y,0,S.x);
+
+
+   diff=bb-aa;
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+
+
+if(rotating,
+ xx=mouse().x;
+ yy=mouse().y;
+ wy=(startx-xx)*.1;
+ wx=-(starty-yy)*.1;
+
+ mmmx=[
+  [1,0,0],
+  [0,cos(wx),sin(wx)],
+  [0,-sin(wx),cos(wx)]
+ ];
+
+
+ mmmy=[
+  [cos(wy),0,-sin(wy)],
+  [0,1,0],
+  [sin(wy),0,cos(wy)]
+ ];
+
+  if(!ball,
+    mat=mmmx*mmmy*mat,
+    matb=mmmx*mmmy*matb;
+  );
+
+
+ startx=xx;
+ starty=yy;
+);
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+//N.xy=(1,1);
+//H.xy=(1,0);
+
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+//apply(allpoints(),#.selected=false);
+rotating=true;
+ball=false;
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+errc("C");
+//Skalierungen
+s1=|B,E|*7+0.01;
+s2=(|D,F|/|D,C|/6)+0.01;
+
+//Gitterpunkte schieben
+K.xy=map(mat*(0,0,0));
+L.xy=map(mat*(1,0,0));
+M.xy=map(mat*(0,0,1));
+G.xy=map(mat*(1,0,1));
+sig=-area(K,L,M);
+//Punkte nachruecken
+if(dragging,
+  H.xy=map(mat*aa);
+  N.xy=map(mat*bb);
+);
+
+//Originalpunkte im Raum
+
+aa=(R.y,0,R.x);
+bb=(S.y,0,S.x);
+
+
+aa=(0,0,0);
+bb=(0,0,0);
+//Randpunkt nachziehen
+if(mover()==N,
+   diff=bb-aa;
+);
+
+if(mover()==H,
+  N.xy=map(mat*(aa+diff));
+//  N.xy=map(mat*(1,0,1));
+  bb=(S.y,0,S.x);
+);
+errc("F");
+errc(aa);
+errc(bb);
+rad=|aa,bb|;
+errc("G");
+
+//Gitter malen
+
+
+
+//drawtext(map(mat*bb)*1.1,"A");
+drawtext(map(mat*aa)*1.03,"m");
+
+
+//Kugel
+
+mid=map(mat*(0,1,0));
+
+errc("E");
+romax(w):=(
+(1,0,0),
+(0,cos(w),sin(w)),
+(0,-sin(w),cos(w))
+);
+
+romay(w):=(
+(cos(w),0,sin(w)),
+(0,1,0),
+(-sin(w),0,cos(w))
+);
+
+win(p):=arctan2(p.x,p.y);
+
+
+a5=win(P9-P4);
+a4=win(P8-P3);
+a3=win(P7-P2);
+a2=win(P6-P1);
+a1=win(P5-P0);
+
+
+
+pts=(T,U,V,W,X,Y,Z);
+n=length(pts);
+spacepts=apply(pts,p,(p.x,p.y,0));
+spacepts=apply(spacepts,p,p-spacepts_1)*.5;
+
+
+rota(matr,ind,pts):=apply(1..n,i,
+   if(ind>i,pts_i,
+      matr*(pts_i-pts_ind)+pts_ind)
+);
+
+//spacepts=apply(spacepts,p,romay(a5)*p);
+
+
+
+spacepts=rota(romay(a1),5,spacepts);
+spacepts=rota(romax(a2),4,spacepts);
+spacepts=rota(romay(a3),3,spacepts);
+spacepts=rota(romax(a4),2,spacepts);
+spacepts=rota(romay(a5),1,spacepts);
+
+drawcirc(a,b,c):=(
+   vx=c-b;
+   vz=b-a;
+   vy=cross(vx,vz);
+   vy=vy/|vy|*|vx|;
+   vx=vx/|vx|;
+   vy=vy/|vy|;
+   cir=apply((1..36)*10°,w, map(mat*(sin(w)*vx+cos(w)*vy)));
+   connect(cir++[cir_1],alpha->0.5,color->(0.6,0,0));
+);
+
+drawtriang(pa,pb,pc):=(
+  aa=map(mat*pa);
+  bb=map(mat*pb);
+  cc=map(mat*pc);
+  fillpoly((aa,bb,cc),color->(1,1,1));
+
+  draw(aa,bb,color->(1,0,0),size->4);
+  draw(bb,cc,color->(1,0,0),size->4);
+  draw(aa,bb,color->(1,0,0),size->4);
+
+);
+
+drawpt(sa,s):=(
+  if(sa_2*s>=0,draw(map(mat*sa)));
+);
+
+drawseg(sa,sb,s):=(
+  if(sa_2*s>=0&sb_2*s>=0,
+   draw(size->2,map(mat*sa),map(mat*sb),size->3,color->(.7,0,0));
+  );
+  if(sa_2*sb_2<0,
+    ss1=if(sa_2*s>0,sa,sb);
+    ss2=(sa*sb_2-sb*sa_2)/(sb_2-sa_2);
+    draw(size->2,map(mat*ss1),map(mat*ss2),size->3,color->(.7,0,0));
+  );
+
+);
+
+//apply(1..n-2,i,drawtriang(spacepts_i,spacepts_(i+1),spacepts_(i+2)));
+
+drawtoparm():=(
+ apply(1..n-1,i,drawseg(spacepts_i,spacepts_(i+1),1));
+ apply(spacepts,p,drawpt(p,1));
+);
+
+drawbotparm():=(
+ apply(1..n-1,i,drawseg(spacepts_i,spacepts_(i+1),-1));
+ apply(spacepts,p,drawpt(p,-1));
+);
+
+
+if(sig>0,
+ drawbotparm(); 
+ drawgrid(4);
+ drawtoparm(); 
+);
+
+
+
+if(sig<0,
+ drawtoparm(); 
+ drawgrid(4);
+ drawbotparm(); 
+);
+
+
+errc("D");
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+startx=mouse().x;
+starty=mouse().y;
+mm=mouse().xy;
+rotating=( startx<8&starty>-8
+);
+
+errc("A");
+dragging=(   |mm,N|>1
+           & |mm,H|>1
+);
+errc("B");
+
+//ball=(|mm-mid|<s1*s2);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.8666666666666667, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -0.5333333333333333, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "N", type: "Free", pos: [4.0, 1.8666666666666667, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, -0.5333333333333333, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "Free", pos: [4.0, 1.5555555555555556, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -0.4444444444444444, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"]},
+    {name: "E", type: "PointOnSegment", pos: [4.0, 0.6186666666666667, 0.2666666666666667], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0, printname: "scale"},
+    {name: "F", type: "PointOnSegment", pos: [4.0, 0.22222215555555583, 0.22222222222222218], color: [1.0, 1.0, 1.0], args: ["b"], labeled: true, size: 4.0, printname: "dist"},
+    {name: "G", type: "Free", pos: [4.0, -3.4633667255941862, 3.639061920872887], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "K", type: "Free", pos: [0.0, 0.0, 4.0], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -0.39531061685110125, 2.1522901109312653], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "M", type: "Free", pos: [-3.389210238066797, -2.9441454644851808, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "O", type: "Free", pos: [0.0, -4.0, -4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "P", type: "Free", pos: [4.0, 4.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Q", type: "Free", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["K", "K", "L", "O", "G", "P", "M", "Q"], dock: {offset: [0.0, -0.0]}},
+    {name: "T", type: "Free", pos: [-2.4615384615384617, -4.0, 0.3076923076923077], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "HorizontalLine", pos: [0.0, 0.3067484662576687, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3, clip: "inci"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["c", "T"], visible: false, size: 3, clip: "inci"},
+    {name: "U", type: "PointOnLine", pos: [-2.768166089965398, -4.0, 0.34602076124567477], color: [0.0, 1.0, 0.0], args: ["d"], size: 3.0},
+    {name: "e", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["d", "U"], visible: false, size: 3, clip: "inci"},
+    {name: "V", type: "PointOnLine", pos: [-1.7854671280276815, -4.0, 0.3460207612456747], color: [0.0, 1.0, 0.0], args: ["e"], size: 3.0},
+    {name: "f", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["e", "V"], visible: false, size: 3, clip: "inci"},
+    {name: "W", type: "PointOnLine", pos: [-2.158995815899579, -4.0, 0.4184100418410038], color: [0.0, 1.0, 0.0], args: ["f"], size: 3.0},
+    {name: "g", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["f", "W"], visible: false, size: 3, clip: "inci"},
+    {name: "X", type: "PointOnLine", pos: [-0.6694560669456081, -4.0, 0.4184100418410038], color: [0.0, 1.0, 0.0], args: ["g"], size: 3.0},
+    {name: "h", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["g", "X"], visible: false, size: 3, clip: "inci"},
+    {name: "Y", type: "PointOnLine", pos: [-0.8000000000000024, -4.0, 0.5], color: [0.0, 1.0, 0.0], args: ["h"], size: 3.0},
+    {name: "k", type: "Orthogonal", color: [0.0, 0.0, 0.0], args: ["h", "Y"], visible: false, size: 3, clip: "inci"},
+    {name: "Z", type: "PointOnLine", pos: [0.5, -4.0, 0.5], color: [0.0, 1.0, 0.0], args: ["k"], size: 3.0},
+    {name: "P0", type: "Free", pos: [4.0, -2.3157894736842106, 0.21052631578947367], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, printname: "$P_{0}$"},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.0020790020790020783, yy: 0.0020790020790020783, zz: 1.0, xy: 0.0, xz: -0.07900207900207899, yz: -0.04573804573804573}, color: [0.0, 0.0, 1.0], radius: 1.0, args: ["P0"]},
+    {name: "P1", type: "Free", pos: [4.0, -2.75, 0.25], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, printname: "$P_{1}$"},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.0026595744680851063, yy: 0.0026595744680851063, zz: 1.0, xy: 0.0, xz: -0.0851063829787234, yz: -0.05851063829787234}, color: [0.0, 0.0, 1.0], radius: 1.0, args: ["P1"]},
+    {name: "P2", type: "Free", pos: [4.0, -3.3846153846153846, 0.3076923076923077], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, printname: "$P_{2}$"},
+    {name: "C2", type: "CircleByRadius", pos: {xx: 0.003460207612456748, yy: 0.003460207612456748, zz: 1.0, xy: 0.0, xz: -0.08996539792387545, yz: -0.07612456747404844}, color: [0.0, 0.0, 1.0], radius: 1.0, args: ["P2"]},
+    {name: "P3", type: "Free", pos: [3.6363636363636362, -4.0, 0.36363636363636365], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, printname: "$P_{3}$"},
+    {name: "C3", type: "CircleByRadius", pos: {xx: 0.004545454545454545, yy: 0.004545454545454545, zz: 1.0, xy: 0.0, xz: -0.09090909090909091, yz: -0.09999999999999999}, color: [0.0, 0.0, 1.0], radius: 1.0, args: ["P3"]},
+    {name: "P4", type: "Free", pos: [2.5454545454545454, -4.0, 0.36363636363636365], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, printname: "$P_{4}$"},
+    {name: "C4", type: "CircleByRadius", pos: {xx: 0.0059191771870175875, yy: 0.0059191771870175875, zz: 1.0, xy: 0.0, xz: -0.08286848061824623, yz: -0.13022189811438692}, color: [0.0, 0.0, 1.0], radius: 1.0283968105745953, args: ["P4"]},
+    {name: "P5", type: "PointOnCircle", pos: [4.0, {r: -2.1999999999999953, i: 1.7459946194431452E-15}, {r: 0.19999999999999937, i: -6.292256100498851E-31}], color: [1.0, 0.784, 0.0], args: ["C0"], size: 3.0, printname: "$P_{5}$"},
+    {name: "", type: "OtherPointOnCircle", pos: [4.0, {r: -2.444444444444449, i: -1.6406359151452791E-15}, {r: 0.22222222222222282, i: 3.7753536602993104E-30}], color: [1.0, 1.0, 1.0], args: ["P5"], pinned: true, size: 0.0},
+    {name: "P6", type: "PointOnCircle", pos: [4.0, {r: -2.5882352941176485, i: -1.1633306801836642E-15}, {r: 0.23529411764705893, i: -1.762562006395682E-29}], color: [1.0, 0.784, 0.0], args: ["C1"], size: 3.0, printname: "$P_{6}$"},
+    {name: "P7", type: "PointOnCircle", pos: [4.0, {r: -3.1428571428571446, i: 6.4189895463019204E-18}, {r: 0.28571428571428603, i: 6.518960937261304E-32}], color: [1.0, 0.784, 0.0], args: ["C2"], size: 3.0, printname: "$P_{7}$"},
+    {name: "P8", type: "PointOnCircle", pos: [4.0, {r: -3.999999999999999, i: -2.3755502770738874E-16}, {r: 0.36363636363636354, i: -6.5272084064290855E-31}], color: [1.0, 0.784, 0.0], args: ["C3"], size: 3.0, printname: "$P_{8}$"},
+    {name: "P9", type: "PointOnCircle", pos: [{r: 3.004672438689819, i: -2.2484836082293887E-17}, -4.0, {r: 0.37916152372794776, i: -8.073628921226685E-18}], color: [1.0, 0.784, 0.0], args: ["C4"], size: 3.0, printname: "$P_{9}$"},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 0.0], args: ["T", "U"], size: 3},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 0.0], args: ["U", "V"], size: 3},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 0.0], args: ["V", "W"], size: 3},
+    {name: "o", type: "Segment", color: [0.0, 0.0, 0.0], args: ["W", "X"], size: 3},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 0.0], args: ["X", "Y"], size: 3},
+    {name: "q", type: "Segment", color: [0.0, 0.0, 0.0], args: ["Y", "Z"], size: 3}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 835,
+    height: 572,
+    transform: [{visibleRect: [-11.38, 9.06, 22.02, -13.82]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

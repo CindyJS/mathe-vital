@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PascalTangent3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+
+buttons=[Text0,Text1,Text2,Text3,Text4];
+oldstate=apply(buttons,#.pressed);
+
+dt(pos,t):=(
+  drawtext(pos,t,color->(1,1,1),size->16,offset->(1,0));
+  drawtext(pos,t,color->(1,1,1),size->16,offset->(-1,0));
+  drawtext(pos,t,color->(1,1,1),size->16,offset->(0,1));
+  drawtext(pos,t,color->(1,1,1),size->16,offset->(0,-1));
+  drawtext(pos,t,color->(0,0,0),size->16,offset->(0,0));
+);
+
+drawlabels():=(
+  layer(2);
+  clrscr();
+  dt(D+(.7,0.2),"$A_1$");
+  dt(E+(-1.7,0.2),"$A_2$");
+  dt(F+(.7,0.2),"$A_3$");
+  dt(G+(-1.7,0.2),"$A_4$");
+  dt(H+(.7,0.2),"$A_5$");
+  dt(K+(-1.7,0.2),"$A_6$");
+);
+
+
+  dise=false; 
+  eisf=false; 
+  fisg=false; 
+  gish=false; 
+  hisk=false; 
+
+
+approachX(p1,p2):=(
+    mid=A/2+B/2;
+    w1=arctan2(p1.x-mid.x,p1.y-mid.y);
+    w2=arctan2(p2.x-mid.x,p2.y-mid.y);
+
+    if(w2<w1,w2=w2+2*pi);
+    if(w2-w1>pi,w2=w2-2*pi);
+
+
+    n=round(|w1-w2|*40);
+    repeat(n,i,
+      w=w1*(1-i/n)+w2*(i/n);
+      p1.xy=(cos(w),sin(w))+mid;
+      repaint(10);
+    );
+    w1; 
+  );
+
+
+approach(p1,p2):=(
+    mid=A/2+B/2;
+    w1=arctan2(p1.x-mid.x,p1.y-mid.y);
+    w2=arctan2(p2.x-mid.x,p2.y-mid.y);
+
+    if(w2<w1,w2=w2+2*pi);
+    if(w2-w1>pi,w2=w2-2*pi);
+
+    wx=(w1+w2)/2;
+
+    n=round(|w1-w2|*40);
+    repeat(n,i,
+      w=w1*(1-i/n)+wx*(i/n);
+      p1.xy=(cos(w),sin(w))+mid;
+      w=w2*(1-i/n)+wx*(i/n);
+      p2.xy=(cos(w),sin(w))+mid;
+      drawlabels();
+      repaint(10);
+    );
+    (w1,w2); 
+  );
+
+
+
+release(p1,p2,oldws):=(
+    mid=A/2+B/2;
+    w1=arctan2(p1.x-mid.x,p1.y-mid.y);
+    w2=arctan2(p2.x-mid.x,p2.y-mid.y);
+    wa=oldws_1;
+    wb=oldws_2;
+    if(wa<w1,wa=wa+2*pi);
+    if(wa-w1>pi,wa=wa-2*pi);
+    if(wb<w2,wb=wb+2*pi);
+    if(wb-w2>pi,wb=wb-2*pi);
+    n=round(|wa-wb|*40);
+    repeat(n,i,
+      w=w1*(1-i/n)+wa*(i/n);
+      p1.xy=(cos(w),sin(w))+mid;
+      w=w2*(1-i/n)+wb*(i/n);
+      p2.xy=(cos(w),sin(w))+mid;
+      drawlabels();
+      repaint(10);
+    )
+  );
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+pp=mouse().xy;
+if(moving&li==[],
+ if(pp.y<0,pp=(pp.x,-pp.y));
+ if(|C.xy,pp|>0.5,
+   op=C.xy;
+   repeat(30,
+      C.xy=(1-#/30)*op+(#/30)*pp;
+   )
+ ); 
+ C.xy=pp; 
+)
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+newstate=apply(buttons,#.pressed);
+if(newstate_1& oldstate_2,Text0.pressed=false);
+if(newstate_2&(oldstate_1%oldstate_3),Text1.pressed=false);
+if(newstate_3&(oldstate_2%oldstate_4),Text2.pressed=false);
+if(newstate_4&(oldstate_3%oldstate_5),Text3.pressed=false);
+if(newstate_5& oldstate_4,Text4.pressed=false);
+newstate=apply(buttons,#.pressed);
+
+//err(oldstate);
+//err(newstate);
+
+
+
+
+
+if(newstate_1&!oldstate_1,
+  dise=false;
+  oldw1=approach(D,E);
+  dise=true; 
+);
+if(!newstate_1&oldstate_1,
+  dise=false; 
+  release(D,E,oldw1);
+);
+
+
+
+if(newstate_2&!oldstate_2,
+  eisf=false;
+  oldw2=approach(E,F);
+  eisf=true; 
+);
+if(!newstate_2&oldstate_2,  
+  eisf=false; 
+  release(E,F,oldw2);
+);
+
+
+
+if(newstate_3&!oldstate_3,
+  fisg=false;
+  oldw3=approach(F,G);
+  fisg=true; 
+);
+if(!newstate_3&oldstate_3,
+  fisg=false; 
+  release(F,G,oldw3);
+);
+
+
+if(newstate_4&!oldstate_4,
+  gish=false;
+  oldw4=approach(G,H);
+  gish=true; 
+);
+if(!newstate_4&oldstate_4,
+  gish=false; 
+  release(G,H,oldw4);
+);
+
+
+if(newstate_5&!oldstate_5,
+  hisk=false;
+  oldw5=approach(H,K);
+  hisk=true; 
+);
+if(!newstate_5&oldstate_5,
+  hisk=false; 
+  release(H,K,oldw5);
+);
+
+
+oldstate=apply(buttons,#.pressed);
+;
+</script>
+<script id="csmousemove" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints()--[C],|#,pp|<0.6);
+
+r=0.3;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+
+test=(min(erg)!=max(erg))&(li==[]);
+
+C0.selected=test;
+repaint();
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+drawlabels();
+
+if(dise,
+  D.xy=E.xy+(0.0001,0);
+  a.color=(.7,0,0),
+  a.color=(0,0,1)
+);
+  
+if(eisf,
+  E.xy=F.xy+(0.0001,0);
+  b.color=(.7,0,0),
+  b.color=(0,0,1)
+);
+  
+if(fisg,
+  F.xy=G.xy+(0.0001,0);
+  c.color=(.7,0,0),
+  c.color=(0,0,1)
+);
+  
+if(gish,
+  G.xy=H.xy+(0.0001,0);
+  d.color=(.7,0,0),
+  d.color=(0,0,1)
+);
+  
+if(hisk,
+  H.xy=K.xy+(0.0001,0);
+  e.color=(.7,0,0),
+  e.color=(0,0,1)
+);
+  
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints()--[C],|#,pp|<0.3);
+
+r=0.2;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+moving=(min(erg)!=max(erg))&(li==[]);
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -1.0], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.8], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "C", type: "Free", pos: [4.0, 2.9538461538461536, 0.9356246590289141], color: [1.0, 0.0, 0.0], visible: false, size: 0.0},
+    {name: "Collection__1", type: "ConicBy2Foci1P", args: ["A", "B", "C"]},
+    {name: "", type: "SelectConic", pos: {xx: {r: -0.13089204822947406, i: -2.8065067016703348E-18}, yy: {r: 0.08355285424250636, i: 1.3941312126532712E-18}, zz: 1.0, xy: 0.0, xz: {r: 0.13089204822947403, i: -8.419520105011005E-18}, yz: -0.0}, color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0},
+    {name: "C0", type: "SelectConic", pos: {xx: {r: -0.027525782857734295, i: -4.336808689942016E-19}, yy: {r: -0.061659989895921696, i: 9.787426462349825E-19}, zz: {r: 1.0, i: -6.162975822039155E-33}, xy: 0.0, xz: {r: 0.027525782857734278, i: -1.3010426069826057E-18}, yz: 0.0}, color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 3},
+    {name: "D", type: "PointOnConic", pos: [4.0, {r: 0.7881293437110057, i: -2.1668117557564653E-17}, {r: 0.6390256429090919, i: 5.439293011315205E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 17.0, size: 6.0, printname: "$A_1$"},
+    {name: "E", type: "PointOnConic", pos: [{r: 3.0332816785879526, i: -1.2420424629246616E-16}, -4.0, {r: -1.15600064193751, i: 1.8364030752673014E-17}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 15.0, size: 6.0, printname: "$A_2$"},
+    {name: "a", type: "Join", dimDependent: 1, color: [0.0, 0.0, 1.0], args: ["D", "E"], size: 3},
+    {name: "F", type: "PointOnConic", pos: [{r: 3.0333923433393055, i: -1.242056210087859E-16}, -4.0, {r: -1.1560105145377109, i: 1.8364331997722728E-17}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 15.0, size: 6.0, printname: "$A_3$"},
+    {name: "b", type: "Join", dimDependent: 1, color: [0.698, 0.0, 0.0], args: ["E", "F"], size: 3},
+    {name: "G", type: "PointOnConic", pos: [4.0, {r: 0.9393250445368263, i: 2.5517491909941172E-17}, {r: -0.7606348381994478, i: -3.594705894484793E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 15.0, size: 6.0, printname: "$A_4$"},
+    {name: "c", type: "Join", dimDependent: 1, color: [0.0, 0.0, 1.0], args: ["F", "G"], size: 3},
+    {name: "H", type: "PointOnConic", pos: [{r: -1.0069982515962868, i: 9.652135684744616E-17}, -4.0, {r: 1.0211646784661654, i: -1.222165583283411E-17}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 15.0, size: 6.0, printname: "$A_5$"},
+    {name: "d", type: "Join", dimDependent: 1, color: [0.0, 0.0, 1.0], args: ["G", "H"], size: 3},
+    {name: "K", type: "PointOnConic", pos: [{r: -1.0070982940498856, i: 9.652229828505879E-17}, -4.0, {r: 1.021168827324432, i: -1.2221955880405556E-17}], color: [0.0, 1.0, 0.0], args: ["C0"], textsize: 15.0, size: 6.0, printname: "$A_6$"},
+    {name: "e", type: "Join", dimDependent: 1, color: [0.698, 0.0, 0.0], args: ["H", "K"], size: 3},
+    {name: "f", type: "Join", color: [0.0, 0.0, 1.0], args: ["K", "D"], size: 3},
+    {name: "L", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "d"], size: 6.0},
+    {name: "M", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "e"], size: 6.0},
+    {name: "g", type: "Join", color: [0.098, 0.62, 0.306], args: ["L", "M"], size: 3},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "f"], size: 6.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: {r: 0.0044016521295608246, i: -1.9344784978184085E-19}, yy: {r: 0.0044016521295608246, i: -1.9344784978184085E-19}, zz: 1.0, xy: 0.0, xz: {r: 0.09329666655210792, i: -2.90558613102355E-18}, yz: {r: -0.09462886746742782, i: 1.2214881014587619E-18}}, color: [0.757, 0.0, 0.0], radius: 0.8213542475692203, args: ["N"], visible: false, pinned: true},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.498, 0.0], fillalpha: 0.27272728085517883, text: "$A_1\\;=\\;A_2$", textsize: 17.0, dock: {corner: "LL", offset: [124.0, 36.0]}},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.498, 0.0], fillalpha: 0.27272728085517883, pressed: true, text: "$A_2\\;=\\;A_3$", textsize: 17.0, dock: {corner: "LL", offset: [205.0, 36.0]}},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.498, 0.0], fillalpha: 0.27272728085517883, text: "$A_3\\;=\\;A_4$", textsize: 17.0, dock: {corner: "LL", offset: [284.0, 36.0]}},
+    {name: "Text3", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.498, 0.0], fillalpha: 0.27272728085517883, text: "$A_4\\;=\\;A_5$", textsize: 17.0, dock: {corner: "LL", offset: [366.0, 36.0]}},
+    {name: "Text4", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.498, 0.0], fillalpha: 0.27272728085517883, pressed: true, text: "$A_5\\;=\\;A_6$", textsize: 17.0, dock: {corner: "LL", offset: [448.0, 36.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 678,
+    height: 496,
+    transform: [{visibleRect: [-21.145889212827992, 14.83172011661808, 23.447930029154524, -17.791486880466476]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

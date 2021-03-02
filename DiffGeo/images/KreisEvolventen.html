@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "init": "S0.x=0;\nT0.x=1.5;\nA.x=1;",
+                "draw": "A.y=0;if(A.x<0.1,A.x=0.1);\nr=A.x;\nT2.xy=(-T1.x,T1.y);\nif(Text0.pressed,S0.x=0;\n  if(hilfe==0,T0.x=5;hilfe=1)\n  );\nt0=T0.x*pi/2*r;\ns0=S0.x*pi/2*r;\nx(t):=r*(cos(t/r),sin(t/r));\ny(t):=x(t)+(s0-t)*(-sin(t/r),cos(t/r));\nX.xy=x(t0);D.xy=y(t0);\nplot(x(t),t,start->0,stop->2*pi*r,steps->200+A.x*50,\n     size->2,color->(0.7,0,0));\nif(Text1.pressed,\n  plot(y(t),t,start->-2*pi*r-4*pi*r/A.x,\n     stop->2*pi*r+4*pi*r/A.x,steps->800/A.x+A.x*50,\n     size->1,color->0.5*(1,1,1));\n  );\nns=floor(|t0-s0|/(2*pi*r));\nif(s0<t0, \n   start1=s0; stop1=t0; start2=s0; stop2=t0-ns*2*pi*r\n   , \n   start1=t0; stop1=s0; start2=t0+ns*2*pi*r; stop2=s0\n   );\nsteps1=|t0-s0|*50/A.x+10 ;\nsteps2=|stop2-start2|*40/A.x+10;\nif((stop2-start2)>0.1,\nplot(x(t),t,start->start2,stop->stop2,steps->steps2,\n     size->3,color->(0.9,0.5,0));\n    );\nif((stop1-start1)>=0.01,\nplot(y(t),t,start->start1,stop->stop1,steps->steps1,\n     size->3,color->(0,0,0.5));\n    );\nif(t0>s0, sts=stop2; vorz=1, sts=start2; vorz=-1);\ndraw(x(t0),y(sts),size->3,color->(0.9,0.5,0));\ndraw(y(sts),y(t0),size->1,color->(0.9,0.5,0));\nrepeat(ns,i,\n  tspir=sts+vorz*(i-1)*2*pi*r;\n  draw(y(tspir),color->(0.7569,0,0))\n);\ndraw(x(s0),color->(0.7569,0,0));\n \nif(Text0.pressed,\n  drawcircle(x(t0),t0,color->(0.1,0.62,0.31));\n  repeat(4,i,\n  tz=i*pi/2*r;\n  draw(x(tz),y(tz),size->1,color->(0.9,0.5,0));\n  drawcircle(x(tz),tz,color->(0.1,0.62,0.31));\n  draw(x(tz),color->(0.7569,0,0),size->2);\n  draw(y(tz),color->(0.7569,0,0),size->2));,\n  hilfe=0\n);\ndrawtext(T0+(0,-0.7),\"s=\"+(T0.x/2)+\"$r\\;\\pi$\");\nif(s0~=0,\n  drawtext(S0+(-0.5,0.4),\"$s_0$=\"+0),\n  drawtext(S0+(-0.5,0.4),\"$s_0$=\"+(S0.x/2)+\"$r\\;\\pi$\");\n  );\n\n\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "O",
+                "type": "Free",
+                "pos": [0.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "A",
+                "type": "Free",
+                "pos": [4.0, 0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "plane": 5,
+                "size": 4.0
+            }, {
+                "name": "T2",
+                "type": "Free",
+                "pos": [-2.0, -4.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$-2r\\;\\pi$"
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [2.0, -4.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$2r\\;\\pi$"
+            }, {
+                "name": "st",
+                "type": "Join",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T2", "T1"],
+                "size": 3,
+                "clip": "inci"
+            }, {
+                "name": "T0",
+                "type": "PointOnLine",
+                "pos": [0.75, -4.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["st"],
+                "plane": 3,
+                "size": 4.0
+            }, {
+                "name": "X",
+                "type": "Free",
+                "pos": [-2.82842712474619, 2.8284271247461903, 4.0],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$\\gamma(s)$"
+            }, {
+                "name": "D",
+                "type": "Free",
+                "pos": [-1.6163479132755751, -4.0, -1.6854965545123053],
+                "color": [0.757, 0.0, 0.0],
+                "labeled": true,
+                "size": 3.0,
+                "printname": "$\\delta(s)$"
+            }, {
+                "name": "ss",
+                "type": "Segment",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["T2", "T1"],
+                "visible": false,
+                "labeled": true
+            }, {
+                "name": "S0",
+                "type": "PointOnSegment",
+                "pos": [0.0, -4.0, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["ss"],
+                "size": 4.0
+            }, {
+                "name": "radius",
+                "type": "Segment",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["O", "A"],
+                "labeled": true,
+                "size": 3,
+                "printname": "r"
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 68,
+                "text": "Zeichenhilfe",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [32.0, 28.0]
+                }
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "pos": [4.0, 2.24, -0.3333333333333333],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 68,
+                "text": "  Evolvente"
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 680,
+                "height": 388,
+                "transform": [{
+                    "visibleRect": [-13.26, 6.34, 13.94, -9.18]
+                }],
+                "axes": true,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

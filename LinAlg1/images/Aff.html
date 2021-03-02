@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Aff.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+P9.xy=-P10+P8+P11;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.3333333333333333, -0.6666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, labeled: true, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, -4.0, 2.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, labeled: true, size: 4.0},
+    {name: "C", type: "Free", pos: [4.0, -4.0, -0.6666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, labeled: true, size: 4.0},
+    {name: "D", type: "Free", pos: [-1.3333333333333333, -4.0, -0.6666666666666666], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, labeled: true, size: 4.0},
+    {name: "E", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "F", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "E"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "G", type: "Mid", color: [1.0, 0.0, 0.0], args: ["E", "A"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "H", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "G"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "K", type: "Mid", color: [1.0, 0.0, 0.0], args: ["G", "E"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "L", type: "Mid", color: [1.0, 0.0, 0.0], args: ["E", "F"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "M", type: "Mid", color: [1.0, 0.0, 0.0], args: ["F", "B"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "N", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "D"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "O", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "N"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "P", type: "Mid", color: [1.0, 0.0, 0.0], args: ["N", "B"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Q", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "P"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "R", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P", "N"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "S", type: "Mid", color: [1.0, 0.0, 0.0], args: ["N", "O"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "T", type: "Mid", color: [1.0, 0.0, 0.0], args: ["O", "D"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "U", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "C"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "V", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "U"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "W", type: "Mid", color: [1.0, 0.0, 0.0], args: ["U", "D"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "X", type: "Mid", color: [1.0, 0.0, 0.0], args: ["D", "W"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Y", type: "Mid", color: [1.0, 0.0, 0.0], args: ["W", "U"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Z", type: "Mid", color: [1.0, 0.0, 0.0], args: ["U", "V"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "P0", type: "Mid", color: [1.0, 0.0, 0.0], args: ["V", "C"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{0}$"},
+    {name: "P1", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "A"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{1}$"},
+    {name: "P2", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "P1"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{2}$"},
+    {name: "P3", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P1", "C"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{3}$"},
+    {name: "P4", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "P3"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{4}$"},
+    {name: "P5", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P3", "P1"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{5}$"},
+    {name: "P6", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P1", "P2"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{6}$"},
+    {name: "P7", type: "Mid", color: [1.0, 0.0, 0.0], args: ["P2", "A"], alpha: 0.8999999761581421, size: 2.0, printname: "$P_{7}$"},
+    {name: "P8", type: "Free", pos: [4.0, 1.8181818181818181, 0.36363636363636365], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "C'"},
+    {name: "P9", type: "Free", pos: [4.0, 0.6058252427184467, 0.19417475728155337], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "D'"},
+    {name: "P10", type: "Free", pos: [4.0, -0.26666666666666666, 0.6060606060606061], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "A'"},
+    {name: "P11", type: "Free", pos: [4.0, -0.5728395061728394, 0.24691358024691357], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 4.0, printname: "B'"},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.8999999761581421},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "P0"], alpha: 0.8999999761581421},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "V"], alpha: 0.8999999761581421},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "Z"], alpha: 0.8999999761581421},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "U"], alpha: 0.8999999761581421},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["L", "Y"], alpha: 0.8999999761581421},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "W"], alpha: 0.8999999761581421},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 1.0], args: ["M", "X"], alpha: 0.8999999761581421},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "D"], alpha: 0.8999999761581421},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "C"], alpha: 0.8999999761581421},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P4", "T"], alpha: 0.8999999761581421},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "P3"], alpha: 0.8999999761581421},
+    {name: "o", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P5", "S"], alpha: 0.8999999761581421},
+    {name: "p", type: "Segment", color: [0.0, 0.0, 1.0], args: ["N", "P1"], alpha: 0.8999999761581421},
+    {name: "q", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P6", "R"], alpha: 0.8999999761581421},
+    {name: "r", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P", "P2"], alpha: 0.8999999761581421},
+    {name: "s", type: "Segment", color: [0.0, 0.0, 1.0], args: ["P7", "Q"], alpha: 0.8999999761581421},
+    {name: "t", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "A"], alpha: 0.8999999761581421},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["B", "P11", "A", "P10", "D", "P9", "C", "P8"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "u", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "a"], alpha: 0.8999999761581421},
+    {name: "v", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "b"], alpha: 0.8999999761581421},
+    {name: "w", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "c"], alpha: 0.8999999761581421},
+    {name: "x", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "d"], alpha: 0.8999999761581421},
+    {name: "y", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "e"], alpha: 0.8999999761581421},
+    {name: "z", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "f"], alpha: 0.8999999761581421},
+    {name: "S0", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "g"], alpha: 0.8999999761581421, printname: "$S_{0}$"},
+    {name: "S1", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "h"], alpha: 0.8999999761581421, printname: "$S_{1}$"},
+    {name: "S2", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "k"], alpha: 0.8999999761581421, printname: "$S_{2}$"},
+    {name: "S3", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "l"], alpha: 0.8999999761581421, printname: "$S_{3}$"},
+    {name: "S4", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "m"], alpha: 0.8999999761581421, printname: "$S_{4}$"},
+    {name: "S5", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "n"], alpha: 0.8999999761581421, printname: "$S_{5}$"},
+    {name: "S6", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "o"], alpha: 0.8999999761581421, printname: "$S_{6}$"},
+    {name: "S7", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "p"], alpha: 0.8999999761581421, printname: "$S_{7}$"},
+    {name: "S8", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "q"], alpha: 0.8999999761581421, printname: "$S_{8}$"},
+    {name: "S9", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "r"], alpha: 0.8999999761581421, printname: "$S_{9}$"},
+    {name: "S10", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "s"], alpha: 0.8999999761581421, printname: "$S_{10}$"},
+    {name: "S11", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "t"], alpha: 0.8999999761581421, printname: "$S_{11}$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 826,
+    height: 468,
+    virtualwidth: 826,
+
+    transform: [{visibleRect: [-9.06, 9.34, 23.98, -9.38]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

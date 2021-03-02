@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Teilchen2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+rad=|A,C|/|A,B|*.7+0.6;
+fri=|E,F|/|F,D|*.7;
+inspect(simulation(),"physenv.friction",fri);
+ms=allmasses();
+
+fillpoly((G,H,K,L),color->(1,1,1)*.8);
+apply(ms,#.simulate=(#.x>H.x&#.x<L.x&#.y>H.y&#.y<L.y));
+apply(ms,inspect(#,"mass.radius",rad));
+col1=(1,0,0);
+col2=(0,0,1);
+col(m):=if(m.charge<0,col1,col2);
+
+repeat(15,i,
+  r=i/15;
+  apply(ms,fillcircle(#,(1-r)*rad/1,color->col(#),alpha->r*.3));
+);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "P12", type: "Free", pos: [0.125, -4.0, -1.0416666666666667], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "P13", type: "Free", pos: [-0.09523809523809525, -4.0, -2.3809523809523814], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "P14", type: "Free", pos: [4.0, 1.5319148936170213, 1.0638297872340425], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "P7", type: "Free", pos: [4.0, 2.96875, 0.78125], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "P15", type: "Free", pos: [-1.4969325153374233, -4.0, -0.6134969325153374], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "P6", type: "Free", pos: [4.0, 1.2564102564102562, 0.641025641025641], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "G", type: "Free", pos: [2.5, -4.0, -0.5], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "H", type: "Free", pos: [4.0, 3.2, -0.8], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["G", "H"], size: 3},
+    {name: "K", type: "Free", pos: [4.0, -1.2307692307692308, 0.3076923076923077], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "K"], size: 3},
+    {name: "L", type: "Free", pos: [4.0, 2.4615384615384617, 0.3076923076923077], color: [0.0, 0.0, 0.0], size: 3.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "L"], size: 3},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "G"], size: 3},
+    {name: "M", type: "Free", pos: [1.5172413793103448, -4.0, -0.689655172413793], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "N", type: "Free", pos: [2.337078651685393, -4.0, -1.1235955056179776], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "O", type: "Free", pos: [4.0, 1.6091954022988508, 0.3831417624521073], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "P", type: "Free", pos: [4.0, 1.3284132841328413, 0.36900369003690037], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "Q", type: "Free", pos: [-3.6874999999999996, -4.0, -1.5625], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "R", type: "Free", pos: [4.0, -2.4, 1.5384615384615383], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "S", type: "Free", pos: [4.0, -1.063291139240506, 1.2658227848101264], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "T", type: "Free", pos: [-2.7338129496402876, -4.0, -0.7194244604316548], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "U", type: "Free", pos: [4.0, -3.217391304347826, -2.1739130434782608], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "V", type: "Free", pos: [4.0, 0.1851851851851852, 0.46296296296296297], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "W", type: "Free", pos: [4.0, -0.07407407407407496, 0.9259259259259259], color: [1.0, 0.0, 0.0], size: 3.0},
+    {name: "X", type: "Free", pos: [-3.8896551724137924, -4.0, -0.689655172413793], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "Y", type: "Free", pos: [-2.9818181818181815, -4.0, -0.9090909090909091], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "Z", type: "Free", pos: [-2.2745098039215685, -4.0, -1.9607843137254903], color: [0.0, 0.0, 1.0], size: 3.0},
+    {name: "P0", type: "Free", pos: [2.814814814814815, -4.0, 3.7037037037037037], color: [1.0, 0.0, 0.0], size: 3.0, printname: "$P_{0}$"},
+    {name: "P1", type: "Free", pos: [4.0, 3.4878048780487805, 0.6097560975609757], color: [0.0, 0.0, 1.0], size: 3.0, printname: "$P_{1}$"},
+    {name: "P2", type: "Free", pos: [-2.681564245810056, -4.0, -0.5586592178770949], color: [0.0, 0.0, 1.0], size: 3.0, printname: "$P_{2}$"},
+    {name: "P3", type: "Free", pos: [4.0, -1.6078431372549018, -0.9803921568627452], color: [1.0, 0.0, 0.0], size: 3.0, printname: "$P_{3}$"},
+    {name: "P4", type: "Free", pos: [4.0, 0.6666666666666666, -1.8518518518518519], color: [1.0, 0.0, 0.0], size: 3.0, printname: "$P_{4}$"},
+    {name: "P5", type: "Free", pos: [4.0, -0.4594594594594595, 0.6756756756756757], color: [0.0, 0.0, 1.0], size: 3.0, printname: "$P_{5}$"},
+    {name: "A", type: "Free", pos: [0.0, -4.0, 0.6666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -3.4285714285714284, 0.5714285714285714], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [0.9600000200000001, -4.0, 0.6666666666666666], color: [1.0, 1.0, 1.0], args: ["k"]},
+    {name: "F", type: "Free", pos: [0.0, -4.0, 0.5], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [3.5, -4.0, 0.5], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "D"]},
+    {name: "E", type: "PointOnSegment", pos: [1.019999995, -4.0, 0.5], color: [1.0, 1.0, 1.0], args: ["l"]},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], args: ["A"], text: "Radius", dock: {to: "A", offset: [0.0, -18.0]}},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], args: ["F"], text: "Reibung", dock: {to: "F", offset: [-2.0, -19.0]}}
+  ],
+  behavior: [
+    {type: "Environment", friction: 0.2, charges: true, balls: true},
+    {geo: ["P12"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P13"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P14"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["P7"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["P15"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P6"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["a", "G", "H"], type: "Bouncer"},
+    {geo: ["b", "H", "K"], type: "Bouncer"},
+    {geo: ["c", "K", "L"], type: "Bouncer"},
+    {geo: ["d", "L", "G"], type: "Bouncer"},
+    {geo: ["M"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["N"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["O"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["Q"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["R"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["S"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["T"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["U"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["V"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["W"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["X"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["Y"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["Z"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P0"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["P1"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P2"], type: "Mass", charge: 1, radius: 0.74},
+    {geo: ["P3"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["P4"], type: "Mass", charge: -1, radius: 0.74},
+    {geo: ["P5"], type: "Mass", charge: 1, radius: 0.74}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.25,
+    speedRange: [0.0, 0.5],
+    accuracy: 4
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 632,
+    height: 489,
+    transform: [{visibleRect: [-9.06, 9.34, 16.22, -10.22]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

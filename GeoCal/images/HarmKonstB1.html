@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>HarmKonstB1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "a", type: "HorizontalLine", pos: [0.0, -1.8181818181818181, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3, overhang: 1.1},
+    {name: "A", type: "PointOnLine", pos: [4.0, -2.933333333333333, -1.3333333333333333], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "C", type: "PointOnLine", pos: [-2.8363636363636364, -4.0, -1.818181818181818], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "B", type: "PointOnLine", pos: [4.0, 2.291666666666667, 1.0416666666666667], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "H", type: "Free", pos: [-0.2871794871794872, -4.0, -0.5128205128205129], color: [0.0, 1.0, 0.0], size: 4.0, printname: "1"},
+    {name: "b", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "A"], overhang: 1.09, clip: "inci"},
+    {name: "c", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "B"], overhang: 1.09, clip: "inci"},
+    {name: "d", type: "Join", color: [0.098, 0.62, 0.306], args: ["C", "H"], overhang: 1.09, clip: "inci"},
+    {name: "E", type: "PointOnLine", pos: [-1.7435709705240832, -4.0, -0.7967965680687628], color: [0.0, 1.0, 0.0], args: ["c"], size: 4.0, printname: "2"},
+    {name: "e", type: "Join", color: [0.098, 0.62, 0.306], args: ["A", "E"], overhang: 1.09, clip: "inci"},
+    {name: "F", type: "Meet", color: [0.0, 1.0, 0.0], args: ["d", "e"], size: 4.0, printname: "3"},
+    {name: "f", type: "Join", color: [0.098, 0.62, 0.306], args: ["B", "F"], overhang: 1.09, clip: "inci"},
+    {name: "G", type: "Meet", color: [0.0, 1.0, 0.0], args: ["b", "f"], size: 4.0, printname: "4"},
+    {name: "g", type: "Join", color: [0.098, 0.62, 0.306], args: ["G", "E"], overhang: 1.09, clip: "inci"},
+    {name: "D", type: "Meet", color: [1.0, 1.0, 1.0], args: ["a", "g"], labeled: true, size: 4.0},
+    {name: "K", type: "Free", pos: [4.0, -2.738461538461538, 0.7692307692307692], color: [1.0, 0.0, 0.0], size: 4.0},
+    {name: "h", type: "Join", color: [0.757, 0.0, 0.0], args: ["K", "D"], overhang: 1.08, clip: "inci"},
+    {name: "k", type: "Join", color: [0.757, 0.0, 0.0], args: ["K", "C"], overhang: 1.08, clip: "inci"},
+    {name: "l", type: "Join", color: [0.757, 0.0, 0.0], args: ["B", "K"], overhang: 1.08, clip: "inci"},
+    {name: "L", type: "PointOnLine", pos: [4.0, -1.2532939895949755, 0.6046819109877005], color: [1.0, 0.0, 0.0], args: ["h"], size: 4.0},
+    {name: "m", type: "Join", color: [0.757, 0.0, 0.0], args: ["C", "L"], overhang: 1.08, clip: "inci"},
+    {name: "M", type: "Meet", color: [1.0, 0.0, 0.0], args: ["l", "m"], size: 4.0},
+    {name: "n", type: "Join", color: [0.757, 0.0, 0.0], args: ["D", "M"], overhang: 1.08, clip: "inci"},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "n"], size: 4.0},
+    {name: "o", type: "Join", color: [0.757, 0.0, 0.0], args: ["L", "N"], overhang: 1.08, clip: "inci"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [-8.94, 9.18, 18.26, -4.82]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

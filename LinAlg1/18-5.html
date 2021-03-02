@@ -1,0 +1,169 @@
+---
+title: Fläche eines Polygons II
+layout: page
+category: LinAlg1
+---
+
+<h1>Fläche eines Polygons II</h1>
+<div  style=" line-height: 1.5">
+Man kann obige Formel auch verwenden, um den Flächeninhalt eines Polygons mit Selbstdurchdringungen zu definieren.
+Je nachdem ob eine Teilfläche hierbei im oder gegen den Uhrzeigersinn umlaufen wird, wird diese positiv (grün) oder negativ (rot) gewichtet.
+
+<br>
+Es kann  hierbei sogar passieren, dass ein Teil der Fläche vom Polygon mehrfach umkreist wird.
+In diesem Fall muss das Flächenstück sogar mehrfach gezählt werden.
+Im Bild unten entspricht das dunkelgrüne Flächenstück einem Flächenstrück, das zweifach gewertet werden muss.
+<br>
+
+<b>Kleine Herausforderung:</b> Kann man die Punkte im obigen Applet so ziehen, dass ein Flächenstück entsteht, dass dreifach gezählt werden muss?
+<br>
+<br>
+
+</div>
+
+<div style="position:relative">
+<canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;z-index:2"></canvas>
+<br>
+<br>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+function setspeed(x)
+{
+    parameters.speed =x;
+}
+
+</script> 
+<script id='init' type='cindyscript'>
+/*
+            javascript("setupWebGL()");
+            WebGLvariables(a->"point",b->"point",c->"point",d->"point",
+            e->"point",f->"point",g->"point");
+            WebGLcode();
+*/
+
+
+</script>
+
+<script id='firstDrawing' type='cindyscript'>
+          pts=allpoints();
+          n=length(pts);
+          pts=pts++[pts_1];
+          forall(1..n,
+            col=(0,0,.6);
+            draw(pts_#,pts_(#+1),color->col,arrow->true,  arrowshape->"full", arrowsides->"==>", arrowsize->1.5,size->3)
+
+          );
+
+          a=A.xy;
+          b=B.xy;
+          c=C.xy;
+          d=D.xy;
+          e=E.xy;
+          f=F.xy;
+          g=G.xy;
+          
+          
+          
+          sign(a) := if(a>0,1,if(a<0,-1, 0));
+          
+          contrib(a,b,p) := (
+            v= (p-a)/|p-a|;
+            w= (p-b)/|p-b|;
+            re(arccos(v*w -.0001))*sign(v.x*w.y-v.y*w.x)
+          );
+              
+colorplot(
+  color = [0,0,0];
+  position = #;
+  ww=contrib(a,b,position);
+  ww=ww+contrib(b,c,position);
+  ww=ww+contrib(c,d,position);
+  ww=ww+contrib(d,e,position);
+  ww=ww+contrib(e,f,position);
+  ww=ww+contrib(f,g,position);
+  ww=ww+contrib(g,a,position);
+  ww=ww/pi/2.0;
+  color=(1.0,1.0,1.0);
+  
+  if(ww<-.01,
+    color=(1.0+ww/3.0,0.0,0.0)
+  );
+  if(ww>0.01, 
+    color=(0.0,1.0-ww/3.0,0.0);
+  );
+  color
+);
+          pts=allpoints();
+          pts=[pts_(length(pts))]++pts++[pts_1];
+apply(2..(length(pts)-1),i,
+d1=pts_i-pts_(i-1);
+d2=pts_i-pts_(i+1);
+d1=d1/|d1|;
+d2=d2/|d2|;
+d3=d1+d2;
+d3=d3/|d3|;
+
+p=pts_i;
+drawtext(p.xy+d3*.8+(-.2,-.2);,p.name);
+);
+//ar=det((A,B))+det((B,C))+det((C,D))+det((D,E))+det((E,F))++det(F,G)+det(G,A))/2;
+
+        data=((A,B),(B,C),(C,D),(D,E),(E,F),(F,G),(G,A));
+
+ar=0;
+apply(data,d,
+  v=(d_1).xy;
+  w=(d_2).xy;
+  det=det((v,w));
+
+ar=ar+det/2;
+);
+drawtext((-6,-6),"(det(A,B)+det(B,C)+....+det(F,G)+det(G,A))/2 = "+format(ar,4),size->26)
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+var gslp=[
+    {name:"A", type:"Free", pos:[6.32,-1.56],color:[1,1,1],pinned:false,size:4},
+    {name:"B", type:"Free", pos:[11.6,3.68],color:[1,1,1],pinned:false,size:4},
+    {name:"C", type:"Free", pos:[-3.88,2.32],color:[1,1,1],pinned:false,size:4},
+    {name:"D", type:"Free", pos:[8.84,7.32],color:[1,1,1],pinned:false,size:4},
+    {name:"E", type:"Free", pos:[1,-0.08],color:[1,1,1],pinned:false,size:4},
+    {name:"F", type:"Free", pos:[9.32,-0.16],color:[1,1,1],pinned:false,size:4},
+    {name:"G", type:"Free", pos:[-0.08,7.56],color:[1,1,1],pinned:false,size:4},
+
+    ];
+
+
+
+createCindy({canvasname:"CSCanvas",
+     movescript:"firstDrawing",
+     initscript:"init",
+    // mousedownscript:"click",
+    // tickscript:"timer",
+geometry:gslp,
+ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[0,9,9,-9]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+}
+);
+
+
+
+</script>
+
+
+
+</div>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Gleitspiegelung.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], labeled: true, size: 4.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.6666666666666666], color: [1.0, 0.0, 0.0], labeled: true, size: 4.0, printname: "B=B'"},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 4.0, 1.0], color: [1.0, 0.0, 0.0], labeled: true, size: 4.0, printname: "C=F'''"},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["B", "C"], labeled: true},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "A"], labeled: true},
+    {name: "d", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["a", "A"], alpha: 0.8999999761581421, size: 0},
+    {name: "D", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "d"], labeled: true, size: 3.0, printname: "$H_a=M_AA'''$"},
+    {name: "C0", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["D", "A"], alpha: 0.8999999761581421, size: 0},
+    {name: "A'''", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C0", "d", "A"], labeled: true, size: 3.0},
+    {name: "e", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["b", "B"], alpha: 0.8999999761581421, size: 0},
+    {name: "E", type: "Meet", color: [1.0, 1.0, 1.0], args: ["b", "e"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C1", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["E", "B"], alpha: 0.8999999761581421, size: 0},
+    {name: "B''", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C1", "e", "B"], labeled: true, size: 3.0},
+    {name: "f", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["a", "B''"], alpha: 0.8999999761581421, size: 0},
+    {name: "F", type: "Meet", color: [1.0, 1.0, 1.0], args: ["a", "f"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C2", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["F", "B''"], alpha: 0.8999999761581421, size: 0},
+    {name: "B'''", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C2", "f", "B''"], labeled: true, size: 3.0},
+    {name: "g", type: "Orthogonal", color: [0.502, 0.502, 0.502], args: ["c", "C"], clip: "inci"},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "g"], labeled: true, size: 3.0, printname: "$H_c$"},
+    {name: "C3", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["G", "C"], alpha: 0.8999999761581421, size: 0},
+    {name: "C'", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C3", "g", "C"], labeled: true, size: 3.0, printname: "C'=F"},
+    {name: "h", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["b", "C'"], alpha: 0.8999999761581421, size: 0},
+    {name: "K", type: "Meet", color: [1.0, 1.0, 1.0], args: ["b", "h"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C4", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["K", "C'"], alpha: 0.8999999761581421, size: 0},
+    {name: "C''", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C4", "h", "C'"], labeled: true, size: 3.0},
+    {name: "k", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["a", "C''"], alpha: 0.8999999761581421, size: 0},
+    {name: "M", type: "Meet", color: [1.0, 1.0, 1.0], args: ["a", "k"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C5", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["M", "C''"], alpha: 0.8999999761581421, size: 0},
+    {name: "C'''", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C5", "k", "C''"], labeled: true, size: 3.0},
+    {name: "H", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B", "B'''"], labeled: true, size: 3.0, printname: "$M_BB'''$"},
+    {name: "l", type: "Join", color: [0.098, 0.62, 0.306], args: ["D", "H"], labeled: true, size: 3, printname: "Achse"},
+    {name: "m", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["l", "A"], alpha: 0.8999999761581421, size: 0},
+    {name: "L", type: "Meet", color: [1.0, 1.0, 1.0], args: ["l", "m"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C6", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["L", "A"], alpha: 0.8999999761581421, size: 0},
+    {name: "N", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C6", "m", "A"], labeled: true, size: 3.0, printname: "$A*$"},
+    {name: "n", type: "Segment", color: [0.098, 0.62, 0.306], args: ["N", "A'''"], labeled: true, size: 3, printname: "Schubvektor", arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "O", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A'''", "N"], size: 0.0},
+    {name: "dist0", type: "Dist", color: [0.0, 0.0, 1.0], args: ["A'''", "N"]},
+    {name: "P", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "C"], size: 0.0},
+    {name: "dist1", type: "Dist", color: [0.0, 0.0, 1.0], args: ["A", "C"]},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], fillcolor: [0.51, 0.949, 1.0], fillalpha: 1.0, args: ["A", "B", "C"]},
+    {name: "Poly1", type: "Poly", color: [0.098, 0.62, 0.306], fillcolor: [0.714, 1.0, 0.667], fillalpha: 1.0, args: ["B'''", "A'''", "C'''"]},
+    {name: "o", type: "Segment", color: [0.502, 0.502, 0.502], args: ["A", "N"]},
+    {name: "p", type: "Segment", color: [0.502, 0.502, 0.502], args: ["A", "A'''"]},
+    {name: "q", type: "Segment", color: [0.502, 0.502, 0.502], args: ["B", "B'''"]},
+    {name: "E0", type: "AngleMark", color: [0.0, 0.0, 1.0], args: ["A", "B", "C"]},
+    {name: "E1", type: "AngleMark", color: [0.0, 0.0, 1.0], args: ["D", "G", "B"]},
+    {name: "Poly2", type: "Poly", color: [1.0, 1.0, 0.0], fillcolor: [0.98, 1.0, 0.62], fillalpha: 0.8999999761581421, args: ["A", "B", "C'"]},
+    {name: "Poly3", type: "Poly", color: [1.0, 0.784, 0.0], fillcolor: [1.0, 0.741, 0.467], fillalpha: 1.0, args: ["A", "B''", "C''"]},
+    {name: "Q", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "C'''"], alpha: 0.8999999761581421, labeled: true, size: 3.0, printname: "$M_{CC'}$"},
+    {name: "r", type: "Segment", color: [0.502, 0.502, 0.502], args: ["C", "C'''"], alpha: 0.8999999761581421},
+    {name: "E2", type: "AngleMark", color: [0.098, 0.62, 0.306], args: ["C", "A", "B"], alpha: 0.8999999761581421},
+    {name: "E3", type: "AngleMark", color: [0.098, 0.62, 0.306], args: ["G", "B", "D"], alpha: 0.8999999761581421},
+    {name: "", type: "AngleMark", color: [0.757, 0.0, 0.0], args: ["B", "C", "A"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", pos: [4.0, -1.075098814229249, 0.3952569169960475], color: [0.0, 0.0, 0.0], text: "$\\sigma_a \\circ \\sigma_b \\circ \\sigma_c$ ist eine Gleitspiegelung"},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], text: "mit Achse durch die Höhenfußpunkte $H_a$ und $H_c$ im Winkel $\\gamma$ zu c.", dock: {corner: "LL", offset: [319.0, 34.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 691,
+    height: 434,
+    transform: [{visibleRect: [-5.26, 11.74, 22.38, -5.62]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Spirale2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+m=Tr0.matrix;
+l=[A.homog,B.homog,D.homog,C.homog,A.homog];
+n(x):=x/|x|;
+s=|H,L|/|H,K|;
+mm=round(|E,G|*10)+1;
+repeat(500,i,
+  fillpoly(l,color->hue((i-1)/mm+s),alpha->0.7);
+ // connect(l,color->(0,0,0));
+  l=apply(l,n(m*#));
+);
+
+drawtext(E+(0.2,0.3),mm,color->(1,1,1));
+L.color=hue(s);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-3.0666666666666664, -4.0, 0.6666666666666666], color: [1.0, 1.0, 1.0], size: 6.0},
+    {name: "B", type: "Free", pos: [3.8496240601503757, -4.0, 0.7518796992481203], color: [1.0, 1.0, 1.0], size: 6.0},
+    {name: "C", type: "Free", pos: [-2.6129032258064515, -4.0, -0.8064516129032258], color: [1.0, 1.0, 1.0], size: 6.0},
+    {name: "D", type: "Free", pos: [4.0, -0.7160493827160492, 0.6172839506172839], color: [1.0, 1.0, 1.0], size: 6.0},
+    {name: "Tr0", type: "TrSimilarity", color: [0.0, 0.0, 1.0], args: ["B", "D", "A", "C"], dock: {offset: [0.0, -0.0]}},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "A"], size: 0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], size: 0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "D"], size: 0},
+    {name: "E", type: "Free", pos: [4.0, -4.0, -0.5], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0},
+    {name: "F", type: "Free", pos: [0.5, -4.0, -0.5], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"]},
+    {name: "G", type: "PointOnSegment", pos: [3.8400000025, -4.0, -0.5], color: [1.0, 1.0, 1.0], args: ["d"], border: false},
+    {name: "H", type: "Free", pos: [4.0, -3.0, -0.5], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0},
+    {name: "K", type: "Free", pos: [0.6666666666666666, -4.0, -0.6666666666666666], color: [1.0, 1.0, 1.0], pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "K"]},
+    {name: "L", type: "PointOnSegment", pos: [3.6799999733333335, -4.0, -0.6666666666666665], dimDependent: 1, color: [0.0, 1.0, 0.125], args: ["e"], size: 8.0, border: false}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 715,
+    height: 486,
+    transform: [{visibleRect: [-9.06, 9.34, 19.54, -10.1]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]},
+  images: {
+    "image-1.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA14AAAJ7CAIAAAB8rNeUAAAABGdBTUEAANkDQtZPoQAAAAlwSFlzAAALEwAACxMBAJqcGAAAACJ0RVh0U29mdHdhcmUAUXVpY2tUaW1lIDcuNSAoTWFjIE9TIFgpAIOIHtMAAAAHdElNRQfYCAcAOQsGSBOoAAAGT0lEQVR4nO3BMQEAAADCoPVPbQdvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA2wAScAABOOGMMgAAAABJRU5ErkJggg=="
+  }
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

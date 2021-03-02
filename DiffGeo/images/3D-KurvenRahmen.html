@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            background: rgb(168,176,192);
+        }
+        </style>
+</head>
+<script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy3D.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+begin3d();
+lookat3d((-0.6,-5,0.3),(0,0,0),(0,0,1));
+background3d((168,176,192)/255);
+end3d();
+
+drawcurve(X,t0,t1,nt,farbe,dicke):=(
+X0=X(t0);
+t5=(t1-t0)/nt;
+repeat(nt,#,
+  X1=X(t0+#*t5);
+  draw3d(X0,X1,color->farbe,size->dicke);
+  X0=X1;
+  );
+);
+
+Text0.pressed=false;
+Text1.pressed=false;
+Text2.pressed=false;
+Text3.pressed=false;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+AT.xy=-BT.xy;
+t=T0.x; drawtext(T0+(.1,.1),"$t="+t+"$");
+X(t):=[t,-3*t^2,6*t^3];
+eps = 0.01;
+dX(t):=[(X(t+eps)_1-X(t-eps)_1)/(2*eps),(X(t+eps)_2-X(t-eps)_2)/(2*eps),(X(t+eps)_3-X(t-eps)_3)/(2*eps)];
+ddX(t):=[(dX(t+eps)_1-dX(t-eps)_1)/(2*eps),(dX(t+eps)_2-dX(t-eps)_2)/(2*eps),(dX(t+eps)_3-dX(t-eps)_3)/(2*eps)];
+T(t):=dX(t)/|dX(t)|;
+cX(t):=cross(dX(t),ddX(t));
+B(t):=cX(t)/|cX(t)|;
+N(t):=cross(B(t),T(t));
+tau(t):=-6/(1+18*t^2)^2;
+//use("jrealityplugin");
+begin3d();
+draw3d([0,0,0],[1,0,0],color->[0.9,0.9,0.9],size->0.5);
+draw3d([0,0,0],[0,1,0],color->[0.9,0.9,0.9],size->0.5);
+draw3d([0,0,0],[0,0,1],color->[0.9,0.9,0.9],size->0.5);
+farbe=[0,0,1];
+drawcurve(X,-1,1,100,[1,.6,0],0.7);
+draw3d(X(t));
+draw3d(X(t),X(t)+T(t),size->0.5);
+draw3d(X(t)-2*T(t),X(t)+2*T(t),size->0.3,alpha->.5, color->[.1,.5,.2]);
+//draw3d(X(t),X(t)+ddX(t)/|ddX(t)|,size->0.5);
+//Böschungsrichtung
+if(Text0.pressed,
+  V=1/sqrt(2)*[1,0,1];
+  draw3d(X(t),X(t)+V,color->(0,0,0),size->0.5);
+  draw3d((0,0,0),(0,0,0)+V,color->(0,0,0),size->0.5);
+  );
+//Frenet-Rahmen
+if(Text1.pressed,
+  draw3d(X(t),X(t)+N(t),size->0.5);
+  draw3d(X(t),X(t)+B(t),size->0.5);
+  drawtext((3.2,-.5),"$\kappa(t)="+(-tau(t))+"$"+
+          " , $\tau(t)="+(tau(t))+"$");
+  );
+//allgem Rahmen N1 orth zu (0,0,1)
+if(Text2.pressed,
+  N1(t):=cross(T(t),[0,0,1])/|cross(T(t),[0,0,1])|;
+  N2(t):=cross(T(t),N1(t));
+  draw3d(X(t),X(t)+N1(t),color->(0.8,0,0),size->0.5);
+  draw3d(X(t),X(t)+N2(t),color->(0.8,0,0),size->0.5);
+  );
+//paralleler Rahmen
+if(Text3.pressed,
+  a(t):=sqrt(2)*arctan(3*t*sqrt(2));
+  NP1(t):=N(t)*cos(a(t))+B(t)*sin(a(t));
+  NP2(t):=-N(t)*sin(a(t))+B(t)*cos(a(t));
+  draw3d(X(t),X(t)+NP1(t),color->(0.8,0.8,0),size->0.5);
+  draw3d(X(t),X(t)+NP2(t),color->(0.8,0.8,0),size->0.5);
+  drawtext((7,-.5),"$\kappa_1(t)="+(tau(t)*cos(a(t))*|dX(t)|)+"$ , $\kappa_2(t)="+(-tau(t)*sin(a(t))*|dX(t)|)+"$");
+  );
+//Kreisscheibe orthogonal zur Tangente
+//if(Text1.pressed  Text2.pressed  Text3.pressed,
+  repeat(24,i,
+    wi=(i-1)*pi/12;
+    wii=i*pi/12;
+    fillpoly3d([X(t),X(t)+0.7*cos(wi)*N(t)-0.7*sin(wi)*B(t),                 X(t)+0.7*cos(wii)*N(t)-0.7*sin(wii)*B(t)],
+            color->(0.5,0,0.5),alpha->.2););
+  //);
+end3d();
+</script>
+<body>
+<canvas id="Cindy3D" width="774" height="500"></canvas>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": "cs*",
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "AT",
+                "type": "Free",
+                "pos": [4.0, -0.0, -4.0],
+                "color": [0.0, 0.0, 0.0],
+                "size": 1.0
+            }, {
+                "name": "BT",
+                "type": "Free",
+                "pos": [4.0, 0.0, 4.0],
+                "color": [0.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 1.0
+            }, {
+                "name": "ttt",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["AT", "BT"]
+            }, {
+                "name": "T0",
+                "type": "PointOnSegment",
+                "pos": [-2.415, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["ttt"],
+                "size": 3.0
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 110,
+                "visible": false,//make visible if required
+                "text": "Böschungsrichtung",
+                "dock": {
+                    "corner": "UL",
+                    "offset": [209.0, -40.0]
+                }
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 110,
+                "text": "    Frenet-Rahmen",
+                "dock": {
+                    "corner": "UL",
+                    "offset": [332.0, -40.0]
+                }
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 110,
+                "text": "Rahmen $N_1 \\bot  (0,0,1)$",
+                "dock": {
+                    "corner": "UL",
+                    "offset": [450.0, -40.0]
+                }
+            }, {
+                "name": "Text3",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 110,
+                "text": "paralleler Rahmen",
+                "dock": {
+                    "corner": "UL",
+                    "offset": [600.0, -40.0]
+                }
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 774,
+                "height": 83,
+                "transform": [{
+                    "visibleRect": [-1.5165625, 0.5390625, 9.6096875, -0.6540625]
+                }],
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex", "Cindy3D"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });/*
+        cdy.ports.forEach(function(port) {
+            var div = document.createElement("div");
+            div.setAttribute("id", port.id);
+            document.body.appendChild(div);
+        })
+        cdy = CindyJS(cdy);*/
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+</html>

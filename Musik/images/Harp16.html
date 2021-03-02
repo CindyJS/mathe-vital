@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Harp16.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+//gentone(f):=playfunction((+0.07*sin(2*x*f*2*π)+0.3*sin(x*f*2*π))*exp(-2*x),stop->3,silent->true);
+
+gentone(f):=playsin(f,amp->0.3,damp->4,stop->3,silent->true);
+
+strings=(P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11);
+
+swings=(0,0,0,0,0,0,0,0,0,0,0,0);
+zero=(0,0,0,0,0,0,0,0,0,0,0,0);
+sub=-(1,1,1,1,1,1,1,1,1,1,1,1);
+notes=zero;
+
+between(x,y,z):=or(x<=y&y<=z,x>=y&y>=z);
+
+swing(i):=(swings_i=15);
+
+g=220;
+
+tune(l):=(
+   repeat(12,i,
+     (strings_i).y=12/l_i;
+     notes_i=g/((strings_i).y/12);
+   );
+);
+
+
+
+tune((1,9/8,81/64,4/3,3/2,27/16,243/128,2,2*9/8,2*81/64,2*4/3,2*3/2));
+
+//repeat(12,i,
+//  notes_i=gentone(g/((strings_i).y/16));
+//);
+
+err("TUNED");
+
+
+f1:=playsin(notes_1,amp->0.1,damp->4,stop->3,line->"1");
+f2:=playsin(notes_2,amp->0.1,damp->4,stop->3,line->"2");
+f3:=playsin(notes_3,amp->0.1,damp->4,stop->3,line->"3");
+f4:=playsin(notes_4,amp->0.1,damp->4,stop->3,line->"4");
+f5:=playsin(notes_5,amp->0.1,damp->4,stop->3,line->"5");
+f6:=playsin(notes_6,amp->0.1,damp->4,stop->3,line->"6");
+f7:=playsin(notes_7,amp->0.1,damp->4,stop->3,line->"7");
+f8:=playsin(notes_8,amp->0.1,damp->4,stop->3,line->"8");
+f9:=playsin(notes_9,amp->0.1,damp->4,stop->3,line->"9");
+f10:=playsin(notes_10,amp->0.1,damp->4,stop->3,line->"10");
+f11:=playsin(notes_11,amp->0.1,damp->4,stop->3,line->"11");
+f12:=playsin(notes_12,amp->0.1,damp->4,stop->3,line->"12");
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+x=mouse().x;
+
+if(between(x,0,oldx),f1;swing(1));
+if(between(x,1,oldx),f2;swing(2));
+if(between(x,2,oldx),f3;swing(3));
+if(between(x,3,oldx),f4;swing(4));
+if(between(x,4,oldx),f5;swing(5));
+if(between(x,5,oldx),f6;swing(6));
+if(between(x,6,oldx),f7;swing(7));
+if(between(x,7,oldx),f8;swing(8));
+if(between(x,8,oldx),f9;swing(9));
+if(between(x,9,oldx),f10;swing(10));
+if(between(x,10,oldx),f11;swing(11));
+if(between(x,11,oldx),f12;swing(12));
+
+oldx=x;
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+x=mouse().x;
+
+if(between(-0.1,x,0.1),f1;swing(1));
+if(between(0.9,x,1.1),f2;swing(2));
+if(between(1.9,x,2.1),f3;swing(3));
+if(between(2.9,x,3.1),f4;swing(4));
+if(between(3.9,x,4.1),f5;swing(5));
+if(between(4.9,x,5.1),f6;swing(6));
+if(between(5.9,x,6.1),f7;swing(7));
+if(between(6.9,x,7.1),f8;swing(8));
+if(between(7.9,x,8.1),f9;swing(9));
+if(between(8.9,x,9.1),f10;swing(10));
+if(between(9.9,x,10.1),f11;swing(11));
+if(between(10.9,x,11.1),f12;swing(12));
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+m=mover();
+if(m.selected&contains(strings,m),
+  i=0;
+  while(strings_i!=m,i=i+1);
+  notes_i=((g/(m.y/12)));
+//  playsin(((g/(m.y/12))),line->"tune",stop->0.5,amp->0.2)
+);
+m.selected=false;
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+ls=alllines();
+apply(ls,l,l.selected=false);
+
+repeat(12,i,
+  draw((i-1,0),(i-1,(strings_i).y),size->swings_i,alpha->0.9,color->(1,0.8,0));
+);
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+
+swings=max(zero,swings+sub);
+
+l=keydownlist();
+
+/*
+trigger(contains(l,65),f1;swing(1));
+trigger(contains(l,83),f2;swing(2));
+trigger(contains(l,68),f3;swing(3));
+trigger(contains(l,70),f4;swing(4));
+trigger(contains(l,71),f5;swing(5));
+trigger(contains(l,72),f6;swing(6));
+trigger(contains(l,74),f7;swing(7));
+trigger(contains(l,75),f8;swing(8));
+trigger(contains(l,76),f9;swing(9));
+trigger(contains(l,59),f10;swing(10));
+trigger(contains(l,222),f11;swing(11));
+trigger(contains(l,92),f12;swing(12));
+*/
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+
+keys=["A","S","D","F","G","H","J","K","L","º","Þ","Ü"];
+if(key()==keys_1,f1;swing(1));
+if(key()==keys_2,f2;swing(2));
+if(key()==keys_3,f3;swing(3));
+if(key()==keys_4,f4;swing(4));
+if(key()==keys_5,f5;swing(5));
+if(key()==keys_6,f6;swing(6));
+if(key()==keys_7,f7;swing(7));
+if(key()==keys_8,f8;swing(8));
+if(key()==keys_9,f9;swing(9));
+if(key()==keys_10,f10;swing(10));
+if(key()==keys_11,f11;swing(11));
+if(key()==keys_12,f12;swing(12));
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+x=mouse().x;
+oldx=x;
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [0.0, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [-0.3333333333333333, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -0.0, 4.0], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"], alpha: 0.8999999761581421},
+    {name: "E", type: "Free", pos: [-0.6666666666666666, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "F", type: "Free", pos: [4.0, -0.0, 2.0], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "F"], alpha: 0.8999999761581421},
+    {name: "G", type: "Free", pos: [-1.0, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, -0.0, 1.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"], alpha: 0.8999999761581421},
+    {name: "K", type: "Free", pos: [-1.3333333333333333, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -0.0, 1.0], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "L"], alpha: 0.8999999761581421},
+    {name: "M", type: "Free", pos: [-1.6666666666666667, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "N", type: "Free", pos: [4.0, -0.0, 0.8], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["M", "N"], alpha: 0.8999999761581421},
+    {name: "O", type: "Free", pos: [-2.0, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "P", type: "Free", pos: [4.0, -0.0, 0.6666666666666666], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["O", "P"], alpha: 0.8999999761581421},
+    {name: "Q", type: "Free", pos: [-2.3333333333333335, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "R", type: "Free", pos: [4.0, -0.0, 0.5714285714285714], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "h", type: "Segment", color: [0.0, 0.0, 1.0], args: ["Q", "R"], alpha: 0.8999999761581421},
+    {name: "S", type: "Free", pos: [-2.6666666666666665, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "T", type: "Free", pos: [4.0, -0.0, 0.5], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 1.0], args: ["S", "T"], alpha: 0.8999999761581421},
+    {name: "U", type: "Free", pos: [-3.0, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "V", type: "Free", pos: [4.0, -0.0, 0.4444444444444444], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["U", "V"], alpha: 0.8999999761581421},
+    {name: "W", type: "Free", pos: [-3.3333333333333335, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "X", type: "Free", pos: [4.0, -0.0, 0.4], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "m", type: "Segment", color: [0.0, 0.0, 1.0], args: ["W", "X"], alpha: 0.8999999761581421},
+    {name: "Y", type: "Free", pos: [-3.6666666666666665, -4.0, -0.3333333333333333], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "Z", type: "Free", pos: [4.0, -0.0, 0.36363636363636365], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "n", type: "Segment", color: [0.0, 0.0, 1.0], args: ["Y", "Z"], alpha: 0.8999999761581421},
+    {name: "P0", type: "PointOnSegment", pos: [0.0, -4.0, -0.3333333333333333], color: [1.0, 0.784, 0.0], args: ["a"], alpha: 0.8999999761581421, printname: "$P_{0}$",narrow:true},
+    {name: "P1", type: "PointOnSegment", pos: [-0.375, -4.0, -0.375], color: [1.0, 0.784, 0.0], args: ["b"], alpha: 0.8999999761581421, printname: "$P_{1}$",narrow:true},
+    {name: "P2", type: "PointOnSegment", pos: [-0.84375, -4.0, -0.421875], color: [1.0, 0.784, 0.0], args: ["c"], alpha: 0.8999999761581421, printname: "$P_{2}$",narrow:true},
+    {name: "P3", type: "PointOnSegment", pos: [-1.3333333333333333, -4.0, -0.4444444444444444], color: [1.0, 0.784, 0.0], args: ["d"], alpha: 0.8999999761581421, printname: "$P_{3}$",narrow:true},
+    {name: "P4", type: "PointOnSegment", pos: [-2.0, -4.0, -0.5], color: [1.0, 0.784, 0.0], args: ["e"], alpha: 0.8999999761581421, printname: "$P_{4}$",narrow:true},
+    {name: "P5", type: "PointOnSegment", pos: [-2.8124999999999996, -4.0, -0.5624999999999999], color: [1.0, 0.784, 0.0], args: ["f"], alpha: 0.8999999761581421, printname: "$P_{5}$",narrow:true},
+    {name: "P6", type: "PointOnSegment", pos: [-3.796875000000001, -4.0, -0.6328125], color: [1.0, 0.784, 0.0], args: ["g"], alpha: 0.8999999761581421, printname: "$P_{6}$",narrow:true},
+    {name: "P7", type: "PointOnSegment", pos: [4.0, 3.428571428571428, 0.5714285714285714], color: [1.0, 0.784, 0.0], args: ["h"], alpha: 0.8999999761581421, printname: "$P_{7}$",narrow:true},
+    {name: "P8", type: "PointOnSegment", pos: [4.0, 2.6666666666666665, 0.5], color: [1.0, 0.784, 0.0], args: ["k"], alpha: 0.8999999761581421, printname: "$P_{8}$",narrow:true},
+    {name: "P9", type: "PointOnSegment", pos: [4.0, 2.1069958847736623, 0.4444444444444445], color: [1.0, 0.784, 0.0], args: ["l"], alpha: 0.8999999761581421, printname: "$P_{9}$",narrow:true},
+    {name: "P10", type: "PointOnSegment", pos: [4.0, 1.7999999999999996, 0.4], color: [1.0, 0.784, 0.0], args: ["m"], alpha: 0.8999999761581421, printname: "$P_{10}$",narrow:true},
+    {name: "P11", type: "PointOnSegment", pos: [4.0, 1.4545454545454546, 0.36363636363636365], color: [1.0, 0.784, 0.0], args: ["n"], alpha: 0.8999999761581421, printname: "$P_{11}$",narrow:true},
+    {name: "o", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P0", "A"], alpha: 0.8999999761581421, size: 3},
+    {name: "p", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P1", "D"], alpha: 0.8999999761581421, size: 3},
+    {name: "q", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P2", "F"], alpha: 0.8999999761581421, size: 3},
+    {name: "r", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P3", "H"], alpha: 0.8999999761581421, size: 3},
+    {name: "s", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P4", "L"], alpha: 0.8999999761581421, size: 3},
+    {name: "t", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P5", "N"], alpha: 0.8999999761581421, size: 3},
+    {name: "u", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P6", "P"], alpha: 0.8999999761581421, size: 3},
+    {name: "v", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P7", "R"], alpha: 0.8999999761581421, size: 3},
+    {name: "w", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P8", "T"], alpha: 0.8999999761581421, size: 3},
+    {name: "x", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P9", "V"], alpha: 0.8999999761581421, size: 3},
+    {name: "y", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P10", "X"], alpha: 0.8999999761581421, size: 3},
+    {name: "z", type: "Segment", color: [1.0, 1.0, 1.0], args: ["P11", "Z"], alpha: 0.8999999761581421, size: 3}
+  ],
+  autoplay: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 467,
+    height: 499,
+    transform: [{visibleRect: [-1.2168803418803418, 12.75576923076923, 12.154487179487178, -1.5318376068376067]}],
+    background: "rgb(30,30,30)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

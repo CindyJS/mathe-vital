@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PrimalDual.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ 4.0, -1.3124999999999998, -1.0050752737226278 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "B", type: "Free", pos: [ 2.5196850393700787, -4.0, 0.5064946261279384 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "a", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "B" ], labeled: true }, 
+		{ name: "C", type: "Free", pos: [ -2.876404494382023, -4.0, -0.7227507586320021 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "D", type: "PointOnLine", pos: [ 4.0, -2.650877455340153, -0.5244189646235993 ], color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "a" ], labeled: true } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 423, height: 354, transform: [ { visibleRect: [ -12.519248112821298, 12.636010272773879, 13.784751887178711, -9.37726632297081 ] } ], background: "rgb(168,176,192)" }, 
+		{ id: "CSCanvas", width: 424, height: 354, transform: [ { visibleRect: [ -0.58724873675019, 0.6294377865347125, 1.5215355617037636, -1.1311981607593902 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

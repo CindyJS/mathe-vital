@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PascalBasicInv1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [3.0967741935483866, -4.0, -1.075268817204301], color: [0.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_1$"},
+    {name: "B", type: "Free", pos: [-0.7394957983193277, -4.0, -0.8403361344537815], color: [1.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_3$"},
+    {name: "C", type: "Free", pos: [4.0, 2.6225165562913904, 0.6622516556291391], color: [0.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_5$"},
+    {name: "D", type: "Free", pos: [4.0, 3.1641791044776117, -1.4925373134328357], color: [0.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_4$"},
+    {name: "E", type: "Free", pos: [4.0, -1.3509933774834437, 0.6622516556291391], color: [0.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_3$"},
+    {name: "C0", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["E", "A", "B", "C", "D"], size: 3},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["D", "B"], size: 3},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["B", "E"], size: 3},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["E", "A"], size: 3},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["D", "C"], size: 3},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "d"], textsize: 15.0, size: 6.0},
+    {name: "e", type: "Through", pos: [-0.22382645667693987, -4.0, 3.731695584179768], color: [0.098, 0.62, 0.306], args: ["F"], size: 3},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "e"], textsize: 15.0, size: 6.0},
+    {name: "f", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "G"], size: 3},
+    {name: "H", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "e"], textsize: 15.0, size: 6.0},
+    {name: "g", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "H"], size: 3},
+    {name: "K", type: "Meet", color: [1.0, 0.0, 0.0], args: ["f", "g"], labeled: true, textsize: 15.0, size: 0.0, printname: "$A_6$"},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.08961354949505455, yy: 0.08961354949505455, zz: 1.0, xy: 0.0, xz: -0.2820168946928238, yz: -0.5355128533986317}, color: [0.757, 0.0, 0.0], radius: 0.494451524418724, args: ["K"], pinned: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 528,
+    height: 393,
+    transform: [{visibleRect: [-9.06, 9.34, 12.06, -6.38]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

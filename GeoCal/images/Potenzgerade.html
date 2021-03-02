@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Potenzgerade.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+ph=P.homog;
+qh=Q.homog;
+norm(p):=
+ if(p_3!=0,p/p_3,
+  if(p_2!=0,p/p_2, 
+   if(p_1!=0,p/p_1,
+   );
+  );
+ );
+ph=norm(ph);
+qh=norm(qh);
+
+f(p):=apply(p,format(#,2));
+
+drawtext((4,7.3),"In homogenen Koordinaten:",size->16);
+
+
+drawtext((5,6),"$P\quad =\quad $"+f(ph),size->16);
+drawtext((5,5),"$ Q\quad =\quad $"+f(qh),size->16);
+cr=cross(ph,qh);
+drawtext((5,4),"$P\times Q\quad =\quad $"+f(cr),size->16);
+if(Im(cr_3)~!=0,
+drawtext((5,3),"$P\times Q\quad \approx\quad $"+f(norm(cr)),size->16);
+);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-3.2666666666666666, -4.0, 1.6666666666666667], color: [1.0, 1.0, 1.0], labeled: true, textsize: 17.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.07186386110152926, yy: -0.07186386110152926, zz: 1.0, xy: 0.0, xz: -0.2817063355179947, yz: 0.34494653328734043}, color: [0.0, 0.0, 0.0], radius: 4.849412335530976, args: ["A"]},
+    {name: "B", type: "Free", pos: [4.0, -1.21875, 0.78125], color: [1.0, 1.0, 1.0], labeled: true, textsize: 17.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.11128917378917377, yy: 0.11128917378917377, zz: 1.0, xy: 0.0, xz: -1.1396011396011394, yz: -0.3472222222222222}, color: [0.0, 0.0, 0.0], radius: 4.434230485664903, args: ["B"]},
+    {name: "Collection__1", type: "IntersectionCircleCircle", args: ["C0", "C1"]},
+    {name: "Q", type: "SelectP", pos: [1.7960521738085444, -4.0, 0.8170936727594227], color: [0.0, 0.0, 1.0], args: ["Collection__1"], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "P", type: "SelectP", pos: [4.0, 2.6664688111852612, 2.66888788176794], color: [0.0, 0.0, 1.0], args: ["Collection__1"], labeled: true, textsize: 17.0, size: 4.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["P", "Q"], labeled: true, size: 3}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 768,
+    height: 454,
+    transform: [{visibleRect: [-9.06, 9.34, 21.66, -8.82]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

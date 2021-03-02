@@ -1,0 +1,163 @@
+---
+title: Assoziativität
+layout: page
+category: LinAlg1
+---
+
+        <h1>Assoziativität</h1>
+<div  style=" line-height: 1.5">
+In jeder Gruppe gilt insbesondere das Assoziativgesetz
+
+\[
+(a+b)+c=a+(b+c).
+\]
+
+So auch in $(\mathbb{R}^2,+)$. Das folgende Applet veranschaulicht das Assoziativgesetz in
+dieser Gruppe.
+Man kann die Position der Punkte $a,b,c$ verschieben.
+Mittels der beiden Knöpfe kann man bestimmen, ob deren Summe gemäß
+$(a+b)+c$ oder gemäß $a+(b+c)$ berechnet wird.
+Natürlich stimmen die beiden Ergebnisse jeweils überein.<br>
+<br>
+</div>
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col,alp):=(
+           n=b-a;
+           n=n/|n|*1.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->2,alpha->alp);
+           draw(b-n*.17+p*.07,b,color->col,size->2,alpha->alp);
+           draw(b-n*.17-p*.07,b,color->col,size->2,alpha->alp);
+
+        );
+        drawl(a,b,col,alp):=(
+           draw(a,b,color->col,size->2,alpha->alp);
+
+        );
+
+        show1=true;
+        show2=false;
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        off=(.1,-.5);
+        draw(line((0,1,0)),color->(0,0,0),size->0.5);
+        draw(line((1,0,0)),color->(0,0,0),size->0.5);
+        drawarrow(O,B,(0.0,0,0),1);
+        drawarrow(O,C,(0.0,0,0),1);
+        drawarrow(O,D,(0.0,0,0),1);
+        bc=C+B;
+        cd=C+D;
+        bcd=B+C+D;
+        drawarrow(O,bcd,(0.8,0,0),1);
+
+        if(show1,
+          drawarrow(O,bc,(0.0,0,0.9),1);
+          drawl(B,bc,(0.0,0,0.9),.2);
+          drawl(C,bc,(0.0,0,0.9),.2);
+          drawl(D,bcd,(0.0,0,0.9),.2);
+          drawl(bc,bcd,(0.0,0,0.9),.2);
+          drawtext(bc+off,"$a+b=("+format(bc.x,2)+","+format(bc.y,2)+")$");
+          drawtext(bcd+off+(0,-.1),"$(a+b)+c=("+format(bcd.x,2)+","+format(bcd.y,2)+")$",color->(0.0,0,0.9));
+        );
+
+
+        if(show2,
+          drawarrow(O,cd,(0.0,0.7,0),1);
+          drawl(C,cd,(0.0,0.7,0),.2);
+          drawl(D,cd,(0.0,0.7,0),.2);
+          drawl(B,bcd,(0.0,0.7,0),.2);
+          drawl(cd,bcd,(0.0,0.7,0),.2);
+          drawtext(cd+off,"$b+c=("+format(cd.x,2)+","+format(cd.y,2)+")$");
+          drawtext(bcd+off+(0,.7),"$a+(b+c)=("+format(bcd.x,2)+","+format(bcd.y,2)+")$",color->(0.0,0.7,0));
+        );
+
+        drawtext((0,0)+off,"$(0,0)$");
+
+        off=(.1,.1);
+
+        drawtext(B+off,"$a=("+format(B.x,2)+","+format(B.y,2)+")$");
+        drawtext(C+off,"$b=("+format(C.x,2)+","+format(C.y,2)+")$");
+        drawtext(D+off,"$c=("+format(D.x,2)+","+format(D.y,2)+")$");
+
+
+
+
+        </script>
+
+
+
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+</div>
+
+        <script type="text/javascript">
+          //  defaultAppearance.dimDependent=.7;
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[6,-2],color:[1,0,0],size:0.01},
+                      {name:"C", type:"Free", pos:[1,2],color:[1,0,0],size:0.01},
+                      {name:"D", type:"Free", pos:[-1,4],color:[1,0,0],size:0.01},
+
+                    ];
+                     cdy=createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:1,
+                        snap:true,
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-10,10,10,-10]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                        );
+
+          var check=function(){
+              var ch1=document.getElementById("ch1");
+             if(document.getElementById("ch1").checked){
+                cdy.evokeCS('show1=true;repaint();');
+             } else {
+                 cdy.evokeCS('show1=false;repaint();');
+
+             }
+              var ch2=document.getElementById("ch2");
+             if(document.getElementById("ch2").checked){
+                cdy.evokeCS('show2=true;repaint();');
+             } else {
+                 cdy.evokeCS('show2=false;repaint();');
+
+             }
+
+          }
+
+        </script>
+
+         <div style=" top:830px;left:40px">
+
+        <input id="ch1" onclick="check()" checked=true type="checkbox" >(a+b)+c&nbsp;&nbsp;&nbsp;
+        <input id="ch2" onclick="check()" type="checkbox" >a+(b+c)<br>
+        </div>
+
+<div  style=" line-height: 1.5">
+<br>
+<br>
+Im Applet können die Punkte $a$ und $b$ bewegt werden.
+Man sieht leicht, dass die Addition in dieser Gruppe geometrisch
+in diesem Fall einer Parallelogrammkonstruktion entspricht.
+
+
+
+Man beachte, dass das neutrale Element $(0,0)$ ist. Das Inverse zu
+$(a_1,a_2)$ ist $(-a_1,-a_2)$.
+
+</div>
+<br>
+<br>

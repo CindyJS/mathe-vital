@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Puzzle3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+
+  <script id="csdraw" type="text/x-cindyscript">
+  //errc(queue);
+  //queue = sort(queue);
+if(length(queue)>=1,
+    while(queue_1_1<=seconds(),
+      first = queue_1;
+      queue = queue_(2..length(queue));
+      (first_2).xy = first_3;
+    );
+
+);
+
+  </script>
+<script id="csinit" type="text/x-cindyscript">
+resetclock();
+r1(w):=4*(sin(w),cos(w));
+
+w1s=(0..11)*π/6;
+
+w2s=((0..10)--[7])*π/6;
+
+pts1=[C,D,E,F,G,H,K,L,M,N,O,P];
+pts2=[Q,R,S,T,U,V,W,X,Y,Z];
+
+apply(1..12,(pts1_#).xy=r1(w1s_#));
+apply(1..10,(pts2_#).xy=r1(w2s_#)+(4,0));
+
+n=10;
+
+r(w):=((cos(w),sin(w)),(-sin(w),cos(w)));
+m1=r(360°/12/n);
+m2=r(-360°/12/n);
+
+
+rot1():=rot((0,0),4,m1);
+rot2():=rot((0,0),4,m2);
+rot3():=rot((4,0),4,m1);
+rot4():=rot((4,0),4,m2);
+
+queue = [];
+addtoqueue(time, obj, pos) := (
+  queue = queue :> [time, obj, pos];
+);
+
+rot(pp,r,m):=(
+  if(queue == [],
+    pts=allpoints()--[A,B];
+    pts=select(pts,p,|p,pp|~=r);
+    forall(pts,p,
+      p:"backup" = p.xy;
+    );
+    repeat(n,i,
+      forall(pts,p,
+        p.xy=pp+(m*(p.xy-pp));
+        addtoqueue(seconds()+i*.02, p, p.xy);
+      );
+      //repaint();
+    );
+    forall(pts,p,
+      p.xy = p:"backup";
+    );
+  );
+);
+
+
+
+
+new():=(
+   pts=pts1++pts2;
+   apply(pts1,#.color=(0.8,0,0));
+   apply(pts2,#.color=(0,0.8,0));
+   pa=pairs(pts1);
+   pair=pa_(ceil(length(pa)*random()));
+   apply(pair,#.color=(1,1,1));
+   //repaint();
+);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 1,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0,
+
+  },
+  autoplay: true,
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pinned:true,  pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 1.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.0625, yy: -0.0625, zz: 1.0, xy: 0.0, xz: 0.0, yz: 0.0}, color: [0.0, 0.0, 0.0], radius: 4.0, args: ["A"], alpha: 0.8999999761581421, pinned: true, size: 5},
+    {name: "B", type: "PointOnCircle", pos: [4.0, -0.0, 1.0], color: [1.0, 0.0, 0.0], args: ["C0"], alpha: 0.8999999761581421, pinned: true, size: 1.0},
+    {name: "", type: "OtherPointOnCircle", pos: [4.0, -0.0, -1.0], color: [1.0, 1.0, 1.0], args: ["B"], pinned: true, size: 0.0},
+    {name: "C1", type: "CircleMP", color: [0.0, 0.0, 0.0], args: ["B", "A"], alpha: 0.8999999761581421, size: 5},
+    {name: "C", type: "Free", pinned:true,  pos: [-0.0, -4.0, -1.0], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "D", type: "Free", pinned:true,  pos: [-2.3094010767585025, -4.0, -1.1547005383792515], dimDependent: 1, color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "E", type: "Free", pinned:true,  pos: [4.0, 2.309401076758504, 1.1547005383792517], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "F", type: "Free", pinned:true,  pos: [4.0, 0.0, 1.0], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "G", type: "Free", pinned:true,  pos: [4.0, -2.309401076758502, 1.1547005383792515], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "H", type: "Free", pinned:true,  pos: [2.309401076758505, -4.0, 1.154700538379252], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "K", type: "Free", pinned:true,  pos: [0.0, -4.0, 1.0], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "L", type: "Free", pinned:true,  pos: [-2.309401076758504, -4.0, 1.1547005383792517], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "M", type: "Free", pinned:true,  pos: [4.0, 2.3094010767585056, -1.154700538379252], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "N", type: "Free", pinned:true,  pos: [4.0, -0.0, -1.0], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "O", type: "Free", pinned:true,  pos: [4.0, -2.309401076758499, -1.154700538379251], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "P", type: "Free", pinned:true,  pos: [2.3094010767585056, -4.0, -1.154700538379252], dimDependent: 1, color: [0.8, 0.0, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "Q", type: "Free", pinned:true,  pos: [4.0, 4.0, 1.0], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "R", type: "Free", pinned:true,  pos: [4.0, 2.309401076758503, 0.6666666666666666], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "S", type: "Free", pinned:true,  pos: [4.0, 1.071796769724491, 0.5358983848622454], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "T", type: "Free", pinned:true,  pos: [4.0, 0.0, 0.5], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "U", type: "Free", pinned:true,  pos: [4.0, -1.0717967697244901, 0.5358983848622454], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "V", type: "Free", pinned:true,  pos: [4.0, -2.3094010767585016, 0.6666666666666665], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "W", type: "Free", pinned:true,  pos: [4.0, -4.0, 1.0], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "X", type: "Free", pinned:true,  pos: [1.071796769724491, -4.0, 1.9999999999999982], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "Y", type: "Free", pinned:true,  pos: [0.0, 0.0, 4.0], dimDependent: 1, color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "Z", type: "Free", pinned:true,  pos: [-1.0717967697244892, -4.0, -2.0000000000000027], dimDependent: 1, color: [0.0, 0.8, 0.0], alpha: 0.8999999761581421, size: 13.0},
+    {name: "Text0", type: "Button", pos: [4.0, 3.3333333333333335, -0.6666666666666666], color: [0.0, 0.0, 0.0], fillcolor: [0.757, 0.0, 0.0], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, minwidth: 19, script: "rot1();", text: "+", textsize: 21.0, textbold: true},
+    {name: "Text1", type: "Button", pos: [-3.2, -4.0, 0.8], color: [0.0, 0.0, 0.0], fillcolor: [0.757, 0.0, 0.0], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, minwidth: 19, script: "rot2();", text: "-", textsize: 21.0, textbold: true},
+    {name: "Text2", type: "Button", pos: [4.0, -2.5, 0.5], color: [0.0, 0.0, 0.0], fillcolor: [0.098, 0.62, 0.306], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, minwidth: 19, script: "rot3();", text: "+", textsize: 21.0, textbold: true},
+    {name: "Text3", type: "Button", pos: [4.0, -2.0, 0.4], color: [0.0, 0.0, 0.0], fillcolor: [0.098, 0.62, 0.306], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, minwidth: 19, script: "rot4();", text: "-", textsize: 21.0, textbold: true},
+    {name: "Text5", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0], fillalpha: 0.30000001192092896, alpha: 0.8999999761581421, script: "new();", text: "new puzzle", dock: {corner: "UL", offset: [204.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 580,
+    height: 407,
+    transform: [{visibleRect: [-7.38, 7.54, 15.82, -8.74]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

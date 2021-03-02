@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>FibApprox.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+fibs=(0,1);
+repeat(47,fibs=fibs++[(fibs_(length(fibs))+fibs_(length(fibs)-1))];);
+fibs=fibs++["$\cdots$"];
+
+y=-1.2;
+
+
+down:=(
+  if(y<-2,
+   repeat(5,
+     y=y+1/5;
+    
+     wait(10);
+     clrscr();
+     drawit;
+     repaint();
+  );
+ );
+);
+
+
+up:=(
+  if(y>-46,
+   repeat(5,
+     y=y-1/5;
+     wait(10);
+     clrscr();
+     drawit;
+     repaint();
+   );
+  )
+);
+
+drawit:=(
+ind1=floor(-y);
+ind2=ind1+1;
+f1=fibs_ind1;
+f2=fibs_ind2;
+ll=length(""+f2);
+
+    p=(-3,-1);
+    fillpoly((p,p+(0,2),p+(6,2),p+(6,0),p),color->(1,1,1));
+    connect((p,p+(0,2),p+(6,2),p+(6,0),p),size->2);
+    p=(0,0);
+draw(p-(ll*.25,0),p+(ll*.25,0),color->(0,0,0),size->2);
+
+
+ repeat(length(fibs),j,
+    drawtext((0,-(j+y)*1),fibs_j,size->22,align->"center")
+
+ );
+
+tau=f1/f2;
+drawtext((3.5,-0.2),"= ");//+format(tau,14));
+    p=(-3,1);
+    fillpoly((p,p+(0,12),p+(6,12),p+(6,0),p),color->(1,1,1),alpha->0.5);
+    connect((p,p+(0,12),p+(6,12),p+(6,0),p),alpha->0.5);
+    p=(-3,-13);
+    fillpoly((p,p+(0,12),p+(6,12),p+(6,0),p),color->(1,1,1),alpha->0.5);
+    connect((p,p+(0,12),p+(6,12),p+(6,0),p),alpha->0.5);
+    p=(-3,-1);
+    connect((p,p+(0,2),p+(6,2),p+(6,0),p),size->2);
+
+
+
+gsave();
+translate((-1.7,4.8));
+ta=format(tau,13);
+tb=format((sqrt(5)-1)/2,13);
+
+
+
+if(indexof(ta,".")==0,ta=ta+".0");
+if(indexof(tb,".")==0,tb=tb+".0");
+
+
+if(length(format(tau,14))>length(format(tau,12)),s="$\ldots$",s="");
+
+inc=0;
+repeat(length(ta),j,
+  drawtext((5.9+inc,-5),ta_j,size->22,color->(0,0,0.8));
+  inc=inc+if(ta_j!=".",0.41,0.2);
+);
+
+drawtext((5.9+inc,-5),s,size->22,color->(0,0,0.8));
+taa=ta+" ";
+diff=select(1..length(taa),tb_#!=taa_#);
+
+nd=if(length(diff)==0,0,diff_1);
+tta=(substring(tb,0,nd-1));
+ttb=(substring(tb,nd-1,length(tb)));
+
+if(nd==0,ttb="";tta=tb);
+
+s="$\ldots\;=\;\phi$";
+
+inc=0;
+repeat(length(tta),j,
+  drawtext((5.9+inc,-6),tta_j,size->22,color->(0,0.4,0));
+  inc=inc+if(tta_j!=".",0.41,0.2);
+
+);
+
+repeat(length(ttb),j,
+  drawtext((5.9+inc,-6),ttb_j,size->22,color->(0.6,0,0));
+  inc=inc+if(ttb_j!=".",0.41,0.2);
+
+);
+drawtext((5.9+inc,-6),s,size->22,color->(0.6,0,0));
+
+grestore()
+
+);
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+drawit;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "Button", pos: [4.0, -0.5301204819277108, -0.8265060240963854], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "up;", text: "$\\uparrow$", textsize: 26.0},
+    {name: "Text1", type: "Button", pos: [4.0, 1.2048192771084338, -0.8265060240963854], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "down;", text: "$\\downarrow$", textsize: 26.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 805,
+    height: 360,
+    transform: [{visibleRect: [-8.411078717201168, 5.11661807580175, 15.058309037900877, -5.3790087463556855]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  use: ["katex"],
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

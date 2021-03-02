@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Incircle.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+v1=(1,A.x,A.y,|A|^2);
+v2=(1,B.x,B.y,|B|^2);
+v3=(1,C.x,C.y,|C|^2);
+mat=transpose((v1,v2,v3));
+f1=det(mat_[2,3,4]);
+f2=-det(mat_[3,4,1]);
+f3=det(mat_[4,1,2]);
+f4=-det(mat_[1,2,3]);
+
+f(p):=(
+  d=f1+f2*p.x+f3*p.y+f4*(p.x^2+p.y^2);
+  d=d*0.005;
+
+  d=arctan(d)*.8;
+  d=min(1,max(-1,d))*.3;
+  if(d<0,(1,1+d,1+d),(1-d,1,1-d));
+  //if(d<0,(max(0,0),min(-d,1),max(0,0)),(min(d,1),max(0,0),max(0,0)));
+  ;
+);
+colorplot(f(#));
+
+
+m=(
+(A.x^2+A.y^2,A.x,A.y,1),
+(B.x^2+B.y^2,B.x,B.y,1),
+(C.x^2+C.y^2,C.x,C.y,1),
+(D.x^2+D.y^2,D.x,D.y,1)
+);
+
+d=det(m);
+
+If(d>0,D.color=(0,.7,0),D.color=(.8,.5,.5));
+
+determinantSymbols=" $\det\begin{pmatrix}A_x^2+A_y^2&A_x&A_y&1\\B_x^2+B_y^2&B_x&B_y&1\\C_x^2+C_y^2&C_x&C_y&1\\D_x^2+D_y^2&D_x&D_y&1\\\end{pmatrix} = \det\begin{pmatrix}
+    "+A.x^2+A.y^2+"&"+A.x+"&"+A.y+"&1\\
+    "+B.x^2+B.y^2+"&"+B.x+"&"+B.y+"&1\\
+    "+C.x^2+C.y^2+"&"+C.x+"&"+C.y+"&1\\
+    "+D.x^2+D.y^2+"&"+D.x+"&"+D.y+"&1\\
+    \end{pmatrix}$";
+  drawtext((1,6.5), determinantSymbols, size->13);
+
+ drawtext((6,3),"="+d,size->16);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [3.6, -4.0, -0.8333333333333336], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.4822695035460992, -0.7092198581560285], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C", type: "Free", pos: [4.0, 3.5483870967741966, -1.6129032258064526], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "D", type: "Free", pos: [-0.41791044776119435, -4.0, -1.4925373134328357], dimDependent: 1, color: [1.0, 1.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C0", type: "CircleBy3", color: [0.0, 0.0, 1.0], args: ["A", "B", "C"], alpha: 0.8999999761581421},
+    {name: "Text1", type: "Text", pos: [4.0, 0.10980392156862745, 0.39215686274509803], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.20000000298023224, alpha: 0.8999999761581421, text: "Am Vorzeichen einer \ngeeigneten Determinante\nkann man testen, ob sich ein\nPunkt (hier D) innerhalb oder\nausserhalb eines von drei\nanderen Punkten (hier A, B, C)\naufgespannten Kreises befindet."}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    virtualwidth: 680,
+    virtualheight: 350,
+    transform: [{visibleRect: [-9.06, 9.34, 18.14, -4.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

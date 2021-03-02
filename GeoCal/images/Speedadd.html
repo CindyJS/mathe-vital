@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Speedadd.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+if(|c.slope-1|<0.02,c.slope=1);
+if(|c.slope+1|<0.02,c.slope=-1);
+if(|d.slope-1|<0.02,d.slope=1);
+if(|d.slope+1|<0.02,d.slope=-1);
+
+if(|c.slope|<0.02,c.slope=0);
+if(|d.slope|<0.02,d.slope=0);
+
+aa=cross(a,(0,0,1));
+bb=cross(b,(0,0,1));
+cc=cross(c,(0,0,1));
+dd=cross(d,(0,0,1));
+
+aa=(aa_1,aa_2);
+bb=(bb_1,bb_2);
+cc=(cc_1,cc_2);
+dd=(dd_1,dd_2);
+dv=(det((aa,cc))*det((bb,dd)))/(det((aa,dd))*det((bb,cc)));
+zz=(1,0);
+
+ldv=-log(dv);
+if(|ldv|>30,ldv=1/0);
+
+
+
+ m=det((aa,cc))*det((aa,dd))*det((bb,zz));
+ l=-det((bb,cc))*det((bb,dd))*det((aa,zz));
+ np=(aa*l+bb*m);
+ np=np/|np|;
+ add= join(np++[0],(0,0,1));
+ draw(add,alpha->al,color->(1,0.9,0),size->3);
+
+drawtext((-5.5,8),"$speed_a=$"+format(d.slope,2)+"c",size->20,color->(0,0,0.7));
+drawtext((-5.5,7),"$speed_b=$"+format(c.slope,2)+"c",size->20,color->(0,0.6,0));
+drawtext((-5.5,6),"$speed_{a+b}=$"+format(-add_1/add_2,2)+"c",size->20,color->(1,.9,0));
+
+w=d.slope;
+v=c.slope;
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 4.0},
+    {name: "a", type: "Through", pos: [4.0, -4.0, 0.0], color: [0.757, 0.0, 0.0], args: ["A"], pinned: true, size: 3},
+    {name: "b", type: "Through", pos: [4.0, 4.0, 0.0], color: [0.757, 0.0, 0.0], args: ["A"], pinned: true, size: 3},
+    {name: "c", type: "Through", pos: [1.5999999999999999, -4.0, 0.0], color: [0.098, 0.62, 0.306], args: ["A"], labeled: true, textsize: 17.0, size: 3, printname: "b"},
+    {name: "d", type: "Through", pos: [0.7999999999999998, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], labeled: true, textsize: 17.0, size: 3, printname: "a"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 462,
+    height: 433,
+    transform: [{visibleRect: [-9.22, 9.26, 9.26, -8.06]}],
+    axes: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

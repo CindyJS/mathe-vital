@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <title>Exported from http://localhost/cindyjs/editor/</title>
+        <style type="text/css">
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            #CSCanvas {
+                width: 100vw; height: 100vh;
+            }
+        </style>
+        <link rel="stylesheet" href="https://cindyjs.org/dist/latest/CindyJS.css">
+        <script type="text/javascript" src="https://cindyjs.org/dist/latest/Cindy.js"></script>
+        
+        
+        
+      <script id="csinit" type="text/x-cindyscript">
+      forall(allsegments(),l,
+       l.labeled=false);
+
+a.visible = true;
+      </script>
+    
+        <script type="text/javascript">
+          var cdy = CindyJS({
+            scripts: "cs*",
+            angleUnit: "°",
+            exclusive: "true",
+            geometry: [
+              {color: [0, 0, 0], labeled: false, name: "a", overhang: 1.1, pinned: true, size: 3, type: "HorizontalLine", visible: true, pos: [0, 1, -1]},
+              {alpha: 0, color: [0, 1, 0], labeled: true, name: "H", printname: "1", size: 4, type: "Free", pos: [0.13023255813953488, 1, 0.11627906976744186]},
+              {labeled: true, name: "A", type: "Free", pos: [-0.08029425183907399, 1, 0.14750092188076175]},
+              {labeled: true, name: "B", type: "Free", pos: [0.7788790341878364, 1, 0.18217045287883352]},
+              {args: ["A", "B"], labeled: false, name: "b", type: "Join", visible: false},
+              {args: ["b"], labeled: true, name: "C", type: "PointOnLine", pos: [1, 0.47179694945990713, 0.11147132901529216]},
+              {labeled: true, name: "D", type: "Free", pos: [0.8037931766655935, 0.9999999999999999, 0.1616449427735806]},
+              {args: ["C", "D"], labeled: false, name: "c", type: "Join", visible: false},
+              {args: ["c"], labeled: true, name: "E", type: "PointOnLine", pos: [0.3555919206324335, 1, 0.13622477028435162]},
+              {args: ["A", "E"], labeled: false, name: "d", type: "Join", visible: false},
+              {args: ["B", "D"], labeled: false, name: "e", type: "Join", visible: false},
+              {args: ["d", "e"], color: [1, 0, 0], labeled: true, name: "F", type: "Meet"},
+              {args: ["a", "A"], labeled: false, name: "f", type: "Perp", visible: false},
+              {args: ["a", "E"], labeled: false, name: "g", type: "Perp", visible: false},
+              {args: ["a", "B"], labeled: false, name: "h", type: "Perp", visible: false},
+              {args: ["a", "D"], labeled: false, name: "k", type: "Perp", visible: false},
+              {args: ["a", "F"], labeled: false, name: "l", type: "Perp", visible: false},
+              {args: ["a", "C"], labeled: false, name: "m", type: "Perp", visible: false},
+              {args: ["a", "f"], color: [1, 0, 0], labeled: true, name: "G", printname: "a", type: "Meet"},
+              {args: ["a", "h"], color: [1, 0, 0], labeled: true, name: "K", printname: "b", type: "Meet"},
+              {args: ["a", "m"], color: [1, 0, 0], labeled: true, name: "L", printname: "c", type: "Meet"},
+              {args: ["a", "k"], color: [1, 0, 0], labeled: true, name: "M", printname: "d", type: "Meet"},
+              {args: ["a", "g"], color: [1, 0, 0], labeled: true, name: "N", printname: "e", type: "Meet"},
+              {args: ["a", "l"], color: [1, 0, 0], labeled: true, name: "O", printname: "f", type: "Meet"},
+              {args: ["A", "B"], labeled: false, name: "n", type: "Segment", overhang: 1.1},
+              {args: ["B", "C"], labeled: false, name: "o", type: "Segment", overhang: 1.1},
+              {args: ["C", "D"], labeled: false, name: "p", type: "Segment", overhang: 1.1},
+              {args: ["D", "B"], labeled: false, name: "q", type: "Segment", overhang: 1.1},
+              {args: ["D", "E"], labeled: false, name: "r", type: "Segment", overhang: 1.1},
+              {args: ["E", "A"], labeled: false, name: "s", type: "Segment", overhang: 1.1},
+              {args: ["E", "F"], labeled: false, name: "t", type: "Segment", overhang: 1.1},
+              {args: ["F", "D"], labeled: false, name: "u", type: "Segment", overhang: 1.1},
+              {args: ["F", "B"], labeled: false, name: "v", type: "Segment", overhang: 1.1},
+              {args: ["C", "E"], labeled: false, name: "w", type: "Segment", overhang: 1.1},
+              {args: ["A", "C"], labeled: false, name: "x", type: "Segment", overhang: 1.1},
+              {args: ["F", "A"], labeled: false, name: "y", type: "Segment", overhang: 1.1},
+              {args: ["A", "G"], labeled: true, name: "z", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]},
+              {args: ["E", "N"], labeled: true, name: "S0", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]},
+              {args: ["B", "K"], labeled: true, name: "S1", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]},
+              {args: ["D", "M"], labeled: true, name: "S2", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]},
+              {args: ["F", "O"], labeled: true, name: "S3", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]},
+              {args: ["C", "L"], labeled: true, name: "S4", type: "Segment", overhang: 1.1, dashtype: "dashed", color: [0,0,0]}
+            ],
+            ports: [
+              {id: "CSCanvas", grid: 1, transform: [{visibleRect: [-8.62, 11.34, 18.58, -2.66]}]}
+            ],
+            use: [
+
+            ],
+            behavior: [
+
+            ]
+          });
+        </script>
+    </head>
+    <body>
+        <div id="CSCanvas"></div>
+    </body>
+    </html>
+  

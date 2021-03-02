@@ -1,0 +1,1251 @@
+Navigation:
+- category: LinAlg1
+  chapters:
+  - chapternr: 1
+    title: "Einf\xFChrende Beispiele"
+    topics:
+    - title: Lineare Abbildungen als geometrische Transformationen
+      url: /LinAlg1/1-1.html
+    - title: Gleichgewichte in Spannungsnetzwerken
+      url: /LinAlg1/1-2.html
+    - title: Weichzeichner und Scharfzeichner
+      url: /LinAlg1/1-3.html
+    - title: "Glatte Kurven durch St\xFCtzstellen"
+      url: /LinAlg1/1-4.html
+    - title: "Das \"Inkreis\"-Pr\xE4dikat"
+      url: /LinAlg1/1-5.html
+    url: /LinAlg1/1-topic.html
+  - chapternr: 2
+    title: Die Gruppenstruktur von $(\mathbb{R}^2,+)$
+    topics:
+    - title: Addition zweier Elemente
+      url: /LinAlg1/2-1.html
+    - title: "Assoziativit\xE4t"
+      url: /LinAlg1/2-2.html
+    url: /LinAlg1/2-topic.html
+  - chapternr: 3
+    title: Modulorechnen
+    topics:
+    - title: "Gruppentafeln f\xFCr Addition und Multiplikation"
+      url: /LinAlg1/3-1.html
+    - title: Visualisierung der Addition
+      url: /LinAlg1/3-2.html
+    - title: Visualisierung der Multiplikation
+      url: /LinAlg1/3-3.html
+    - title: Vielfache einer Zahl und Sternpolygone
+      url: /LinAlg1/3-4.html
+    - title: Grauwerte der Gruppentafeln
+      url: /LinAlg1/3-5.html
+    url: /LinAlg1/3-topic.html
+  - chapternr: 4
+    title: "Euklidischer Algorithmus und Kettenbr\xFCche"
+    topics:
+    - title: Euklidischer Algorithmus
+      url: /LinAlg1/4-1.html
+    - title: Kettenbruchberechnung
+      url: /LinAlg1/4-2.html
+    - title: Kettenbruchentwicklung einer reellen Zahl
+      url: /LinAlg1/4-3.html
+    - title: "(Best-)Aproximierende Br\xFCche"
+      url: /LinAlg1/4-4.html
+    url: /LinAlg1/4-topic.html
+  - chapternr: 5
+    title: Untergruppen von Modulogruppen
+    topics:
+    - title: Untergruppen von $(\mathbb{Z},+)$
+      url: /LinAlg1/5-1.html
+    - title: Untergruppen von $(\mathbb{Z}_p,\oplus_p)$
+      url: /LinAlg1/5-2.html
+    - title: "Untergruppen von $(\\mathbb{Z}_p,\\odot_p)$  f\xFCr $p = 2,...,17$"
+      url: /LinAlg1/5-3.html
+    - title: "Noch mehr Untergruppen von $(\\mathbb{Z}_p,\\odot_p)$  f\xFCr $p = 2,...,31$"
+      url: /LinAlg1/5-4.html
+    url: /LinAlg1/5-topic.html
+  - chapternr: 6
+    title: Nebenklassen von Modulogruppen
+    topics:
+    - title: Nebenklassen von $(\mathbb{Z}_p,\oplus_p)$
+      url: /LinAlg1/6-1.html
+    - title: Nebenklassen von $(\mathbb{Z}_p,\odot_p)$
+      url: /LinAlg1/6-2.html
+    - title: Nochmal Nebenklassen von $(\mathbb{Z}_p,\odot_p)$
+      url: /LinAlg1/6-3.html
+    - title: Die Quotientengruppen von $(\mathbb{Z}_p-\{0\},\odot_p)$ sind zyklisch
+      url: /LinAlg1/6-4.html
+    url: /LinAlg1/6-topic.html
+  - chapternr: 7
+    title: Die Exponentialfunktion als Gruppenhomomorphismus
+    topics:
+    - title: Der Rechenschieber
+      url: /LinAlg1/7-1.html
+    - title: Der Body Mass Index (BMI) Calculator
+      url: /LinAlg1/7-2.html
+    url: /LinAlg1/7-topic.html
+  - chapternr: 8
+    title: Die Symmetrische Gruppe
+    topics:
+    - title: Die $S_3$ und das Dreieck
+      url: /LinAlg1/8-1.html
+    - title: Das Permutationsknobelspiel (leichte Version)
+      url: /LinAlg1/8-2.html
+    - title: Das Permutationsknobelspiel
+      url: /LinAlg1/8-3.html
+    url: /LinAlg1/8-topic.html
+  - chapternr: 9
+    title: Komplexe Rechenoperationen
+    topics:
+    - title: Komplexe Addition
+      url: /LinAlg1/9-1.html
+    - title: Komplexe Multiplikation
+      url: /LinAlg1/9-2.html
+    - title: Komplexe Konjugation
+      url: /LinAlg1/9-3.html
+    - title: Komplexe Potenzen
+      url: /LinAlg1/9-4.html
+    url: /LinAlg1/9-topic.html
+  - chapternr: 10
+    title: Einheitswurzeln
+    topics:
+    - title: Die k-ten  Wurzeln einer komplexen Zahl $z$
+      url: /LinAlg1/10-1.html
+    - title: Springende Wurzeln von $z$
+      url: /LinAlg1/10-2.html
+    - title: Mitverfolgen der Wurzeln von $z$
+      url: /LinAlg1/10-3.html
+    - title: Experimentieren mit Wurzeln von $z$
+      url: /LinAlg1/10-4.html
+    - title: "$\\mathbb{C}$ (f\xFCr Experten)"
+      url: /LinAlg1/10-5.html
+    url: /LinAlg1/10-topic.html
+  - chapternr: 11
+    title: Taylorreihen
+    topics:
+    - title: ' Taylorpolynome von $\sin(x)$'
+      url: /LinAlg1/11-1.html
+    - title: ' Taylorpolynome von $\cos(x)$'
+      url: /LinAlg1/11-2.html
+    - title: ' Taylorpolynome von $\exp(x)$'
+      url: /LinAlg1/11-3.html
+    - title: '  Taylorentwicklung von $\sin(x)$ um einen beliebigen Punkt'
+      url: /LinAlg1/11-4.html
+    url: /LinAlg1/11-topic.html
+  - chapternr: 12
+    title: Komplexe Funktionen I
+    topics:
+    - title: Welche Terme dominieren bei Polynomen?
+      url: /LinAlg1/12-1.html
+    - title: Welche Terme dominieren bei Polynomen? (Teil II)
+      url: /LinAlg1/12-2.html
+    - title: Bild eines Ursprungkreises unter $f(x) = x^n +x$
+      url: /LinAlg1/12-3.html
+    - title: Spirographenmuster
+      url: /LinAlg1/12-4.html
+    - title: Spirograph in Wikipedia
+      url: /LinAlg1/12-5.html
+    url: /LinAlg1/12-topic.html
+  - chapternr: 13
+    title: Komplexe Funktionen II
+    topics:
+    - title: Komplexe Funktionen (zum Experimentieren)
+      url: /LinAlg1/13-1.html
+    - title: " Komplexe Abbildung eines Gitters (f\xFCr Experten)"
+      url: /LinAlg1/13-2.html
+    - title: Bild eines Ursprungskreises
+      url: /LinAlg1/13-3.html
+    - title: ' Bild eines Ursprungskreises unter einem Polynom'
+      url: /LinAlg1/13-4.html
+    - title: ' Nullstellen eines reellen Polynoms'
+      url: /LinAlg1/13-5.html
+    url: /LinAlg1/13-topic.html
+  - chapternr: 14
+    title: Punkte auf einer Geraden
+    topics:
+    - title: Darstellung der Punkte auf einer Geraden von p nach q
+      url: /LinAlg1/14-1.html
+    url: /LinAlg1/14-topic.html
+  - chapternr: 15
+    title: Matrizen, Basen, Lineare Abbildungen
+    topics:
+    - title: Matrix-Vektor-Multiplikation
+      url: /LinAlg1/15-1.html
+    - title: "Projektion eines W\xFCrfels"
+      url: /LinAlg1/15-2.html
+    - title: "Projektion eines W\xFCrfels II"
+      url: /LinAlg1/15-3.html
+    url: /LinAlg1/15-topic.html
+  - chapternr: 16
+    title: "Quotientenvektorr\xE4ume"
+    topics:
+    - title: "Nebenklassen von Untervektorr\xE4umen"
+      url: /LinAlg1/16-1.html
+    - title: Addition von Nebenklassen
+      url: /LinAlg1/16-2.html
+    - title: Addition von Nebenklassen II
+      url: /LinAlg1/16-3.html
+    url: /LinAlg1/16-topic.html
+  - chapternr: 17
+    title: Lineare Abbildungen als geometrische Transformationen
+    topics:
+    - title: Drehung (Rotation)
+      url: /LinAlg1/17-1.html
+    - title: Drehstreckung
+      url: /LinAlg1/17-2.html
+    - title: Iterierte Drehstreckung
+      url: /LinAlg1/17-3.html
+    - title: Verschiebung (Translation)
+      url: /LinAlg1/17-4.html
+    - title: Affine und projektive Transformationen.
+      url: /LinAlg1/17-5.html
+    url: /LinAlg1/17-topic.html
+  - chapternr: 18
+    title: Material zu Anwendungen von Determinanten
+    topics:
+    - title: 2x2 Determinante
+      url: /LinAlg1/18-1.html
+    - title: "Dreiecksfl\xE4che"
+      url: /LinAlg1/18-2.html
+    - title: "Dreiecksfl\xE4che II"
+      url: /LinAlg1/18-3.html
+    - title: "Fl\xE4che eines Polygons"
+      url: /LinAlg1/18-4.html
+    - title: "Fl\xE4che eines Polygons II"
+      url: /LinAlg1/18-5.html
+    - title: "Berechung der konvexen H\xFClle"
+      url: /LinAlg1/18-6.html
+    - title: Kollisionstest
+      url: /LinAlg1/18-7.html
+    - title: Determinanten in der Geometrie
+      url: /LinAlg1/18-8.html
+    url: /LinAlg1/18-topic.html
+  - chapternr: 19
+    title: Eigenwerte einer Matrix
+    topics:
+    - title: Eigenwerte einer Matrix
+      url: /LinAlg1/19-1.html
+    url: /LinAlg1/19-topic.html
+  title: Lineare Algebra 1
+  url: /LinAlg1
+- category: LinAlg2
+  chapters:
+  - chapternr: 1
+    title: Kanonisches Skalarprodukt
+    topics:
+    - title: Berechnung des kanonischen Skalarproduktes
+      url: /LinAlg2/1-1.html
+    - title: Skalarprodukt und Nebenklassen
+      url: /LinAlg2/1-2.html
+    - title: "Skalarprodukt und Vektorl\xE4ngen"
+      url: /LinAlg2/1-3.html
+    - title: Skalarprodukte und Projektionen
+      url: /LinAlg2/1-4.html
+    url: /LinAlg2/1-topic.html
+  - chapternr: 2
+    title: Normen
+    topics:
+    - title: Skalarproduktnormen
+      url: /LinAlg2/2-1.html
+    - title: Verschiedene Normen
+      url: /LinAlg2/2-2.html
+    - title: Der Schnittpunkt der "Mittelsenkrechten"
+      url: /LinAlg2/2-3.html
+    - title: Die p-Norm
+      url: /LinAlg2/2-4.html
+    url: /LinAlg2/2-topic.html
+  - chapternr: 3
+    title: Projektion und Skalarprodukt
+    topics:
+    - title: Senkrechte Projektion und Orthonormalbasen
+      url: /LinAlg2/3-1.html
+    - title: "Skalarprodukt bez\xFCglich beleibeiger Basis"
+      url: /LinAlg2/3-2.html
+    url: /LinAlg2/3-topic.html
+  - chapternr: 4
+    title: Hesse'sche Normalform
+    topics:
+    - title: Hesse'sche Normalform
+      url: /LinAlg2/4-1.html
+    url: /LinAlg2/4-topic.html
+  - chapternr: 5
+    title: Ausgleichsrechnung
+    topics:
+    - title: Berechnung einer Regressionsgeraden
+      url: /LinAlg2/5-1.html
+    - title: "Regression bez\xFCglich beliebiger Basisfunktionen"
+      url: /LinAlg2/5-2.html
+    url: /LinAlg2/5-topic.html
+  - chapternr: 6
+    title: Kreuzprodukt
+    topics:
+    - title: Kreuzprodukt
+      url: /LinAlg2/6-1.html
+    url: /LinAlg2/6-topic.html
+  - chapternr: 7
+    title: Transformationen
+    topics:
+    - title: Drehung des Koordinatensystems in der Ebene
+      url: /LinAlg2/7-1.html
+    - title: Komposition von Bewegungen
+      url: /LinAlg2/7-2.html
+    - title: Komposition dreier Achsenspiegelungen
+      url: /LinAlg2/7-3.html
+    - title: Bewegungen zischen kongruenten Dreiecken
+      url: /LinAlg2/7-4.html
+    url: /LinAlg2/7-topic.html
+  - chapternr: 8
+    title: Stereographische Projektion
+    topics:
+    - title: Stereographische Projektion
+      url: /LinAlg2/8-1.html
+    - title: Bild vieler Kreise
+      url: /LinAlg2/8-2.html
+    url: /LinAlg2/8-topic.html
+  - chapternr: 9
+    title: Quadriken
+    topics:
+    - title: Quadriken in 2D
+      url: /LinAlg2/9-1.html
+    - title: Quadriken als Nullstellen eines Graphs
+      url: /LinAlg2/9-2.html
+    url: /LinAlg2/9-topic.html
+  - chapternr: 10
+    title: Matrizenpotenzen
+    topics:
+    - title: Potenzen einer Matrix
+      url: /LinAlg2/10-1.html
+    url: /LinAlg2/10-topic.html
+  - chapternr: 11
+    title: Differentialgleichungen
+    topics:
+    - title: Lineare Differentialgleichungen
+      url: /LinAlg2/11-1.html
+    - title: Einige interessante nicht-lineare Differentialgleichungen
+      url: /LinAlg2/11-2.html
+    url: /LinAlg2/11-topic.html
+  title: Lineare Algebra 2
+  url: /LinAlg2
+- category: LinAlgBonbons
+  chapters:
+  - chapternr: 1
+    title: Wie man den Rubiks Cube knackt
+    topics:
+    - title: Rubiks Cube Strategie Applets
+      url: /LinAlgBonbons/1-1.html
+    url: /LinAlgBonbons/1-topic.html
+  - chapternr: 2
+    title: "Materialien zum L\xF6sen von Gleichungen 3. und 4. Grades"
+    topics:
+    - title: Folien zur Geschichte
+      url: /LinAlgBonbons/2-1.html
+    - title: Gleichungen 4. Grades als Schnitt von Kreis und Parabel
+      url: /LinAlgBonbons/2-2.html
+    url: /LinAlgBonbons/2-topic.html
+  - chapternr: 3
+    title: Material zu Kugelspiegelungen und Indra's Pearls
+    topics:
+    - title: Indra's Pearls und Chaos bei Kugelspiegelungen
+      url: /LinAlgBonbons/3-1.html
+    url: /LinAlgBonbons/3-topic.html
+  - chapternr: 4
+    title: Material zu Interpolation und Approximation
+    topics:
+    - title: Lagrange Interpolation
+      url: /LinAlgBonbons/4-1.html
+    - title: Interpolation parametrisierter Kurven
+      url: /LinAlgBonbons/4-2.html
+    - title: Hermite Interpolation
+      url: /LinAlgBonbons/4-3.html
+    - title: Interpolation algebraischer Kurven
+      url: /LinAlgBonbons/4-4.html
+    url: /LinAlgBonbons/4-topic.html
+  - chapternr: 5
+    title: "Weiterf\xFChrendes Material zu Interpolation"
+    topics:
+    - title: Approximation mit Polynombasen I
+      url: /LinAlgBonbons/5-1.html
+    - title: Approximation mit Polynombasen II
+      url: /LinAlgBonbons/5-2.html
+    - title: "Raytracing Bild algebraischer Fl\xE4chen."
+      url: /LinAlgBonbons/5-3.html
+    url: /LinAlgBonbons/5-topic.html
+  title: Lineare Algebra Bonbons
+  url: /LinAlgBonbons
+- category: GeoCal
+  chapters:
+  - chapternr: 1
+    title: Homogene Koordinaten
+    topics:
+    - title: Parallelen schneiden sich im Unendlichen
+      url: /GeoCal/1-1.html
+    - title: "Homogene Koordinaten f\xFCr $\\mathbb{RP}^2$"
+      url: /GeoCal/1-2.html
+    - title: "Kreuzprodukt f\xFCr Verbindungsgerade"
+      url: /GeoCal/1-3.html
+    - title: Baryzentrische Koordinaten
+      url: /GeoCal/1-4.html
+    - title: Parabelmultiplikator
+      url: /GeoCal/1-5.html
+    - title: $\mathbb{RP}^2$ in der Ebene und auf der Kugel
+      url: /GeoCal/1-6.html
+    url: /GeoCal/1-topic.html
+  - chapternr: E1
+    title: Raumformen
+    topics:
+    - title: Torus
+      url: /GeoCal/E1-1.html
+    - title: "M\xF6biusband"
+      url: /GeoCal/E1-2.html
+    - title: Klein'sche Flasche
+      url: /GeoCal/E1-3.html
+    - title: $\mathbb{RP}^2$
+      url: /GeoCal/E1-4.html
+    url: /GeoCal/E1-topic.html
+  - chapternr: 2
+    title: Projektive Transformationen
+    topics:
+    - title: "\tProjektive Transformation aus 4 Punkten"
+      url: /GeoCal/2-1.html
+    - title: Invarianz von Eigenschaften
+      url: /GeoCal/2-2.html
+    url: /GeoCal/2-topic.html
+  - chapternr: E2
+    title: Entzerrung von Bildern
+    topics:
+    - title: "\tDie Golden Gate Bridge"
+      url: /GeoCal/E2-1.html
+    - title: Gaudis Architektur
+      url: /GeoCal/E2-2.html
+    url: /GeoCal/E2-topic.html
+  - chapternr: 3
+    title: "Dualit\xE4t"
+    topics:
+    - title: Primal vs. Dual
+      url: /GeoCal/3-1.html
+    - title: Primal vs. Dual auf der Kugel
+      url: /GeoCal/3-2.html
+    - title: Satz von Pappos und sein Duales
+      url: /GeoCal/3-3.html
+    - title: Satz von Desargues
+      url: /GeoCal/3-4.html
+    - title: Permutationssatz
+      url: /GeoCal/3-5.html
+    - title: Euklidische Variationen von Pappos
+      url: /GeoCal/3-6.html
+    url: /GeoCal/3-topic.html
+  - chapternr: E3
+    title: Symmetrien der Pappus Konfiguration
+    topics:
+    - title: Symmetrische Positionen der Pappos Konfiguration
+      url: /GeoCal/E3-1.html
+    - title: Symmetrische Positionen der Pappos Konfiguration
+      url: /GeoCal/E3-2.html
+    - title: Satz von Pascal
+      url: /GeoCal/E3-3.html
+    - title: Weitere Verallgemeinerungen
+      url: /GeoCal/E3-5.html
+    url: /GeoCal/E3-topic.html
+  - chapternr: 4
+    title: Projektive Geometrie auf der Geraden
+    topics:
+    - title: "Doppelverh\xE4ltnisse Messen"
+      url: /GeoCal/4-1.html
+    - title: Projektive Skalen
+      url: /GeoCal/4-2.html
+    - title: Von Staudt Konstruktionen
+      url: /GeoCal/4-3.html
+    - title: "Konstruktion f\xFCr harmonische Punkte"
+      url: /GeoCal/4-4.html
+    - title: "S\xE4tze mit harmonischen Punkten"
+      url: /GeoCal/4-5.html
+    url: /GeoCal/4-topic.html
+  - chapternr: E4
+    title: Projektive Skalen
+    topics:
+    - title: Bahngleise
+      url: /GeoCal/E4-1.html
+    - title: Projektive Skalen in der Fotografie
+      url: /GeoCal/E4-2.html
+    - title: "Perspektivische T\xE4uschung"
+      url: /GeoCal/E4-3.html
+    url: /GeoCal/E4-topic.html
+  - chapternr: 5
+    title: Kegelschnitte
+    topics:
+    - title: Schnitt durch einen Kegel
+      url: /GeoCal/5-1.html
+    - title: "Kegelschnitt durch f\xFCnf Punkte"
+      url: /GeoCal/5-2.html
+    - title: Schar von Kegelschnitten
+      url: /GeoCal/5-3.html
+    - title: "Doppelverh\xE4ltnis auf Kegelschnitt"
+      url: /GeoCal/5-4.html
+    - title: Fadenspannbilder
+      url: /GeoCal/5-5.html
+    - title: Kegelschnitte auf Kugel
+      url: /GeoCal/5-6.html
+    - title: Die Ferngerade und Kegelschnitte
+      url: /GeoCal/5-7.html
+    - title: "Doppelverh\xE4ltnis auf Kegelschnitt"
+      url: /GeoCal/5-8.html
+    url: /GeoCal/5-topic.html
+  - chapternr: E5
+    title: Wo Stand der Fotograf
+    topics:
+    - title: Kamerakonstruktion
+      url: /GeoCal/E5-1.html
+    - title: Kamerakonstruktion II
+      url: /GeoCal/E5-2.html
+    url: /GeoCal/E5-topic.html
+  - chapternr: 6
+    title: Komplexe Zahlen und Geometrie
+    topics:
+    - title: Potenzgerade zweier und dreier Kreise
+      url: /GeoCal/6-1.html
+    - title: "Doppelverh\xE4ltnis auf Kegelschnitt"
+      url: /GeoCal/6-2.html
+    - title: Satz vom Fasskreisbogen
+      url: /GeoCal/6-3.html
+    - title: "Doppelverh\xE4ltnis im CP<sup>1</sup>"
+      url: /GeoCal/6-4.html
+    - title: "M\xF6biustransformationen"
+      url: /GeoCal/6-5.html
+    url: /GeoCal/6-topic.html
+  - chapternr: E6
+    title: "\xC4sthetik von M\xF6biustransformationen"
+    topics:
+    - title: "Iterierte M\xF6biustransformation"
+      url: /GeoCal/E6-1.html
+    - title: "M\xF6bius Fraktale"
+      url: /GeoCal/E6-2.html
+    - title: Sierpinski Metamorphosen
+      url: /GeoCal/E6-3.html
+    - title: Indras Pearls
+      url: /GeoCal/E6-4.html
+    url: /GeoCal/E6-topic.html
+  - chapternr: 7
+    title: Euklidische Geometrie
+    topics:
+    - title: Satz von Laguerre
+      url: /GeoCal/7-1.html
+    - title: Mittelpunktsbestimmung mit I und J
+      url: /GeoCal/7-2.html
+    - title: Brennpunktsbestimmung mit I und J
+      url: /GeoCal/7-3.html
+    - title: Konstruktion einer Spiegelung
+      url: /GeoCal/7-4.html
+    - title: Satz von Miguel
+      url: /GeoCal/7-5.html
+    - title: Satz von Ptolemy
+      url: /GeoCal/7-6.html
+    url: /GeoCal/7-topic.html
+  - chapternr: E7
+    title: Pseudo-Euklidische Geometrie
+    topics:
+    - title: Satz von Thales
+      url: /GeoCal/E7-1.html
+    - title: Kreisschnittsatz
+      url: /GeoCal/E7-2.html
+    - title: Winkelberechnung
+      url: /GeoCal/E7-3.html
+    - title: Winkelfolge
+      url: /GeoCal/E7-4.html
+    - title: Relativistische Addition von Geschwindigkeiten
+      url: /GeoCal/E7-5.html
+    url: /GeoCal/E7-topic.html
+  - chapternr: 8
+    title: Robotik
+    url: /GeoCal/8-topic.html
+  - chapternr: E8
+    title: Robotik
+    topics:
+    - title: Roboterarm
+      url: /GeoCal/E8-1.html
+    url: /GeoCal/E8-topic.html
+  - chapternr: 9
+    title: Determinanten
+    topics:
+    - title: Geometrie einer 2x2 Determinante
+      url: /GeoCal/9-1.html
+    - title: "Bestimmung einer Dreiecksfl\xE4che"
+      url: /GeoCal/9-2.html
+    - title: "Fl\xE4che eines Polygons"
+      url: /GeoCal/9-3.html
+    - title: Selbstdurchdringung und Windungszahl
+      url: /GeoCal/9-4.html
+    url: /GeoCal/9-topic.html
+  - chapternr: E9
+    title: "Computergest\xFCtztes Beweisen"
+    topics:
+    - title: Einige computererzeugte Beweise
+      url: /GeoCal/E9-1.html
+    - title: Eine nicht-realisierbare Konfiguration
+      url: /GeoCal/E9-2.html
+    url: /GeoCal/E9-topic.html
+  - chapternr: 10
+    title: Kreisgeometrie
+    topics:
+    - title: Tangentialkreise an zwei Kreise
+      url: /GeoCal/10-1.html
+    - title: Konstruieren mit Lie-Koordinaten
+      url: /GeoCal/10-2.html
+    - title: Konstruktionen mit Lorentz Inzidenz
+      url: /GeoCal/10-3.html
+    - title: Apollonische Kreise
+      url: /GeoCal/10-4.html
+    - title: Messen mit Lie-Koordinaten
+      url: /GeoCal/10-5.html
+    - title: Schnittwinkel
+      url: /GeoCal/10-6.html
+    url: /GeoCal/10-topic.html
+  - chapternr: E10
+    title: Appolonius und Zahlentheorie
+    topics:
+    - title: Arithmetik von Soddy Konfigurationen
+      url: /GeoCal/E10-1.html
+    - title: Apollonische Kreispackung als IFS
+      url: /GeoCal/E10-2.html
+    - title: Ganzzahlige Soddy Konfigurationen
+      url: /GeoCal/E10-3.html
+    - title: Apollonische Kreispackungen
+      url: /GeoCal/E10-4.html
+    - title: Ford Kreise
+      url: /GeoCal/E10-5.html
+    url: /GeoCal/E10-topic.html
+  - chapternr: 11
+    title: Einige Matrizengruppen
+    topics:
+    - title: Iterierte Lie-Transformation I
+      url: /GeoCal/11-1.html
+    - title: Iterierte Lie-Transformation II
+      url: /GeoCal/11-2.html
+    - title: Iterierte Lie-Transformation III
+      url: /GeoCal/11-3.html
+    - title: Iterierte Lie-Transformation IV
+      url: /GeoCal/11-4.html
+    - title: Iterierte Lie-Transformation V
+      url: /GeoCal/11-5.html
+    - title: Iterierte Lie-Transformation VI
+      url: /GeoCal/11-6.html
+    url: /GeoCal/11-topic.html
+  - chapternr: E11
+    title: Der "andere" Schnittwinkel
+    topics:
+    - title: Steiner'sche Kreisketten
+      url: /GeoCal/E11-1.html
+    - title: Geschlossene Kreisketten
+      url: /GeoCal/E11-2.html
+    url: /GeoCal/E11-topic.html
+  - chapternr: 12
+    title: Quaternionen und Drehungen
+    topics:
+    - title: Stereopgraphische Projektion
+      url: /GeoCal/12-1.html
+    - title: Projektion von Breitengraden
+      url: /GeoCal/12-2.html
+    - title: Fixpunkte einer Drehung
+      url: /GeoCal/12-3.html
+    url: /GeoCal/12-topic.html
+  - chapternr: E12
+    title: "Oktaven und Haarige B\xE4lle"
+    url: /GeoCal/E12-topic.html
+  - chapternr: 13
+    title: "Weiterf\xFChrendes zur Projektiven Geometrie"
+    topics:
+    - title: Quadrilateral sets
+      url: /GeoCal/13-1.html
+    - title: Konstruiere den letzten Punkt!
+      url: /GeoCal/13-2.html
+    url: /GeoCal/13-topic.html
+  title: "Geometriekalk\xFCle"
+  url: /GeoCal
+- category: Indras
+  chapters:
+  - chapternr: 1
+    title: Geometrische Transformationen
+    topics:
+    - title: Verschiebung (Translation)
+      url: /Indras/1-1.html
+    - title: Drehung (Rotation)
+      url: /Indras/1-2.html
+    - title: Drehstreckung
+      url: /Indras/1-3.html
+    - title: Iterierte Drehstreckung
+      url: /Indras/1-4.html
+    - title: Geraden- und Punktspiegelung
+      url: /Indras/1-5.html
+    - title: Kreisspiegelung
+      url: /Indras/1-6.html
+    url: /Indras/1-topic.html
+  - chapternr: 2
+    title: Komplexe Zahlen
+    topics:
+    - title: Komplexe Addition und Multiplikation (ganzzahlig)
+      url: /Indras/2-1.html
+    - title: Komplexe Addition und Multiplikation (allgemein)
+      url: /Indras/2-2.html
+    - title: Komplexe Konjugation
+      url: /Indras/2-3.html
+    - title: Potenzen einer komplexen Zahl
+      url: /Indras/2-4.html
+    url: /Indras/2-topic.html
+  - chapternr: 3
+    title: Komplexe Abbildungen
+    topics:
+    - title: Komplexe Abbildungen
+      url: /Indras/3-1.html
+    - title: "Komplexe Abbildungen eines Gitters (f\xFCr Fortgeschrittene)"
+      url: /Indras/3-2.html
+    - title: Geometrische Abbildungen als komplexe Funktionen
+      url: /Indras/3-3.html
+    - title: Iterierte geometrische Abbildungen
+      url: /Indras/3-4.html
+    url: /Indras/3-topic.html
+  - chapternr: 4
+    title: "M\xF6biustransformationen"
+    topics:
+    - title: "M\xF6biustransformationen"
+      url: /Indras/4-1.html
+    - title: "Inverse einer M\xF6biustransformation"
+      url: /Indras/4-2.html
+    - title: "M\xF6biustranformationen aus dem Bild dreier Punkte"
+      url: /Indras/4-3.html
+    - title: "M\xF6biustransformationen aus zwei Fixpunkten"
+      url: /Indras/4-4.html
+    - title: Feldlinien
+      url: /Indras/4-5.html
+    - title: "M\xF6biustransformationen und Stereographische Projektion"
+      url: /Indras/4-6.html
+    url: /Indras/4-topic.html
+  - chapternr: 5
+    title: Transformationsgruppen
+    topics:
+    - title: Zwei Translationen
+      url: /Indras/5-1.html
+    - title: Dr. Stickler im Spiegelkabinett
+      url: /Indras/5-2.html
+    - title: Winkelspiegel
+      url: /Indras/5-3.html
+    - title: Kaleidoskope
+      url: /Indras/5-4.html
+    - title: Ornamentgruppen
+      url: /Indras/5-5.html
+    - title: "Iterierte \xC4hnlichkeitstransformationen"
+      url: /Indras/5-6.html
+    url: /Indras/5-topic.html
+  - chapternr: 6
+    title: Iterierte Funktionensysteme
+    topics:
+    - title: Ein kleiner Vorgeschmack
+      url: /Indras/6-1.html
+    - title: Eine IFS-Pflanze
+      url: /Indras/6-2.html
+    - title: Wie ein IFS entsteht
+      url: /Indras/6-3.html
+    - title: Die Rolle der Wahrscheinlichkeit
+      url: /Indras/6-4.html
+    - title: "IFS aus zwei \xC4hnlichkeitstransformationen"
+      url: /Indras/6-5.html
+    - title: Der Barnsley-Farn
+      url: /Indras/6-6.html
+    - title: "IFS aus zwei M\xF6biustransformationen"
+      url: /Indras/6-7.html
+    url: /Indras/6-topic.html
+  - chapternr: 7
+    title: "Iterierte M\xF6biustransformationen"
+    topics:
+    - title: Zwei Kreise
+      url: /Indras/7-1.html
+    - title: Schotty-Kreise
+      url: /Indras/7-2.html
+    - title: Der Schotty-Kreistanz
+      url: /Indras/7-3.html
+    - title: Grenzpunktmengen
+      url: /Indras/7-4.html
+    url: /Indras/7-topic.html
+  - chapternr: 8
+    title: Beispiele aus Indra's Pearls
+    topics:
+    - title: Das Band
+      url: /Indras/8-1.html
+    - title: Das Band mit Twist
+      url: /Indras/8-2.html
+    - title: Das Collier
+      url: /Indras/8-3.html
+    - title: Feinarbeit am Collier
+      url: /Indras/8-4.html
+    - title: Und noch ein Freiheitsgrad
+      url: /Indras/8-5.html
+    - title: "Gro\xDFmutters Rezept"
+      url: /Indras/8-6.html
+    url: /Indras/8-topic.html
+  title: Indras Pearls
+  url: /Indras
+- category: Musik
+  chapters:
+  - chapternr: 1
+    title: Von der Schwingung zum Ton
+    topics:
+    - title: "Schwingungen h\xF6ren"
+      url: /Musik/1-1.html
+    - title: "Reine Sinust\xF6ne"
+      url: /Musik/1-2.html
+    - title: Schwebung
+      url: /Musik/1-3.html
+    - title: Schwebung mit schnellerer Frequenz
+      url: /Musik/1-4.html
+    - title: Interferenz
+      url: /Musik/1-5.html
+    - title: "Reine T\xF6ne in logarithmischer Skala"
+      url: /Musik/1-6.html
+    url: /Musik/1-topic.html
+  - chapternr: 2
+    title: Vom Ton zum Klang
+    topics:
+    - title: "Obert\xF6ne"
+      url: /Musik/2-1.html
+    - title: "Obert\xF6ne II"
+      url: /Musik/2-2.html
+    - title: Intervalle
+      url: /Musik/2-3.html
+    - title: Ein Monochord
+      url: /Musik/2-4.html
+    - title: Schwingungen einer Saite
+      url: /Musik/2-5.html
+    - title: Ein Monochord mit drei Saiten
+      url: /Musik/2-6.html
+    url: /Musik/2-topic.html
+  - chapternr: 3
+    title: Vom Ton zur Melodie
+    topics:
+    - title: Exaktes Monochord
+      url: /Musik/3-1.html
+    - title: Stimmungen
+      url: /Musik/3-2.html
+    - title: "Stimmungen h\xF6ren"
+      url: /Musik/3-3.html
+    - title: Stimmungen und Verstimmungen
+      url: /Musik/3-4.html
+    - title: Der Quintenzirkel
+      url: /Musik/3-5.html
+    - title: Indische Ragas
+      url: /Musik/3-6.html
+    url: /Musik/3-topic.html
+  - chapternr: 4
+    title: Rhythmus
+    topics:
+    - title: Ein Perkussionsspielplatz
+      url: /Musik/4-1.html
+    - title: Sequenzer
+      url: /Musik/4-2.html
+    - title: Quantisierungs Rhythmen
+      url: /Musik/4-3.html
+    url: /Musik/4-topic.html
+  - chapternr: 5
+    title: Algorithmische Komposition
+    topics:
+    - title: "Mozart's musikalisches W\xFCrfelspiel"
+      url: /Musik/5-1.html
+    - title: Pachelbels Canon
+      url: /Musik/5-2.html
+    url: /Musik/5-topic.html
+  title: Mathe und Musik
+  url: /Musik
+- category: Botanik
+  chapters:
+  - chapternr: 1
+    title: Grundformen der Symmetrie
+    topics:
+    - title: Spiegelung
+      url: /Botanik/1-1.html
+    - title: Rotation
+      url: /Botanik/1-2.html
+    - title: Rotation und Spiegelung
+      url: /Botanik/1-3.html
+    url: /Botanik/1-topic.html
+  - chapternr: 2
+    title: Spiralen
+    topics:
+    - title: Grundformen von ebenen Spiralen
+      url: /Botanik/2-1.html
+    - title: Spiralen durch Drehstauchung
+      url: /Botanik/2-2.html
+    - title: Spiralen bei Schnecken
+      url: /Botanik/2-3.html
+    url: /Botanik/2-topic.html
+  - chapternr: 3
+    title: Der Goldene Schnitt
+    topics:
+    - title: Der Goldene Schnitt
+      url: /Botanik/3-1.html
+    - title: Der Goldene Schnitt in Architektur und Kunst
+      url: /Botanik/3-2.html
+    - title: ' Der Goldene Schnitt in geometrischen  Grundformen'
+      url: /Botanik/3-3.html
+    - title: Die Goldene Spirale
+      url: /Botanik/3-4.html
+    url: /Botanik/3-topic.html
+  - chapternr: 4
+    title: Der Goldene Schnitt und Fibonacci Zahlen
+    topics:
+    - title: ' Fibonacci-Zahlen und der Goldene Schnitt I'
+      url: /Botanik/4-1.html
+    - title: 'Fibonacci-Zahlen  '
+      url: /Botanik/4-2.html
+    - title: Fibonacci-Zahlen und der Goldene Schnitt II
+      url: /Botanik/4-3.html
+    - title: Gitterpunkte
+      url: /Botanik/4-4.html
+    - title: ' Der Goldene Winkel  '
+      url: /Botanik/4-5.html
+    - title: 'Fibonacci-Zahlen und die Ananas  '
+      url: /Botanik/4-6.html
+    url: /Botanik/4-topic.html
+  - chapternr: 5
+    title: Sonnenblumenkerne (Phyllotaxis)
+    topics:
+    - title: Blattstand beim Springkraut
+      url: /Botanik/5-1.html
+    - title: " Bl\xFCtenstand bei der Sonnenblume"
+      url: /Botanik/5-2.html
+    - title: " Pollenkapseln bei der Kamillenbl\xFCte"
+      url: /Botanik/5-3.html
+    - title: ' Wo Sonnenblumenkerne sitzen  '
+      url: /Botanik/5-4.html
+    - title: ' Wie Sonnenblumenkerne wachsen'
+      url: /Botanik/5-5.html
+    url: /Botanik/5-topic.html
+  - chapternr: 6
+    title: Fraktale und Pflanzen
+    topics:
+    - title: 'Iterierte Drehstauchungen  '
+      url: /Botanik/6-1.html
+    - title: 'Grenzpunktmengen '
+      url: /Botanik/6-2.html
+    - title: 'Eine IFS-Pflanze  '
+      url: /Botanik/6-3.html
+    - title: Wie man Grenzpunktmengen berechnet
+      url: /Botanik/6-4.html
+    - title: "Sch\xF6ne Beispiele f\xFCr IFS aus zwei Drehstauchungen  "
+      url: /Botanik/6-5.html
+    - title: Farne als Grenzpunktmenge
+      url: /Botanik/6-6.html
+    url: /Botanik/6-topic.html
+  - chapternr: 7
+    title: Baumartiges Wachstum
+    topics:
+    - title: " Schildkr\xF6tengrafik "
+      url: /Botanik/7-1.html
+    - title: "Schildkr\xF6te mit Ged\xE4chtnis"
+      url: /Botanik/7-2.html
+    - title: ' Ersetzungssysteme '
+      url: /Botanik/7-3.html
+    - title: ' L-Systeme '
+      url: /Botanik/7-4.html
+    url: /Botanik/7-topic.html
+  title: Mathematik und Pflanzen
+  url: /Botanik
+- category: Analysis1
+  chapters:
+  - chapternr: 1
+    title: Die Divergenz der harmonischen Reihe
+    topics:
+    - title: Wachstum der harmonischen Reihe
+      url: /Analysis1/1-1.html
+    - title: Die harmonische Reihe
+      url: /Analysis1/1-2.html
+    - title: Reihen und ihr Wachstum
+      url: /Analysis1/1-3.html
+    - title: Alternierende Harmonische Reihe
+      url: /Analysis1/1-4.html
+    - title: Konvergenz in C
+      url: /Analysis1/1-5.html
+    url: /Analysis1/1-topic.html
+  - chapternr: 2
+    title: Zur Stetigkeit
+    topics:
+    - title: Zur Definition von Stetigkeit
+      url: /Analysis1/2-1.html
+    - title: Differenzierbarkeit impliziert Stetigkeit
+      url: /Analysis1/2-2.html
+    - title: Stetigkeit im Komplexen
+      url: /Analysis1/2-3.html
+    url: /Analysis1/2-topic.html
+  - chapternr: 3
+    title: Stetige nicht-differenzierbare Funktionen
+    topics:
+    - title: Funktionen die zwar stetig aber nicht differenzierbar sind
+      url: /Analysis1/3-1.html
+    - title: Eine geometrische Konstruktion
+      url: /Analysis1/3-2.html
+    - title: "Fl\xE4chenf\xFCllende Kurven"
+      url: /Analysis1/3-3.html
+    url: /Analysis1/3-topic.html
+  - chapternr: 4
+    title: "Fixpunkts\xE4tze"
+    topics:
+    - title: Ein reeller Fixpunktsatz
+      url: /Analysis1/4-1.html
+    - title: Banach'scher Fixpunktsatz
+      url: /Analysis1/4-2.html
+    url: /Analysis1/4-topic.html
+  - chapternr: 5
+    title: Fourierreihen
+    topics:
+    - title: "Einfache Beispiele f\xFCr Fourierreihen"
+      url: /Analysis1/5-1.html
+    - title: Fourierreihenexperimente
+      url: /Analysis1/5-2.html
+    - title: Spektrum von Sinus-Schwingungen
+      url: /Analysis1/5-3.html
+    - title: Fourierreihen mit Exponentialfunktion
+      url: /Analysis1/5-4.html
+    - title: Fourierreihen mit Exponentialfunktion II
+      url: /Analysis1/5-5.html
+    url: /Analysis1/5-topic.html
+  - chapternr: 6
+    title: Taylorreihen
+    topics:
+    - title: ' Taylorpolynome von $\sin(x)$'
+      url: /Analysis1/6-1.html
+    - title: ' Taylorpolynome von $\cos(x)$'
+      url: /Analysis1/6-2.html
+    - title: ' Taylorpolynome von $\exp(x)$'
+      url: /Analysis1/6-3.html
+    - title: '  Taylorentwicklung von $\sin(x)$ um einen beliebigen Punkt'
+      url: /Analysis1/6-4.html
+    - title: "Beschr\xE4nkter Konvergenzradius"
+      url: /Analysis1/6-5.html
+    url: /Analysis1/6-topic.html
+  - chapternr: 7
+    title: Riemann-Steiltjes Integral
+    topics:
+    - title: Riemann Stieltjes Integrator
+      url: /Analysis1/7-1.html
+    - title: Beispiele verschiedener Integratoren
+      url: /Analysis1/7-2.html
+    url: /Analysis1/7-topic.html
+  title: Analysis 1
+  url: /Analysis1
+- category: DiffGeo
+  chapters:
+  - chapternr: 1
+    title: Ebene Kurven
+    topics:
+    - title: Ebene Kurven
+      url: /DiffGeo/1-1.html
+    - title: Lissajous Kurven
+      url: /DiffGeo/1-2.html
+    - title: Radlinien
+      url: /DiffGeo/1-3.html
+    - title: Kettenlinie
+      url: /DiffGeo/1-4.html
+    - title: Kissoide des Diocles
+      url: /DiffGeo/1-5.html
+    - title: Neilsche Parabel
+      url: /DiffGeo/1-6.html
+    - title: Evoluten Plotter
+      url: /DiffGeo/1-7.html
+    - title: Evolute und Evolventen der Zykloide
+      url: /DiffGeo/1-8.html
+    - title: Traktrix, ihre Evolute und Darboux-Transformierte
+      url: /DiffGeo/1-9.html
+    - title: Ellipse, ihre Evolute und Parallelkurven
+      url: /DiffGeo/1-10.html
+    - title: Logarithmische Spirale
+      url: /DiffGeo/1-11.html
+    - title: Kreisevolventen
+      url: /DiffGeo/1-12.html
+    - title: Elastische Kurven mit Federpendel
+      url: /DiffGeo/1-13.html
+    url: /DiffGeo/1-topic.html
+  - chapternr: 2
+    title: Raumkurven
+    topics:
+    - title: Rahmen von 3D-Kurven
+      url: /DiffGeo/2-1.html
+    url: /DiffGeo/2-topic.html
+  - chapternr: 3
+    title: "Fl\xE4chen in $\\mathbb{R}^3$"
+    topics:
+    - title: "Tangentenfl\xE4chen"
+      url: /DiffGeo/3-1.html
+    - title: 3D-Torus mit Weingartenoperator
+      url: /DiffGeo/3-2.html
+    url: /DiffGeo/3-topic.html
+  title: Differentialgeometrie
+  url: /DiffGeo
+- category: Diskrete
+  chapters:
+  - chapternr: 1
+    title: Relationen
+    topics:
+    - title: Hex
+      url: /Diskrete/1-1.html
+    url: /Diskrete/1-topic.html
+  - chapternr: 2
+    title: Graphen - Intro
+    topics:
+    - title: Was ist ein Graph?
+      url: /Diskrete/2-1.html
+    - title: Adjazenzmatrix & Features
+      url: /Diskrete/2-2.html
+    - title: "Erweiterungen (F\xE4rbung, Gewichte)"
+      url: /Diskrete/2-3.html
+    url: /Diskrete/2-topic.html
+  - chapternr: 3
+    title: "Graphen - Planarit\xE4t & F\xE4rbbarkeit"
+    topics:
+    - title: "Einbettung & Planarit\xE4t & Crossing Number & Petersen-Graph"
+      url: /Diskrete/3-1.html
+    - title: "Planarit\xE4t & Crossingnumbers & Satz von Kuratowski"
+      url: /Diskrete/3-2.html
+    - title: "Eulersche Polyedersatz f\xFCr planare Graphen"
+      url: /Diskrete/3-3.html
+    - title: "Folgerungen aus dem Eulerschen Polyedersatz & Der F\xFCnffarbensatz"
+      url: /Diskrete/3-4.html
+    url: /Diskrete/3-topic.html
+  - chapternr: 4
+    title: "Graphen - Wege & B\xE4ume & Matchings"
+    topics:
+    - title: Breitensuche vs. Tiefensuche
+      url: /Diskrete/4-1.html
+    - title: "Aufspannende B\xE4ume & Algorithmus von Prim"
+      url: /Diskrete/4-2.html
+    - title: Maximales Matching
+      url: /Diskrete/4-3.html
+    url: /Diskrete/4-topic.html
+  title: Diskrete Mathematik
+  url: /Diskrete
+- category: Numerik
+  chapters:
+  - chapternr: 1
+    title: Grundlagen
+    topics:
+    - title: Normen
+      url: /Numerik/1-1.html
+    - title: Kondition eines Problems
+      url: /Numerik/1-2.html
+    - title: Kondition der Nullstellenbestimmung eines Polynoms
+      url: /Numerik/1-3.html
+    - title: "Ausl\xF6schung"
+      url: /Numerik/1-4.html
+    url: /Numerik/1-topic.html
+  - chapternr: 2
+    title: Lineare Gleichungssysteme
+    topics:
+    - title: "Vorw\xE4rts- & R\xFCckw\xE4rtssubstitution"
+      url: /Numerik/2-1.html
+    url: /Numerik/2-topic.html
+  - chapternr: 3
+    title: Ausgleichsrechnung
+    topics:
+    - title: Regressionsgerade
+      url: /Numerik/3-1.html
+    - title: Normalengleichung
+      url: /Numerik/3-2.html
+    url: /Numerik/3-topic.html
+  - chapternr: 4
+    title: Nichtlineare Gleichungssysteme
+    topics:
+    - title: Newton-Verfahren 2D
+      url: /Numerik/4-1.html
+    - title: Newton-Verfahren und Chaos
+      url: /Numerik/4-2.html
+    url: /Numerik/4-topic.html
+  - chapternr: 5
+    title: Interpolation
+    topics:
+    - title: "\xC4quidistante vs. Tschebyscheff-Polynominterpolation"
+      url: /Numerik/5-1.html
+    - title: Schnelle Fourier-Transformation
+      url: /Numerik/5-2.html
+    url: /Numerik/5-topic.html
+  title: Numerische Mathematik
+  url: /Numerik
+- category: Physik
+  chapters:
+  - chapternr: 1
+    title: Elementare Bewegungsformen
+    topics:
+    - title: Korbball
+      url: /Physik/1-1.html
+    - title: Wurfparabel
+      url: /Physik/1-2.html
+    - title: Wurfkurve mit Reibung
+      url: /Physik/1-3.html
+    url: /Physik/1-topic.html
+  - chapternr: 2
+    title: Impuls
+    topics:
+    - title: "Elastischer Sto\xDF und Impuls"
+      url: /Physik/2-1.html
+    - title: Impuls entlang einer Bahn
+      url: /Physik/2-2.html
+    - title: Impulspendel
+      url: /Physik/2-3.html
+    url: /Physik/2-topic.html
+  - chapternr: 3
+    title: Planetenbahnen
+    topics:
+    - title: Planetenbewegung nach Kepler
+      url: /Physik/3-1.html
+    - title: Sonnenlaboratorium
+      url: /Physik/3-2.html
+    - title: Stabiler 3-Planeten Orbit
+      url: /Physik/3-3.html
+    - title: Verschiedene Instabile Orbits
+      url: /Physik/3-4.html
+    - title: Zentrale Kraftfelder
+      url: /Physik/3-5.html
+    url: /Physik/3-topic.html
+  - chapternr: 4
+    title: Federn
+    url: /Physik/4-topic.html
+  - chapternr: 5
+    title: Statik
+    topics:
+    - title: "Kr\xE4fte in einer Br\xFCcke"
+      url: /Physik/5-1.html
+    - title: Golden Gate
+      url: /Physik/5-2.html
+    url: /Physik/5-topic.html
+  - chapternr: 6
+    title: Pendel
+    topics:
+    - title: Federpendel
+      url: /Physik/6-1.html
+    - title: Federpendel 2D
+      url: /Physik/6-2.html
+    - title: Physikalisches Pendel
+      url: /Physik/6-3.html
+    - title: Gekoppelte Pendel
+      url: /Physik/6-4.html
+    - title: Gekoppelte Pendel mit Oszilloskop
+      url: /Physik/6-5.html
+    - title: Doppelpendel
+      url: /Physik/6-6.html
+    url: /Physik/6-topic.html
+  - chapternr: 7
+    title: Optik
+    topics:
+    - title: Farbige Schatten
+      url: /Physik/7-1.html
+    - title: Lichtstrahl in einer Ellipse
+      url: /Physik/7-2.html
+    - title: Optische Bank
+      url: /Physik/7-3.html
+    url: /Physik/7-topic.html
+  - chapternr: 8
+    title: Elektrostatik
+    topics:
+    - title: Feldlinien
+      url: /Physik/8-1.html
+    - title: Geladene Teilchen
+      url: /Physik/8-2.html
+    - title: Korbball
+      url: /Physik/8-3.html
+    url: /Physik/8-topic.html
+  - chapternr: 9
+    title: Magnetfelder
+    url: /Physik/9-topic.html
+  title: Physikalische Mathematik
+  url: /Physik

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>PascalBasic2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csmousedrag" type="text/x-cindyscript">
+pp=mouse().xy;
+if(moving&li==[],
+ if(pp.y<0,pp=(pp.x,-pp.y));
+ if(|C.xy,pp|>0.5,
+   op=C.xy;
+   repeat(30,
+      C.xy=(1-#/30)*op+(#/30)*pp;
+   )
+ ); 
+ C.xy=pp; 
+)
+
+;
+</script>
+<script id="csmousemove" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints()--[C],|#,pp|<0.6);
+
+r=0.3;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+
+test=(min(erg)!=max(erg))&(li==[]);
+
+C0.selected=test;
+repaint();
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints()--[C],|#,pp|<0.3);
+
+r=0.2;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+moving=(min(erg)!=max(erg))&(li==[]);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -1.0], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.8], color: [1.0, 0.0, 0.0], visible: false},
+    {name: "C", type: "Free", pos: [-1.8518518518518516, -4.0, -0.5631074336748094], color: [1.0, 0.0, 0.0], visible: false, size: 0.0},
+    {name: "Collection__1", type: "ConicBy2Foci1P", args: ["A", "B", "C"]},
+    {name: "C0", type: "SelectConic", pos: {xx: {r: -0.013127697503704001, i: 2.514974686326221E-19}, yy: {r: -0.017859993440149633, i: 5.930642388573033E-19}, zz: 0.9999999999999999, xy: 0.0, xz: {r: 0.013127697503704001, i: -4.683379031297231E-19}, yz: -0.0}, color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 3},
+    {name: "", type: "SelectConic", pos: {xx: {r: -0.5523340576693364, i: 1.9526018670661669E-16}, yy: {r: 0.06256815319283857, i: -2.0137663296640005E-19}, zz: {r: 1.0, i: -4.930380657631324E-32}, xy: -0.0, xz: {r: 0.5523340576693364, i: -2.126884003590504E-16}, yz: -0.0}, color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0},
+    {name: "D", type: "PointOnConic", pos: [4.0, {r: 2.1116056756073904, i: 5.274921883707969E-19}, {r: -0.5651134905290576, i: 7.13288927832328E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_4$"},
+    {name: "E", type: "PointOnConic", pos: [{r: -0.42130850484800975, i: -1.0256973709129353E-20}, -4.0, {r: -0.5339819468616283, i: 8.782777159427952E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_3$"},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["D", "E"], size: 3},
+    {name: "F", type: "PointOnConic", pos: [4.0, {r: -2.6942973962186265, i: 2.00283785626753E-18}, {r: 0.5571676565506459, i: -6.408845976496396E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_2$"},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["E", "F"], size: 3},
+    {name: "G", type: "PointOnConic", pos: [4.0, {r: -3.358366683139421, i: 1.0454127097644355E-18}, {r: -0.668259060186005, i: 9.415991766902262E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_1$"},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["F", "G"], size: 3},
+    {name: "H", type: "PointOnConic", pos: [{r: -0.07233982978969472, i: 2.396513404523439E-20}, -4.0, {r: 0.5351044363221982, i: -8.89277987471624E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_6$"},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["G", "H"], size: 3},
+    {name: "K", type: "PointOnConic", pos: [4.0, {r: 3.1058791661019556, i: -1.1051880636133206E-18}, {r: 0.5926296279905716, i: -7.075105031548491E-18}], color: [0.0, 1.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "$A_5$"},
+    {name: "e", type: "Join", color: [0.0, 0.0, 1.0], args: ["H", "K"], size: 3},
+    {name: "f", type: "Join", color: [0.0, 0.0, 1.0], args: ["K", "D"], size: 3},
+    {name: "L", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "d"], size: 6.0},
+    {name: "M", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "e"], size: 6.0},
+    {name: "g", type: "Join", color: [0.098, 0.62, 0.306], args: ["L", "M"], size: 3},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "f"], visible: false},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 1.0, yy: 1.0, zz: {r: -0.11679064932441796, i: -5.2589890670954E-17}, xy: 0.0, xz: {r: 0.45326031698378433, i: 2.0586962901847836E-18}, yz: {r: 1.423335409434504, i: 1.6971469384455772E-17}}, color: [0.757, 0.0, 0.0], radius: 0.8213542475692203, args: ["N"], pinned: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 530,
+    height: 395,
+    transform: [{visibleRect: [-15.75253644314869, 13.713586005830907, 19.10693877551021, -12.266588921282802]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

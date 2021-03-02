@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SoddyBend6.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+offset=O.xy;
+start=(0,0);
+act=(0,0);
+
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+
+lic(m,r):=((1+|m.xy|^2-r^2)/2,(1-|m.xy|^2+r^2)/2,m.x,m.y,r);
+
+lig(a):=(
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  erg=if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+  erg=erg/|erg|
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+drawliecircle(p,col,size):=(
+//  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->0.2);
+  drawcircle((p_3,p_4)*zoom,|p_5|*zoom,size->size,color->col);
+);
+
+drawlieline(p,col,size):=(
+  draw(line((p_3,p_4,-p_1*zoom)),size->size,color->col);
+);
+
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..5,randomint(100))/100;
+yy=apply(1..5,randomint(100))/100;
+xx=xx/|xx|;
+yy=yy/|yy|;
+orth(a,b,c,d):=(
+   m=transpose([a,b,c,d]);
+   [
+      det([m_2,m_3,m_4,m_5]),
+     -det([m_1,m_3,m_4,m_5]),
+      det([m_1,m_2,m_4,m_5]),
+     -det([m_1,m_2,m_3,m_5]),
+      det([m_1,m_2,m_3,m_4])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+
+fo(v):=apply(v,format(#,7));
+
+
+findlie(a,b,c):=(
+   aa=orth(liequad*a,liequad*b,liequad*c,xx);   
+   bb=orth(liequad*a,liequad*b,liequad*c,yy);  
+
+   lier1=aa*liequad*aa;
+   lier2=2*bb*liequad*aa;
+   lier3=bb*liequad*bb;
+   roo=roots([lier1,lier2,lier3]);
+   if(isreal(roo_1),
+     [aa+roo_1*bb,aa+roo_2*bb],
+     [inf,inf]);
+);
+
+
+mid(c):=((c_3,c_4)/(c_1+c_2));
+rad(c):=(c_5/(c_1+c_2));
+k(c):=(c_1+c_2)/c_5;
+
+
+
+theother(a,b,c,d):=(
+  circs=findlie(rev(a),rev(b),rev(c));
+  out=if(|g(circs_1,d)|<0.00000000001,circs_2,circs_1);
+  out=out/|out|;
+);
+
+
+dc2(cir):=(
+  kr=k(cir);
+  if(kr>0,
+    ra=rad(cir);
+    mi=mid(cir)*zoom;
+    tsiz=(ra*zoom/12)^(1.05)*300;
+    drawtext(mi,offset->(1,-tsiz/2.5-1),1/ra,size->tsiz,align->"center") 
+  );
+  if(kr<0,
+    ra=rad(cir);
+    mi=mid(cir)*zoom;
+    tsiz=-ra*zoom*6;
+    drawtext(mi+(ra,ra)*zoom,1/ra,size->tsiz) 
+  );
+
+  if(kr~=0,
+    hom=(cir_3,cir_4,cir_2*zoom);
+    pt=(join(hom,(1,0,0))).xy;
+    if(pt.y<0,pt=pt-(0,1.5));
+    if(pt.y>0,pt=pt+(0,0.5));
+    tsiz=30;
+
+    drawtext(pt.xy,0,size->tsiz) 
+  )
+);
+
+dc(cir):=(
+  drawlie(cir,(0.7,0,0),2);
+  dc2(cir);
+);
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+act=mouse().xy;
+if(moving,offset=offset+act-start;start=act);
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+apply(allpoints(),#.selected=false);
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+O.xy=offset;
+zoom=(|B,C|)^2;
+
+L.xy=round(L*2)/2;
+M.xy=round(M*2)/2;
+N.xy=round(N*2)/2;
+
+k1=round(|D,L|*2);
+k2=round(|F,M|*2);
+k3=round(|H,N|*2);
+//err(sqrt(k1*k2+k2*k3+k1*k3));
+isgood(a,b,c):=(
+  sq=sqrt(a*b+a*c+b*c);
+  |sq-round(sq)|<0.000000001;
+);
+
+
+repeat(50,i,
+  kk=i;
+  draw(D+(i/2,0.0),size->if(isgood(kk,k2,k3),2,1),color->(0,0,0));
+  draw(F+(i/2,0.0),size->if(isgood(kk,k1,k3),2,1),color->(0,0,0));
+  draw(H+(i/2,0.0),size->if(isgood(kk,k1,k2),2,1),color->(0,0,0));
+  ;
+);
+
+//Die Initialkrümmungen
+k1=round(|D,L|*2);
+k2=round(|F,M|*2);
+k3=round(|H,N|*2);
+
+if(k1*k2*k3!=0,
+
+ //Mittelpunktspositionen
+ poa=(0,0);
+ pob=(1/k1+1/k2,0);
+ cr1=lic(poa,1/k1+1/k3);
+ cr2=lic(pob,1/k2+1/k3);
+ erg=findlie(cr1,cr2,ee);
+ poc=mid(erg_1);
+ if(area(poa,pob,poc)<0,poc=mid(erg_2));
+ sp=(poa+pob+poc)/3;
+
+ ca=lic(poa-sp,1/k1);
+ cb=lic(pob-sp,1/k2);
+ cc=lic(poc-sp,1/k3);
+);
+
+if(k1*k2*k3~=0,
+  ks=sort([k1,k2,k3]);
+  kk1=ks_1;
+  kk2=ks_2;
+  kk3=ks_3;
+  if(kk2==0,
+    ca=lic((0,0),1/kk3);
+    cb=(lig(cross((0,1/kk3,1),(1,0,0))));
+    cc=rev(lig(cross((0,-1/kk3,1),(1,0,0))));
+  );
+  if(kk2!=0,
+    ks=[k1,k2,k3]--[0];
+    kk2=ks_1;
+    kk3=ks_2;
+    s=if(kk2<kk3,1,-1);
+    rsum=1/kk2+1/kk3;
+    rdiff=1/kk2-1/kk3;
+    offx=sqrt(rsum^2-rdiff^2)/2;
+    offy=|rdiff|/2;
+    ca=lic((offx,s*offy),1/kk2);
+    cb=lic((-offx,-offy*s),1/kk3);
+    cc=rev(lig(cross((-offx,-offy-min(1/kk2,1/kk3),1),(+offx,-offy-min(1/kk2,1/kk3),1))));
+  );
+
+);
+
+
+cd=rev(findlie(ca,cb,cc)_1);
+ce=theother(ca,cb,cc,cd);
+
+
+
+k4=k(cd);
+k5=k(ce);
+
+kmax=max((k1,k2,k3));
+if(|k5|>kmax,
+  hh=ce;
+  ce=cd;
+  cd=hh;
+  k4=k(cd);
+  k5=k(ce);
+);
+
+if(k5~=k4&false,
+  if((mid(cd).x)<(mid(ce).x),
+   hh=ce;
+   ce=cd;
+   cd=hh;
+   k4=k(cd);
+   k5=k(ce);
+  );
+); 
+
+
+
+drawtext((11,8),"$\kappa_1=$"+k1,size->14,color->(0,0,0.8));
+drawtext((11,7),"$\kappa_2=$"+k2,size->14,color->(0,0,0.8));
+drawtext((11,6),"$\kappa_3=$"+k3,size->14,color->(0,0,0.8));
+drawtext((11,5),"$\kappa_4=$"+k4,size->14,color->(0.6,0,0));
+drawtext((11,4),"$\kappa_5=$"+k5,size->14,color->(0,0.5,0));
+if(isgood(k1,k2,k3),
+  drawtext((11,2),"Ganzzahlig!",size->16,color->(0,0,0));
+);
+
+translate(offset);
+drawlie(ca,(0,0,1),2);
+drawlie(cb,(0,0,1),2);
+drawlie(cc,(0,0,1),2);
+drawlie(cd,(1,0,0),2);
+drawlie(ce,(0,.6,0),2);
+
+
+if(isgood(k1,k2,k3),
+  dc2(ca);
+  dc2(cb);
+  dc2(cc);
+  dc2(cd);
+  dc2(ce);
+);
+
+translate(-offset);
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+start=mouse().xy;
+sel=select(allpoints(),#.selected);
+moving=(sel==[]);;
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "D", type: "Free", pos: [-3.5555555555555554, -4.0, 0.4444444444444444], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, -2.1176470588235294, 0.23529411764705882], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "Free", pos: [-3.1999999999999997, -4.0, 0.4], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, -2.3529411764705883, 0.23529411764705882], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"]},
+    {name: "H", type: "Free", pos: [-2.9090909090909087, -4.0, 0.36363636363636365], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "K", type: "Free", pos: [4.0, -2.588235294117647, 0.23529411764705882], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["H", "K"]},
+    {name: "L", type: "PointOnSegment", pos: [-2.222222222222222, -4.0, 0.44444444444444425], color: [1.0, 1.0, 1.0], args: ["d"]},
+    {name: "M", type: "PointOnSegment", pos: [-2.8, -4.0, 0.3999999999999999], color: [1.0, 1.0, 1.0], args: ["e"]},
+    {name: "N", type: "PointOnSegment", pos: [-2.3636363636363638, -4.0, 0.36363636363636376], color: [1.0, 1.0, 1.0], args: ["f"]},
+    {name: "A", type: "Free", pos: [4.0, 2.0, 0.25], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, border: false},
+    {name: "B", type: "Free", pos: [4.0, -1.75, 0.25], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0, border: false},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [4.0, -1.009999975, 0.25], color: [0.0, 1.0, 0.0], args: ["a"], labeled: true, size: 3.0, printname: "zoom"},
+    {name: "O", type: "Free", pos: [4.0, 2.727272727272732, -2.272727272727274], color: [1.0, 0.0, 0.0], visible: false, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 674,
+    height: 523,
+    transform: [{visibleRect: [-9.06, 9.34, 17.9, -11.58]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

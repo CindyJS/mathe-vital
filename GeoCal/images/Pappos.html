@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pappos.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ 2.844444444444444, -4.0, -0.7407407407407407 ], color: [ 1.0, 0.0, 0.0 ], labeled: true }, 
+		{ name: "B", type: "Free", pos: [ -2.717948717948718, -4.0, -0.641025641025641 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, printname: "C" }, 
+		{ name: "l", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "A", "B" ], labeled: true, size: 3 }, 
+		{ name: "C", type: "Free", pos: [ 4.0, -0.6732673267326733, -0.9900990099009901 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, printname: "A'" }, 
+		{ name: "D", type: "Free", pos: [ 4.0, -0.7157894736842105, 1.0526315789473684 ], color: [ 1.0, 0.0, 0.0 ], labeled: true, printname: "$C'$" }, 
+		{ name: "g", type: "Join", color: [ 0.0, 0.0, 0.0 ], args: [ "C", "D" ], labeled: true, size: 3 }, 
+		{ name: "E", type: "PointOnLine", pos: [ -0.010322817080463806, -4.0, -0.6895643147248772 ], color: [ 1.0, 0.0, 0.0 ], args: [ "l" ], labeled: true, printname: "B" }, 
+		{ name: "F", type: "PointOnLine", pos: [ -1.1601242381667394, 0.11798073519218957, 4.0 ], color: [ 1.0, 0.0, 0.0 ], args: [ "g" ], labeled: true, printname: "B'" }, 
+		{ name: "c", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "F" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "d", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "C", "E" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "e", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "E", "D" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "f", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "D", "A" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "b", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "F", "B" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "h", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "B", "C" ], overhang: 1.245, clip: "inci" }, 
+		{ name: "G", type: "Meet", color: [ 0.0, 1.0, 0.0 ], args: [ "c", "d" ], labeled: true, printname: "X" }, 
+		{ name: "Y", type: "Meet", color: [ 0.0, 1.0, 0.0 ], args: [ "f", "h" ], labeled: true }, 
+		{ name: "Z", type: "Meet", color: [ 0.0, 1.0, 0.0 ], args: [ "e", "b" ], labeled: true }, 
+		{ name: "k", type: "Join", color: [ 0.7568628, 0.0, 0.0 ], args: [ "G", "Y" ], size: 3, overhang: 1.26, clip: "inci" } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 564, height: 345, transform: [ { visibleRect: [ -10.34, 9.26, 12.22, -4.54 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

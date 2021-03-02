@@ -1,0 +1,47 @@
+/* (DEMO ONLY) An extra class that floats & sizes the horizontal sliders for the demo */
+div.extraclass
+        {
+        width:20.6em;
+        float:left;
+        }
+/* (DEMO ONLY) Extra styling for the black sliders targeted using their parent fieldset's id */
+/* Generic CSS used for the demo */
+
+
+input
+        {
+        border:1px solid #ccc;
+        border-top:1px solid #888;
+        border-left:1px solid #888;
+        width:7em;
+        margin-left:0.2em;
+        }
+label
+        {
+        display:block;
+        padding:0;
+        margin-right:0.2em;
+        text-align:right;
+        font-style:oblique;
+        font-weight:bold;
+        color:#5c5c5c;
+        }
+dl,dt,dd
+        {
+        margin:0;
+        padding:0;
+        text-align:left;
+        }
+dt
+        {
+        width:5em;
+        float:left;
+        clear:left;
+        padding:0 0 4px 0;
+        }
+dd
+        {
+        margin-left:5em;
+        padding-bottom:4px;
+        }
+

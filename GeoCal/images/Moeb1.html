@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>WebGL testing</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+             
+        }
+        
+
+
+    </style>
+<meta charset="UTF-8">
+<script type="text/javascript" src="/deploy/Cindy.js"></script>
+<script type="text/javascript" src="/deploy/Cindy3D.js"></script>
+<script id="csmousedown" type="text/x-cindyscript">
+dragging=true;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+dragging=false;
+
+</script>
+
+<script id="csinit" type="text/x-cindyscript">
+dragging=false;
+m = 70;
+n = 3;
+epsx=0.01*.7;
+epsy=0.04*.7;
+
+xx=apply(1..m,#/m*720°);
+yy=apply(0..n,#)*.3;
+xxs=xx;
+yys=yy;
+//xxp=apply(xx,#+epsx);
+//xxm=apply(xx,#-epsx);
+//yyp=apply(yy,#+epsy);
+//yym=apply(yy,#-epsy);
+//xx=sort(xx++xxp++xxm);
+//yy=sort(yy++yyp++yym);
+  use("Cindy3D")
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+          x=S.x;
+          if(x<S1.x,x=S1.x);
+          if(x>S2.x,x=S2.x);
+          S.xy=(x,S1.y);
+          
+          x=R.x;
+          if(x<R1.x,x=R1.x);
+          if(x>R2.x,x=R2.x);
+          R.xy=(x,R1.y);
+          
+          x=T.x;
+          if(x<T1.x,x=T1.x);
+          if(x>T2.x,x=T2.x);
+          T.xy=(x,T1.y);
+          
+
+
+spread = |S,S1|/|S1,S2|*.5;
+win = |R,R1|/|R1,R2|*2*pi;
+begin3d();
+background3d((.7,.7,1));
+//shininess3d(100);
+
+
+
+r1=.7;
+r2=.3;
+r3=|T,T1|/|T1,T2|*.5;
+//win=10°;
+tor(x,y):=(
+
+		y=sig*(y*.2+spread);
+
+        p=.3*r1*(sin(x),cos(x),0);
+        p=p+(sin(x)*sin(x*.5+win)*y*r2,
+             cos(x)*sin(x*.5+win)*y*r2,
+             cos(x*.5+win)*r2*y);
+
+        p=p+sin(x*.5+win)*y*r2*(sin(x),cos(x),0)+cos(x*.5+win)*y*r2*(0,0,1);
+        p=p+(sin(x)*cos(x*.5+win)*r3*r2,cos(x)*cos(x*.5+win)*r3*r2,-sin(x*.5+win)*r2*r3);
+        p*5
+
+);
+
+
+eeps=0.00001;
+n(a,b):=(
+  t1=tor(a,b);
+  t2=tor(a+eeps,b);
+  t3=tor(a,b+eeps);
+  nn=cross(t2-t1,t3-t1);
+  nn/|nn|;
+);
+
+rend(sig):=(
+cols=[];
+norms=[];
+coords=[];
+
+
+forall(1..length(xx), i, 
+  forall(1..length(yy),j, 
+     (
+      a=xx_i;
+      b=yy_j;
+      cols=cols++[(1,0.6,0)];
+      norms=norms++[n(a,b)];
+      coords=coords++[tor(a,b)];
+     )
+   )
+ )
+;
+
+
+mesh3d(length(xx), length(yy), coords,norms,  colors->cols,topology->"closeBoth",colortype -> "perface");
+xc=xx++[xx_(1)];
+yc=yy++[yy_(1)];
+
+forall(1..length(xx),i,
+ forall(1..length(yy),j,
+    draw3d(tor(xx_i,yy_j),tor(xx_i,yy_(j+1)),color->(0,0,0),size->0.35);
+)
+);    
+forall(1..length(xx)+1,i,
+ forall(1..length(yy),j,
+    draw3d(tor(xx_i,yy_j),tor(xc_(i+1),yy_j),color->(0,0,0),size->0.35);
+)
+);    
+);
+rend(1);
+rend(-1);
+end3d();
+</script>
+<script type="text/javascript">
+gslp=[
+ {name:"S1", type:"Free", pos:[-9,0],color:[0,0,0],pinned:true,size:2},
+    {name:"S2", type:"Free", pos:[-4,0],color:[0,0,0],pinned:true,size:2},
+    {name:"S", type:"Free", pos:[-9,0],color:[1,1,1],pinned:false,size:4},
+    {name:"l", type:"Segment", args:["S1","S2"],color:[0,0,0],pinned:false,size:2},
+   {name:"R1", type:"Free", pos:[4,0],color:[0,0,0],pinned:true,size:2},
+    {name:"R2", type:"Free", pos:[9,0],color:[0,0,0],pinned:true,size:2},
+    {name:"R", type:"Free", pos:[4,0],color:[1,1,1],pinned:false,size:4},
+    {name:"m", type:"Segment", args:["R1","R2"],color:[0,0,0],pinned:false,size:2},
+
+
+   {name:"T1", type:"Free", pos:[-3,0],color:[0,0,0],pinned:true,size:2},
+    {name:"T2", type:"Free", pos:[2,0],color:[0,0,0],pinned:true,size:2},
+    {name:"T", type:"Free", pos:[-3,0],color:[1,1,1],pinned:false,size:4},
+    {name:"m", type:"Segment", args:["T1","T2"],color:[0,0,0],pinned:false,size:2},
+
+];
+createCindy({
+  canvasname:"CSCanvas",
+  scripts:"cs*",
+  geometry:gslp,
+ "transform": [
+        {
+          "visibleRect": [
+            -10,
+            -1,
+            10,
+            1
+          ]
+        }
+      ]
+});
+</script>
+</head>
+
+<body>
+  <canvas id="Cindy3D" style="border: none;" width="800" height="600"></canvas>
+  <canvas id="CSCanvas" width="800" height="40" style="border:none"></canvas>
+</body>
+
+</html>

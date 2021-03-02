@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Distribution2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+drawtext((-8,-2),"Zu integriende Funktion $f(x)=$",size->14);
+drawtext((-8,4.4),"Integrator $\alpha(x)$",size->14);
+drawtext((-8,9.4),"resultierende Dichtefunktion $\alpha '(x)$",size->14);
+
+drawtext((5.2,5.8),
+"Integral $\int_a^b f(x)d \alpha(x)",size->14);
+
+
+sp=10^(6*|C,D|/|D,E|-3);
+
+F.y=0;
+p=F.x;
+
+a=A.x;
+b=B.x;
+A.y=0;
+B.y=0;
+
+al(x):=arctan(x*sp)+pi/2;
+
+
+
+f(x):=parse(Text0.val);
+
+
+d=1/33;
+s=0;
+
+apply((-280..385)*d,i,
+  if(i>a&i<b,
+   s=f(i)*(al(i+d/2)-al(i-d/2))+s;
+   if(f(i)>0,
+    draw((i,0),(i,f(i)),color->(.5,1,.5)),
+    draw((i,0),(i,f(i)),color->(1,0.5,0.5))
+   );
+  );
+  draw((i,0),(i,f(i)),color->(0,0,.71),alpha->20*(al(i+d)-al(i)))
+);
+draw((a,0),(a,f(a)),color->(0,0,0));
+draw((b,0),(b,f(b)),color->(0,0,0));
+
+draw((-100,5),(100,5),color->gray(.4));
+draw((-100,10),(100,10),color->gray(.4));
+
+plot(f(x),size->2,color->gray(0));
+plot(5+al(x),color->red(.7));
+
+plot(10+sp*1/(1+(x*sp)^2),color->gray(0));
+
+w=.2;
+fillpoly(((10-w,5),(10+w,5),(10+w,5+s),(10-w,5+s),(10-w,5)));
+connect(((10-w,5),(10+w,5),(10+w,5+s),(10-w,5+s),(10-w,5)),color->(0,0,0));
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -0.6058815109144444], color: [1.0, 1.0, 1.0], labeled: true, size: 3.0, printname: "a"},
+    {name: "B", type: "Free", pos: [4.0, 0.0, 0.6054578934475093], color: [1.0, 1.0, 1.0], labeled: true, size: 3.0, printname: "b"},
+    {name: "D", type: "Free", pos: [4.0, -3.0, -0.5], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "E", type: "Free", pos: [1.3333333333333333, -4.0, -0.6666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 3.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "C", type: "PointOnSegment", pos: [3.140487333333334, -4.0, -0.6666666666666667], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0, printname: "Sprungsteilheit"},
+    {name: "F", type: "Free", pos: [0.0, 0.0, 4.0], color: [0.012, 0.655, 0.737], labeled: true, size: 3.0, printname: "p"},
+    {name: "Text0", type: "EditableText", pos: [-2.8923076923076922, -4.0, 2.0499587412931883], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "cos(x-p)", textsize: 14.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 665,
+    height: 523,
+    transform: [{visibleRect: [-8.300354671846076, 13.553743704660047, 11.662523652847018, -2.14638466197828]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

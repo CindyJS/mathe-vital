@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DV1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+draw(y,x1,x2,col):=(
+   draw((x1,y),(x2,y),color->col,size->2);
+   draw((x1,y)+(0,0.15),(x1,y)-(0,0.15),color->col);
+   draw((x2,y)+(0,0.15),(x2,y)-(0,0.15),color->col);
+   drawtext(((x2+x1)/2,y+.1),x2-x1,size->8,align->"center")
+);
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+draw(1,A.x,C.x,(0.8,0,0));
+draw(1.5,B.x,D.x,(0.8,0,0));
+draw(-1,A.x,D.x,(0,0,0.8));
+draw(-1.5,B.x,C.x,(0,0,0.8));
+
+ac=C.x-A.x;
+ad=D.x-A.x;
+bc=C.x-B.x;
+bd=D.x-B.x;
+
+if(ac<0,ac="("+ac+")");
+if(ad<0,ad="("+ad+")");
+if(bc<0,bc="("+bc+")");
+if(bd<0,bd="("+bd+")");
+
+
+acx=C.x-A.x;
+adx=D.x-A.x;
+bcx=C.x-B.x;
+bdx=D.x-B.x;
+
+//drawtext((1,5.1),size->20,color->(0.6,0,0),"[A,C][B,D]");
+//draw((0.9,4.8),(5,4.8),size->2,color->(0,0,0));
+//drawtext((1,3.9),size->20,color->(0,0,0.7),"[A,D][B,C]");
+
+drawtext((-2,4),"${[AC][BD]\over [AD][BC]}\;=\;{"+ac+"\cdot "+bd+"\over "+ad+"\cdot "+bc+"}\;=\;"+(acx*bdx)/(adx*bcx) +"$",size->18)
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "a", type: "HorizontalLine", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 0.0], pinned: true, size: 3},
+    {name: "A", type: "PointOnLine", pos: [0.0, -0.0, 4.0], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "B", type: "PointOnLine", pos: [4.0, -0.0, 1.0], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "C", type: "PointOnLine", pos: [4.0, -0.0, 0.6666666666666666], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0},
+    {name: "D", type: "PointOnLine", pos: [4.0, -0.0, 0.3333333333333333], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 276,
+    transform: [{visibleRect: [-4.54, 6.86, 22.66, -4.18]}],
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

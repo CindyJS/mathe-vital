@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Staudt1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 6.938893903907231E-18, -1.0000000000000004], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.2857142857142857], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, size: 3},
+    {name: "0", type: "PointOnLine", pos: [8.321919512784356E-36, -2.158766992326694E-17, 4.0], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, pinned: true, labeled: true, textsize: 17.0, size: 6.0},
+    {name: "x", type: "PointOnLine", pos: [4.0, -5.653913551331814E-18, 1.3333333333333326], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, labeled: true, textsize: 17.0, size: 6.0},
+    {name: "y", type: "PointOnLine", pos: [4.0, -2.7755575615628915E-18, 0.7999999999999997], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, labeled: true, textsize: 17.0, size: 6.0},
+    {name: "F", type: "Free", pos: [4.0, 4.0, 1.3333333333333333], color: [0.0, 1.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 3.0},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["0", "F"], alpha: 0.8999999761581421, size: 3, overhang: 1.195, clip: "inci"},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["F", "x"], alpha: 0.8999999761581421, size: 3, overhang: 1.195, clip: "inci"},
+    {name: "d", type: "Parallel", color: [0.757, 0.0, 0.0], args: ["a", "F"], alpha: 0.8999999761581421, size: 3, overhang: 1.195, clip: "inci"},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "y"], alpha: 0.8999999761581421, size: 3, overhang: 1.195, clip: "inci"},
+    {name: "G", type: "Meet", color: [0.0, 1.0, 0.0], args: ["d", "e"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "f", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["c", "G"], alpha: 0.8999999761581421, size: 3, overhang: 1.195, clip: "inci"},
+    {name: "x+y", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "f"], alpha: 0.8999999761581421, labeled: true, textsize: 17.0, size: 6.0},
+    {name: "C", type: "Mid", color: [1.0, 0.0, 0.0], args: ["0", "x"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist0", type: "Dist", color: [0.0, 0.0, 1.0], args: ["0", "x"], alpha: 0.8999999761581421},
+    {name: "D", type: "Mid", color: [1.0, 0.0, 0.0], args: ["0", "y"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist1", type: "Dist", color: [0.0, 0.0, 1.0], args: ["0", "y"], alpha: 0.8999999761581421},
+    {name: "E", type: "Mid", color: [1.0, 0.0, 0.0], args: ["0", "x+y"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "dist2", type: "Dist", color: [0.0, 0.0, 1.0], args: ["0", "x+y"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], args: ["dist0"], alpha: 0.8999999761581421, text: "x = @#\"dist0\"", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -60.0]}},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], args: ["dist1"], alpha: 0.8999999761581421, text: "y = @#\"dist1\"", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -100.0]}},
+    {name: "Text2", type: "Text", color: [0.0, 0.0, 0.0], args: ["dist2"], alpha: 0.8999999761581421, text: "x+y = @#\"dist2\"", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -140.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 603,
+    height: 298,
+    transform: [{visibleRect: [-6.22, 7.86, 17.9, -4.06]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

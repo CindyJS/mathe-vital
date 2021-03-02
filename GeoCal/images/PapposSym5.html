@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PapposSym5.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+forall(alllines(), l,
+l.visible=false;
+);
+c1=(1,1,0);
+c2=(0,1,1);
+c3=(1,0,1);
+wh=(1,1,1);
+
+n=40;
+pts=[A,B,C,D,E,F,G,H,K];
+
+
+queue = [];
+addtoqueue(time, obj, pos) := (
+  queue = queue :> [time, obj, pos];
+);
+
+
+move(pa,pb,pc,pd,pe):=(
+  old=[A.xy,B.xy,C.xy,D.xy,E.xy];
+  new=[pa,pb,pc,pd,pe];
+  li=[A,B,C,D,E];
+  repeat(n,k,
+    d=k/n;
+    akt=(1-d) *old+d*new;
+
+    apply(1..5,
+      addtoqueue(seconds()+k*.010, (li_#), akt_#);
+      //(li_#).xy=akt_#;
+    );
+    //drawall();
+    //repaint(10);
+  ) ;
+);
+
+
+
+move2(li):=(
+  old=apply(pts,#.xy);
+  new=apply(li,#.xy);
+  repeat(n,k,
+    d=k/n;
+    akt=(1-d)*old+d*new;
+    apply(1..9,
+      addtoqueue(seconds()+k*.010, (pts_#), akt_#);
+      //(pts_#).xy=akt_#
+    );
+    //drawall();
+    //repaint(10);
+  ) ;
+
+);
+
+ngon(p,n,col,o):=(
+  pp=apply(0..n,p+.4*(sin(360°*#/n+o),cos(360°*#/n+o)));
+  fillpoly(pp,color->col); 
+  connect(pp,color->(0,0,0),size->2); 
+);
+
+ngon2(p,n,col,o):=(
+  pp=apply(0..n,p+.3*(sin(360°*#/n+o),cos(360°*#/n+o)));
+  fillpoly(pp,color->col); 
+  connect(pp,color->(0,0,0),size->1); 
+);
+
+circ2(p,n,col,o):=(
+  fillcircle(p,.3,color->col); 
+  drawcircle(p,.3,color->(0,0,0),size->1); 
+);
+
+
+drawpts():=(
+
+ ngon(A,3,c1,0);
+ ngon(B,3,c2,0);
+ ngon(F,3,c3,0);  
+
+ ngon(C,4,c1,pi/4);
+ ngon(H,4,c2,pi/4);
+ ngon(K,4,c3,pi/4);
+
+ ngon(E,5,c1,0);
+ ngon(D,5,c2,0);
+ ngon(G,5,c3,0);
+
+);
+
+w=5;
+h=1;
+
+w2=1.5;
+h2=1.5;
+
+rec(pp):=(
+  fillpoly((pp,pp+(w,0),pp+(w,h),pp+(0,h),pp),color->(0.6,0.6,1));
+  connect((pp,pp+(w,0),pp+(w,h),pp+(0,h),pp),color->(0,0,0),size->2);
+);
+
+rec2(pp):=(
+  fillpoly((pp,pp+(w2,0),pp+(w2,h2),pp+(0,h2),pp),color->(0.6,0.6,1));
+  connect((pp,pp+(w2,0),pp+(w2,h2),pp+(0,h2),pp),color->(0,0,0),size->2);
+);
+
+
+
+
+drawbuts():=(
+
+ p1=(13,0.5);
+ rec(p1);
+ drawtext(p1+(0.4,.3),"$\to$",size->12,align->"center");
+ drawtext(p1+(1.75,.3),"$\to$",size->12,align->"center");
+ drawtext(p1+(3.25,.3),"$\to$",size->12,align->"center");
+ drawtext(p1+(4.7,.3),"$\to$",size->12,align->"center");
+ ngon2(p1+(1,0.5),3,wh,0);
+ ngon2(p1+(2.5,0.5),4,wh,pi/4);
+ ngon2(p1+(4,0.5),5,wh,0);
+
+ p2=(13,-1);
+ rec(p2);
+ drawtext(p2+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ ngon2(p2+(1.5,0.5),3,wh,0);
+ ngon2(p2+(3.5,0.5),4,wh,pi/4);
+
+ p3=(13,-2.5);
+ rec(p3);
+ drawtext(p3+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ ngon2(p3+(1.5,0.5),4,wh,pi/4);
+ ngon2(p3+(3.5,0.5),5,wh,0);
+
+ p4=(13,-4);
+ rec(p4);
+ drawtext(p4+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ ngon2(p4+(1.5,0.5),5,wh,0);
+ ngon2(p4+(3.5,0.5),3,wh,0);
+
+
+
+
+ p5=(13,7);
+ rec(p5);
+ drawtext(p5+(0.4,.3),"$\to$",size->12,align->"center");
+ drawtext(p5+(1.75,.3),"$\to$",size->12,align->"center");
+ drawtext(p5+(3.25,.3),"$\to$",size->12,align->"center");
+ drawtext(p5+(4.7,.3),"$\to$",size->12,align->"center");
+ circ2(p5+(1,0.5),3,c1,0);
+ circ2(p5+(2.5,0.5),3,c3,0);
+ circ2(p5+(4,0.5),3,c2,0); 
+
+ p6=(13,5.5);
+ rec(p6);
+ drawtext(p6+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ circ2(p6+(1.5,0.5),4,c1,pi/2);
+ circ2(p6+(3.5,0.5),5,c2,0);
+
+ p7=(13,4);
+ rec(p7);
+ drawtext(p7+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ circ2(p7+(1.5,0.5),4,c2,pi/2);
+ circ2(p7+(3.5,0.5),5,c3,0);
+
+ p8=(13,2.5);
+ rec(p8);
+ drawtext(p8+(2.5,.3),"$\leftarrow\!\rightarrow$",size->12,align->"center");
+ circ2(p8+(1.5,0.5),4,c3,pi/2);
+ circ2(p8+(3.5,0.5),5,c1,0);
+
+ p9=(13,-6);
+ rec(p9);
+ drawtext(p9+(0.4,.3),"$\to$",size->12,align->"center");
+ drawtext(p9+(1.75,.3),"$\to$",size->12,align->"center");
+ drawtext(p9+(3.25,.3),"$\to$",size->12,align->"center");
+ drawtext(p9+(4.7,.3),"$\to$",size->12,align->"center");
+ draw(p9+(1,.8),p9+(1,+.2),size->2,color->(0.6,0,0));
+ draw(p9+(2.5,.8),p9+(2.5,+.2),size->2,color->(0,0.6,0));
+ draw(p9+(4,.8),p9+(4,+.2),size->2,color->(0,0,1));
+ 
+ p10=(13,-10);
+ rec2(p10);
+ drawtext(p10+(.75,.4),"1",size->20,align->"center");
+
+ p11=(15,-10);
+ rec2(p11);
+ drawtext(p11+(.75,.4),"2",size->20,align->"center");
+
+ p12=(17,-10);
+ rec2(p12);
+ drawtext(p12+(.75,.4),"3",size->20,align->"center");
+
+ 
+
+);
+
+drawall():=(
+ //layer(2);
+ //clrscr();
+ drawpts();
+fillpoly(((12,-20),(30,-20),(30,20),(12,20)),color->(.8,.8,1));
+draw((12,-20),(12,20),color->(0,0,0));
+draw((12,-6.7),(21,-6.7),color->(0,0,0));
+drawtext((13,-8),"Positionen",size->14,color->(0,0,0));
+drawtext((13,8.5),"Symmetrien",size->14,color->(0,0,0));
+drawbuts();
+
+
+
+
+);
+
+inrec(a,p,w,h):=(
+   a.x<p.x&p.x<a.x+w&
+   a.y<p.y&p.y<a.y+h
+);
+
+
+;
+</script>
+<script id="cskeytyped" type="text/x-cindyscript">
+if(key()=="y", err((A.xy,B.xy,C.xy,D.xy,E.xy)));
+
+
+if(key()=="1", move2([B,A,H,E,D,F,G,C,K]));
+if(key()=="2", move2([F,B,K,D,G,A,E,H,C]));
+if(key()=="3", move2([A,F,C,G,E,B,D,K,H]));
+if(key()=="4", move2([F,A,K,E,G,B,D,C,H]));
+
+if(key()=="5", move2([A,B,E,H,C,F,K,D,G]));
+if(key()=="6", move2([C,H,A,D,E,K,G,B,F]));
+if(key()=="7", move2([E,D,C,B,A,G,F,H,K]));
+if(key()=="8", move2([C,H,E,B,A,K,F,D,G]));
+if(key()=="9", move2([C,D,E,H,A,F,G,B,K]));
+
+
+
+if(key()=="a", move((-4,4),(4,4),(2,0),(4,-4),(-4,-4)));
+if(key()=="b", move([3.5,6.0622],[2,3.4641],[-7,0],[2,-3.4641],[3.5,-6.0622]));
+if(key()=="c", move([3.5,6.0622],[1.875,3.6806],[-7,0],[2.25,-3.4641],[3.5,-6.0622]));
+
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+pos=mouse().xy;
+
+erg=0;
+
+
+
+
+
+
+
+if(inrec(p1,pos,w,h),erg=1);
+if(inrec(p2,pos,w,h),erg=2);
+if(inrec(p3,pos,w,h),erg=3);
+if(inrec(p4,pos,w,h),erg=4);
+if(inrec(p5,pos,w,h),erg=5);
+if(inrec(p6,pos,w,h),erg=6);
+if(inrec(p7,pos,w,h),erg=7);
+if(inrec(p8,pos,w,h),erg=8);
+if(inrec(p9,pos,w,h),erg=9);
+if(inrec(p10,pos,w2,h2),erg="a");
+if(inrec(p11,pos,w2,h2),erg="b");
+if(inrec(p12,pos,w2,h2),erg="c");
+
+err(erg);
+
+erg=erg+"";
+
+if(erg=="5", move2([F,A,K,E,G,B,D,C,H]));
+if(erg=="6", move2([B,A,H,E,D,F,G,C,K]));
+if(erg=="8", move2([F,B,K,D,G,A,E,H,C]));
+if(erg=="7", move2([A,F,C,G,E,B,D,K,H]));
+
+if(erg=="1", move2([C,H,E,B,A,K,F,D,G]));
+if(erg=="3", move2([A,B,E,H,C,F,K,D,G]));
+if(erg=="2", move2([C,H,A,D,E,K,G,B,F]));
+if(erg=="4", move2([E,D,C,B,A,G,F,H,K]));
+
+if(erg=="9", move2([C,D,E,H,A,F,G,B,K]));
+
+
+
+if(erg=="a", move((-4,4),(4,4),(2,0),(4,-4),(-4,-4)));
+if(erg=="b", move([3.5,6.0622],[2,3.4641],[-7,0],[2,-3.4641],[3.5,-6.0622]));
+if(erg=="c", move([3.5,6.0622],[1.875,3.6806],[-7,0],[2.25,-3.4641],[3.5,-6.0622]));
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+//errc(queue);
+//queue = sort(queue);
+if(length(queue)>=1,
+  while(queue_1_1<=seconds(),
+    first = queue_1;
+    queue = queue_(2..length(queue));
+    (first_2).xy = first_3;
+  );
+
+);
+
+forall(alllines(), l,
+  draw(l.homog, color->l.color, size->l.size);
+);
+drawall();
+;
+
+
+
+</script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+  autoplay: true,
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ 4.0, 4.0, 1.0 ], color: [ 0.0, 1.0, 1.0 ], size: 0.0 }, 
+		{ name: "B", type: "Free", pos: [ 4.0, -4.0, -1.0 ], color: [ 1.0, 1.0, 0.0 ], size: 0.0 }, 
+		{ name: "a", type: "Join", color: [ 0.7568628, 0.0, 0.0 ], args: [ "A", "B" ], size: 3 }, 
+		{ name: "C", type: "Free", pos: [ 4.0, -0.0, -2.0 ], color: [ 0.0, 1.0, 1.0 ], size: 0.0 }, 
+		{ name: "b", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "B", "C" ], size: 3 }, 
+		{ name: "D", type: "Free", pos: [ 4.0, 4.0, -1.0 ], color: [ 1.0, 1.0, 0.0 ], size: 0.0 }, 
+		{ name: "c", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "C", "D" ], size: 3 }, 
+		{ name: "E", type: "Free", pos: [ 4.0, -4.0, 1.0 ], color: [ 0.0, 1.0, 1.0 ], size: 0.0 }, 
+		{ name: "d", type: "Join", color: [ 0.7568628, 0.0, 0.0 ], args: [ "D", "E" ], size: 3 }, 
+		{ name: "F", type: "Meet", color: [ 0.8313726, 0.6392157, 1.0 ], args: [ "a", "c" ], size: 0.0 }, 
+		{ name: "e", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "E", "F" ], size: 3 }, 
+		{ name: "G", type: "Meet", color: [ 0.8313726, 0.6392157, 1.0 ], args: [ "b", "d" ], size: 0.0 }, 
+		{ name: "f", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "G" ], size: 3 }, 
+		{ name: "H", type: "Meet", color: [ 1.0, 1.0, 0.0 ], args: [ "e", "f" ], size: 0.0 }, 
+		{ name: "g", type: "Join", color: [ 0.7568628, 0.0, 0.0 ], args: [ "H", "C" ], size: 3 }, 
+		{ name: "h", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "B", "E" ], size: 3 }, 
+		{ name: "k", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "A", "D" ], size: 3 }, 
+		{ name: "K", type: "Meet", color: [ 0.8313726, 0.6392157, 1.0 ], args: [ "g", "h" ], size: 0.0 } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 746, height: 482, transform: [ { visibleRect: [ -10.82, 9.62, 19.02, -9.66 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

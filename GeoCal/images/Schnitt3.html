@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Schnitt3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csmousedrag" type="text/x-cindyscript">
+  C.xy=F-dc;
+
+  K.xy=E-dk;
+
+  P.xy=O-dp;
+
+if(hita,
+  C.xy=mouse().xy;
+  if(|C.x-F.x|<0.1,C.x=C.x+0.1);
+);
+
+if(hitb,
+  K.xy=mouse().xy;
+  if(|K.x-E.x|<0.1,K.x=K.x+0.1);
+);
+
+if(hitc,
+  P.xy=mouse().xy;
+  if(|P.x-O.x|<0.1,P.x=P.x+0.1);
+);
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+dc=C-F;
+dk=K-E;
+dp=P-O;
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+A.homog=(-1,1,0);
+B.homog=(1,1,0);
+
+
+;mat1=C0.matrix;
+mat2=C5.matrix;
+mat3=C8.matrix;
+mat1=mat1/mat1_1_1;
+mat2=mat2/mat2_1_1;
+mat3=mat3/mat3_1_1;
+
+diff12=mat1-mat2;
+diff=(2*diff12_3_1,-2*diff12_3_2,diff12_3_3);
+T.homog=(diff_2,-diff_1,0);
+U.homog=(0,-diff_3,diff_2);
+
+
+diff12=mat1-mat3;
+diff=(2*diff12_3_1,-2*diff12_3_2,diff12_3_3);
+V.homog=(diff_2,-diff_1,0);
+W.homog=(0,-diff_3,diff_2);
+
+diff12=mat3-mat2;
+diff=(2*diff12_3_1,-2*diff12_3_2,diff12_3_3);
+X.homog=(diff_2,-diff_1,0);
+Y.homog=(0,-diff_3,diff_2);
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+mat=C0.matrix;
+m=mouse().xy++[1];
+m=(m_1,-m_2,m_3);
+s(x):=if(x<0,-1,1);
+f(m):=s(m*mat*m);
+r=0.2;
+li=[f(m+(r,r,0)),f(m+(-r,r,0)),f(m+(-r,-r,0)),f(m+(r,-r,0))];
+hita=min(li)!=max(li);
+
+
+mat=C5.matrix;
+m=mouse().xy++[1];
+m=(m_1,-m_2,m_3);
+r=0.2;
+li=[f(m+(r,r,0)),f(m+(-r,r,0)),f(m+(-r,-r,0)),f(m+(r,-r,0))];
+hitb=min(li)!=max(li);
+
+mat=C8.matrix;
+m=mouse().xy++[1];
+m=(m_1,-m_2,m_3);
+r=0.2;
+li=[f(m+(r,r,0)),f(m+(-r,r,0)),f(m+(-r,-r,0)),f(m+(r,-r,0))];
+hitc=min(li)!=max(li);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -4.0, 0.0], color: [0.0, 0.0, 0.0], visible: false, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 4.0, 0.0], color: [0.0, 0.0, 0.0], visible: false, size: 3.0},
+    {name: "C", type: "Free", pos: [4.0, -2.1999999999999997, -0.5555555555555556], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "F", type: "Free", pos: [4.0, -0.34285714285714286, -0.5714285714285714], color: [1.0, 0.0, 0.0]},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "F"], visible: false},
+    {name: "C1", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["F", "C"], visible: false},
+    {name: "D", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C1", "a", "C"], visible: false, labeled: true},
+    {name: "b", type: "Through", pos: [0.0, -4.0, 2.4], color: [0.0, 0.0, 1.0], args: ["F"], visible: false},
+    {name: "c", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["b", "D"], visible: false, size: 0},
+    {name: "G", type: "Meet", color: [1.0, 1.0, 1.0], args: ["b", "c"], visible: false, size: 0.0},
+    {name: "C2", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["G", "D"], visible: false, size: 0},
+    {name: "H", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C2", "c", "D"], visible: false, labeled: true},
+    {name: "C0", type: "ConicBy5", color: [0.757, 0.0, 0.0], args: ["A", "B", "C", "D", "H"], size: 3},
+    {name: "E", type: "Free", pos: [3.876923076923077, -4.0, 1.5384615384615383], color: [0.0, 0.0, 1.0]},
+    {name: "K", type: "Free", pos: [4.0, 0.8266666666666667, 0.6666666666666666], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["K", "E"], visible: false},
+    {name: "C3", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["E", "K"], visible: false},
+    {name: "L", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C3", "d", "K"], visible: false, labeled: true},
+    {name: "e", type: "Through", pos: [0.0, 1.5384615384615383, 4.0], color: [0.0, 0.0, 1.0], args: ["E"], visible: false},
+    {name: "f", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["e", "L"], visible: false, size: 0},
+    {name: "M", type: "Meet", color: [1.0, 1.0, 1.0], args: ["e", "f"], visible: false, size: 0.0},
+    {name: "C4", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["M", "L"], visible: false, size: 0},
+    {name: "N", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C4", "f", "L"], visible: false, labeled: true},
+    {name: "C5", type: "ConicBy5", color: [0.0, 0.0, 1.0], args: ["N", "L", "K", "A", "B"], size: 3},
+    {name: "O", type: "Free", pos: [-3.4893617021276593, -4.0, -2.127659574468085], color: [0.098, 0.62, 0.306]},
+    {name: "P", type: "Free", pos: [4.0, 1.866666666666669, 0.9523809523809526], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "g", type: "Join", color: [0.0, 0.0, 1.0], args: ["P", "O"], visible: false},
+    {name: "h", type: "Through", pos: [-3.382870261531865E-16, -2.1276595744680846, 4.0], color: [0.0, 0.0, 1.0], args: ["O"], visible: false},
+    {name: "C6", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["O", "P"], visible: false},
+    {name: "Q", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C6", "g", "P"], visible: false, labeled: true},
+    {name: "k", type: "Orthogonal", color: [1.0, 1.0, 1.0], args: ["h", "Q"], size: 0},
+    {name: "R", type: "Meet", color: [1.0, 1.0, 1.0], args: ["h", "k"], size: 0.0},
+    {name: "C7", type: "CircleMP", color: [1.0, 1.0, 1.0], args: ["R", "Q"], size: 0},
+    {name: "S", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C7", "k", "Q"], visible: false, labeled: true},
+    {name: "C8", type: "ConicBy5", color: [0.098, 0.62, 0.306], args: ["B", "S", "Q", "P", "A"], size: 3},
+    {name: "T", type: "Free", pos: [-1.3445378151260456, -4.0, 0.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "U", type: "Free", pos: [0.0, -4.0, -0.44395116537180557], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "l", type: "Join", color: [0.0, 0.0, 0.0], args: ["T", "U"]},
+    {name: "V", type: "Free", pos: [0.5925925925925891, -4.0, 0.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "W", type: "Free", pos: [0.0, -4.0, 0.1521961427790051], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "m", type: "Join", color: [0.0, 0.0, 0.0], args: ["V", "W"]},
+    {name: "X", type: "Free", pos: [4.0, 0.7857142857142871, 0.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "Y", type: "Free", pos: [0.0, -4.0, 3.7265014140741974], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "n", type: "Join", color: [0.0, 0.0, 0.0], args: ["X", "Y"]},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "m"]},
+    {name: "P0", type: "SelectP", pos: [3.8868519317019374, -4.0, -0.8460678904753953], color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0, printname: "$P_{0}$"},
+    {name: "Z", type: "SelectP", pos: [-2.9136722870835374, -4.0, 0.9005174835438409], color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 3.0},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C5", "n"]},
+    {name: "P2", type: "SelectP", pos: [4.0, -1.837635114814383, 2.4439788126701973], color: [0.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0, printname: "$P_{2}$"},
+    {name: "P1", type: "SelectP", pos: [4.0, -0.22945820436933315, 0.9457604299564588], color: [0.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0, printname: "$P_{1}$"},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "l"]},
+    {name: "P3", type: "SelectP", pos: [0.15439246918316193, -4.0, -0.49492981085681165], color: [0.0, 0.0, 0.0], args: ["Collection__3"], size: 3.0, printname: "$P_{3}$"},
+    {name: "P4", type: "SelectP", pos: [4.0, 3.476891457125828, -0.9348622134155551], color: [0.0, 0.0, 0.0], args: ["Collection__3"], size: 3.0, printname: "$P_{4}$"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 539,
+    height: 438,
+    transform: [{visibleRect: [-10.78, 9.22, 10.78, -8.3]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

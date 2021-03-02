@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SkalProd1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+fillpoly(((4.5,0.5),(12.5,0.5),(12.5,4.5),(4.5,4.5)),color->(1,1,1));
+drawall(cycle(((4.5,0.5),(12.5,0.5),(12.5,4.5),(4.5,4.5))),color->(0,0,0));
+
+
+v=B.xy;
+w=C.xy;
+v=round(v*100)/100;
+w=round(w*100)/100;
+drawtext(B+(0.2,0.2),"$v="+v+"$",size->14);
+drawtext(C+(0.2,0.2),"$w="+w+"$",size->14);
+
+drawtext((5,4),"Kanonisches Skalarprodukt:",size->18);
+drawtext((5,3),"$\langle v,w\rangle=\;\;v_x\cdot w_x\; +\; v_y\cdot w_y$"
+,size->16);
+
+form(t):=if(t<0,"("+t+")",t);
+
+
+drawtext((5,2),"$\langle v,w\rangle=\;\;"+form(v.x)+"\cdot "+form(w.x)+"\; +\; "+form(v.y)+"\cdot "+form(w.y)+"$"
+,size->16);
+
+
+drawtext((5,1),"$\langle v,w\rangle=\;\;"+(v*w)+"$"
+,size->16);
+
+
+
+
+
+;
+</script>
+
+    <script type="text/javascript">
+createCindy({ 
+	scripts: "cs*", 
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 }, 
+	angleUnit: "°", 
+	geometry: [ 
+		{ name: "A", type: "Free", pos: [ 0.0, -0.0, 4.0 ], color: [ 0.0, 0.0, 0.0 ], alpha: 0.8999999761581421, pinned: true, size: 3.0 }, 
+		{ name: "B", type: "Free", pos: [ 2.6666666666666665, -4.0, -1.3333333333333333 ], color: [ 1.0, 0.0, 0.0 ], alpha: 0.8999999761581421, size: 0.0 }, 
+		{ name: "a", type: "Segment", color: [ 0.7568628, 0.0, 0.0 ], args: [ "A", "B" ], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0 }, 
+		{ name: "C", type: "Free", pos: [ 4.0, 3.471698113207547, 1.8490566037735847 ], color: [ 0.0, 0.0, 1.0 ], alpha: 0.8999999761581421, size: 0.0 }, 
+		{ name: "b", type: "Segment", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "C" ], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0 } ], 
+	ports: [ 
+		{ id: "CSCanvas", width: 842, height: 411, transform: [ { visibleRect: [ -4.112244897959184, 5.663265306122449, 13.071428571428571, -2.7244897959183674 ] } ], background: "rgb(168,176,192)" } ], 
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

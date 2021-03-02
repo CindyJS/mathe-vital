@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+  <script id="csdraw" type="text/x-cindyscript">
+  //Schieberegler
+t=(T.x-T0.x)/|T0,T1|*2*pi;
+drawtext(T+(.2,.3),"t = "+t);
+L.x=round(L.x*2)/2;
+l=|L0,L|/|L0,L1|*2;
+drawtext(L+(.2,.3),"$\lambda$ = "+l);
+if(t~=0  |t|>2*pi,
+C2.alpha=0; d.alpha=0; E0.alpha=0; E1.alpha=0,
+C2.alpha=1; d.alpha=1; E0.alpha=1; E1.alpha=1
+);
+M0.x=0;
+r=C0.radius;
+//Parametrisierung
+x(t):=r*(t-sin(t),1-cos(t));
+y(t):=r*(t-l*sin(t),1-l*cos(t));
+M.x=r*t;
+P.xy=x(t);
+Pz.xy=r*(t-sin(t/2),1-cos(t/2));
+Wt.xy=r*(t-0.35*sin(t/2),1-0.35*cos(t/2));
+Q.xy=y(t);
+//Kurvenplot
+if(l~=1,
+linesize(4);
+plot(x(t),t,start->-5*pi/M.y,stop->8*pi/M.y,steps->200,
+color->(0.4667,0,0.7176));
+P.alpha=0;
+,
+linesize(2);
+plot(x(t),t,start->-5*pi/M.y,stop->8*pi/M.y,steps->200,
+color->(0.4667,0,0.7176));
+linesize(4);
+plot(y(t),t,start->-5*pi/M.y,stop->8*pi/M.y,steps->200,
+color->(0.4667,0,0.7176));
+P.alpha=1;
+);
+//Tangenten
+eps = 0.001;
+yt(t):=//(d({y(#)_1},t),d({y(#)_2},t));
+(y(t+eps)-y(t-eps))/(2*eps);
+;
+Vt.xy=Q.xy+yt(t);
+
+  </script>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+          scripts: "cs*",
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "O",
+                "type": "Free",
+                "pos": [0.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "E",
+                "type": "Free",
+                "pos": [4.0, -0.0, 0.14814814814814814],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "pinned": true,
+                "labeled": true
+            }, {
+                "name": "a",
+                "type": "Join",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["O", "E"],
+                "size": 3
+            }, {
+                "name": "M0",
+                "type": "Free",
+                "pos": [0.0, -4.0, -1.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$M_0$"
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["M0", "O"]
+            }, {
+                "name": "m",
+                "type": "Parallel",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["a", "M0"]
+            }, {
+                "name": "M",
+                "type": "PointOnLine",
+                "pos": [4.0, 1.890949818913608, 0.630316606304536],
+                "color": [0.757, 0.0, 0.0],
+                "args": ["m"],
+                "plane": 1,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "b",
+                "type": "Orthogonal",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["a", "M"],
+                "labeled": true,
+                "clip": "inci",
+                "printname": "r"
+            }, {
+                "name": "B",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a", "b"],
+                "plane": 2,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "C1",
+                "type": "CircleMP",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["M", "B"],
+                "size": 3
+            }, {
+                "name": "Pz",
+                "type": "Free",
+                "pos": [4.0, 1.6368006341385748, 1.0717034652168114],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 0.0,
+                "printname": "$r\\cdot t$"
+            }, {
+                "name": "d",
+                "type": "Segment",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["O", "B"],
+                "labeled": true,
+                "size": 3,
+                "printname": "|OB|=$r \\cdot t$"
+            }, {
+                "name": "T0",
+                "type": "Free",
+                "pos": [0.0, -4.0, 1.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "0"
+            }, {
+                "name": "P",
+                "type": "Free",
+                "pos": [-3.320032609372155, -4.0, -0.8783330764871791],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "plane": 2,
+                "labeled": true,
+                "size": 3.0,
+                "printname": "Q"
+            }, {
+                "name": "C2",
+                "type": "ArcBy3",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["B", "Pz", "P"],
+                "plane": 2,
+                "size": 3
+            }, {
+                "name": "sp1",
+                "type": "Join",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["M", "P"],
+                "size": 3,
+                "clip": "inci"
+            }, {
+                "name": "sp2",
+                "type": "Orthogonal",
+                "color": [0.0, 0.0, 1.0],
+                "args": ["sp1", "M"],
+                "size": 3,
+                "clip": "inci"
+            }, {
+                "name": "Collection__1",
+                "type": "IntersectionConicLine",
+                "args": ["C1", "sp2"]
+            }, {
+                "name": "P2",
+                "type": "SelectP",
+                "pos": [4.0, 2.81823979791796, 0.506322820884447],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["Collection__1"],
+                "visible": false,
+                "size": 0.0
+            }, {
+                "name": "P3",
+                "type": "SelectP",
+                "pos": [4.0, 0.3621978319860691, 0.8347356662744903],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["Collection__1"],
+                "visible": false,
+                "size": 0.0
+            }, {
+                "name": "C3",
+                "type": "CircleMP",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["M", "P"],
+                "size": 0
+            }, {
+                "name": "P1",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C3", "sp1", "P"],
+                "visible": false,
+                "plane": 2,
+                "labeled": true,
+                "size": 0.0
+            }, {
+                "name": "L0",
+                "type": "Free",
+                "pos": [0.0, -4.0, 0.8],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "0"
+            }, {
+                "name": "L1",
+                "type": "Free",
+                "pos": [4.0, -2.5, 0.5],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "2"
+            }, {
+                "name": "l#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["L0", "L1"]
+            }, {
+                "name": "L",
+                "type": "PointOnSegment",
+                "pos": [3.2, -4.0, 0.8],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["l#"],
+                "size": 4.0
+            }, {
+                "name": "Q",
+                "type": "Free",
+                "pos": [-3.320032609372155, -4.0, -0.8783330764871791],
+                "color": [1.0, 0.0, 0.0],
+                "plane": 2,
+                "labeled": true,
+                "printname": "P"
+            }, {
+                "name": "q",
+                "type": "Segment",
+                "color": [0.718, 0.333, 0.0],
+                "args": ["M", "Q"],
+                "plane": 1,
+                "size": 3
+            }, {
+                "name": "e",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["B", "Q"]
+            }, {
+                "name": "tan",
+                "type": "Orthogonal",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["e", "Q"],
+                "labeled": true,
+                "printname": "Tangente $\\bot$ BP"
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [4.0, -1.3333333333333333, 0.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$2\\cdot \\pi$"
+            }, {
+                "name": "t#",
+                "type": "Join",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T0", "T1"]
+            }, {
+                "name": "T",
+                "type": "PointOnLine",
+                "pos": [4.0, -3.9603960396039604, 0.9900990099009901],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["t#"],
+                "size": 4.0
+            }, {
+                "name": "Vt",
+                "type": "Free",
+                "pos": [4.0, 3.417407816796799, 0.4799612917761347],
+                "color": [1.0, 0.0, 0.0],
+                "plane": 1,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$\\frac{d\\gamma}{dt}$"
+            }, {
+                "name": "c",
+                "type": "Segment",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["Q", "Vt"],
+                "plane": 1,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.2000000000000002,
+                "arrowposition": 1.0
+            }, {
+                "name": "v",
+                "type": "Segment",
+                "color": [0.467, 0.0, 0.718],
+                "args": ["O", "Q"],
+                "labeled": true,
+                "printname": "$\\gamma (t)$",
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.0,
+                "arrowposition": 1.0
+            }, /*{
+                "name": "E0",
+                "type": "AngleMark",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["M", "B", "Pz"]
+            }, {
+                "name": "E1",
+                "type": "AngleMark",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["M", "Pz", "P"]
+            },*/ {
+                "name": "Wt",
+                "type": "Free",
+                "pos": [4.0, 1.8298214349022603, 0.7364797066624434],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 0.0,
+                "printname": "t"
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 725,
+                "height": 405,
+                "transform": [{
+                    "visibleRect": [-6.26, 10.22, 22.74, -5.98]
+                }],
+                "axes": true,
+                "snap": true,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

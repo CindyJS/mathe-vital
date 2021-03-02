@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>substitution.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+/*
+inspect(S1B, "pinning", true);
+inspect(S1B, "labeled", false);
+inspect(S1B, "ptsize", 3);
+inspect(S1B, "color", 15);
+inspect(S1B, "pointborder", 0);
+
+inspect(S1E, "pinning", true);
+inspect(S1E, "labeled", false);
+inspect(S1E, "ptsize", 3);
+inspect(S1E, "color", 15);
+inspect(S1E, "pointborder", 0);
+
+inspect(S1P, "pinning", false);
+inspect(S1P, "labeled", false);
+inspect(S1P, "ptsize", 5);
+inspect(S1P, "color", 0);
+inspect(S1P, "pointborder", true);
+
+inspect(sl1, "linesize", 2);
+inspect(sl1, "color", 15);
+inspect(sl1, "labeled", false);
+*/
+
+guess(a):=(
+    p=guess(a,10);
+    p_1+"/"+p_2;
+);
+
+
+
+guess(a,n):=(
+   regional(pp,fl,fr);
+   fl=floor(a+0.000001);
+
+   fr=a-fl;
+   if(n==0,(fl,1),
+     if(|a-round(a)|<0.0001,(fl,1),
+         pp=guess(1/fr,n-1);
+         [fl*pp_1+pp_2,pp_1];
+
+     );
+   );
+
+);
+
+
+
+noPoints = [S1B, S1E, S1P];
+noLines = [sl1];
+
+
+forward(L, b) := (
+  local(x, tmp);
+
+  x = b;
+
+  repeat(length(L), i,
+    tmp = 0;
+
+    repeat(i - 1, j,
+      tmp = tmp + (L_i_j)*x_j;
+    );
+
+    x_i = (b_i - tmp)/(L_i_i);
+  );
+
+  release(tmp, x);
+);
+
+
+backward(R, b) := (
+  local(x, k, tmp);
+
+  x = b;
+
+  forall(sort(1..length(R), length(R) - #), i,
+    tmp = 0;
+
+    forall((i + 1)..length(R), j,
+      tmp = tmp + (R_i_j)*x_j;
+    );
+
+    x_i = (b_i - tmp)/(R_i_i);
+  );
+
+  release(tmp, k, x);
+);
+
+
+texMatrix(A) := (
+  local(tex);
+  tex = "\begin{pmatrix}";
+
+  repeat(length(A) - 1, i,
+    repeat(length(A) - 1, j,
+      tex = tex + guess((A_i)_j) + "&";
+    );
+    tex = tex + guess((A_i)_(length(A))) + "\\";
+  );
+
+  repeat(length(A) - 1, j,
+    tex = tex + guess((A_(length(A)))_j) + "&";
+  );
+  tex = tex + guess((A_(length(A)))_(length(A))) + "\end{pmatrix}";
+
+  release(tex);
+);
+
+
+texVector(x, idx, name) := (
+  local(tex);
+  tex = "\begin{pmatrix}";
+
+  repeat(length(x) - 1, i,
+    tex = tex + if(contains(idx, i), guess(x_i), name + "_" + i) + "\\";
+  );
+
+  tex = tex + if(contains(idx, length(x)), guess(x_(length(x))), name + "_" + length(x)) + "\end{pmatrix}";
+
+  release(tex);
+);
+
+
+
+texRowVector(x, idx, name) := (
+  local(tex);
+  tex = "\begin{pmatrix}";
+
+  repeat(length(x) - 1, i,
+    tex = tex + if(contains(idx, i), guess(x_i), name + "_" + i) + "&";
+  );
+
+  tex = tex + if(contains(idx, length(x)), guess(x_(length(x))), name + "_" + length(x)) + "\end{pmatrix}";
+
+  release(tex);
+);
+
+
+forward = false;
+n = 6;
+A = [];
+repeat(n, i, A = append(L, apply(1..n, if(if(forward, # > i, # < i), 0, round(random(19) - 10)))));
+b = apply(1..n, round(random(9) + 1));
+
+init() := (
+  A = [];
+  repeat(n, i, A = append(A, apply(1..n, if(if(forward, # > i, # < i), 0, round(random(19) - 10)))));
+  b = apply(1..n, round(random(9) + 1));
+
+  x = if(forward, forward(A, b), backward(A, b));
+);
+
+
+init();
+text() := (
+  s = floor(length(x)*(S1P.x - S1B.x)/(S1E.x - S1B.x) + 0.01) + 0;
+
+if(forward,
+  drawtext(
+    [5.8, 12],
+    "$" + texMatrix(A) + " \cdot " + texVector(x, 1..s, "x") + " = " + texVector(b, 1..length(b), "b") + "$",
+    size->20,
+    align->"center"
+  );
+
+  if(s > 0,
+    drawtext(
+      S1P + [0, 1],
+      if(s > 1,
+        "$x_" + s + "= \frac{" + b_s + "-" + texRowVector(A_(s_(1..(s - 1))), 1..(s - 1), "A") +
+        texVector(x_(1..(s - 1)), 1..(s - 1), "x") + "}{" + (A_s)_s + "}" + "$"
+        ,
+        "$x_" + s + "= \frac{" + b_s + "}{" + (A_s)_s + "}" + "$"
+      ),
+      size->15,
+      align->"center"
+    );
+    ,
+    drawtext(
+      S1P + [0, 0.5],
+      "START",
+      size->15,
+      align->"center"
+    );
+  );
+,
+  // backward
+  s = (length(x) + 1 - s);
+
+  drawtext(
+    [5.8, 12],
+    "$" + texMatrix(A) + " \cdot " + texVector(x, s..length(x), "x") + " = " + texVector(b, 1..length(b), "b") + "$",
+    size->20,
+    align->"center"
+  );
+
+  if(s <= length(x),
+    drawtext(
+      S1P + [0, 1],
+      if(s < length(x),
+        "$x_" + s + "= \frac{" + b_s + "-" + texRowVector(A_s_((s + 1)..length(x)), 1..(length(x) - s), "A") +
+        texVector(x_((s + 1)..length(x)), 1..(length(x) - s), "x") + "}{" + A_s_s + "}" + "$"
+        ,
+        "$x_" + s + "= \frac{" + b_s + "}{" + A_s_s + "}" + "$"
+      ),
+      size->15,
+      align->"center"
+    );
+    ,
+    drawtext(
+      S1P + [0, 0.5],
+      "START",
+      size->15,
+      align->"center"
+    );
+  );
+);
+
+);
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+text();
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "S1B", type: "Free", pos: [4.0, -0.5714285714285714, -0.5714285714285714], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "S1E", type: "Free", pos: [4.0, 0.2222222222222222, 0.2222222222222222], color: [0.502, 0.502, 0.502], pinned: true, size: 3.0, border: false},
+    {name: "sl1", type: "Segment", color: [0.502, 0.502, 0.502], args: ["S1B", "S1E"], size: 2},
+    {name: "S1P", type: "PointOnSegment", pos: [4.0, 1.558471715881256, 1.558471715881256], color: [1.0, 1.0, 1.0], args: ["sl1"]},
+    {name: "Text0", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, args: ["S1E"], script: "init();", text: "RESET", dock: {corner: "LL", offset: [576.0, 11.0]}},
+    //{name: "Text1", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "forward = !forward;\ninit();", text: "untere/obere Dreiecksmatrix", dock: {corner: "LL", offset: [628.0, 11.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-13.202522033898306, 22.263457627118644, 23.97453559322034, -0.7194305084745763]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

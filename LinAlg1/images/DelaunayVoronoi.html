@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>DelaunayVoronoi.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+
+
+incircle(a,b,c,d):=(
+  da=(a.x,a.y,abs(a)^2);
+  db=(b.x,b.y,abs(b)^2);
+  dc=(c.x,c.y,abs(c)^2);
+  dd=(d.x,d.y,abs(d)^2);
+  ( det(da,db,dc)
+  -det(da,db,dd)
+  +det(da,dc,dd)
+  -det(db,dc,dd))*det((a.x,a.y,1),(b.x,b.y,1),(c.x,c.y,1))>0.000001
+);
+
+
+leftfrom(seg):=select(pts,area(#,seg_1,seg_2)>=0.00001);
+
+extrem(seg):=(length( leftfrom(seg))==0);
+
+empty(trg):=
+   (length(select(pts,incircle(trg_1,trg_2,trg_3,#)))==0);
+
+circctr(x):=circctr(x_1,x_2,x_3);
+
+mid(a,b):=(a+b)/2;
+
+circctr(a,b,c):=cross(perp(cross(a,b),mid(a,b)),
+                      perp(cross(a,c),mid(a,c)));
+
+
+
+
+
+pts=allpoints();
+ptsr=reverse(pts);
+segs=pairs(pts);
+segsr=pairs(ptsr);
+triang=triples(pts);
+deloneys=select(triang,empty(#));
+dp=pairs(deloneys);
+dp1=select(dp,length(common(#_1,#_2))==2);
+hull=concat(select(segs,extrem(#)),select(segsr,extrem(#)));
+rays=apply(hull,ss=#;(select(deloneys,length(common(ss,#))==2)));
+
+
+linecolor((1,1,0));
+
+
+nn=length(hull);
+repeat(nn,i,
+pp=(perp(hull_i_1-hull_i_2));
+pp=pp/abs(pp)*100;
+mm=(circctr(rays_i_1));
+mm=(mm.x,mm.y)/mm.z;
+draw(size->2,mm,mm-pp)
+);
+
+
+
+linecolor((0,0,1));
+
+forall(hull,draw(#_1,#_2));
+
+
+linecolor((1,1,1));
+
+forall(dp1,e=common(#_1,#_2);draw(e_1,e_2));
+
+linecolor((1,1,0));
+
+forall(dp1,draw(size->2,circctr(#_1),circctr(#_2)));
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.6415094339622636, -4.0, -0.9433962264150942], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, 1.3925925925925924, 0.7407407407407407], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C", type: "Free", pos: [-1.3809523809523812, -4.0, -1.1904761904761907], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "D", type: "Free", pos: [4.0, 3.716129032258064, 0.8715835346501822], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "E", type: "Free", pos: [4.0, 3.6142131979695433, 0.5076142131979695], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "F", type: "Free", pos: [4.0, 1.8914728682170543, 0.38759689922480617], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "G", type: "Free", pos: [4.0, 1.7499999999999998, 0.4807692307692307], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "H", type: "Free", pos: [4.0, -0.6066350710900474, 0.47393364928909953], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "K", type: "Free", pos: [-0.6043165467625901, -4.0, -0.7194244604316548], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "L", type: "Free", pos: [1.0126582278481013, -4.0, -0.5700229867965328], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "M", type: "Free", pos: [-2.938775510204082, -4.0, 2.0408163265306123], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "N", type: "Free", pos: [-0.32, 3.84, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2, friction: 0.1},
+    {type: "Motor", speed: 0.02}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 574,
+    height: 368,
+    virtualwidth: 574,
+    virtualheight: 368,
+    transform: [{visibleRect: [-4.7521956521739135, 8.009152173913044, 12.243195652173913, -2.8868478260869566]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

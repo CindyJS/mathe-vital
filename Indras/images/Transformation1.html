@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Transformation1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -2.1123595505617976, -1.1235955056179776], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.084895408856289, yy: -0.084895408856289, zz: 1.0, xy: 0.0, xz: -0.6044553110567776, yz: -0.3192067372996466}, color: [0.0, 0.0, 1.0], radius: 5.290292997556941, args: ["A"], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [4.0, 0.8975609756097561, 0.4878048780487805], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.02329047885224519, yy: 0.02329047885224519, zz: 1.0, xy: 0.0, xz: -0.3819638531768212, yz: 0.08570896217626231}, color: [0.0, 0.0, 1.0], radius: 5.262090839200707, args: ["B"], alpha: 0.8999999761581421},
+    {name: "C", type: "PointOnCircle", pos: [{r: -0.33851102795247134, i: 3.895842409517105E-17}, -4.0, {r: -0.7505424388782725, i: 7.738484926716881E-18}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "", type: "OtherPointOnCircle", pos: [4.0, {r: 0.8292031444308203, i: -3.420731089463534E-17}, {r: -0.5283302686516885, i: 3.297728284706304E-18}], color: [1.0, 1.0, 1.0], args: ["C"], pinned: true, size: 0.0},
+    {name: "D", type: "PointOnCircle", pos: [{r: -2.6970490148507413, i: 1.4022419567788136E-16}, -4.0, {r: -1.59342671559376, i: 7.032846472350719E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "E", type: "PointOnCircle", pos: [{r: 0.5372276760070014, i: 1.7346605659371205E-16}, -4.0, {r: 2.2234783536643103, i: 8.749567234740565E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "F", type: "PointOnCircle", pos: [{r: -3.2375534606765823, i: -2.141178845630047E-17}, -4.0, {r: -0.8728232136515558, i: -2.3524386164912992E-17}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "G", type: "PointOnCircle", pos: [4.0, {r: 3.1269598334832462, i: -1.5191439221132442E-16}, {r: 1.3516969354747967, i: 4.9890289718278426E-18}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "H", type: "PointOnCircle", pos: [4.0, {r: -1.1414079297091448, i: 1.6725181358431176E-17}, {r: 1.0440317812924402, i: 3.625722575235408E-18}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Tr0", type: "TrMoebius", color: [0.0, 0.0, 1.0], args: ["C", "F", "D", "G", "E", "H"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrInverseMoebius", color: [0.0, 0.0, 1.0], args: ["Tr0"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "K", type: "Free", pos: [-1.2307692307692308, -4.0, -0.8547008547008548], color: [0.0, 1.0, 0.0]},
+    {name: "L", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "K"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "M", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "L"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "N", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "M"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "O", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "N"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "P", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "O"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Q", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "P"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "R", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "Q"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "S", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "R"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "T", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "S"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "U", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "T"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "V", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "U"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "W", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "V"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "X", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr0", "W"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Y", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "K"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Z", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "Y"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "P0", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "Z"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{0}$"},
+    {name: "P1", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P0"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{1}$"},
+    {name: "P2", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P1"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{2}$"},
+    {name: "P3", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P2"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{3}$"},
+    {name: "P4", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P3"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{4}$"},
+    {name: "P5", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P4"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{5}$"},
+    {name: "P6", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P5"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{6}$"},
+    {name: "P7", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P6"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{7}$"},
+    {name: "P8", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P7"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{8}$"},
+    {name: "P9", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P8"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{9}$"},
+    {name: "P10", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P9"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{10}$"},
+    {name: "P11", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P10"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{11}$"},
+    {name: "P12", type: "TrMoebiusP", color: [0.0, 1.0, 0.0], args: ["Tr1", "P11"], alpha: 0.8999999761581421, size: 3.0, printname: "$P_{12}$"},
+    {name: "a", type: "Segment", color: [1.0, 1.0, 1.0], args: ["C", "F"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "<==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["D", "G"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "<==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "c", type: "Segment", color: [1.0, 1.0, 1.0], args: ["E", "H"], alpha: 0.8999999761581421, arrowshape: "jet", arrowsides: "<==>", arrowsize: 1.0, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 612,
+    height: 355,
+    transform: [{visibleRect: [-9.06, 9.34, 15.42, -4.86]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

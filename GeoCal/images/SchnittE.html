@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SchnittE (1).cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 0.7179487179487181, 2.564102564102564], color: [0.098, 0.62, 0.306], textsize: 17.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.047006618531889297, yy: -0.047006618531889297, zz: 1.0, xy: 0.0, xz: 0.14666064981949464, yz: -0.026323706377858015}, color: [0.098, 0.62, 0.306], radius: 4.877048287642844, args: ["A"], size: 3},
+    {name: "B", type: "Free", pos: [4.0, 2.311688311688312, 0.6493506493506493], color: [1.0, 0.0, 0.0], textsize: 17.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.027743252840909095, yy: 0.027743252840909095, zz: 1.0, xy: 0.0, xz: -0.34179687500000006, yz: 0.19753196022727276}, color: [0.757, 0.0, 0.0], radius: 3.817643252060098, args: ["B"], size: 3},
+    {name: "Collection__1", type: "IntersectionCircleCircle", args: ["C0", "C1"]},
+    {name: "P", type: "SelectP", pos: [4.0, -0.1557786734980821, 0.6241990687432409], color: [0.0, 0.0, 0.0], args: ["Collection__1"], textsize: 17.0, size: 3.0},
+    {name: "Q", type: "SelectP", pos: [-2.096279803558161, -4.0, -0.7942610783402029], color: [0.0, 0.0, 0.0], args: ["Collection__1"], textsize: 17.0, size: 3.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 0.0], args: ["P", "Q"]},
+    {name: "C", type: "Free", pos: [-3.5217391304347827, -4.0, -1.0869565217391304], color: [0.0, 0.0, 1.0], textsize: 17.0},
+    {name: "C2", type: "CircleByRadius", pos: {xx: 0.10761019283746552, yy: 0.10761019283746552, zz: 1.0, xy: 0.0, xz: -0.6973140495867767, yz: 0.7920110192837463}, color: [0.0, 0.0, 1.0], radius: 3.8402083276822365, args: ["C"], size: 3},
+    {name: "Collection__2", type: "IntersectionCircleCircle", args: ["C0", "C2"]},
+    {name: "E", type: "SelectP", pos: [0.3868315514586632, -4.0, -0.8473436841466083], color: [0.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0},
+    {name: "D", type: "SelectP", pos: [4.0, 0.87197692543091, 0.6336841464133884], color: [0.0, 0.0, 0.0], args: ["Collection__2"], size: 3.0},
+    {name: "b", type: "Join", color: [0.0, 0.0, 0.0], args: ["D", "E"]},
+    {name: "Collection__3", type: "IntersectionCircleCircle", args: ["C1", "C2"]},
+    {name: "G", type: "SelectP", pos: [-2.7253510285384284, -4.0, -0.5590628740529464], color: [0.0, 0.0, 0.0], args: ["Collection__3"], size: 3.0},
+    {name: "F", type: "SelectP", pos: [4.0, 0.07219702996399643, 0.8725580409991271], color: [0.0, 0.0, 0.0], args: ["Collection__3"], size: 3.0},
+    {name: "c", type: "Join", color: [0.0, 0.0, 0.0], args: ["F", "G"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 537,
+    height: 373,
+    transform: [{visibleRect: [-5.98, 9.46, 15.5, -5.46]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

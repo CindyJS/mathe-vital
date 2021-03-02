@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>KomplexStetigkeit1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+f(x):=parse(Text0.val);
+
+plot(f(x),color->(0,0,0));
+
+x=A.x;
+y=f(x);
+del=(B.y-y);
+eps=(E.x-x);
+
+maxchoice=4;
+choice=1;
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+repeat(maxchoice,i,
+  if(|mouse().xy-(i/2-1/4,1+5/4)|<.25,choice=i);
+);
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+layer(4);
+clrscr();
+
+
+col2=(0,0,1);
+col1=(0,1,0);
+
+box(i,p):=(
+  w=0.2;
+  fillpoly((
+    p+(w,w),
+    p+(w,-w),
+    p+(-w,-w),
+    p+(-w,w)
+  ),color->if(choice==i,col1,col2),alpha->0.2);
+  connect((
+    p+(w,w),
+    p+(w,-w),
+    p+(-w,-w),
+    p+(-w,w),
+    p+(w,w)
+  ),color->(1,1,1)*.2,alpha->0.7,size->2);
+);
+
+repeat(maxchoice,i,
+  box(i,(i/2-1/4,1+5/4));
+  drawtext((i/2-2/4,2)+(.25,.15),align->"center",i,size->20)
+
+);
+
+
+
+par1=|L,P|/|L,M|;
+par2=|N,Q|/|N,O|;
+del=par1;
+//F.xy=(-.5,0);
+eps=par2;
+drawtext(L+(0,-.3),"$\varepsilon = "+format(del,2)+"$",size->12); 
+drawtext(N+(0,-.3),"$\delta = "+format(eps,2)+"$",size->12); 
+
+drawtext((-2.5,-1.5),
+"Stetigkeit in $z_0$:
+Für alle $\varepsilon >0$
+existiert ein $\delta >0$
+so dass aus $|z-z_0|<\delta$
+$|f(z)-f(z_0)|<\varepsilon$ folgt.
+",size->16);
+
+if(choice==1,f(x):=sin(x));
+if(choice==2,f(x):=exp(x));
+if(choice==3,f(x):=x^2/2);
+if(choice==4,f(x):=sqrt(x));
+if(choice==5,f(x):=1/(x-2));
+if(choice==6,f(x):=sin(1/x));
+if(choice==7,f(x):=sin(1/x)*x);
+
+z=complex(A.xy);
+fz=f(z);
+U.xy=gauss(fz);
+
+text=[
+"sin(z)",
+"exp(z)",
+"$z^2/2$",
+"$\sqrt{z}$",
+"$1\over x-2$",
+"$\sin(1/z)$",
+"$\sin(1/z)\cdot z$"
+];
+
+drawtext((0.5,1.5),"f(z)="+text_choice,size->20);
+
+
+
+//plot(f(x+1/100),color->(0,0,0));
+//plot(f(x-1/100),color->(0,0,0));
+//plot(f(x)+1/100,color->(0,0,0));
+
+
+
+//plot(f(x)-1/100,color->(0,0,0));
+
+if(|2*A.x-round(2*A.x)|<0.08,A.x=round(A.x*2)/2);
+
+x=A.x+0.00001;
+y=f(x);
+
+
+
+
+B.x=0;
+C.x=0;
+D.y=0;
+E.y=0;
+//err(del);
+
+
+
+
+
+n=200;
+max=-10000;
+min=10000;
+xmax=0;
+xmin=0;
+l=[];
+flag=false;
+
+fillcircle(U,del,color->(0,0,1),alpha->0.3);
+drawcircle(U,del,color->(0,0,1),alpha->1);
+
+fillcircle(A,eps,color->(.7,.3,0),alpha->0.3);
+drawcircle(A,eps,color->(.7,.3,0),alpha->1);
+
+
+forall(0..n,
+  w=#/n*2*pi;
+  ffz=f(complex(A+eps*(sin(w),cos(w))));
+  if(|ffz-fz|>del,flag=true);
+  draw(gauss(ffz),border->false,size->1,
+   color->if(|ffz-fz|<del,(0,0.6,0),(0.6,0,0))); 
+//draw((xi,yi),color->if(|y-yi|<del,(0,0.6,0),(0.6,0,0)),size->2,border->false);
+//  xo=xi;yo=yi;
+  l=l++[gauss(ffz)];
+);
+
+fillpoly(l,alpha->0.3,color->(.6,0,0));
+
+if(eps~=0,
+ drawtext((0.2,-1.5),"$\delta$ muss positiv sein",color->(0.6,0,0)),
+ if(flag,
+  drawtext((0.2,-1.5),"$\delta$ erfüllt die Bedingung nicht!",color->(0.6,0,0)),
+  drawtext((0.2,-1.5),"$\delta$ ist für dieses $\varepsilon$ ausreichend klein",color->(0,0.5,0))
+ );
+);
+//draw((0,min),(0,max));
+
+draw(A+(eps,0),A+(eps,eps+.25),color->(.7,.3,0),alpha->0.6);
+draw(A+(-eps,0),A+(-eps,eps+.25),color->(.7,.3,0),alpha->0.6);
+S.xy=A+(eps,eps+.25);
+R.xy=A+(-eps,eps+.25);
+
+
+draw(U+(del,0),U+(del,del+.25),color->(0,0,1),alpha->0.6);
+draw(U+(-del,0),U+(-del,del+.25),color->(0,0,1),alpha->0.6);
+G.xy=U+(del,del+.25);
+F.xy=U+(-del,del+.25);
+
+
+//draw((0,max),(xmax,max),color->(0,0.6,0));
+//draw((0,min),(xmin,min),color->(0,0.6,0));
+
+drawtext(U+U.xy/|U.xy|*.3,"$f(z_0)$",size->16,align->"center");
+drawtext(A+A.xy/|A.xy|*.3,"$z_0$",size->16,align->"center");
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 0.7989800094696209, 1.0], color: [1.0, 0.0, 0.0], plane: 9, textsize: 16.0, size: 4.0, printname: "$z_0$"},
+    {name: "K", type: "Free", pos: [0.0, -0.0, 4.0], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "g", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 0.0], args: ["K"], pinned: true},
+    {name: "h", type: "Through", pos: [4.0, 0.0010220872741556711, 0.0], color: [0.0, 0.0, 0.0], args: ["K"], plane: -5, pinned: true},
+    {name: "L", type: "Free", pos: [4.0, -3.1999999999999997, -1.6], color: [1.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "M", type: "Free", pos: [3.0, -4.0, -2.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 0.0], args: ["L", "M"], size: 3},
+    {name: "N", type: "Free", pos: [4.0, -2.400000000000001, -1.6], color: [1.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "O", type: "Free", pos: [4.0, -3.999999999999999, -2.666666666666665], color: [1.0, 0.0, 0.0], visible: false, labeled: true, size: 3.0},
+    {name: "k", type: "Segment", color: [0.0, 0.0, 0.0], args: ["N", "O"], size: 3},
+    {name: "P", type: "PointOnSegment", pos: [3.9999999999999987, -4.0, -2.0], color: [1.0, 1.0, 1.0], args: ["f"], size: 4.0},
+    {name: "Q", type: "PointOnSegment", pos: [4.0, -2.7128829793857516, -1.808588652923834], color: [1.0, 1.0, 1.0], args: ["k"], size: 4.0},
+    {name: "l", type: "Segment", color: [0.0, 0.0, 1.0], args: ["L", "P"], size: 3},
+    {name: "m", type: "Segment", color: [0.718, 0.333, 0.0], args: ["N", "Q"], size: 3},
+    {name: "G", type: "Free", pos: [-2.0459562968189573, 0.6815462797313421, 4.0], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "F", type: "Free", pos: [4.0, -0.4509104904313867, -2.646396899762291], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "F"], arrowshape: "full", arrowsides: "<==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "H", type: "Mid", color: [1.0, 0.0, 0.0], args: ["F", "G"], labeled: true, textsize: 14.0, size: 0.0, printname: "$2\\varepsilon$"},
+    {name: "S", type: "Free", pos: [4.0, 1.2473951316017866, 0.9327638840913086], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "R", type: "Free", pos: [4.0, 1.4411959702009232, 1.0776822170013907], color: [1.0, 0.0, 0.0], visible: false, labeled: true},
+    {name: "q", type: "Segment", color: [0.718, 0.333, 0.0], args: ["R", "S"], arrowshape: "full", arrowsides: "<==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "T", type: "Mid", color: [1.0, 1.0, 1.0], args: ["R", "S"], labeled: true, size: 0.0, printname: "$2\\delta$"},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "A"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "U", type: "Free", pos: [4.0, 2.292119390505025, -3.954565701211265], color: [0.0, 0.0, 1.0], textsize: 16.0, size: 3.0, printname: "$f(z_0)$"},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["K", "U"], arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 723,
+    height: 478,
+    transform: [{visibleRect: [-3.0859155438210717, 2.6227387267372335, 5.286005424969304, -2.9122242374146325]}],
+    axes: true,
+    grid: 0.5,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

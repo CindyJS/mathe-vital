@@ -1,0 +1,46 @@
+---
+title: Der Rechenschieber
+layout: page
+category: LinAlg1
+---
+
+<h3><a name="Ein_Rechenschieber"></a> Ein Rechenschieber </h3>
+<p></p>
+Multiplikation mit einem Rechenschieber. Werte eingeben und auf "Berechnen" drücken.
+<p></p>
+{% include_relative Sliderule3.html %}
+<p></p>
+Der Rechenschieber basiert auf einem Gruppenisomorphismus von $(\mathbb{R}^+,\cdot)$.
+Damit lassen sich Multiplikationen in $\mathbb{R}^+$ in Additionen  reeller Zahlen übersetzen. Addition lässt sich aber
+mechanisch durch Hintereinanderlegen von Maßstäben (Strecken) ausführen, was genau dem Prinzip des Rechenschiebers entspricht.
+<p></p>
+Der verwendete Isomorphismus ist
+<p></p>
+<div align="center">\[ \begin{array}{crlc} \phi\colon&amp;\mathbb{R}&amp;\to&amp;\mathbb{R}^+\\ &amp;x&amp;\mapsto&amp;e^x \end{array} \]</div>
+<p></p>
+mit Umkehrfunktion $\phi^{-1}(x)=\log(x)$. Es gilt:
+<p></p>
+<div align="center">\[ e^{x+y}=e^x\cdot e^y \quad\mbox{ bzw. }\quad \log(x\cdot y)=\log(x)+\log(y). \]</div>
+<p></p>
+Dadurch gilt:
+<p></p>
+<div align="center">\[ a\cdot b=e^{\log(a\cdot b)}=e^{\log(a)+\log(b)}. \]</div>
+<p></p>
+Bei der Berechnung von $a\cdot b$ mit dem Rechenschieber werden nun im Prinzip
+zunächst die beiden Faktoren durch deren Logarithmen ersetzt, diese werden dann addiert,
+und auf das Ergebnis der Addition wird dann wieder die Exponentialfunktion angewendet.
+Das Hin-und-Her-Rechnen zwischen normaler und logarithmischer Skala wird beim Rechenschieber einfach
+durch die Skalen auf den Rechenschieberlinealen erreicht. So muss man, um
+zwei Zahlen miteinander zu multiplizieren, einfach das folgende tun:
+Will man  2 x 3 berechnen, stellt man die "1"-Markierung des Schiebers
+über die "2"-Markierung des Rahmens. Danach sucht man die "3"-Markierung des Schiebers.
+Unter dieser Markierung steht dann am Rahmen das Ergebnis der Rechnung.
+<p></p>
+Es kann passieren, z.B. bei der Berechnung von 4 x 8, dass die gesuchte Markierung nicht mehr innerhalb der Grenzen des Rahmens liegt.
+In diesem Fall muss man etwas anders vorgehen (einfach mal im Applet ausprobieren).
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</li></ul>
+ </div>

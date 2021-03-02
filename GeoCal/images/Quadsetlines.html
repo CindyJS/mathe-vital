@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <title>Exported from http://localhost/cindyjs/editor/</title>
+        <style type="text/css">
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            #CSCanvas {
+                width: 100vw; height: 100vh;
+            }
+        </style>
+        <link rel="stylesheet" href="https://cindyjs.org/dist/latest/CindyJS.css">
+        <script type="text/javascript" src="https://cindyjs.org/dist/latest/Cindy.js"></script>
+        
+        
+        
+    
+        <script type="text/javascript">
+          var cdy = CindyJS({
+            scripts: "cs*",
+            angleUnit: "°",
+            exclusive: "true",
+            geometry: [
+              {color: [0, 0, 0], labeled: false, name: "a", overhang: 1.1, pinned: true, size: 3, type: "HorizontalLine", visible: true, pos: [0, 1, -1]},
+              {alpha: 0, color: [0, 1, 0], labeled: true, name: "H", printname: "1", size: 4, type: "Free", pos: [0.13023255813953488, 1, 0.11627906976744186]},
+              {labeled: false, name: "G", type: "Free", pos: [0.7947157696292078, 0.9999999999999999, 0.2202540387684439]},
+              {labeled: false, name: "K", type: "Free", pos: [1, 0.7066190622297845, 0.21942670125426536]},
+              {labeled: false, name: "L", type: "Free", pos: [1, 0.9604630533793503, 0.17591854077061264]},
+              {labeled: false, name: "M", type: "Free", pos: [0.7255751307961477, 1, 0.1597303535049307]},
+              {args: ["M", "G"], labeled: false, name: "b", type: "Join", visible: false},
+              {args: ["G", "K"], labeled: false, name: "c", type: "Join", visible: false},
+              {args: ["K", "L"], labeled: false, name: "d", type: "Join", visible: false},
+              {args: ["L", "M"], labeled: false, name: "e", type: "Join", visible: false},
+              {args: ["M", "K"], labeled: false, name: "f", type: "Join", visible: false},
+              {args: ["L", "G"], labeled: false, name: "g", type: "Join", visible: false},
+              {args: ["a", "g"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "A", type: "Meet"},
+              {args: ["a", "d"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "B", type: "Meet"},
+              {args: ["a", "f"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "D", type: "Meet"},
+              {args: ["a", "b"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "E", type: "Meet"},
+              {args: ["a", "c"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "C", type: "Meet"},
+              {args: ["a", "e"], color: [1.4285714285714286, 1.4285714285714286, 1.4285714285714286], labeled: true, name: "F", type: "Meet"},
+              {args: ["M", "G"], labeled: false, name: "h", type: "Segment", overhang: 1.1},
+              {args: ["G", "K"], labeled: false, name: "k", type: "Segment", overhang: 1.1},
+              {args: ["K", "L"], labeled: false, name: "l", type: "Segment", overhang: 1.1},
+              {args: ["L", "M"], labeled: false, name: "m", type: "Segment", overhang: 1.1},
+              {args: ["M", "K"], labeled: false, name: "n", type: "Segment", overhang: 1.1},
+              {args: ["G", "L"], labeled: false, name: "o", type: "Segment", overhang: 1.1},
+              {args: ["K", "D"], labeled: false, name: "p", type: "Segment", overhang: 1.1},
+              {args: ["G", "A"], labeled: false, name: "q", type: "Segment", overhang: 1.1},
+              {args: ["K", "C"], labeled: false, name: "r", type: "Segment", overhang: 1.1},
+              {args: ["L", "F"], labeled: false, name: "s", type: "Segment", overhang: 1.1},
+              {args: ["G", "E"], labeled: false, name: "t", type: "Segment", overhang: 1.1},
+              {args: ["B", "K"], labeled: false, name: "u", type: "Segment", overhang: 1.1}
+            ],
+            ports: [
+              {id: "CSCanvas", grid: 1, transform: [{visibleRect: [-8.62, 11.34, 18.58, -2.66]}]}
+            ],
+            use: [
+
+            ],
+            behavior: [
+
+            ]
+          });
+        </script>
+    </head>
+    <body>
+        <div id="CSCanvas"></div>
+    </body>
+    </html>
+  

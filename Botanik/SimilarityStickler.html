@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SimilarityStickler.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+abdist=B.xy-A.xy;
+
+
+stickler=[[[2.14,0.1],[1.62,0.1]],[[1.62,0.1],[1.46,1.26]],[[1.46,1.26],[0.78,2.1]],[[0.78,2.1],[0.5,1.02]],[[0.5,1.02],[-0.06,0.3]],[[-0.06,0.3],[0.34,0.06]],[[0.78,2.1],[0.7,3.78]],[[0.7,3.78],[1.34,3.02]],[[1.34,3.02],[1.7,2.9]],[[1.7,2.9],[2.06,3.3]],[[0.7,3.78],[-0.14,3.14]],[[-0.14,3.14],[-0.1,2.82]],[[-0.1,2.82],[0.34,2.38]],[[0.7,3.78],[0.7,4.3]],[[0.7,4.3],[1.18,4.38]],[[1.18,4.38],[1.46,4.78]],[[1.46,4.78],[1.42,5.38],[1.43,5.19],[1.44,5.08]],[[1.42,5.38],[1.02,5.86]],[[1.02,5.86],[0.58,5.86]],[[0.58,5.86],[0.18,5.5]],[[0.18,5.5],[0.14,4.9]],[[0.14,4.9],[0.34,4.54]],[[0.7,4.3],[0.34,4.54]],[[1.43,5.19],[1.6,5.19]],[[1.6,5.19],[1.6,5.03]],[[1.6,5.03],[1.44,5.08]],[[1.42,5.38],[1.46,4.78]]]*.4 ;
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+//p6mm;
+
+nn=round(7*|F,H|/|F,G|);
+
+if(mover()==A,B.xy=A+abdist);
+abdist=B.xy-A.xy;
+
+pc=complex(C);
+pd=complex(D);
+pe=complex(E);
+
+
+ga(z):=(z-pc)*(pc-pe)/(pc-pd)+pc;
+
+gb(z):=(z-pd)*(pd-pe)/(pd-pc)+pd;
+
+
+b=complex(B);
+z=complex(A);
+r=(b-z);
+complexstickler=apply(stickler,s,apply(s,complex(#)));
+objs=apply(complexstickler,s,apply(s,#*r+z));
+
+
+aa(objs):=apply(objs,r,apply(r,ga(#)));
+bb(objs):=apply(objs,r,apply(r,gb(#)));
+cc(objs):=apply(objs,r,apply(r,gc(#)));
+dd(objs):=apply(objs,r,apply(r,gd(#)));
+
+
+
+dr(objs):=apply(objs,s,draw(gauss(s_1),gauss(s_2)));
+
+
+rep(objs,n):=(
+   dr(objs);
+   if(n>0,
+     rep(aa(objs),n-1);    
+     rep(bb(objs),n-1);    
+   );
+);
+rep(objs,nn);
+count=0;
+stack=zerovector(100);
+
+
+//objs=complex(A);
+
+drawtext((2,4),"Iterationen="+nn,size->16);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.46896551724137936, -4.0, 1.0954880091424313], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "B", type: "Free", pos: [0.37837837837837823, -4.0, 1.073282171119274], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C", type: "Free", pos: [4.0, 0.9917355371900828, -1.3127748869888638], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "A"},
+    {name: "D", type: "Free", pos: [4.0, -1.0810810810810811, 1.4310428948256984], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "B"},
+    {name: "E", type: "Free", pos: [1.2444444444444442, -4.0, -3.529905807236722], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, printname: "C"},
+    {name: "F", type: "Free", pos: [-1.5879396984924625, -4.0, -0.7982199061590579], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, 3.3333333333333335, 0.6666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"], alpha: 0.8999999761581421},
+    {name: "H", type: "PointOnSegment", pos: [-1.6885034338764329, -4.0, -0.7982756376426466], color: [1.0, 1.0, 1.0], args: ["a"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.20000000298023224, alpha: 0.8999999761581421, text: "Abbildungen:\n$(A,B) \\to (A,C)$\n$(A,B) \\to (C,B)$", textsize: 16.0, dock: {corner: "UL", offset: [10.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 504,
+    height: 427,
+    transform: [{visibleRect: [-6.156915940583298, 6.005825978851193, 6.534640844913562, -4.74674296441698]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

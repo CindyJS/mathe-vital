@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>pNorm.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+niveau=false;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+p=exp((|A,C|*2)*log(2));
+
+norm(v):=(|v.x^p|+|v.y^p|)^(1/p);
+n=400;
+l=apply(0..n,i,v=(4*(sin(i*2*π/n),cos(i*2*π/n)));v/norm(v));
+
+//apply(l,draw((0,0),#,size->2,color->(1,1,1)));
+
+fillpolygon(l,color->(1,1,1),alpha->0.5);
+connect(l,size->2,color->(0,0,0.8));
+
+if(niveau,apply(1..30,i,connect(i*l/5,size->1,color->(0,0,0.8),alpha->0.2)););
+
+drawtext((0,0),"p="+p,size->14);
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -4.0, -2.6666666666666665], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, 4.0, 2.6666666666666665], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [2.66666664, -4.0, -2.6666666666666665], color: [1.0, 0.0, 0.0], args: ["a"]},
+    {name: "Text0", type: "Text", pos: [4.0, -3.5670103092783507, -2.6715005823473796], color: [0.0, 0.0, 0.0], text: "Norm (in logarithmischer Skala)"},
+    {name: "Text1", type: "Text", pos: [4.0, 3.7558685446009386, 2.433197713499491], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.2564102564102564, text: "Einheitskreis zur p-Norm\ndefiniert durch\n\n$||v||_p\\;=\\;\\left(|x^p|+|y^p|\\right)^{1/p}$\n", textsize: 16.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 718,
+    height: 413,
+    transform: [{visibleRect: [-2.1957619699595994, 1.8484533982612446, 3.3457392406941526, -1.3390674931036575]}],
+    axes: true,
+    grid: 0.5,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

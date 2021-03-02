@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>RegressionInput3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+basistext="1,x,x^2";
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+pts=allpoints();
+t="["+basistext+"]";
+bas(x):=parse(t);
+m=apply(pts,bas(#.x));
+y=apply(pts,#.y);
+ma=transpose(m)*m;
+mb=transpose(m)*y;
+mainv=inverse(ma);
+v=mainv*mb;
+f(x):=v*bas(x);
+plot(f(x),size->2);
+
+sq(x,y1,y2):=(
+   d=y2-y1;
+   p=((x,y1),(x,y2),(x+d,y2),(x+d,y1),(x,y1));
+   fillpoly(p,color->(1,0.5,0.5),alpha->0.4);
+   connect(p,color->(.8,0,0));
+);
+
+forall(pts,sq(#.x,#.y,(f(#.x))));
+
+tx=tokenize(basistext,",");
+t="";
+forall(1..length(tx),t=t+" +("+format(v_#,2)+")*"+tx_#);
+
+drawtext((-8,-3),"Basisfunktionen: "+basistext,size->14);
+drawtext((-8,-4),"Regressionsfunktion: "+t,size->14);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.36363636363636365, -1.8181818181818181], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "B", type: "Free", pos: [-3.36, -2.72, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "C", type: "Free", pos: [4.0, 0.32183908045977067, 1.1494252873563224], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "D", type: "Free", pos: [4.0, 0.9248554913294799, 0.578034682080925], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "E", type: "Free", pos: [4.0, -2.0465116279069773, 2.3255813953488396], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "F", type: "Free", pos: [4.0, 0.6906474820143891, 0.7194244604316549], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "G", type: "Free", pos: [4.0, 0.9692307692307688, 0.3846153846153846], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "H", type: "Free", pos: [4.0, -3.7142857142857144, -1.4285714285714286], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "K", type: "Free", pos: [4.0, 0.666666666666667, 0.4761904761904763], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "L", type: "Free", pos: [4.0, 1.9328859060402688, 0.33557046979865773], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 619,
+    height: 401,
+    transform: [{visibleRect: [-8.82, 9.34, 15.94, -6.7]}],
+    axes: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

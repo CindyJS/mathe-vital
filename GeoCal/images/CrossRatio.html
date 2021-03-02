@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>CrossRatio.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+C0.color=(0,0,0);
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+pp=mouse().xy;
+if(moving&li==[],
+ if(pp.y<0,pp=(pp.x,-pp.y));
+ C.xy=pp; 
+)
+;
+</script>
+<script id="csmousemove" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints(),|#,pp|<0.3);
+
+r=0.2;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+test=(min(erg)!=max(erg))&(li==[]);
+if(test,C0.color=(0.3,0.3,0.3),C0.color=(0,0,0));
+repaint();
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+L.xy=H.xy;
+if(|L,H|<0.2,H.xy=L.xy);
+
+
+dv1=(det(D,G,K)*det(D,E,F))/(det(D,G,F)*det(D,E,K));
+dv2=(det(H,G,K)*det(H,E,F))/(det(H,G,F)*det(H,E,K));
+
+drawtext((-7,-7),"$(A,B;C,D)_P$="+dv1,size->16,color->(0.6,0,0));
+drawtext((-7,-8),"$(A,B;C,D)_Q$="+dv2,size->16,color->(0,0.6,0));
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+pp=mouse().xy;
+li=select(allpoints(),|#,pp|<0.3);
+
+r=0.2;
+
+pp=(pp.x,-pp.y,1);
+p1=pp+(r,r,0);
+p2=pp+(-r,r,0);
+p3=pp+(-r,-r,0);
+p4=pp+(r,-r,0);
+
+mat=C0.matrix;
+//mat=mat/det(mat);
+
+erg=apply([p1,p2,p3,p4],if(#*mat*#<0,-1,1));
+moving=(min(erg)!=max(erg))&(li==[]);
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -1.0], color: [1.0, 0.0, 0.0], visible: false, textsize: 15.0},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.8], color: [1.0, 0.0, 0.0], visible: false, textsize: 15.0},
+    {name: "C", type: "Free", pos: [-0.3116883116883117, -4.0, -1.3332313864228755], color: [1.0, 0.0, 0.0], visible: false, textsize: 15.0, size: 0.0},
+    {name: "Collection__1", type: "ConicBy2Foci1P", args: ["A", "B", "C"]},
+    {name: "C0", type: "SelectConic", pos: {xx: {r: -0.03445516859231377, i: 1.5568008775271997E-18}, yy: {r: -0.11177978500240163, i: 1.1298745910826011E-17}, zz: 1.0, xy: 0.0, xz: {r: 0.03445516859231375, i: -1.5568008775272009E-18}, yz: -0.0}, dimDependent: 1, color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 3},
+    {name: "", type: "SelectConic", pos: {xx: 0.9999999999999999, yy: {r: -0.0024268902497256795, i: -1.9081958235744878E-17}, zz: {r: 0.20097445206732018, i: -2.4873774714773933E-16}, xy: 0.0, xz: {r: -0.9999999999999998, i: -2.8034483695687114E-16}, yz: 0.0}, color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0},
+    {name: "D", type: "PointOnConic", pos: [{r: -3.2287541157257076, i: -3.332621059920118E-17}, -4.0, {r: 1.5221708102843652, i: -6.665242119840237E-17}], color: [1.0, 0.0, 0.0], args: ["C0"], labeled: true, textsize: 15.0, size: 6.0, printname: "P"},
+    {name: "E", type: "PointOnConic", pos: [{r: 0.10090678277632666, i: 6.673360801851123E-17}, -4.0, {r: -1.3392100286624304, i: 6.634266319264008E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 15.0, size: 4.0, printname: "B"},
+    {name: "F", type: "PointOnConic", pos: [4.0, {r: 1.2618613147226436, i: 1.0534082020177835E-17}, {r: 0.7878379400380036, i: -2.043892935679624E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 15.0, size: 4.0, printname: "D"},
+    {name: "G", type: "PointOnConic", pos: [4.0, {r: -3.0369035956237544, i: 4.100268964437805E-17}, {r: -1.3286532010713101, i: 6.557941658375916E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 15.0, size: 4.0, printname: "A"},
+    {name: "K", type: "PointOnConic", pos: [4.0, {r: 3.943689648026152, i: 6.966481665190478E-17}, {r: 1.4458528315525851, i: -4.2980682462336457E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], labeled: true, textsize: 15.0, size: 4.0, printname: "C"},
+    {name: "H", type: "Free", pos: [3.728155339805825, -4.0, 0.9966875413064213], color: [0.0, 1.0, 0.0], labeled: true, textsize: 15.0, size: 6.0, printname: "Q"},
+    {name: "a", type: "Join", color: [0.757, 0.0, 0.0], args: ["G", "D"], overhang: 1.185, clip: "inci"},
+    {name: "b", type: "Join", color: [0.757, 0.0, 0.0], args: ["D", "E"], overhang: 1.185, clip: "inci"},
+    {name: "c", type: "Join", color: [0.757, 0.0, 0.0], args: ["D", "K"], overhang: 1.185, clip: "inci"},
+    {name: "d", type: "Join", color: [0.757, 0.0, 0.0], args: ["D", "F"], overhang: 1.185, clip: "inci"},
+    {name: "e", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "F"], overhang: 1.185, clip: "inci"},
+    {name: "f", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "K"], overhang: 1.185, clip: "inci"},
+    {name: "g", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "E"], overhang: 1.185, clip: "inci"},
+    {name: "h", type: "Join", color: [0.098, 0.62, 0.306], args: ["H", "G"], overhang: 1.185, clip: "inci"},
+    {name: "L", type: "PointOnConic", pos: [{r: 3.9594618921573974, i: -3.3323435796433054E-17}, -4.0, {r: 1.4593006460095683, i: -6.664687159286617E-17}], color: [1.0, 0.0, 0.0], args: ["C0"], visible: false, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 530,
+    height: 395,
+    transform: [{visibleRect: [-10.228054766210283, 6.526473041296086, 10.422874856995241, -8.864314130715579]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

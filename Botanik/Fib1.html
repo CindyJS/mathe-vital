@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Fib1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+fib=(1,1,2,3,5,8,13,21,34,55,89,144);
+r0=[0,1,1+i,i];
+r=r0;
+scal=exp(-|D,F|/3)*6;
+dp(r,col):=(
+hh=hig(r);
+if(hh*scal<1000,
+  rr=apply(r,scal*gauss(#));
+  fillpoly(rr,color->col);
+  mid=scal*(r_1+r_3)/2;
+  siz=sqrt(hh*scal)*6;
+  drawtext(gauss(mid)-(0,siz/2)/7,hh,size->siz,align->"center",color->(1,1,1));
+  connect(rr++[rr_1],color->(0,0,0));
+);
+);
+db(r):=(
+  rr=apply(r,scal*gauss(#));
+  connect(rr++[rr_1],color->(0,0,0),size->2);
+);
+
+hig(r):=max(apply(r,im(#)))-min(apply(r,im(#)));
+cor(r):=max(apply(r,re(#)))+i*min(apply(r,im(#)));
+
+lu(r):=min(apply(r,re(#)))+i*min(apply(r,im(#)));
+ru(r):=max(apply(r,re(#)))+i*min(apply(r,im(#)));
+ro(r):=max(apply(r,re(#)))+i*max(apply(r,im(#)));
+lo(r):=min(apply(r,re(#)))+i*max(apply(r,im(#)));
+all(r1,r2):=[lu(r1),ru(r2),ro(r2),lo(r1)];
+n=round(|A,C|*.91);
+s=1;
+g=0.5;
+dp(r,hue(g)*.7);
+repeat(n,
+g=g+0.1;
+hi=hig(r);
+co=cor(r);
+new=apply(r0,#*hi+co);
+dp(apply(new,#*s),hue(g)*.7);
+r=apply(all(r,new),#/i);
+s=s*i;
+);
+
+
+db(apply(r,#*s));
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-1.8979926962574436, -4.0, 0.09415455503541577], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "B", type: "Free", pos: [1.8823529411764706, -4.0, 0.09411764705882353], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [-1.897992696257444, -4.0, 0.09415455503541578], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "D", type: "Free", pos: [-2.133333333333333, -4.0, 0.10666666666666665], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "E", type: "Free", pos: [2.1333333333333333, -4.0, 0.10666666666666665], color: [0.0, 0.0, 0.0], size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [-2.133333333333333, -4.0, 0.10666666666666666], color: [1.0, 1.0, 1.0], args: ["b"]},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], args: ["D"], pinned: true, text: "Anzahl", textsize: 14.0, dock: {to: "D", offset: [11.049999999999983, -20.90625]}},
+    {name: "Text1", type: "Text", pos: [-2.0754716981132075, -4.0, 0.11325471698113207], color: [0.0, 0.0, 0.0], pinned: true, text: "Zoom", textsize: 14.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 695,
+    height: 545,
+    transform: [{visibleRect: [-53.894210745522706, 41.399416909620996, 61.8908788004998, -49.39608496459809]}],
+    background: "rgb(255,255,255)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

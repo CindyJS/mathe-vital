@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>NewtonFractal.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+
+n4=|Q,S|/|Q,R|;
+
+//Farbe der Schieberegler setzen
+C.color=(1,1,1);
+D.color=(1,1,1);
+F.color=(1,1,1);
+G.color=(1,1,1);
+H.color=(1,1,1);
+L.color=(1,1,1);
+Q.color=(1,1,1);
+R.color=(1,1,1);
+
+
+
+//Variable um Punkte zu zeichnen
+drawpoints=false;
+K.alpha=0;
+background=false;
+
+
+//Koeffizientenfunktion
+coeff(string,int):=(
+
+  //Liste anlegen
+  if(int==1,coeff=[0]);
+
+  //err(string);
+
+  //vorderste Hochzahl berechnen
+
+    //Index der letzten Stelle der ersten Hochzahl berechnen
+    if(indexof(string,"z")+3<=length(string),
+      if(isreal(parse(string_(indexof(string,"z")+3))),
+        index=indexof(string,"z")+3,
+        index=indexof(string,"z")+2),
+      index=length(string));
+  //err(index);
+
+  //erste Hochzahl berechnen
+
+  bool=(indexof(string,"z")==0)% ((indexof(string,"z")>indexof(string,"+",2))&(indexof(string,"+",2)!=0)&(!iscomplex(parse(substring(string,0,indexof(string,"z")-2))))) % ((indexof(string,"z")>indexof(string,"-",2))&(indexof(string,"-",2)!=0)&(!iscomplex(parse(substring(string,0,indexof(string,"z")-2)))));
+
+
+
+  //err(bool);
+
+
+
+  if(bool,
+    grad=0,
+    if(indexof(string,"z")+1>length(string),
+      grad=1,
+      if(string_(indexof(string,"z")+1)=="+" %string_(indexof(string,"z")+1)=="-",
+        grad=1,
+        grad=parse(substring(string,indexof(string,"z")+1,index))
+        );
+    );
+  );
+
+  //err(grad);
+
+
+  //index2 definieren (wenn Konstante nicht am Ende des Strings steht wird dieser index2 gebraucht)
+
+  if((indexof(string,"+",2)!=0)&(indexof(string,"-",2)!=0),
+    if(indexof(string,"+",2)<indexof(string,"-",2),
+      index2=indexof(string,"+",2)-1,
+      index2=indexof(string,"-",2)-1
+    ),
+    if(indexof(string,"+",2)!=0,
+      index2=indexof(string,"+",2)-1,
+      index2=indexof(string,"-",2)-1
+    );
+  );
+
+  //err(index2);
+
+
+  //Koeffizient berechnen
+
+  bool2=((indexof(string,"z")>indexof(string,"+",2))&(indexof(string,"+",2)!=0)&(!iscomplex(parse(substring(string,0,indexof(string,"z")-2)))))% ((indexof(string,"z")>indexof(string,"-",2))&(indexof(string,"-",2)!=0)&(!iscomplex(parse(substring(string,0,indexof(string,"z")-2)))));
+
+  //err(bool2);
+
+
+
+  if(indexof(string,"z")==0,
+    co=parse(string),
+    if(bool2,
+      co=parse(substring(string,0,index2)),
+      if(indexof(string,"z")==1,
+        co=1,
+        if(string_(indexof(string,"z")-1)=="+",
+          co=1,
+          if(string_(indexof(string,"z")-1)=="-",
+            co=-1,
+            if(string_(indexof(string,"z")-1)=="*",
+              co=parse(substring(string,0,(indexof(string,"z")-2))),
+              co=parse(substring(string,0,(indexof(string,"z")-1)))
+            );
+          );
+        );
+      );
+    );
+  );
+
+
+  //err(co);
+
+    //Listenlänge anpassen und mit hinteren Nullen auffüllen
+  if(grad+1>length(coeff), coeff=coeff++apply(1..grad+1-length(coeff),0));
+
+    //Ausnahmefall der leeren Liste abfangen und Koeffizient in Liste schreiben
+    if(iscomplex(co),
+      coeff_(grad+1)=coeff_(grad+1)+co;);
+
+  //err(coeff);
+
+
+
+  //Rekursion für alle Terme
+
+    //Rekursion aufrufen
+
+  if(indexof(string,"z")!=0,
+    if((indexof(string,"z")==length(string)),
+      if(bool2,
+        coeff(substring(string,index2,length(string)),2),
+        coeff(substring(string,index,length(string)),2)),
+      if(string_(indexof(string,"z")+1)=="+" % string_(indexof(string,"z")+1)=="-",
+          coeff(substring(string,indexof(string,"z"),length(string)),2),
+          if(bool2,
+            coeff(substring(string,index2,length(string)),2),
+            coeff(substring(string,index,length(string)),2));
+       );
+    );
+  );
+
+
+  //Ausgabe
+  coeff;
+);
+
+
+
+//Koeffizientenfunktion allgemein
+coeff(string):=coeff(string,1);
+
+
+
+//Grad des Polynoms berechnen
+grad(string):=length(coeff(string))-1;
+
+
+
+//Färbefunktion
+colorize(z,zeroes):=(
+
+
+  int=0;complex=z;
+//err("ausgeführt");
+  bool1=|p(complex)|~!=0;
+  bool2=int<maxiter;
+  bool3=bool1&bool2;
+  //err(complex-p(complex)/d1p(complex));
+  //err(f(complex));
+  while(bool3,
+    //err(complex);
+    complex=f(complex);
+    int=int+1;
+    bool1=|p(complex)|~!=0;
+    bool2=int<maxiter;
+    bool3=bool1&bool2;
+    );
+  int2=1;
+  //err(int);
+  //err(complex);
+  while(int2<=length(zeroes),
+    //err(complex);
+    //err(zeroes_int2);
+    //eps=0.00000005; //funktioniert bis einschließlich z^11, aber fehler bei z^5
+    //eps=0.001;  //scheint gut zu tun; noch kleiner wählbar???
+    eps=0.01;   //tut definitiv!!!
+    //err(|complex-zeroes_(int2)|<eps);
+    //if(complex~=zeroes_int2, color=int2/length(zeroes));
+    if(|complex-zeroes_(int2)|<eps, color=int2/length(zeroes));
+    int2=int2+1;
+  );
+
+  //hue(color)+int/maxiter*(1,1,1)-(1-int/maxiter)*(1,1,1); //Färbung nach Nullstelle und Iterationsschritten weiß
+  //hue(color)-(int-1)/maxiter*(1,1,1)+(1-int/maxiter)*(1,1,1);//Färbung nach NS und Iterationszahl schwarz
+  //hue(int/maxiter)+int/maxiter*(1,1,1)-(1-int/maxiter)*(1,1,1); //Färbung nach Iterationsschritten weiß
+  //hue(int/maxiter)-int/maxiter*(1,1,1)+(1-int/maxiter)*(1,1,1); //Färbung nach Iterationsschritten schwarz
+
+
+  //Färbevarianten
+
+  if(nn3==0,
+    if(nn2==0,
+      hue(color)+int/maxiter*(1,1,1)-(1-int/maxiter)*(1,1,1),
+      //hue(color)+mod(int,2)*(1,1,1)*0.2+int/maxiter*(1,1,1)*0.8-(1-int/maxiter)*(1,1,1)*0.8,
+      if(background2,
+        hue(nn4)+int/maxiter*(1,1,1)-(1-int/maxiter)*(1,1,1),
+        hue(4*int/maxiter)+(int/maxiter)^2*(1,1,1)-(1-int/maxiter)*(1,1,1)
+       // if(int<10,
+          //hue(int/5)-grey(int/10),
+          //hue(int/maxiter)+int/maxiter*(1,1,1)
+        //)
+      )
+    ),
+    if(nn2==0,
+      hue(color)-int/maxiter*(1,1,1)+(1-int/maxiter)^4*(1,1,1),
+      if(background2,
+        hue(nn4)-int/maxiter*(1,1,1),//+(1-int/maxiter)*(1,1,1),
+        hue(4*int/maxiter)-int/maxiter*(1,1,1)//+(1-int/maxiter)*(1,1,1)
+      )
+    )
+  );
+
+
+
+
+);
+
+
+
+
+//Zeichnenbutton
+paint():=(
+
+  if(coeff(Text3.val)==[0],M.x=G.x;n2=1);
+
+  layer(1);clrscr();
+  K.alpha=0;
+  drawpoints=false;
+  //Polynom, Ableitung und Newtonverfahren
+  fractal=Text3.val;
+  p(z):=parse(fractal);
+  d1p(z):=d(p(#),z);
+  f(z):=z-p(z)/(d1p(z));
+
+
+  //Koeffizienten bestimmen
+  coeff=coeff(Text3.val);
+
+  //Nullstellen bestimmen
+  zeroes=roots(coeff);
+
+  //Zeichengenauigkeit/Iterationstiefe
+  maxiter=(grad(Text3.val)+1)*5;
+
+  //Schieberegler auslesen
+  nn1=n1;
+  nn2=n2;
+  nn3=n3;
+  nn4=n4;
+  background2=background;
+
+
+  //Zeichnen
+  layer(0);clrscr();
+  colorplot(colorize(complex(#),zeroes),A,B,startres->10,pxlres->nn1);
+  if(nn3==0,
+    forall(zeroes,draw(gauss(#),color->(1,1,1),noborder->true)),
+    forall(zeroes,draw(gauss(#),color->(0,0,0),noborder->true))
+  );
+);
+
+
+//Button animieren
+
+animate():=(
+
+  drawpoints=false;
+  layer(1);clrscr();
+  Text15.alpha=0;
+  Text16.alpha=0;
+  Text18.alpha=0;
+
+
+
+
+  //Liste erstellen
+  points=[K];PT=K;
+
+  repeat(maxiter,
+    PT=gauss(f(complex(PT.xy)));
+    points=points++[PT];
+  );
+
+    //Listenlänge an Konvergenz anpassen
+  while(length(points)<2000&|p(points_(length(points)))|>0.1,
+    repeat(maxiter,
+      PT=gauss(f(complex(PT.xy)));
+      points=points++[PT];
+    );
+  );
+
+
+  points2=points;
+
+  //mehrfache Nullstellen hinten entfernen
+  while(|p(complex(points2_(length(points2))))|<0.1,
+    help=points2_(length(points2));
+    points2=apply(1..length(points2)-1,points2_#);
+  );
+
+  if(length(points2)<length(points),points2=points2++[help]);
+
+
+
+  //Animationsdauer festlegen
+  if(length(points2)<12,wait=6500/(length(points2)),wait=15000/(length(points2)));
+
+  //Punkte einzeichnen
+  if(nn3==0,
+
+    K.color=(0,0,0);
+    K.size=5;
+    wait(wait);
+    forall(1..length(points2)-1,t,
+      connect([points2_t,points2_(t+1)],linecolor->(0,0,0),linesize->1.2);
+      draw(points2_(t+1),size->2.5,color->(1,1,1));
+      draw(points2_t,size->2.5,color->(1,1,1));
+      //wait(500);
+      wait(wait);
+    );
+
+    //(connect(points,linecolor->(0,0,0),linesize->1.2);
+    //forall(points2,draw(#,size->2.5,color->(1,1,1)));
+    draw(K,color->(0,0,0),size->5);
+    draw(points2_(length(points2)),size->5,color->(1,1,1)),
+
+
+    K.color=(1,1,1);
+    K.size=5;
+    wait(wait);
+    forall(1..length(points2)-1,t,
+
+      connect([points2_t,points2_(t+1)],linecolor->(1,1,1),linesize->1.2);
+      draw(points2_(t+1),size->2.5,color->(0,0,0));
+      draw(points2_t,size->2.5,color->(0,0,0));
+      //wait(500);
+      wait(wait);
+    );
+    //(connect(points,linecolor->(1,1,1),linesize->1.2);
+    //forall(points2,draw(#,size->2.5,color->(0,0,0)));
+    draw(K,color->(1,1,1),size->5);
+    draw(points2_(length(points2)),size->5,color->(0,0,0));
+  );
+
+  drawpoints=true;
+
+);
+
+
+
+
+
+
+
+n1=1;n2=0;n3=0;
+paint();
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmove" type="text/x-cindyscript">
+n1=round(|D,E|/|C,D|*2)+1;
+
+n2=round(|F,M|/|F,G|);
+
+n3=round(|H,N|/|H,L|);
+
+n4=|Q,S|/|Q,R|;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+//Position der Schieberegler
+
+E.x=D.x-(n1-1)*(D.x-C.x)/2;
+M.x=F.x+n2*(G.x-F.x);
+N.x=H.x+n3*(L.x-H.x);
+
+
+//Schrift zum Konvergenzverhalten
+
+if(drawpoints,vis=1,vis=0);
+Text15.alpha=vis;
+Text16.alpha=vis;
+Text18.alpha=vis;
+
+
+
+//Button Hintergrundfarbe
+Text17.alpha=n2;
+
+
+//Farbskala Hintergrundfarbe
+if(n2==0,
+  layer(2);clrscr();Q.alpha=0;R.alpha=0;S.alpha=0;d.alpha=0;background=false,
+  if(background,
+    layer(2);colorplot(hue(|#.y-O.y|/|O.y-P.y|),O,P);
+    Q.alpha=1;R.alpha=1;S.alpha=1;d.alpha=1,
+    layer(2);clrscr();Q.alpha=0;R.alpha=0;S.alpha=0;d.alpha=0
+  );
+);
+
+//Farbe von K
+if(nn3==0,K.color=(0,0,0),K.color=(1,1,1));
+//Button Konvergenzverhalten
+
+if(drawpoints,
+  K.alpha=1;
+  layer(1);clrscr();
+  points=[K];
+
+  PT=K;
+
+  repeat(maxiter,
+    PT=gauss(f(complex(PT.xy)));
+    points=points++[PT];
+  );
+
+  points2=points--[K];
+
+  if(nn3==0,
+
+    (connect(points,linecolor->(0,0,0),linesize->1.2);
+    forall(points2,draw(#,size->2.5,color->(1,1,1)));
+    draw(K,color->(0,0,0),size->5);
+    draw(points2_(length(points2)),size->5,color->(1,1,1));),
+
+
+
+    (connect(points,linecolor->(1,1,1),linesize->1.2);
+    forall(points2,draw(#,size->2.5,color->(0,0,0)));
+    draw(K,color->(1,1,1),size->5);
+    draw(points2_(length(points2)),size->5,color->(0,0,0));)
+  );
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+eps2=0.001;
+if(drawpoints,
+  if(key()=="w",K.y=K.y+eps2);
+  if(key()=="s",K.y=K.y-eps2);
+  if(key()=="a",K.x=K.x-eps2);
+  if(key()=="d",K.x=K.x+eps2);
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 4.0, -0.8], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, 4.0, 0.8], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "Text3", type: "EditableText", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, text_fontfamily: "Courier New", minwidth: 300, text: "z^3-1", textsize: 18.0, textbold: true, dock: {corner: "LL", offset: [379.0, 31.0]}},
+    {name: "C", type: "Free", pos: [4.0, 2.3547169811320754, 0.668648946774283], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "D", type: "Free", pos: [4.0, 1.5555555555555556, 0.4444444444444444], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"]},
+    {name: "E", type: "PointOnSegment", pos: [4.0, 1.5555555555555554, 0.4444444444444445], color: [0.0, 0.0, 0.0], args: ["a"]},
+    {name: "K", type: "Free", pos: [-3.0921985815602837, -4.0, 1.256680644646702], dimDependent: 1, color: [0.0, 0.0, 0.0], alpha: 0.0, plane: 2},
+    {name: "F", type: "Free", pos: [4.0, 0.627177700348432, 0.6173936268124912], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "G", type: "Free", pos: [4.0, 0.4787234042553192, 0.47125524174251326], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["F", "G"]},
+    {name: "H", type: "Free", pos: [4.0, -0.9198606271777003, 0.6173936268124912], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "L", type: "Free", pos: [4.0, -0.702127659574468, 0.47125524174251326], dimDependent: 1, color: [1.0, 1.0, 1.0], pinned: true},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 0.0], args: ["H", "L"]},
+    {name: "M", type: "PointOnSegment", pos: [4.0, 0.6271777003484321, 0.6173936268124912], color: [0.0, 0.0, 0.0], args: ["b"]},
+    {name: "N", type: "PointOnSegment", pos: [4.0, -0.9198606271777006, 0.6173936268124912], color: [0.0, 0.0, 0.0], args: ["c"]},
+    {name: "O", type: "Free", pos: [4.0, 0.5454545454545454, 0.36363636363636365], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "P", type: "Free", pos: [4.0, -1.2307692307692308, 0.3076923076923077], color: [1.0, 0.0, 0.0], visible: false, pinned: true, labeled: true},
+    {name: "Q", type: "Free", pos: [4.0, 0.5, 0.3333333333333333], dimDependent: 1, color: [1.0, 1.0, 1.0], alpha: 0.0, plane: 2, pinned: true},
+    {name: "R", type: "Free", pos: [4.0, -1.3333333333333333, 0.3333333333333333], dimDependent: 1, color: [1.0, 1.0, 1.0], alpha: 0.0, plane: 2, pinned: true},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 0.0], args: ["Q", "R"], alpha: 0.0, plane: 2},
+    {name: "S", type: "PointOnSegment", pos: [4.0, -0.4966365383333331, 0.3333333333333333], color: [0.0, 0.0, 0.0], args: ["d"], alpha: 0.0, plane: 2},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], dock: {corner: "LL", offset: [454.0, 11.0]}},
+    {name: "Text2", type: "Text", color: [0.0, 0.0, 0.0], text_fontfamily: "Courier New", pinned: true, text: "p(z):=", textsize: 18.0, textbold: true, dock: {corner: "LL", offset: [306.0, 31.0]}},
+    {name: "Text1", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0], fillalpha: 0.27272728085517883, script: "paint();", text: "neu zeichnen", textsize: 18.0, textbold: true, dock: {corner: "LL", offset: [777.0, 31.0]}},
+    {name: "Text4", type: "Button", pos: [4.0, -0.6812227074235807, -0.38688203252223796], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0], fillalpha: 0.27272728085517883, script: "if(drawpoints,\n  drawpoints=false;\n  layer(1);clrscr();K.alpha=0;,\n  drawpoints=true);", text: "Konvergenzverhalten", textsize: 18.0, textbold: true},
+    {name: "Text5", type: "Text", pos: [4.0, 2.705882352941177, 0.651441069467592], color: [0.0, 0.0, 0.0], pinned: true, text: "Zeichenqualität", textsize: 18.0, textitalics: true},
+    {name: "Text6", type: "Text", pos: [4.0, 2.092050209205021, 0.7413889995614434], color: [0.0, 0.0, 0.0], pinned: true, text: "schlecht", textsize: 14.0, textitalics: true},
+    {name: "Text7", type: "Text", pos: [4.0, 1.5846645367412138, 0.5661085332114536], color: [0.0, 0.0, 0.0], pinned: true, text: "mittel", textsize: 14.0, textitalics: true},
+    {name: "Text8", type: "Text", pos: [4.0, 1.295336787564767, 0.4590465567232772], color: [0.0, 0.0, 0.0], pinned: true, text: "gut", textsize: 14.0, textitalics: true},
+    {name: "Text9", type: "Text", pos: [4.0, 0.9864864864864864, 0.5986215232945439], color: [0.0, 0.0, 0.0], pinned: true, text: "Färbeart", textsize: 18.0, textitalics: true},
+    {name: "Text10", type: "Text", pos: [4.0, 0.2063492063492063, 0.7031427416475594], color: [0.0, 0.0, 0.0], pinned: true, text: "Nullstellen", textsize: 14.0, textitalics: true},
+    {name: "Text11", type: "Text", pos: [4.0, 0.13994169096209913, 0.5165946673329008], color: [0.0, 0.0, 0.0], pinned: true, text: "Iterationszahl", textsize: 14.0, textitalics: true},
+    {name: "Text12", type: "Text", pos: [4.0, -0.5072463768115942, 0.6419998945477717], color: [0.0, 0.0, 0.0], pinned: true, text: "Divergenzfarbe", textsize: 18.0, textitalics: true},
+    {name: "Text13", type: "Text", pos: [4.0, -1.4518518518518517, 0.6562665588710556], color: [0.0, 0.0, 0.0], pinned: true, text: "weiß", textsize: 14.0, textitalics: true},
+    {name: "Text14", type: "Text", pos: [4.0, -1.1428571428571426, 0.5062627739862429], color: [0.0, 0.0, 0.0], pinned: true, text: "schwarz", textsize: 14.0, textitalics: true},
+    {name: "Text15", type: "Text", pos: [4.0, -0.23673469387755097, -0.3616162671330306], color: [0.0, 0.0, 0.0], alpha: 0.0, pinned: true, text: "Eine Feinjustierung des Startpunktes", textsize: 15.0, textitalics: true},
+    {name: "Text16", type: "Text", pos: [4.0, 0.098159509202454, -0.3623557687018098], color: [0.0, 0.0, 0.0], alpha: 0.0, pinned: true, text: "ist mit den Tasten W,A,S,D möglich.", textsize: 15.0, textitalics: true},
+    {name: "Text17", type: "Button", pos: [4.0, 0.8571428571428572, 0.3722520396957668], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0], fillalpha: 0.27272728085517883, alpha: 0.0, pinned: true, script: "if(background,background=false,background=true);", text: "Hintergrundfarbe", textsize: 18.0, textitalics: true},
+    {name: "Text18", type: "Button", pos: [4.0, 0.6310679611650486, -0.43007759926015776], color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 1.0], fillalpha: 0.27272728085517883, alpha: 0.0, script: "if(drawpoints,animate());\n", text: "Animation", textsize: 18.0, textbold: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 956,
+    height: 591,
+    transform: [{visibleRect: [-11.2984803424544, 5.835478858190735, 10.282632959016942, -7.505983444287889]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

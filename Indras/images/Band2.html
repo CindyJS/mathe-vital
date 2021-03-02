@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Band2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -0.5714285714285714], color: [1.0, 0.0, 0.0], alpha: 0.0, pinned: true, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -0.0, 0.2857142857142857], color: [1.0, 0.0, 0.0], alpha: 0.0, pinned: true, labeled: true},
+    {name: "a", type: "Join", color: [0.757, 0.0, 0.0], args: ["A", "B"], alpha: 0.4000000059604645, labeled: true},
+    {name: "C", type: "PointOnLine", pos: [-1.4400000000000002, -0.0, 4.0], color: [1.0, 1.0, 1.0], args: ["a"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "D", type: "PointOnLine", pos: [4.0, -0.0, 0.5882352941176471], color: [1.0, 1.0, 1.0], args: ["a"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "E", type: "Mid", color: [1.0, 0.0, 0.0], args: ["C", "D"], alpha: 0.0, labeled: true},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "D"], alpha: 0.8999999761581421, labeled: true},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "C"], alpha: 0.8999999761581421, labeled: true},
+    {name: "F", type: "PointOnLine", pos: [4.0, 3.8588235294117657, 0.5882352941176471], color: [1.0, 1.0, 1.0], args: ["b"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "d", type: "Orthogonal", color: [0.757, 0.0, 0.0], args: ["b", "F"], alpha: 0.4000000059604645, labeled: true},
+    {name: "G", type: "Meet", color: [1.0, 1.0, 1.0], args: ["c", "d"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "H", type: "Mid", color: [1.0, 0.0, 0.0], args: ["G", "F"], alpha: 0.0, labeled: true},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["H", "F"], alpha: 0.8999999761581421},
+    {name: "C1", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["E", "D"], alpha: 0.8999999761581421},
+    {name: "e", type: "Join", color: [0.0, 0.0, 1.0], args: ["H", "E"], alpha: 0.0, labeled: true},
+    {name: "Tr0", type: "TrTranslation", color: [0.0, 0.0, 1.0], args: ["G", "F"], alpha: 0.0, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr2", type: "TrInverse", color: [0.0, 0.0, 1.0], args: ["Tr0"], alpha: 0.0, dock: {offset: [0.0, -0.0]}},
+    {name: "K", type: "PointOnCircle", pos: [4.0, {r: 3.330162771144568, i: 1.6054492896108002E-16}, {r: 1.1098025524358586, i: 6.147411615502242E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: -1.1209272496614544, i: 7.652939573536105E-17}, -4.0, {r: -0.395283493317962, i: -8.418973564524862E-19}], color: [1.0, 1.0, 1.0], args: ["K"], pinned: true, size: 0.0},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C1", "e"]},
+    {name: "L", type: "SelectP", pos: [-3.5977653631284907, -4.0, -1.1173184357541899], color: [1.0, 1.0, 1.0], args: ["Collection__1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "Tr1", type: "TrMoebius", color: [0.0, 0.0, 1.0], args: ["G", "C", "K", "L", "F", "D"], alpha: 0.0, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr3", type: "TrInverseMoebius", color: [0.0, 0.0, 1.0], args: ["Tr1"], alpha: 0.0, dock: {offset: [0.0, -0.0]}},
+    {name: "IFS0", type: "IFS", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1", "Tr2", "Tr3"], alpha: 0.30000001192092896, ifs: [{prob: 0.463302752293578, color: [1.0, 0.0, 0.0]}, {prob: 0.4128440366972477, color: [1.0, 0.884, 0.0]}, {prob: 0.44495412844036697, color: [1.0, 0.0, 0.0]}, {prob: 0.5045871559633027, color: [1.0, 0.884, 0.0]}], dock: {offset: [0.0, -0.0]}},
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 642,
+    height: 349,
+    transform: [{visibleRect: [-8.18, 10.54, 17.5, -3.42]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>AugmentingPath.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+screenlimit=-8;
+screenlimitX=-4;
+pointdist=0.4;
+segdist=0.4;
+
+noPoints = [SliderBegin1, Slider1, SliderEnd1, SliderBegin2, Slider2, SliderEnd2];
+noLines = [SliderLine1, SliderLine2];
+
+//Buttonhandler
+modi=[Text0,Text1,Text2,Text4];
+initmodi():=(
+  apply(modi,m,m:"old"=false);
+  modus=1; 
+);
+initmodi();
+buttons():=(
+    l=select(modi,m,(m:"old")!=(m.pressed));
+    if(l!=[],apply(modi--l,m,m.pressed=false));
+    apply(modi,m,m:"old"=m.pressed);
+    modus=select(1..length(modi),i,(modi_i).pressed);
+    modus=if(modus==[],0,modus_1);
+    err(modus);
+);
+//Ende Buttonhandler
+
+
+//Mouseevents abfangen
+cont(s,pos):=(
+  aa=s.begin;
+  bb=s.end;
+  pro=(meet(perp(s,pos),s)).xy;
+  area(aa,pos,pro)*area(bb,pos,pro)<0 & |pro,pos|<segdist;
+);
+
+closepoints(pos):=select(allpoints(),p,|p.xy,pos|<pointdist);
+closesegs(pos):=select(allsegments(),s,cont(s,pos));
+
+mousefilter():=(
+   pos=mouse().xy;
+   if(pos.y<screenlimit % pos.x < screenlimitX,out=["none"],
+     cp=closepoints(pos);
+     cs=closesegs(pos);
+     out=["new",pos];
+     if(length(cs)==1,out=["seg",(meet(perp(cs_1,pos),cs_1)).xy,cs_1]);
+     if(length(cp)==1,out=["old",cp_1]);
+   );
+   out;
+);
+//Ende Mouseevents abfangen
+
+stdLabels = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+stdLabels = concat(stdLabels, apply(1..9999, "P" + #));
+
+newpointlabel():=(
+   pl=1;
+   pts=allpoints();
+   while(select(pts,p,p.label==stdLabels_pl)!=[],pl=pl+1);
+   [stdLabels_pl, stdLabels_pl];
+);
+
+stdSegLabels = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+stdSegLabels = concat(stdSegLabels, apply(1..9999, "s" + #));
+
+newseglabel():=(
+   sl=1;
+   segs=allsegments();
+   while(select(segs,seg,seg.label==stdSegLabels_sl)!=[],sl=sl+1);
+   [stdSegLabels_sl, " "];
+);
+
+
+
+
+segbyname(name):=(
+   lis=select(allsegments(),#.label==name);
+   if(lis!=[],lis_1,"");
+);
+
+
+segadd(p1,p2):=(
+  lab=newseglabel();
+  create([lab_1],"Segment",[p1,p2]);
+  s2=segbyname(lab_1); 
+  s2.printlabel=lab_2;
+  s2;
+);
+
+
+
+
+
+generatepoint(pp):=(
+   lab=newpointlabel();
+   p=createpoint(lab_1,pp_2);
+   p.printlabel=lab_2;
+   p.color=(1,1,1);
+   p;
+);
+
+
+
+generatepointonseg(pp):=(
+   p=generatepoint(pp);
+   s=pp_3;
+   aa=s.begin;
+   bb=s.end;
+   removeelement(s);
+   segadd(aa,p);
+   segadd(bb,p);
+   p;
+);
+
+
+
+
+
+pointaddcolor=(1,1,1);
+pointsnapcolor=(1,1,0);
+pointtmp(pp):=(
+  if(pp_1=="new", draw(pp_2,size->5,color->pointaddcolor));
+  if(pp_1=="old", draw(pp_2,size->5,color->pointsnapcolor));
+  if(pp_1=="seg", draw(pp_2,size->5,color->pointsnapcolor));
+);
+
+segtmp(pp):=(
+  if(pp_1=="new", draw(pp_2,size->5,color->pointaddcolor);draw(tmppt,pp_2));
+  if(pp_1=="old", draw(pp_2,size->5,color->pointsnapcolor);draw(tmppt,pp_2));
+  if(pp_1=="seg", draw(pp_2,size->5,color->pointsnapcolor);draw(tmppt,pp_2));
+);
+
+remove(pp):=(
+   if(pp_1=="old", removeelement(pp_2));
+   if(pp_1=="seg", removeelement(pp_3));
+);
+
+
+pointadd(pp):=(
+  pout="";
+  if(pp_1=="new", pout=generatepoint(pp));
+  if(pp_1=="old", pout=pp_2);
+  if(pp_1=="seg", pout=generatepointonseg(pp));
+  pout;
+);
+
+
+
+
+
+//Modi
+moduspressed(pp):=(
+   if(modus==1,pointtmp(pp));
+   if(modus==2,tmppt=pointadd(pp);tmppos=tmppt.xy);
+   if(modus==3,);
+   if(modus==4,);
+);
+
+
+
+
+modusdrag(pp):=(
+   if(modus==1,pointtmp(pp));
+   if(modus==2,tmppt.xy=tmppos;segtmp(pp));
+   if(modus==3,);
+   if(modus==4,);
+);
+
+
+modusreleased(pp):=(
+   if(modus==1,pointadd(pp));
+   if(modus==2,pp2=pointadd(pp);segadd(pp2,tmppt));
+   if(modus==3,remove(pp));
+   if(modus==4,	if(pp_1 == "seg", 
+			tmp = set(append(startMatching, incidences(pp_3)));
+			if(isMatching(tmp), startMatching = tmp);
+		)
+   )
+);
+
+
+//End Modi
+
+buttons();
+
+pcount=0;
+scount=0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;colors = [(1,0,0), (0,1,0), (0,0,1), (1,1,0), (1,0,1)];
+colorNames = [[(1,0,0),"ROT"],[(0,1,0),"GRÜN"],[(0,0,1),"BLAU"],[(1,1,0),"GELB"],[(1,0,1),"MAGENTA"]];
+
+deg(v, G) := (
+	createvar(ret);
+	
+	ret = 0;
+	forall(G_2, if(contains(#, v), ret = ret + 1));
+
+	removevar(ret);
+);
+
+subGraph(v, G) := (
+	createvar(ret);
+	createvar(tmp);
+
+	tmp = [];
+	forall(G_2, if(!contains(#, v), tmp = append(tmp, #)));
+	ret = [remove(G_1, v), tmp];
+
+	removevar(tmp);
+	removevar(ret);
+);
+
+reachableSubGraph(v, G) := (
+	createvar(ret);
+	createvar(tmpVold);
+	createvar(tmpVnew);
+	createvar(tmpE);
+
+	tmpVold = [];
+	tmpVnew = [v];
+	tmpE = [];
+
+	while(tmpVold != tmpVnew,
+		tmpVold = tmpVnew;
+
+		forall(tmpVold, vertex,
+			forall(G_2, edge,
+				if(contains(edge, vertex),
+					tmpVnew = append(tmpVnew, remove(edge, vertex)_1);
+					tmpE = append(tmpE, edge);
+
+					tmpVnew = sort(set(tmpVnew));
+				);
+			);
+		);
+	);
+
+	ret = [tmpVnew, sort(set(tmpE))];
+
+	removevar(tmpE);
+	removevar(tmpVnew);
+	removevar(tmpVold);
+	removevar(ret);
+);
+
+subGraphMulti(V, G) := (
+	createvar(ret);
+
+	ret = [G_1, G_2];
+	forall(V, ret = subGraph(#, ret));
+
+	removevar(ret);
+);
+
+getNeighbours(v, G) := (
+	createvar(ret);
+
+	ret = [];
+	forall(G_2, if(contains(#, v), ret = append(ret, (remove(#, v)_1))));
+
+	removevar(ret);
+);
+
+getNeighboursCounterClockWise(v, G) := (
+	createvar(ret);
+	createvar(tmp);
+
+	tmp = [];
+	ret = getNeighBours(v, G);
+	ret = sort(ret, arctan2((# - v).x, (# - v).y));
+	
+	removevar(tmp);
+	removevar(ret);
+);
+
+highlightGraph(G) := (
+	forall(Vertices, #.size = 5; #.color = (0.4, 0.4, 0.4));
+	forall(L, #.size = 1; #.color = (0.5, 0.5, 0.5));
+
+	forall(G_1, #.size = #.size + 4);
+	forall(G_2, e,
+		tmp = remove(alllines(), SliderLine);
+		forall(tmp, l, if(incidences(l) == e, l.color = (1, 1, 1); l.size = l.size + 2));
+	);
+);
+
+allMatchings(M) := (
+	if(length(M) == 0, 
+		[[]]
+		,
+		tmp1 = allMatchings(remove(M, [M_1]));
+		concat(tmp1, select(apply(tmp1, # = append(#, M_1));, isMatching(#)));
+	)
+);
+
+isMatching(M) := (
+	local(ret, tmp, k);
+
+	ret = true;
+	tmp = pairs(M);
+	k = length(tmp);
+
+	while(k > 0 & ret == true, if(length(set(concat(tmp_k_1, tmp_k_2))) < 4, ret = false); k = k - 1);
+
+	release(k, tmp, ret);
+);
+
+// formen die kanten einen kreis?
+circleEdges(G, E) := (
+	if(length(E) > 0,
+		contains(reachableSubGraph(E_1_1, [G_1, remove(E, [E_1])])_1, E_1_2)
+		,
+		false
+	)
+);
+
+augmentingPath(G, M) := (
+	local(ret, ret2, tmp);
+
+	tmp = set(concat(remove(M, MM), remove(MM, M)));
+	ret2 = select(apply(G_1, v, reachableSubGraph(v, [G_1, tmp])_2), length(#) > 0);
+	tmp = set(select((apply(G_1, v, reachableSubGraph(v, [G_1, tmp])_2)), !circleEdges(G, #)));
+
+	ret = [];
+
+	forall(tmp, path, if(length(select(path, contains(MM, #))) > length(select(path, contains(M, #))), ret = path));
+	
+	ret = [ret, ret2];
+	release(tmp, ret2, ret);
+);
+
+getLabels(path) := (
+	apply(path, t, t = select(allsegments(), s, incidences(s) == t)_1);
+);
+
+vertices(E) := (
+	set(forall(E, E_1 = concat(E_1, #)));
+); 
+
+maxMatch(G, M) := (
+	history = append(history, [[G_1, M], [apply(L, s, s = if(contains(getLabels(M), s), (0,0,1), s.color)), apply(L, s, s = if(contains(getLabels(M), s), 4, 2))], vertices(M), "Starte mit Matching: " + M, [], []]);
+
+	tmp = augmentingPath(G, M);
+	while(tmp_1 != [],
+bla = []; forall(tmp_2, bla = concat(bla, #));
+		history = append(history, [[G_1, M], [apply(L, s, s = if(contains(getLabels(M), s), (0,0,1), s.color)), apply(L, s, s = if(contains(getLabels(M), s), 4, 2))], vertices(M), "augmentierender Pfad: " + tmp_1, bla, tmp_1]);
+
+		M = set(concat(remove(M, tmp_1), remove(tmp_1, M)));
+		tmp = augmentingPath(G, M);
+
+		history = append(history, [[G_1, M], [apply(L, s, s = if(contains(getLabels(M), s), (0,0,1), s.color)), apply(L, s, s = if(contains(getLabels(M), s), 4, 2))], vertices(M), "neues Matching: " + M, [], []]);
+	);
+
+	history = append(history, [[G_1, M], [apply(L, s, s = if(contains(getLabels(M), s), (0,0,1), s.color)), apply(L, s, s = if(contains(getLabels(M), s), 4, 2))], vertices(M), "Es existiert kein augmentierender Pfad mehr!", [], []]);
+	history = append(history, [[G_1, M], [apply(L, s, s = if(contains(getLabels(M), s), (0,0,1), s.color)), apply(L, s, s = if(contains(getLabels(M), s), 4, 2))], vertices(M), "maximales Matching: " + M + " (Matchingzahl: "+ length(M) + ")", [], []]);
+
+	M;
+);
+
+history = [];
+Vertices = [];
+Edges = [];
+L = [];
+invalidGraph = false;
+startMatching = [];
+
+init() := (
+	invalidGraph = false;
+	history = [];
+	Slider1.xy = SliderBegin1.xy;
+
+	L = remove(allsegments(), noLines);
+	Vertices = sort(remove(allpoints(), noPoints));
+	Edges = remove(apply(L, incidences(#)), [[]]);  // Fix für [] Bug
+
+	forall(Vertices, #.size = 6; #.color = (0,0,0));
+	forall(L, #.size = 1; #.color = (1, 1, 1));
+
+	AM = sort(allMatchings(Edges), length(#));	// AM_length(AM) is a maximum matching
+	AM = select(AM, length(#) == length(AM_length(AM)));
+
+	maxMatch([Vertices, Edges], startMatching);
+	forall(L, #.size = 2; #.color = (1, 1, 1));
+
+	text();
+	repaint();
+);
+
+text() := (
+	state = floor(length(history)*(-Slider1.y + SliderBegin1.y)/(-SliderEnd1.y + SliderBegin1.y)) + 1;
+	state2 = max(1, floor(length(AM)*(Slider2.x - SliderBegin2.x)/(SliderEnd2.x - SliderBegin2.x)));
+
+	drawall(AM_state2, alpha->0.27, color->(1,1,0), size->15);
+	MM = AM_state2;
+
+	if(state == 0,
+		,
+		// else
+		if(state > length(history), state = length(history));
+
+		repeat(length(Vertices), (Vertices_#).size = 6);
+		forall(remove((history_state)_5, (history_state)_6), draw(#, alpha->0.4, color->(0.9,0.1,0.1), size->11));
+		forall((history_state)_6, draw(#, alpha->0.6, color->(0.1,0.1,0.9), size->12));
+		repeat(length(L), (L_#).size = (history_state_2_2_#));
+		repeat(length(L), (L_#).color = (history_state_2_1_#));
+		
+		if((history_state)_3 != [], forall((history_state)_3, #.size = #.size + 6));
+
+		if(state - 2 >= 1, drawtext([Slider1.x + 0.5, Slider1.y + 1.4], (history_(state - 2))_4, color->(0.6, 0.6, 0.6)));
+		if(state - 1 >= 1, drawtext([Slider1.x + 0.5, Slider1.y + 0.6], (history_(state - 1))_4, color->(0.5, 0.5, 0.5)));
+		drawtext([Slider1.x + 0.5, Slider1.y - 0.2], (history_state)_4, color->(0, 0, 0), size->11);
+		if(state + 1 <= length(history), drawtext([Slider1.x + 0.5, Slider1.y - 1.0], (history_(state + 1))_4, color->(0.5, 0.5, 0.5)));
+		if(state + 2 <= length(history), drawtext([Slider1.x + 0.5, Slider1.y - 1.8], (history_(state + 2))_4, color->(0.6, 0.6, 0.6)));
+	);
+);
+
+init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+//prepare();
+
+
+pp=mousefilter();
+modusdrag(pp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;text();
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+buttons();
+modusreleased(pp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;text();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csmousemove" type="text/x-cindyscript">
+//pts=allpoints();
+//pos=mouse().xy;
+//apply(pts,p,if(|p,pos|<pointdist,p.color=(1,1,0),p.color=(1,1,1)));
+//repaint();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+draw((-100,screenlimit),(100,screenlimit),color->(.6,.6,.6),size->5);
+draw((-100,screenlimit),(100,screenlimit),color->(0.85,0.85,0.85));
+
+draw((screenlimitX,-100),(screenlimitX,100),color->(.6,.6,.6),size->5);
+draw((screenlimitX,-100),(screenlimitX,100),color->(0.85,0.85,0.85));
+
+drawtext([screenlimitX + 1.5, screenlimit - 1.3], "Zum Starten/Reseten des Algorithmus bitte Taste drücken.");
+
+apply(remove(allpoints(), noPoints),p,inspect(p,"pinning",modus==2)); //workaround, gefällt mir noch nicht
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;text();
+forall(startMatching, draw(#, color->(0.1,0.9,0.1), alpha->0.5, size->9))
+
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+pp=mousefilter();
+moduspressed(pp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;text();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="cskeydown" type="text/x-cindyscript">
+init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "SliderEnd1", type: "Free", pos: [4.0, 1.3333333333333333, -0.2222222222222222], color: [0.502, 0.502, 0.502], pinned: true, size: 2.0, border: false},
+    {name: "SliderBegin2", type: "Free", pos: [4.0, 1.7077625570776256, -0.228310502283105], color: [0.502, 0.502, 0.502], pinned: true, size: 2.0, border: false},
+    {name: "SliderEnd2", type: "Free", pos: [-2.95187165775401, -4.0, 0.53475935828877], color: [0.502, 0.502, 0.502], pinned: true, size: 2.0, border: false},
+    {name: "SliderLine2", type: "Segment", color: [0.502, 0.502, 0.502], args: ["SliderBegin2", "SliderEnd2"], size: 3},
+    {name: "Slider2", type: "PointOnSegment", pos: [4.0, 1.7077625570776251, -0.22831050228310498], color: [1.0, 1.0, 1.0], args: ["SliderLine2"]},
+    {name: "SliderBegin1", type: "Free", pos: [4.0, -2.7777777777777777, -0.2222222222222222], color: [0.502, 0.502, 0.502], pinned: true, size: 2.0, border: false},
+    {name: "SliderLine1", type: "Segment", color: [0.502, 0.502, 0.502], args: ["SliderBegin1", "SliderEnd1"], size: 3},
+    {name: "Slider1", type: "PointOnSegment", pos: [4.0, -2.777777777777778, -0.22222222222222224], color: [1.0, 1.0, 1.0], args: ["SliderLine1"]},
+    {name: "A", type: "Free", pos: [-3.6877323420074353, -4.0, -0.3717472118959108], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "A"},
+    {name: "B", type: "Free", pos: [4.0, 1.08779443254818, 0.21413276231263384], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "B"},
+    {name: "a", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["B", "A"], labeled: true, size: 2, printname: " "},
+    {name: "C", type: "Free", pos: [4.0, -1.1055276381909547, 0.25125628140703515], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "C"},
+    {name: "b", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["C", "B"], labeled: true, size: 2, printname: " "},
+    {name: "D", type: "Free", pos: [3.4128440366972472, -4.0, 0.9174311926605504], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "D"},
+    {name: "c", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["D", "C"], labeled: true, size: 2, printname: " "},
+    {name: "E", type: "Free", pos: [-1.0598290598290598, -4.0, -0.8547008547008548], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "E"},
+    {name: "d", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["E", "D"], labeled: true, size: 2, printname: " "},
+    {name: "e", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["A", "E"], labeled: true, size: 2, printname: " "},
+    {name: "F", type: "Free", pos: [4.0, 2.91497975708502, 0.40485829959514164], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "F"},
+    {name: "G", type: "Free", pos: [4.0, 0.9673913043478262, 0.2717391304347826], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "G"},
+    {name: "f", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["G", "F"], labeled: true, size: 2, printname: " "},
+    {name: "H", type: "Free", pos: [4.0, -0.4539877300613497, 0.3067484662576687], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "H"},
+    {name: "g", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["H", "G"], labeled: true, size: 2, printname: " "},
+    {name: "I", type: "Free", pos: [4.0, -0.8292682926829269, 0.6097560975609757], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "I"},
+    {name: "h", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["I", "H"], labeled: true, size: 2, printname: " "},
+    {name: "J", type: "Free", pos: [4.0, 2.6165413533834583, 0.7518796992481203], dimDependent: 1, color: [0.0, 0.0, 0.0], labeled: true, size: 6.0, printname: "J"},
+    {name: "i", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["J", "I"], labeled: true, size: 2, printname: " "},
+    {name: "j", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["F", "J"], labeled: true, size: 2, printname: " "},
+    {name: "k", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["H", "F"], labeled: true, size: 2, printname: " "},
+    {name: "l", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["J", "H"], labeled: true, size: 2, printname: " "},
+    {name: "m", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["G", "J"], labeled: true, size: 2, printname: " "},
+    {name: "n", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["I", "G"], labeled: true, size: 2, printname: " "},
+    {name: "o", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["F", "I"], labeled: true, size: 2, printname: " "},
+    {name: "p", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["A", "F"], labeled: true, size: 2, printname: " "},
+    {name: "q", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["B", "G"], labeled: true, size: 2, printname: " "},
+    {name: "r", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["C", "H"], labeled: true, size: 2, printname: " "},
+    {name: "s", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["D", "I"], labeled: true, size: 2, printname: " "},
+    {name: "t", type: "Segment", dimDependent: 1, color: [1.0, 1.0, 1.0], args: ["E", "J"], labeled: true, size: 2, printname: " "},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, minwidth: 57, text: "Kante", dock: {corner: "LL", offset: [115.0, 33.0]}},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, minwidth: 57, text: "Entfernen", dock: {corner: "LL", offset: [192.0, 33.0]}},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, minwidth: 57, text: "Knoten", dock: {corner: "LL", offset: [39.0, 33.0]}},
+    {name: "Text3", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "forall(remove(allsegments(), noLines), removeelement(#));\nforall(remove(allpoints(), noPoints), removeelement(#)); \nstartMatching = [];\nAM = [];\ninit();\nclrscr()", text: "Alles entfernen", dock: {corner: "LL", offset: [268.0, 33.0]}},
+    {name: "Text4", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "definiere", dock: {corner: "LL", offset: [908.0, 33.0]}},
+    {name: "Text5", type: "Button", color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, script: "startMatching = []", text: "reset", dock: {corner: "LR", offset: [-39.0, 33.0]}},
+    {name: "Text6", type: "Text", color: [0.0, 0.0, 0.0], text: "Startmatching:", dock: {corner: "LL", offset: [815.0, 33.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 1018,
+    height: 553,
+    transform: [{visibleRect: [-18.9, 13.18, 21.82, -8.94]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

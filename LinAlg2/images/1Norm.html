@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>1Norm.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+sgn(x):=(
+	if(x<0, 
+		return=-1;
+	,
+		if(x>0, 
+			return=1;
+		, 
+			return=0;
+		);
+	);
+	return;
+);
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+linecolor([0,0.6,0]);
+Poly0.fillcolor=[0,0.6,0];//OPM
+Poly1.fillcolor=[0,0.6,0];//QRN
+Poly0.color=[0,0.6,0];//OPM
+Poly1.color=[0,0.6,0];//QRN
+Poly0.fillalpha=1;//OPM
+Poly1.fillalpha=1;//QRN
+linesize(2);
+N.size = 1;
+M.size = 1;
+O.size = 1;
+Q.size = 1;
+P.size = 1;
+R.size = 1;
+
+if((L.x ~= 0)&(L.y ~= 0),
+	M.xy=[-100,-100];
+	O.xy=[100,100];
+	P.xy=[100,-100];
+	N.xy=[-100,-100];
+	Q.xy=[100,100];
+	R.xy=[-100,100];
+,
+if(L.y ~= L.x,
+	M.xy=[L.x,0];
+	N.xy=[0,L.y];
+	O.x=M.x+sgn(L.y)*100;
+	O.y=M.y;
+	P.x=M.x;
+	P.y=M.y-sgn(L.y)*100;
+	Q.x=N.x;
+	Q.y=N.y+sgn(L.y)*100;
+	R.x=N.x-sgn(L.y)*100;
+	R.y=N.y;
+,
+if(L.x ~= -L.y,
+	M.xy=[L.x,0];
+	N.xy=[0,L.y];
+	O.y=M.y;
+	O.x=M.x+sgn(L.x)*100;
+	P.y=M.y+sgn(L.x)*100;
+	P.x=M.x;
+	Q.y=N.y-sgn(L.x)*100;
+	Q.x=N.x;
+	R.y=N.y;
+	R.x=N.x-sgn(L.x)*100;
+,
+if(abs(L.x)>abs(L.y),
+         yy=L.y+0.00001;
+	M.y=0;
+	M.x=L.x/2+sgn(L.x)*abs(L.y/2);
+	N.x=L.x/2-sgn(L.x)*abs(L.y/2);
+	N.y=L.y;
+	O.xy=M.xy+[0,-sgn(yy)*100];
+	P.xy=M.xy+[0,-sgn(yy)*100];
+	Q.xy=N.xy+[0,sgn(yy)*100];
+	R.xy=N.xy+[0,sgn(yy)*100];
+,
+         xx=L.x+0.00001;
+	N.x=0;
+	N.y=L.y/2+sgn(L.y)*abs(L.x/2);
+	M.y=L.y/2-sgn(L.y)*abs(L.x/2);
+	M.x=L.x;
+	Q.xy=N.xy+[-sgn(xx)*100,0];
+	R.xy=N.xy+[-sgn(xx)*100,0];
+	O.xy=M.xy+[sgn(xx)*100,0];
+	P.xy=M.xy+[sgn(xx)*100,0];
+
+
+);
+
+);
+);
+);
+draw(M,N);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true},
+    {name: "L", type: "Free", pos: [4.0, 2.1647058823529415, 1.5036798291595639], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "Tr0", type: "TrTranslation", color: [0.0, 0.0, 1.0], args: ["A", "L"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "M", type: "Free", pos: [4.0, -0.0, 1.9513402363139376], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "N", type: "Free", pos: [-1.6956521739130428, -4.0, -2.778538814751368], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "O", type: "Free", pos: [0.08199492688278617, -4.0, 0.04], color: [1.0, 0.0, 0.0], alpha: 0.0, size: 1.0},
+    {name: "P", type: "Free", pos: [0.08199492688278617, -4.0, 0.04], color: [1.0, 0.0, 0.0], alpha: 0.0, size: 1.0},
+    {name: "Q", type: "Free", pos: [-0.024064272807435103, -4.0, -0.039432329974798966], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "R", type: "Free", pos: [-0.024064272807435103, -4.0, -0.039432329974798966], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 1.0},
+    {name: "Poly0", type: "Poly", dimDependent: 1, color: [0.0, 0.6, 0.0], fillcolor: [0.0, 0.6, 0.0], fillalpha: 1.0, args: ["O", "M", "P"], size: 3},
+    {name: "Poly1", type: "Poly", dimDependent: 1, color: [0.0, 0.6, 0.0], fillcolor: [0.0, 0.6, 0.0], fillalpha: 1.0, args: ["N", "Q", "R"], size: 3},
+    {name: "a", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0},
+    {name: "B", type: "PointOnLine", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "A"], alpha: 0.0},
+    {name: "C0", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.0},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "E", type: "SelectP", pos: [0.0, -4.0, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0},
+    {name: "C", type: "SelectP", pos: [0.0, -4.0, -4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0},
+    {name: "D", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C0", "a", "B"], alpha: 0.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "C"], alpha: 0.8999999761581421},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "B"], alpha: 0.8999999761581421},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "E"], alpha: 0.8999999761581421},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["E", "D"], alpha: 0.8999999761581421},
+    {name: "g", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "c"], alpha: 0.8999999761581421},
+    {name: "h", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "d"], alpha: 0.8999999761581421},
+    {name: "k", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "e"], alpha: 0.8999999761581421},
+    {name: "l", type: "TransformSegment", color: [0.0, 0.0, 1.0], args: ["Tr0", "f"], alpha: 0.8999999761581421},
+    {name: "F", type: "Mid", color: [0.0, 1.0, 0.0], args: ["A", "L"], alpha: 0.8999999761581421, size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 637,
+    height: 443,
+    transform: [{visibleRect: [-5.554999817440665, 7.432746234603707, 14.380407978106962, -6.4312814787834185]}],
+    axes: true,
+    grid: 1.0,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            background: rgb(168,176,192);
+        }
+        </style>
+</head>
+<script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy3D.js"></script>
+
+
+<script id="csinit" type="text/x-cindyscript">
+begin3d();
+lookat3d((-0.6,-5,5),(0,0,0),(0,0,1));
+background3d((168,176,192)/255);
+end3d();
+
+drawcurve(X,t0,t1,nt,farbe,dicke):=(
+X0=X(t0);
+t5=(t1-t0)/nt;
+repeat(nt,#,
+  X1=X(t0+#*t5);
+  draw3d(X0,X1,color->farbe,size->dicke);
+  X0=X1;
+  );
+);
+
+A = sqrt(1.25);
+X(t):=[sin(t/A),cos(t/A),.5*t/A];
+dX(t) := [cos(t/A), -sin(t/A) ,.5]/A;
+T(t):=dX(t)/|dX(t)|;
+
+
+f(s,t):=(X(s)+t*dX(s));
+
+drawcurve(X,t0,t1,nt,farbe,dicke):=(
+X0=X(t0);
+t5=(t1-t0)/nt;
+repeat(nt,#,
+  X1=X(t0+#*t5);
+  draw3d(X0,X1,color->farbe,size->dicke);
+  X0=X1;
+  );
+);
+
+
+drsurface(f,u0,u1,nu,v0,v1,nv,farbe):=(
+if(mousekl==1, nu0=round(nu/2); nv0=round(nv/2),
+               nu0=nu; nv0=nv
+  );
+u5=(u1-u0)/nu0; v5=(v1-v0)/nv0;
+
+
+mesh3d(
+  nu0,nv0,
+  flatten(
+    apply(1..nu0,i,
+      apply(1..nv0,j,
+        f(u0+i*u5,v0+j*v5)
+      )
+    )
+  )
+  ,normaltype->"perVertex",color->farbe, topology->"open",alpha->.7
+);
+  if(showlines.pressed,
+    forall(1..nu0-1,i,
+      forall(1..nv0-1,j,
+        draw3d(
+          f(u0+i*u5,v0+j*v5),
+          f(u0+(i+1)*u5,v0+j*v5),
+          size->.2,
+          color->[.7,.7,.7], alpha->.5
+        );
+        draw3d(
+          f(u0+i*u5,v0+j*v5),
+          f(u0+i*u5,v0+(j+1)*v5),
+          size->.2,
+          color->[.7,.7,.7], alpha->.5
+        );
+      )
+    );
+  );
+
+);
+
+
+
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+AT.xy=-BT.xy;
+t=2*pi*T0.x; drawtext(T0+(.1,.1),"$s="+t+"$");
+
+begin3d();
+
+drawcurve(X,-2*pi,2*pi,100,[1,.6,0],0.7);
+drsurface(f,-2*pi,t,round(8*(t+2*pi)),.01,3,10,[0.4,0.4,1]);
+if(extsurface.pressed
+  ,
+  drsurface(f,-2*pi,t,round(8*(t+2*pi)),-3,-.01,10,[1,0.4,1]);
+);
+
+draw3d(X(t),X(t)+2*T(t),size->0.5);
+end3d();
+</script>
+<body>
+<canvas id="Cindy3D" width="774" height="500"></canvas>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": "cs*",
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "AT",
+                "type": "Free",
+                "pos": [4.0, -0.0, -4.0],
+                "color": [0.0, 0.0, 0.0],
+                "size": 1.0
+            }, {
+                "name": "BT",
+                "type": "Free",
+                "pos": [4.0, 0.0, 4.0],
+                "color": [0.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 1.0
+            }, {
+                "name": "ttt",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["AT", "BT"]
+            }, {
+                "name": "T0",
+                "type": "PointOnSegment",
+                "pos": [1.415, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["ttt"],
+                "size": 3.0
+            },
+            {
+                "name": "showlines",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "text": "Zeige Parameterlinien",
+                "pos": [2, 0],
+            },
+            {
+                "name": "extsurface",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "text": "Zeige Flächenteil für t<0",
+                "pos": [4, 0],
+            }
+           ],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 774,
+                "height": 83,
+                "transform": [{
+                    "visibleRect": [-1.5165625, 0.5390625, 9.6096875, -0.6540625]
+                }],
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex", "Cindy3D", "symbolic"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

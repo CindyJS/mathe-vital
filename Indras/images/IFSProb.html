@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>IFSProb.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+w1=|F,H|/|F,G|;
+w2=1-w1;
+
+IFS0.prob0=w1;
+IFS0.prob1=w2;
+E.x=E.x+0.0001;
+E.x=E.x-0.0001;
+
+drawtext((9,-2),"Wahrscheinlichkeiten",color->(0,0,0),size->16);
+drawtext((9,-3),"$p_1$="+format(w1,2),color->(0,0,0.8),size->16);
+drawtext((9,-4),"$p_2$="+format(w2,2),color->(0.8,0,0),size->16);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.1111111111111107, -3.7037037037037037], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, -1.0756302521008403, 0.8403361344537815], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [4.0, 1.4065934065934065, 1.0989010989010988], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [-3.88, -4.0, -1.0], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "E", type: "Free", pos: [4.0, 2.0415297490037525, 0.6991540236314198], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "c", type: "Segment", color: [0.757, 0.0, 0.0], args: ["D", "E"], alpha: 0.8999999761581421},
+    {name: "Tr0", type: "TrSimilarity", color: [0.0, 0.0, 1.0], args: ["B", "C", "A", "A"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrSimilarity", color: [0.0, 0.0, 1.0], args: ["A", "D", "B", "E"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "F", type: "Free", pos: [4.0, -2.2222222222222223, 0.4444444444444444], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "G", type: "Free", pos: [4.0, -1.3333333333333333, 0.26666666666666666], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "G"], alpha: 0.0, labeled: true},
+    {name: "H", type: "PointOnSegment", pos: [4.0, -1.4792899430167012, 0.2958579886033403], color: [1.0, 1.0, 1.0], args: ["d"], alpha: 0.8999999761581421, size: 4.0},
+    {name: "IFS0", type: "IFS", color: [0.0, 0.0, 1.0], args: ["Tr0", "Tr1"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["F", "H"], alpha: 0.8999999761581421, size: 5},
+    {name: "f", type: "Segment", color: [0.757, 0.0, 0.0], args: ["H", "G"], alpha: 0.8999999761581421, size: 5},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B", "C"], alpha: 0.5, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "h", type: "Segment", color: [0.757, 0.0, 0.0], args: ["B", "E"], alpha: 0.5, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "k", type: "Segment", color: [0.757, 0.0, 0.0], args: ["A", "D"], alpha: 0.5, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 620,
+    height: 399,
+    transform: [{visibleRect: [-9.06, 9.34, 15.74, -6.62]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

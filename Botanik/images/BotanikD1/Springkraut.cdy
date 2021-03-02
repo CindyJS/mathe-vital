@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Springkraut.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+fib=(0,1,2,3,5,8,13,21,34);
+s=(0,-1);
+off=((|D,F|/|D,E|)-1/2)*40°;
+asym=((|L,N|/|L,M|)-1/2)*.1;
+blatt=apply((0..30)*pi/30,x,s+(sin(x),cos(x))*(x+exp(x*(1.2+asym)))/15);
+blatt=blatt++apply((0..30)*pi/30,x=pi-#;s+(-sin(x),cos(x))*(x+exp(x*(1.2-asym)))/15);
+stil=(s+(-.01,0),(-.03,-.2),(0,0),(.03,-.2),s+(.01,0));
+age(t):=7*((exp(t),0),(0,exp(t)));
+w=137.508°+off;
+rot(i):=((cos(w*i),sin(w*i)),(-sin(w*i),cos(w*i)));
+
+n=round(|G,K|/|G,H|*35);
+
+t=5*|A,C|-n-10;
+apply(0..n,i,
+ blatt1=apply(blatt,rot(i)*age((t+n-i)*.25)*#);
+ stil1=apply(stil,rot(i)*age((t+n-i)*.25)*#);
+  a=exp((t+n-i)*.15)*20;
+
+
+  if(a<1400,
+    fillpoly(blatt1,color->(0.2,0.6,0.2),alpha->0.6););
+  apply(blatt1,draw(blatt1_1,#,color->(0.0,0.4,0.0),alpha->0.6));
+
+  if(Text0.pressed,
+    if( contains(fib,i)&a<1400,
+      fillpoly(blatt1,color->(0.8,0.6,0.0),alpha->0.7););
+    drawtext(blatt1_31*(0.6),offset->(0,-round(4.5 * a)*.45),i,size->round(4.5 * a),align->"center");
+   );
+  connect(blatt1,color->(0,0,0));
+
+  fillpoly(stil1,color->(0.4,0.2,0),alpha->0.6);
+  connect(stil1,color->(0,0,0));
+
+);
+
+drawtext(G+(0.2,-0.8),"Blätteranzahl = "+(n+1),size->12);
+drawtext(A+(0.2,-0.8),"Alter = "+format(t+n+10+1,1),size->12);
+drawtext(D+(0.2,-0.8),"Winkel = "+format(w*180/pi,1)+"°",size->12);
+drawtext(L+(0.2,-0.8),"Assymetrie = "+format(asym*20,2),size->12);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 3.0, 0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, 1.8, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [4.0, 3.0, 0.33333333333333326], color: [1.0, 1.0, 1.0], args: ["a"]},
+    {name: "D", type: "Free", pos: [4.0, 2.0, 0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, 1.2, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [4.0, 1.499785635639098, 0.24996427260651635], color: [1.0, 1.0, 1.0], args: ["b"]},
+    {name: "G", type: "Free", pos: [-3.985559566787004, -4.0, -0.3329848953068592], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [4.0, 2.4, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "c", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"]},
+    {name: "K", type: "PointOnSegment", pos: [-3.9855595667870047, -4.0, -0.3329848953068592], color: [1.0, 1.0, 1.0], args: ["c"]},
+    {name: "L", type: "Free", pos: [4.0, 1.0, 0.3333333333333333], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "M", type: "Free", pos: [4.0, 0.6, 0.2], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "d", type: "Segment", color: [0.0, 0.0, 1.0], args: ["L", "M"]},
+    {name: "N", type: "PointOnSegment", pos: [4.0, 0.749892817819549, 0.24996427260651635], color: [1.0, 1.0, 1.0], args: ["d"]},
+    {name: "Text0", type: "ToggleButton", pos: [4.0, -0.7084870848708487, 0.34035725461254607], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Fibonaccizahlen hervorheben"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 873,
+    height: 660,
+    transform: [{visibleRect: [-16.587736506429277, 14.159205148625253, 21.2713326964799, -14.462771568350757]}],
+    background: "rgb(255,255,255)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

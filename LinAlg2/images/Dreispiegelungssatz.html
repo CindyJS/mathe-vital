@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Dreispiegelungssatz.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [2.0, -4.0, -1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "B", type: "Free", pos: [4.0, -3.0, -0.5], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C", type: "Free", pos: [1.3333333333333333, -4.0, -0.3333333333333333], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "Poly0", type: "Poly", color: [0.0, 0.0, 0.0], args: ["A", "B", "C"], alpha: 0.8999999761581421},
+    {name: "A'", type: "Free", pos: [4.0, 4.0, 1.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true},
+    {name: "C0", type: "Compass", color: [0.502, 0.502, 0.502], args: ["A", "B", "A'"], alpha: 0.0, labeled: true},
+    {name: "B'", type: "PointOnCircle", pos: [4.0, {r: -1.3468240203223056, i: -7.705253272753145E-17}, {r: 0.6700535810244149, i: 1.942596435162155E-17}], color: [1.0, 0.0, 0.0], args: ["C0"], alpha: 0.8999999761581421, labeled: true},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: -0.8113179660464399, i: 6.456170736838827E-17}, -4.0, {r: -0.3995994271511493, i: -2.2642839172286567E-18}], color: [1.0, 1.0, 1.0], args: ["B'"], alpha: 0.8999999761581421, pinned: true, size: 0.0},
+    {name: "F", type: "Compass", color: [0.502, 0.502, 0.502], args: ["A", "C", "A'"], alpha: 0.0, labeled: true},
+    {name: "K", type: "Compass", color: [0.502, 0.502, 0.502], args: ["B", "C", "B'"], alpha: 0.0, labeled: true},
+    {name: "Collection__1", type: "IntersectionCircleCircle", args: ["F", "K"]},
+    {name: "C2", type: "SelectP", pos: [{r: -2.0765544071926234, i: -4.4111279347858553E-16}, -4.0, {r: 1.6851640908439298, i: 1.0696968296571377E-16}], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.8999999761581421, labeled: true},
+    {name: "C'", type: "SelectP", pos: [4.0, {r: 0.6537631845645893, i: -7.355552401816974E-17}, {r: 0.3336169886683258, i: 1.634911474623503E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.8999999761581421, labeled: true},
+    {name: "Poly1", type: "Poly", color: [0.0, 0.0, 0.0], args: ["A'", "B'", "C'"], alpha: 0.8999999761581421},
+    {name: "M1", type: "Mid", color: [1.0, 0.0, 0.0], args: ["A", "A'"], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "a", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "A'"], alpha: 0.8999999761581421},
+    {name: "s1", type: "Orthogonal", color: [0.098, 0.62, 0.306], args: ["a", "M1"], alpha: 0.8999999761581421, labeled: true, size: 3},
+    {name: "c", type: "Orthogonal", color: [0.098, 0.62, 0.306], args: ["s1", "C"], alpha: 0.0, labeled: true},
+    {name: "E", type: "Meet", color: [1.0, 0.0, 0.0], args: ["s1", "c"], alpha: 0.0, labeled: true},
+    {name: "C3", type: "CircleMP", color: [0.098, 0.62, 0.306], args: ["E", "C"], alpha: 0.0, labeled: true},
+    {name: "C1", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C3", "c", "C"], alpha: 0.8999999761581421, labeled: true},
+    {name: "d", type: "Orthogonal", color: [0.098, 0.62, 0.306], args: ["s1", "B"], alpha: 0.0, labeled: true},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["s1", "d"], alpha: 0.0, labeled: true},
+    {name: "C4", type: "CircleMP", color: [0.098, 0.62, 0.306], args: ["G", "B"], alpha: 0.0, labeled: true},
+    {name: "B1", type: "OtherIntersectionCL", color: [1.0, 0.0, 0.0], args: ["C4", "d", "B"], alpha: 0.8999999761581421, labeled: true},
+    {name: "Poly2", type: "Poly", color: [0.0, 0.0, 0.0], args: ["A'", "C1", "B1"], alpha: 0.8999999761581421},
+    {name: "M2", type: "Mid", color: [1.0, 0.0, 0.0], args: ["B1", "B'"], alpha: 0.8999999761581421, labeled: true, size: 3.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["B1", "B'"], alpha: 0.8999999761581421},
+    {name: "s2", type: "Join", color: [0.0, 0.0, 1.0], args: ["A'", "M2"], alpha: 0.8999999761581421, labeled: true, size: 3},
+    {name: "Poly3", type: "Poly", color: [0.0, 0.0, 0.0], args: ["A'", "B'", "C2"], alpha: 0.8999999761581421},
+    {name: "s3", type: "Join", color: [0.757, 0.0, 0.0], args: ["B'", "A'"], alpha: 0.8999999761581421, labeled: true, size: 3},
+    {name: "h", type: "Segment", color: [0.757, 0.0, 0.0], args: ["C2", "C'"], alpha: 0.8999999761581421},
+    {name: "e", type: "Segment", color: [0.098, 0.62, 0.306], args: ["C", "C1"], alpha: 0.8999999761581421},
+    {name: "g", type: "Segment", color: [0.098, 0.62, 0.306], args: ["B", "B1"], alpha: 0.8999999761581421},
+    {name: "f", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C1", "C2"], alpha: 0.8999999761581421}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 640,
+    height: 461,
+    transform: [{visibleRect: [-10.86, 13.78, 14.74, -4.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

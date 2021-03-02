@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Apollonius.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+state=(Text0.pressed,Text1.pressed,Text2.pressed,Text3.pressed);
+oldstate=(Text0.pressed,Text1.pressed,Text2.pressed,Text3.pressed);
+
+dim=11;
+arrows=false;
+left=join((-dim,dim,1),(-dim,-dim,1));
+right=join((dim,dim,1),(dim,-dim,1));
+bot=join((dim,-dim,1),(-dim,-dim,1));
+top=join((dim,dim,1),(-dim,dim,1));
+
+bounds(l):=(
+  pts=apply((left,bot,right,top),meet(l,#));
+  pts=apply(pts,#/#_3);
+  pts=select(pts,|#.x|~<=dim&|#.y|~<=dim);
+  pts;
+);
+
+g(x,y):=(-x_1*y_1+x_2*y_2+x_3*y_3+x_4*y_4-x_5*y_5);
+lip(a):=((1+|a.xy|^2)/2,(1-|a.xy|^2)/2,a.x,a.y,0);
+lic(a):=((1+|a.center.xy|^2-a.radius^2)/2,(1-|a.center.xy|^2+a.radius^2)/2,a.center.x,a.center.y,a.radius);
+lig(a):=(
+p1=(incidences(a)_1).homog;
+p2=(incidences(a)_2).homog;
+p1=p1/p1_3;
+p2=p2/p2_3;
+  pp=a.homog/|(a.homog.x,a.homog.y)|;
+  if(det(pp,p1.homog,p2.homog)<0,pp=-pp);
+  (-pp_3,pp_3,pp_1,pp_2,1);
+);
+
+rev(p):=(p_1,p_2,p_3,p_4,-p_5);
+
+lie(a):=(
+  if(ispoint(a),lip(a),
+    if(isline(a),lig(a),
+      lic(a)));
+);
+
+drawliepoint(p,col,size):=(
+  draw((p_3,p_4),size->size*2+2,color->col);
+);
+
+
+
+
+drawlieline(p,col,size):=( 
+s=if(p_5>0,1,-1);
+
+  bd=bounds((p_3,p_4,-p_1));
+  if(length(bd)==2,
+      p1=bd_1; 
+      p2=bd_2;
+      draw(p1,p2,size->size,color->col);
+      if(arrows,
+       nn=(p_4,-p_3);
+       nn=nn/|nn|;
+       np=perp(nn);
+       nw=round(.6*|p1,p2|);
+       repeat(nw,#,i=#-.4;
+         pos=((p1*i+p2*(nw-i))/nw).xy;
+         draw(pos,pos-s*nn*.3-np*.2,color->col);    
+         draw(pos,pos-s*nn*.3+np*.2,color->col);    
+         fillpoly((pos,pos-s*nn*.3-np*.2,pos-s*nn*.3+np*.2),color->col);    
+       );
+      ); 
+  );
+ 
+);
+
+radbound=100;
+drawliecircle(p,col,size):=(
+//  fillcircle((p_3,p_4),|p_5|,size->size,color->(1,1,0),alpha->0.2);
+rad=|p_5|;
+
+//if(rad>400,drawlieline(p/p_5,col,size+1),
+  if(rad<radbound,
+   drawcircle((p_3,p_4),|p_5|,size->size,color->col),
+   nw=round(|p_5|*4);
+   nw=min(nw,800);
+   repeat(nw,i,
+     w=i*360°/nw;
+     pos1=(sin(w),cos(w))*|p_5|+(p_3,p_4);
+     w=(i+1)*360°/nw;
+     pos2=(sin(w),cos(w))*|p_5|+(p_3,p_4);
+     if(|pos1|<3*dim, 
+      draw(pos2,pos1,color->col,size->size+1);
+     );
+   );
+
+
+  );
+  if(arrows,
+   nw=round(|p_5|*4);
+   nw=min(nw,5000);
+   s=if(p_5>0,-1,1);
+   repeat(nw,i,
+     w=(i+.4*s)*360°/nw;
+     pos=(sin(w),cos(w));
+     ppos=perp(pos);
+     if(abs((p_3,p_4)+|p_5|*pos)<3*dim,
+      fillpoly(((p_3,p_4)+|p_5|*pos,
+              (p_3,p_4)+|p_5|*pos+s*ppos*.3-pos*.2,
+              (p_3,p_4)+|p_5|*pos+s*ppos*.3+pos*.2),color->col);
+      draw((p_3,p_4)+|p_5|*pos,(p_3,p_4)+|p_5|*pos+s*ppos*.3+pos*.2,color->col);
+      draw((p_3,p_4)+|p_5|*pos,(p_3,p_4)+|p_5|*pos+s*ppos*.3-pos*.2,color->col);
+     );
+   );
+  );
+  
+);
+
+drawlie(p,col,siz):=(
+  if(p_5~=0 & p_1~=-p_2, ,
+   if(p_5~=0, drawliepoint(p/(p_1+p_2),col,siz),
+    if(p_1~=-p_2, drawlieline(p/p_5,col,siz),
+      drawliecircle(p/(p_1+p_2),col,siz))))
+);
+
+inf=(1,-1,0,0,0);
+ee=(0,0,0,0,1);
+xx=apply(1..5,randomint(100))/100;
+yy=apply(1..5,randomint(100))/100;
+orth(a,b,c,d):=(
+   m=transpose([a,b,c,d]);
+   [
+      det([m_2,m_3,m_4,m_5]),
+     -det([m_1,m_3,m_4,m_5]),
+      det([m_1,m_2,m_4,m_5]),
+     -det([m_1,m_2,m_3,m_5]),
+      det([m_1,m_2,m_3,m_4])
+   ]
+);
+liequad=[[-1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,-1]];
+
+findlie(a,b,c):=(
+   aa=orth(liequad*a,liequad*b,liequad*c,xx);   
+   bb=orth(liequad*a,liequad*b,liequad*c,yy);   
+   r1=aa*liequad*aa;
+   r2=2*bb*liequad*aa;
+   r3=bb*liequad*bb;
+   roo=roots([r1,r2,r3]);
+   if(isreal(roo_1),
+     [aa+roo_1*bb,aa+roo_2*bb],
+     [inf,inf]);
+);
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+state=(Text0.pressed,Text1.pressed,Text2.pressed,Text3.pressed);
+
+err(state);
+err(oldstate);
+err("bool"+((state!=(false,false,false,false))
+    &(state!=oldstate)));
+
+
+if(((state!=(false,false,false,false)))
+    &(state!=oldstate),
+err("change");
+ state=apply(1..4,xor(state_#,oldstate_#));
+ Text0.pressed=state_1; 
+ Text1.pressed=state_2; 
+ Text2.pressed=state_3; 
+ Text3.pressed=state_4; 
+);
+oldstate=state;
+si(s):=if(or(s,(state==(false,false,false,false))),2,1);
+
+liedef(p):=(
+  out=lie(p);
+  if(p==D,out=inf);
+  if(p==P,out=ee);
+  out;
+);
+
+  lie1=liedef(C0);
+  lie2=liedef(C1);
+  lie3=liedef(C2);
+
+  arrows=state_4;
+  erg=findlie(lie1,lie2,lie3); 
+  drawlie(erg_1,(0.6,0,0),si(state_4));
+  drawlie(erg_2,(0.6,0,0),si(state_4));
+
+
+  arrows=state_1;
+  erg=findlie(lie1,rev(lie2),lie3); 
+  drawlie(erg_1,(0.9,0.9,0),si(state_1));
+  drawlie(erg_2,(0.9,0.9,0),si(state_1));
+
+  arrows=state_2;
+  erg=findlie(lie1,lie2,rev(lie3)); 
+  drawlie(erg_1,(0,0.6,0),si(state_2));
+  drawlie(erg_2,(0,0.6,0),si(state_2));
+
+  arrows=state_3;
+  erg=findlie(rev(lie1),lie2,lie3); 
+  drawlie(erg_1,(0,0,0.8),si(state_3));
+  drawlie(erg_2,(0,0,0.8),si(state_3));
+
+if(state_1,
+  arrows=true;
+  drawlie(lie1,(0,0,0),2);
+  drawlie(rev(lie2),(0,0,0),2);
+  drawlie(lie3,(0,0,0),2)
+);
+
+if(state_4,
+  arrows=true;
+  drawlie(lie1,(0,0,0),2);
+  drawlie(lie2,(0,0,0),2);
+  drawlie(lie3,(0,0,0),2)
+);
+
+if(state_2,
+  arrows=true;
+  drawlie(lie1,(0,0,0),2);
+  drawlie(lie2,(0,0,0),2);
+  drawlie(rev(lie3),(0,0,0),2)
+);
+
+if(state_3,
+  arrows=true;
+  drawlie(rev(lie1),(0,0,0),2);
+  drawlie(lie2,(0,0,0),2);
+  drawlie(lie3,(0,0,0),2)
+);
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "M", type: "Free", pos: [4.0, 2.3664921465968582, 0.5235602094240838], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.021287465940054495, yy: 0.021287465940054495, zz: 0.9999999999999999, xy: 0.0, xz: -0.3252724795640327, yz: 0.19243869209809258}, color: [0.0, 0.0, 0.0], radius: 5.641276451300716, args: ["M"], size: 3},
+    {name: "N", type: "Free", pos: [4.0, -2.827586206896551, 1.7241379310344822], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: -0.04624491305956345, yy: -0.04624491305956345, zz: 1.0, xy: 0.0, xz: 0.21457639659637448, yz: 0.15168331483536812}, color: [0.0, 0.0, 0.0], radius: 5.449403637096449, args: ["N"], size: 3},
+    {name: "O", type: "Free", pos: [4.0, -0.32352941176470584, 0.3676470588235294], color: [1.0, 1.0, 1.0], size: 4.0},
+    {name: "C2", type: "CircleByRadius", pos: {xx: 0.010981094946939347, yy: 0.010981094946939347, zz: 1.0, xy: 0.0, xz: -0.2389486260454002, yz: -0.01932672710661325}, color: [0.0, 0.0, 0.0], radius: 5.299358451737342, args: ["O"], size: 3},
+    {name: "Text1", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.0, 1.0, 0.0], fillalpha: 0.27272728085517883, text: "Orientierungen", dock: {corner: "UL", offset: [10.0, -120.0]}},
+    {name: "Text2", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [0.0, 0.0, 1.0], fillalpha: 0.27272728085517883, text: "Orientierungen", dock: {corner: "UL", offset: [10.0, -80.0]}},
+    {name: "Text0", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 0.0], fillalpha: 0.27272728085517883, text: "Orientierungen", dock: {corner: "UL", offset: [10.0, -160.0]}},
+    {name: "Text3", type: "ToggleButton", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.0, 0.0], fillalpha: 0.27272728085517883, text: "Orientierungen", dock: {corner: "UL", offset: [10.0, -40.0]}}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 803,
+    height: 541,
+    transform: [{visibleRect: [-10.78, 10.78, 21.34, -10.86]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

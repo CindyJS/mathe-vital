@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>RagaStrukt5.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+sel=0;
+
+font="SansSerif";
+if(!candisplay(unicode("266d")),
+  font="Lucida Sans Unicode";
+);
+
+
+
+;
+</script>
+<script id="csmouseclick" type="text/x-cindyscript">
+xy=mouse().xy;
+sel=0;
+rags=sort(1..22,|rag_#-xy|)_1;
+if(|rag_rags-xy|<0.3,
+  sel=rags
+);
+
+rags=sort(1..23,|rag3pos_#-xy|)_1;
+
+if(|rag3pos_rags-xy|<0.1,
+  sel=rags
+);
+
+if(sel!=0,
+   t=261*(rag3x_sel);
+   playsin(t,amp->0.5,damp->2,stop->4,line->1);
+);
+
+
+if(sel==23,sel=6);
+
+
+
+
+
+
+
+
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+oktav(r):=(
+   while(r>2,r=r/2);
+   while(r<1,r=r*2);
+   r;
+);
+
+guess(a):=(
+    p=guess(a,10);
+    p_1+"/"+p_2;
+);
+
+
+
+guess(a,n):=(
+   regional(pp,fl,fr);
+   fl=floor(a+0.000001);
+
+   fr=a-fl;
+   if(n==0,(fl,1),
+     if(|a-round(a)|<0.0001,(fl,1),
+         pp=guess(1/fr,n-1);
+         [fl*pp_1+pp_2,pp_1];
+
+     );
+   );
+
+);
+
+
+myguess(x):=(
+  xx=guess(x);
+  if(indexof(xx,"/")!=0,xx="$"+replace(xx,"/"," \over ")+"$");
+  if(indexof(xx,".")!=0,xx=substring(xx,0,5));
+  xx;
+);
+
+rag=apply(-5..6,i,(i,0))++apply(-2..2,i,(i,1))++apply(-1..3,i,(i,-1));
+//++apply(-2..2,i,(i,2))++apply(-2..2,i,(i,-2));;
+rag2=apply(rag,r,(3^(r_1)*5^(r_2)));
+rag3=apply(rag2,r,oktav(r));
+rag3s=sort(rag3);
+rag4=apply(rag3s,r,guess(r));
+
+
+
+rt=["$D^\flat$","$A^\flat$","$E^\flat$","$B^\flat$","$F$","$C$","$G$","$D$","$A$","$E$","$H$","$F^\sharp$","$\underline{D}\quad$","$\underline{A}\quad$","$\underline{E}\quad$","$\underline{H}\quad$","$\underline{F^\sharp}\quad$","$\overline{D^\flat}\quad$","$\overline{A^\flat}\quad$","$\overline{E^\flat}\quad$","$\overline{B^\flat}\quad$","$\overline{F}\quad$"];
+
+rts=["C","$D^\flat$","$\overline{D^\flat}\quad$","$\underline{D}\quad$","$D$","$E^\flat$","$\overline{E^\flat}\quad$","$\underline{E}\quad$","$E$","$F$","$\overline{F}\quad$","$\underline{F^\sharp}\quad$","$F^\sharp$","$G$","$A^\flat$","$\overline{A^\flat}\quad$","$\underline{A}\quad$","$A$","$B^\flat$","$\overline{B^\flat}\quad$","$\underline{H}\quad$","$H$","$C$"];
+rag3sx=rag3s++[2];
+rag3x=rag3++[2];
+linesize(2);
+draw((-5,0),(6,0));
+draw((-2,1),(2,1));
+draw((-1,-1),(3,-1));
+draw((-2,1),(-2,0));
+draw((-1,1),(-1,-1));
+draw((0,1),(0,-1));
+draw((1,1),(1,-1));
+draw((2,1),(2,-1));
+draw((3,0),(3,-1));
+
+apply(1..length(rag),i,
+   col=(1,1,1);
+   if(sel>0,if(rag_sel==rag_i,col=(0.7,0.7,1)));
+   fillcircle(rag_i,0.3,color->col);
+   drawcircle(rag_i,0.3,color->(0,0,0),size->2);
+   if(Text0.pressed,
+     drawtext(rag_i-(0,0.08),myguess(oktav(rag2_i)),align->"center",size->20),
+     drawtext(rag_i-(0,0.12),rt_i,align->"center",size->16,family->font)
+   );
+);
+
+
+
+pos(x):=-5+11*(log(x)/log(2));
+apply(1..23,i,
+  x1=(i-1)/2-5;
+  x2=pos(rag3sx_i);
+  connect(((x1,-3),(x1,-2.7),(x2,-2.3),(x2,-2)),color->(0.4,0,0));
+  drawtext((x1,-3.3),rts_i,size->14,align->"center",family->font);
+);
+apply(1..23,i,
+  r=rag3x_i;
+
+  col=(1,1,1);
+  si=4;
+  if(sel==i,col=(1,0.7,0.7);si=6);
+  draw((pos(r),-2),color->col,size->si)
+);
+
+rag3pos=apply(rag3++[2],(pos(#),-2));
+
+
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "Text0", type: "ToggleButton", pos: [4.0, -0.9637305699481866, -0.7748234094286961], color: [0.0, 0.0, 0.0], fillcolor: [0.012, 0.655, 0.737], fillalpha: 0.27272728085517883, text: "Töne/Verhältnisse"}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 920,
+    height: 465,
+    transform: [{visibleRect: [-5.770995734331992, 2.079698346902954, 6.533328890431466, -4.139335294961185]}],
+    background: "rgb(80,80,80)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

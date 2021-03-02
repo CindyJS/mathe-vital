@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>harmonicShift2_1002.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+gam=0.5772156649;
+
+col2=(0,0.6,0);
+col1=(0.6,0,0);
+draw((-10,0),(100,0),size->2,color->(0,0,0));
+draw((0,0),(0,100),size->2,color->(0,0,0));
+
+A.x=0;
+if(A.y<4,A.y=4);
+k=A.y/2;
+B.y=0;
+if(B.x<2,B.x=2);
+m=B.x/10;
+repeat(30,i,
+  draw((-.1,i*k),(.1,i*k),color->(0,0,0));
+  drawtext((-.3,i*k-.1),i, align->"right",size->10);
+);
+
+
+
+D.x=0;
+em(x):=log(x)+gam;
+iem(x):=exp(x-gam);
+
+yy=D.y/k;
+
+if((|yy-round(yy)|)<0.1,yy=round(yy);D.y=yy*k);
+
+ssx=iem(yy);
+ssx=round(ssx);
+
+shift=ssx;
+
+shift=0;
+if(ssx*m>20,shift=ssx-round(20/m));
+//err(shift);
+
+
+rect(a,b,w,h,col):=(
+  fillpoly(((a,b),(a+w,b),(a+w,b+h),(a,b+h)),color->col,alpha->0.6);
+  connect(((a,b),(a+w,b),(a+w,b+h),(a,b+h),(a,b)),color->(0,0,0),alpha->0.5);
+
+);
+n=160;
+
+hs=apply(1..n,1/#);
+s=0;
+ss=apply(1..n-1,s=s+hs_(#);s);
+
+
+s=0;
+start=max(1,shift-5);
+stop=40/m+shift;
+
+apply(start..stop,i,
+//  rect(i-1,0,1,hs_i*5,col2);
+//  rect(i-1,hs_i*5,1,(s)*5,col1);
+
+  ss1=em(i-.5);
+  ss2=em(i+1-.5);
+  if(i==1,ss1=0;ss2=1);
+  if(i==2,ss1=1;ss2=1.5);
+  if(i==3,ss1=1.5;ss2=1.5+1/3);
+  if(i==4,ss1=1.5+1/3;ss2=1.5+1/3+1/4);
+
+  rect((i-1+.5-shift)*m,0,m,ss1*k,col2);
+  rect((i-1+.5-shift)*m,ss1*k,m,(ss2-ss1)*k,col1);
+ // drawtext((i*m,-.6),"$s_"+i+"$",size->10*sqrt(m),align->"center");
+  if(i<99 % mod(i,2)==0, 
+ drawtext(color->col1,((i-shift)*m,k*ss2+.8),"$1\over "+(i)+"$",size->10*sqrt(m),align->"center");
+  );
+);
+
+//plot(log(x/m+shift)*k+0.5772156649*k,start->0);
+
+
+
+C.y=0;
+C.x=round(C.x/m)*m;
+xy=C.xy+(0,3);
+f(x):=format(x,6);
+
+ i=round(xy.x/m);
+// drawtext(xy+(-0.5,-2.5),"$s_"+i+"="+f(ss_i)+"$",size->12,color->(1,1,1),align->"right");
+
+ //drawtext(xy+(-0.5,-0.5),"$log("+i+")+\gamma="+f((log(i)+gam))+"$",size->12,color->(1,1,1),align->"right");
+//drawtext(xy+(-0.5,-1.5),"$log("+i+".5)+\gamma="+f((log(i+.5)+gam))+"$",size->12,color->(1,1,1),align->"right");
+ moving=true;
+
+val=em(ssx);
+if(ssx<30,val=sum(1..ssx,p,1/p));
+
+//err(ssx);
+//err(sum(1..ssx,p,1/p));
+//err(em(ssx+.5));
+
+draw((0,yy*k),((ssx-shift)*m,yy*k),color->(1,1,1),size->2);
+draw(((ssx-shift)*m,0),((ssx-shift)*m,yy*k),color->(1,1,1),size->2);
+draw(((ssx-shift)*m,0),color->(0,0,0));
+drawtext(((ssx-shift)*m,0)-(0,1),"$s_"+ssx+"$",size->12,color->(1,1,1));
+
+drawtext((22,9),ssx+" Summanden notwendig",size->16,color->(1,1,1));
+drawtext((22,6),"$\sum_{i=1}^"+ssx+"{1\over i}\; \approx\; "+val+"$",size->16,color->(1,1,1));
+
+//drawtext((22,3),"$e^{"+yy+"-\gamma} \; \approx\; "+exp(yy-gam)+"$",size->16,color->(1,1,1));
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -4.0, -0.4429761340383957], color: [1.0, 1.0, 1.0], size: 3.0},
+    {name: "B", type: "Free", pos: [4.0, 0.0, 0.3552368997602593], color: [1.0, 1.0, 1.0], size: 3.0},
+    {name: "D", type: "Free", pos: [0.0, -4.0, -0.2654658420591107], color: [1.0, 0.0, 0.0], size: 3.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 697,
+    height: 441,
+    transform: [{visibleRect: [-1.4959058772954175, 22.384191582075065, 36.418508539973885, -1.6046990320078114]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

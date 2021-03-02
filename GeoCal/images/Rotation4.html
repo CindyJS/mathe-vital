@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Rotation4.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+
+
+a=complex(A);
+r=sqrt(1-abs(a)^2);
+
+b=complex(B);
+c=-conjugate(b);
+d=conjugate(a);
+f(x):=(a*x+b)/(c*x+d);
+m=[[a,b],[c,d]];
+
+m=[[a,b],[c,d]];
+ev=transpose[eigenvectors(m)];
+ew=eigenvalues(transpose(m));
+r=ev_1_1/ev_1_2;
+s=ev_2_1/ev_2_2;
+
+mev=[[ew_1,0],[0,ew_2]];
+mev=[[exp(i*0.01),0],[0,exp(-i*0.01)]];
+mmm=transpose(ev)*mev*conjugate(ev);
+
+g(z):=(vv=m*[z,1];vv_1/vv_2);
+gg(z):=((mmm*[z,1])_1/(mmm*[z,1])_2);
+drawfieldcomplex(#-gg(#),
+resolution->20,factor->1,needlesize->30,move->30,stream->true);
+
+
+
+draw(gauss(r),color->(1,1,0));
+draw(gauss(s),color->(1,1,0));
+
+
+drawtext(A+(0.03,0.03),"a+ib",size->20);
+
+drawtext(B+(0.03,0.03),"c+id",size->20);
+drawtext(G+(0.03,0.03),"a",size->20);
+drawtext(N+(0.03,0.03),"b",size->20);
+
+</script>
+<script id="cstick" type="text/x-cindyscript">
+1
+
+
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "C", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 1.0, yy: 1.0, zz: -1.0, xy: 0.0, xz: -0.0, yz: -0.0}, color: [0.0, 0.0, 0.0], fillcolor: [1.0, 1.0, 0.0], fillalpha: 0.20000000298023224, radius: 1.0, args: ["C"], alpha: 0.8999999761581421, size: 5},
+    {name: "D", type: "PointOnCircle", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["C0"], alpha: 0.0},
+    {name: "", type: "OtherPointOnCircle", pos: [4.0, -0.0, -4.0], color: [1.0, 1.0, 1.0], args: ["D"], pinned: true, size: 0.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "D"], alpha: 0.0},
+    {name: "G", type: "PointOnLine", pos: [2.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421},
+    {name: "b", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "G"], clip: "inci"},
+    {name: "d", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "C"], alpha: 0.0, labeled: true},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "E", type: "SelectP", pos: [2.0, -3.4641016151377544, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0, labeled: true},
+    {name: "K", type: "SelectP", pos: [2.0, 3.4641016151377544, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__1"], alpha: 0.0, labeled: true},
+    {name: "e", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "E"], alpha: 0.0, labeled: true},
+    {name: "f", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "K"], alpha: 0.0, labeled: true},
+    {name: "L", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "e"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "M", type: "Meet", color: [1.0, 0.0, 0.0], args: ["d", "f"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "g", type: "Segment", color: [0.0, 0.0, 1.0], args: ["L", "M"], size: 3},
+    {name: "N", type: "PointOnSegment", pos: [0.0, 1.3060124507404476, 4.0], color: [1.0, 0.0, 0.0], args: ["g"], alpha: 0.8999999761581421},
+    {name: "h", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["g", "N"], clip: "inci"},
+    {name: "A", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "h"], alpha: 0.8999999761581421},
+    {name: "C1", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["C", "A"], alpha: 0.8999999761581421},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C1", "a"]},
+    {name: "F", type: "SelectP", pos: [2.3886541234530108, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__2"], alpha: 0.0},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "F"], alpha: 0.0},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "c"]},
+    {name: "H", type: "SelectP", pos: [2.3886541234530108, -3.208478062650722, 4.0], color: [1.0, 0.0, 0.0], args: ["Collection__3"], alpha: 0.0},
+    {name: "C2", type: "Compass", color: [0.0, 0.0, 1.0], args: ["H", "F", "C"], alpha: 0.8999999761581421},
+    {name: "B", type: "PointOnCircle", pos: [2.16722969485325, -2.365892416881465, 4.0], color: [1.0, 0.0, 0.0], args: ["C2"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", color: [0.0, 0.0, 0.0], text: "Quaternion: a+ib+jc+kd", textsize: 17.0, dock: {corner: "UL", offset: [10.0, -40.0]}}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.5,
+    speedRange: [0.0, 1.0],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 741,
+    height: 558,
+    transform: [{visibleRect: [-1.492892431602109, 1.2007580852742143, 1.690512724706273, -1.1964619919458628]}],
+    axes: true,
+    grid: 0.25,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

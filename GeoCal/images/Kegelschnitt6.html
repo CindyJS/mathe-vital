@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Kegelschnitt6.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+mat=[[1,0,0],[0,1,0],[0,0,1]];
+a=(0,0,1);
+gridsize=4;
+
+mat=[[0.9127,-0.0635,-0.4036],[-0.0902,0.9322,-0.3506],[0.3985,0.3564,0.8451]];
+
+
+rotating=true;
+
+embed(p):=(p.x,0,p.y);
+
+map(pp):=(
+  p=s2*pp;
+  o=(p-(p*a)*a)/(1-p*a);
+  (o.x,o.y)*s1;
+);
+
+
+
+grid(n,al):=(
+ apply((-gridsize*n..gridsize*n)/n,i,
+    p1=(i,0,-gridsize);
+    p2=(i,0,gridsize);
+    draw(map(mat*p1),map(mat*p2),alpha->al);
+    p1=(-gridsize,0,i);
+    p2=(gridsize,0,i);
+    draw(map(mat*p1),map(mat*p2),alpha->al)
+ )
+);
+
+
+arrow(pa,pb,col):=(
+   draw(map(mat*pa),map(mat*pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(0,1,0));
+   fillpoly(apply(
+    (pb-n*0.3+p*0.2,
+     pb-n*0.2+p*0.03,
+     pa+p*0.03,
+     pa-p*0.03,
+     pb-n*0.2-p*0.03,
+     pb-n*0.3-p*0.2,
+     pb),map(mat*#)),color->col);
+
+);
+
+arrow2(pa,pb,col):=(
+   draw(map(mat*pa),map(mat*pb),color->col,size->2);
+   n=pb-pa;
+   n=n/|n|;
+
+   p=cross(n,(0,0,1));
+   fillpoly(apply(
+    (pb-n*0.3+p*0.2,
+     pb-n*0.2+p*0.03,
+     pa+p*0.03,
+     pa-p*0.03,
+     pb-n*0.2-p*0.03,
+     pb-n*0.3-p*0.2,
+     pb),map(mat*#)),color->col);
+
+);
+
+
+;
+</script>
+<script id="csmousedrag" type="text/x-cindyscript">
+
+
+if(rotating,
+ xx=mouse().x;
+ yy=mouse().y;
+ wy=(startx-xx)*.1;
+ wx=-(starty-yy)*.1;
+
+ mmmx=[
+  [1,0,0],
+  [0,cos(wx),sin(wx)],
+  [0,-sin(wx),cos(wx)]
+ ];
+
+
+ mmmy=[
+  [cos(wy),0,-sin(wy)],
+  [0,1,0],
+  [sin(wy),0,cos(wy)]
+ ];
+
+ mat=mmmx*mmmy*mat;
+
+
+ startx=xx;
+ starty=yy;
+);
+;
+</script>
+<script id="csmouseup" type="text/x-cindyscript">
+//apply(allpoints(),#.selected=false);
+rotating=true;
+;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+
+s1=|B,E|*4;
+s2=(|D,F|/|D,C|/3)+0.01;
+
+
+K.xy=map(mat*(0,0,0));
+L.xy=map(mat*(1,0,0));
+M.xy=map(mat*(0,0,1));
+G.xy=map(mat*(1,0,1));
+sig=-area(K,L,M);
+if(dragging,
+  H.xy=map(mat*aa);
+  N.xy=map(mat*bb);
+);
+
+
+//Welcher der Halbkegel liegt vorne
+
+//Der Kippwinkel und seine Matrix
+win=-U.angle+180°;
+apply(-4..4,i,
+ if(|win-i*pi/4|<0.05,U.angle=180°-i*45°);
+);
+win=-U.angle+90°;
+rot=[
+  [cos(win),sin(win),0],
+  [-sin(win),cos(win),0],
+  [0,0,1]
+ ];
+mapcone(p):=(
+  rot*(p-(0,1,0))+(0,1,0);
+);
+
+
+
+ex1=map(mat*mapcone((0,1,0)));
+ex2=map(mat*mapcone((0,1,1)));
+ex3=map(mat*mapcone((1,1,0)));
+
+frontcone=if(area(ex1,ex2,ex3)<0,-1,1);
+
+n=60;
+dw=1/n*360°;
+
+
+//Der Mittelpunkt des Kegels
+pm=mapcone((0,1,0));
+pmmap=(map(mat*pm));
+
+
+//Hier wird der Kegel gemalt
+//top gibt an welcher der Halbkegel
+//sig gibt Vorder und Rückseite
+
+drawcone(sig,top):=(
+//Zuerst die Flächenfüllungen
+ repeat(n,i,
+   p1=mapcone((sin(i*dw),0,cos(i*dw)));
+   if(top>0,
+    p1=-p1*3+4*pm,
+    p1=p1*3-2*pm
+   );
+   phit1=(p1*pm_2-pm*p1_2)/(pm_2-p1_2);
+   p2=mapcone((sin((i+1)*dw),0,cos((i+1)*dw)));
+   if(top>0,
+    p2=-p2*3+4*pm,
+    p2=p2*3-2*pm
+   );
+ 
+   phit2=(p2*pm_2-pm*p2_2)/(pm_2-p2_2);
+   q1=p1;
+   q2=p2;
+   //Gefrickel um die Schnittsituation gut zu machen
+   hit1=false;
+   hit2=false;
+   if((pm_2*p1_2)<0,p1=phit1;hit1=true); 
+   if((pm_2*p2_2)<0,p2=phit2;hit2=true); 
+   //Falls ein Strahl scheidet und der andere nicht
+   if(hit1!=hit2,
+     pint=(q1*q2_2-q2*q1_2)/(q2_2-q1_2),
+     pint=p1;
+   );
+
+   p1map=map(mat*p1);
+   p2map=map(mat*p2);
+   //Normalenvektor für Farbgebung 
+   no=cross(mat*(pm-p1),mat*(pm-p2));
+   no=no/|no|; 
+   col=(0,(no*(1,1,1))^2*.4,(no*(1,1,2))^2*.4);
+
+   if(area(p1map,p2map,pmmap)*sig<0,
+     if(sig*if(top>0,-1,1)>0, 
+       col=((no*(1,1,1))^2*.4,(no*(1,1,2))^2*.2,0);
+     );
+    fillpoly((p1map,map(mat*pint),p2map,pmmap),color->col,alpha->.9,size->2);
+   );
+ );
+
+
+//und jetzt die daraufliegenden Linien 
+ repeat(n,i,
+   p1=mapcone((sin(i*dw),0,cos(i*dw)));
+   if(top>0,
+    p1=-p1*3+4*pm,
+    p1=p1*3-2*pm
+   );
+   phit1=(p1*pm_2-pm*p1_2)/(pm_2-p1_2);
+   p2=mapcone((sin((i+1)*dw),0,cos((i+1)*dw)));
+   if(top>0,
+    p2=-p2*3+4*pm,
+    p2=p2*3-2*pm
+   );
+   phit2=(p2*pm_2-pm*p2_2)/(pm_2-p2_2);
+   hit1=false;
+   hit2=false;
+   q1=p1;
+   q2=p2;
+   if((pm_2*p1_2)<0,p1=phit1;hit1=true); 
+   if((pm_2*p2_2)<0,p2=phit2;hit2=true); 
+   p1map=map(mat*p1);
+   p2map=map(mat*p2);
+   if(hit1!=hit2,
+     pint=(q1*q2_2-q2*q1_2)/(q2_2-q1_2)
+   );
+   if(area(p1map,p2map,pmmap)*sig<0,   
+    draw(map(mat*p1),map(mat*pm),color->(0,0,0),alpha->1,size->2);
+    if(!hit1&!hit2,
+     draw(p1map,p2map,color->(0,0,0),alpha->1,size->3);
+    );
+    
+    //Falls Schnittsituation
+    if(!hit1 & hit2,
+     draw(p1map,map(mat*pint),color->(0,0,0),alpha->1,size->3);
+    );
+    if(hit1 & !hit2,
+     draw(p2map,map(mat*pint),color->(0,0,0),alpha->1,size->3);
+    );
+   );
+ );
+
+
+
+);
+
+
+
+drawedge(p1,p2,cut):=(
+   pint=(p1*(p2_1-cut)  - p2*(p1_1-cut))/((p2_1-cut)-(p1_1-cut));
+   if(pint_3>gridsize,
+      pint=(p1*(p2_3-gridsize)  - p2*(p1_3-gridsize))/((p2_3-gridsize)-(p1_3-gridsize));
+   );
+   if(pint_3<-gridsize,
+      pint=(p1*(p2_3+gridsize)  - p2*(p1_3+gridsize))/((p2_3+gridsize)-(p1_3+gridsize));
+   );
+   draw(map(mat*p1),map(mat*pint),color->(0.6,0,0),alpha->1,size->3);
+);
+
+//Die Gitterebene
+fullgrid():=(
+ //Fläche 
+ fillpoly(apply(((gridsize,0,gridsize),(gridsize,0,-gridsize),(-gridsize,0,-gridsize),(-gridsize,0,gridsize))
+    ,map(mat*#)),color->(1,1,1),alpha->0.6);
+ connect(apply(((gridsize,0,gridsize),(gridsize,0,-gridsize),(-gridsize,0,-gridsize),(-gridsize,0,gridsize),(gridsize,0,gridsize))
+   ,map(mat*#)),color->(0,0,0),alpha->0.8,size->2);
+ linecolor((0,0,0));
+ //Gitter 
+ grid(1,0.4);
+ grid(10,0.1);
+
+ //Kegelschnitt 
+ nn=80; 
+ dwn=360°/nn;
+ repeat(nn,i,
+   p1=mapcone((sin(i*dwn),0,cos(i*dwn)));
+   phit1=(p1*pm_2-pm*p1_2)/(pm_2-p1_2);
+   p2=mapcone((sin((i+1)*dwn),0,cos((i+1)*dwn)));
+   phit2=(p2*pm_2-pm*p2_2)/(pm_2-p2_2);
+ 
+   if(|phit1_1|<gridsize&|phit1_1|<gridsize&|phit2_1|<gridsize&|phit2_1|<gridsize,   
+    draw(map(mat*phit1),map(mat*phit2),color->(0.6,0,0),alpha->1,size->3),
+    if(phit1_1<gridsize&phit2_1>gridsize&phit2_1<3*gridsize,drawedge(phit1,phit2,gridsize)); 
+    if(phit1_1>gridsize&phit1_1<3*gridsize&phit2_1<gridsize,drawedge(phit2,phit1,gridsize));
+    if(phit1_1>-gridsize&phit2_1<-gridsize&phit2_1>-3*gridsize,drawedge(phit1,phit2,-gridsize));
+    if(phit2_1>-gridsize&phit1_1<-gridsize&phit1_1>-3*gridsize,drawedge(phit2,phit1,-gridsize));
+
+
+   
+);
+ );
+
+
+
+);
+
+
+if(area(M,G,L)>0,
+
+ fullgrid();
+ if(frontcone>0,
+  drawcone(1,-1);
+  drawcone(-1,-1);
+  drawcone(-1,1);
+  drawcone(1,1),
+  drawcone(-1,1);
+  drawcone(1,1);
+  drawcone(1,-1);
+  drawcone(-1,-1);
+ ),
+ if(frontcone<0,
+  drawcone(-1,1);
+  drawcone(1,1);
+  drawcone(1,-1);
+  drawcone(-1,-1),
+  drawcone(1,-1);
+  drawcone(-1,-1);
+  drawcone(-1,1);
+  drawcone(1,1);
+ );
+
+ fullgrid()
+);
+
+nd=20;
+repeat(nd,i,
+  la=cos(i/nd*180°)*.5+.5;
+  draw((-V*la-W*(1-la))*.8+1.8*H,(V*la+W*(1-la))*.8+.2*H,alpha->0.3);
+);
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+startx=mouse().x;
+starty=mouse().y;
+mm=mouse().xy;
+rotating=(   |mm,E|>1 
+           & |mm,F|>1
+         //  & |mm,N|>1
+        //   & |mm,H|>1
+           & |mm,U|>1
+);
+
+dragging=(   |mm,N|>1
+           & |mm,H|>1
+           & |mm,U|>1
+);
+
+dragging=true;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.8666666666666667, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [4.0, -0.5333333333333333, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "Free", pos: [4.0, 1.5555555555555556, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -0.4444444444444444, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["C", "D"]},
+    {name: "E", type: "PointOnSegment", pos: [4.0, 0.9386666826666666, 0.26666666666666666], color: [1.0, 1.0, 1.0], args: ["a"], labeled: true, size: 4.0, printname: "scale"},
+    {name: "F", type: "PointOnSegment", pos: [4.0, -4.444444424989148E-8, 0.2222222222222222], color: [1.0, 1.0, 1.0], args: ["b"], labeled: true, size: 4.0, printname: "dist"},
+    {name: "G", type: "Free", pos: [4.0, -3.4633667255941867, 3.7899625582296332], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "K", type: "Free", pos: [0.0, 0.0, 4.0], color: [0.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -0.3953106168511012, 2.2817659283637073], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "M", type: "Free", pos: [-3.2261191488707097, -2.8024711932459634, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "O", type: "Free", pos: [0.0, -4.0, -4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "P", type: "Free", pos: [4.0, 4.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Q", type: "Free", pos: [4.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.0, labeled: true},
+    {name: "Tr0", type: "TrProjection", color: [0.0, 0.0, 1.0], args: ["K", "K", "L", "O", "G", "P", "M", "Q"], dock: {offset: [0.0, -0.0]}},
+    {name: "N", type: "Free", pos: [4.0, -2.0, 0.24271844660194175], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.0029802777141985197, yy: 0.0029802777141985197, zz: 0.9999999999999999, xy: 0.0, xz: -0.09822995345998321, yz: -0.049114976729991607}, color: [0.0, 0.0, 1.0], radius: 1.9871587757398752, args: ["N"], alpha: 0.7521367521367521, visible: false, pinned: true},
+    {name: "c", type: "Through", pos: [0.0, 0.4854368932038835, 4.0], color: [0.0, 0.0, 0.0], args: ["N"], pinned: true, size: 3},
+    {name: "h", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["c", "N"], visible: false, labeled: true},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "h"]},
+    {name: "H", type: "SelectP", pos: [4.0, -1.5176799088009998, 0.24271844660194178], color: [0.0, 0.0, 0.0], args: ["Collection__1"], size: 2.0},
+    {name: "", type: "SelectP", pos: [4.0, -2.4823200911990004, 0.24271844660194178], color: [1.0, 1.0, 1.0], args: ["Collection__1"], size: 0.0},
+    {name: "C2", type: "CircleMP", color: [0.0, 0.0, 1.0], args: ["H", "N"]},
+    {name: "U", type: "PointOnCircle", pos: [4.0, {r: -1.0243316173076416, i: -1.0077580059440562E-16}, {r: 0.23218384109325585, i: -3.898586770349319E-17}], color: [1.0, 1.0, 1.0], args: ["C2"], size: 3.0},
+    {name: "k", type: "Join", color: [0.0, 0.0, 1.0], args: ["U", "H"], visible: false, labeled: true},
+    {name: "l", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["k", "H"], visible: false, labeled: true},
+    {name: "Collection__2", type: "AngularBisector", args: ["k", "l", "H"]},
+    {name: "n", type: "SelectL", pos: [{r: -0.2890353376386493, i: 2.2405129971303126E-16}, {r: -0.12207288445505965, i: 6.359670466305267E-16}, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__2"], alpha: 0.6752136752136753, size: 3, clip: "inci"},
+    {name: "m", type: "SelectL", pos: [{r: -0.1278566992747324, i: 2.681300696591422E-16}, {r: 0.30272983561587163, i: 7.066841119903095E-16}, 4.0], color: [0.0, 0.0, 0.0], args: ["Collection__2"], alpha: 0.6752136752136753, size: 3, clip: "inci"},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C2", "n"]},
+    {name: "V", type: "SelectP", pos: [4.0, {r: -1.1261967243418864, i: 3.7196339247356386E-16}, {r: 0.2546658169875859, i: -3.364363747912606E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__3"], size: 0.0},
+    {name: "S", type: "SelectP", pos: [4.0, {r: -1.8740770973229597, i: -7.733022021141475E-16}, {r: 0.23184183839830444, i: 5.031171188068595E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__3"], size: 0.0},
+    {name: "Collection__4", type: "IntersectionConicLine", args: ["C2", "m"]},
+    {name: "W", type: "SelectP", pos: [4.0, {r: -1.1970560213432044, i: -5.5487890968387E-16}, {r: 0.21845284241578677, i: -1.465035151892038E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], size: 0.0, printname: "$P_{1}$"},
+    {name: "R", type: "SelectP", pos: [4.0, {r: -1.9184340088989977, i: 6.330847034711068E-16}, {r: 0.27304850231320515, i: 2.2888231785374507E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], size: 0.0, printname: "$P_{1}$"},
+    {name: "T", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "n"], size: 0.0},
+    {name: "X", type: "Meet", color: [1.0, 0.0, 0.0], args: ["c", "m"], size: 0.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 835,
+    height: 553,
+    transform: [{visibleRect: [-12.62, 11.86, 20.78, -10.26]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

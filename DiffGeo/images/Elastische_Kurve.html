@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Elastische Kurve</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script id="csdraw" type="text/x-cindyscript">
+    Dummy.xy=0;
+    fillpoly(button1,color->gray(if(pressed1,.3,.5)));
+drawpoly(button1,color->gray(.8),size->4);
+//fillpoly(button2,color->gray(if(pressed2,.3,.5)));
+//drawpoly(button2,color->gray(.8),size->4);
+drawtext(button1_1+(.6,.5),if(pressed1,("Stop"),("Start")),color->(1,1,1),size->24);
+//drawtext(button2_1+(2,.5),("Trace"),color->(1,1,1),size->24);
+draw(F,G, arrow->true,size->4,color->(0,0,0));
+
+  n = 500;
+if(pressed1,
+  if(|cp.x|>8 % |cp.y|>8,
+    cp = -.5*cp;
+    gamma = [];
+  );
+
+  T = (B-A);
+  T = T/|T|;
+  cp = cp+T*6*seconds();
+
+  draw(cp, cp+2*T, color->[0,.7,0], arrow->true,size->4);
+  resetclock();
+  gamma = gamma ++ [cp];
+  if(length(gamma)>n,
+    gamma=apply(2..n,gamma_#);
+  );
+
+
+  draw(0,0);
+
+
+  /*
+ n=300;
+ l=[C.xy]++l;
+
+ if(length(l)>n,
+   l=apply(1..(length(l)-1),l_#);
+ );
+
+ forall(reverse(1..length(l)),
+   r=exp(-#*.01)*0.4;
+   fillcircle(l_#,r,alpha->(1-#/n)/1.5,color->(1,1,0));
+   drawcircle(l_#,r,alpha->(1-#/n)/1.5,color->(0,0,0));
+ ),
+ l=[];*/
+);
+
+connect(gamma);
+
+draw(cp, color->[.8,.8,.8]);
+
+
+;
+</script>
+<script id="csmousedown" type="text/x-cindyscript">
+mpo=mouse().xy;
+if(mpo.x>button1_1_1 & mpo.x<button1_2_1 & mpo.y>button1_1_2 & mpo.y<button1_3_2,
+if(pressed1,stopanimation(),playanimation());
+pressed1=!pressed1;
+if(pressed1,
+gamma = [];
+cp = (0,-2);
+);
+//pressed2=!pressed2;
+resetclock();
+
+
+);
+
+
+;
+</script>
+<script id="csinit" type="text/x-cindyscript">
+l=[];
+cp = A;
+gamma = [];
+
+button1=[[4,7-2],[7,7-2],[7,8.7-2],[4,8.7-2]];
+button2=[[14-12,4-4],[20-12,4-4],[20-12,5.7-4],[14-12,5.7-4]];
+pressed1=false;
+pressed2=false;
+
+resetclock();
+
+
+javascript("loaded()");
+
+
+
+;
+</script>
+
+    <script type="text/javascript">
+            var data = {
+  //"background": "rgb(0,0,0)",
+  "geometry": [
+    {
+      "name": "A",
+      "type": "Free",
+      "pos": [
+        0,
+        5
+      ],
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alpha": 0.8999999761581421,
+      "pinned": true
+    },
+    {
+      "name": "B",
+      "type": "Free",
+      "pos": [
+        1.5,
+        6.7
+              ],
+      "color": [
+        1.0,
+        0.5,
+        0.5
+      ],
+      "narrow":true,
+      "alpha": 0.8999999761581421,
+      "tracedim": 0.46153846153846156,
+      "textsize": 17.0,
+      "size": 11.0
+    },
+    {
+      "name": "a",
+      "type": "Segment",
+      "pos": [
+        -0.400381942958006,
+        0.10398077170054389,
+        4.0
+      ],
+      "color": [
+        0,
+        0.7,
+        0
+      ],
+      "args": [
+        "A",
+        "B"
+      ],
+      "alpha": 0.8999999761581421,
+      "size": 8,
+      "lineborder": true
+    },
+  /*  {
+      "name": "C",
+      "type": "Free",
+      "pos": [
+        9,
+        7.0,
+        1
+      ],
+      "color": [
+        0.5,
+        1.0,
+        0.5
+      ],
+      "narrow":true,
+      "alpha": 0.8999999761581421,
+      "tracelength": 163,
+      "size": 11.0
+    },*/
+  /*  {
+      "name": "b",
+      "type": "Segment",
+      "pos": [
+        -0.6558559754947599,
+        -0.014400127426873377,
+        4.0
+      ],
+      "color": [
+        0.098039225,
+        0.61960787,
+        0.30588236
+      ],
+      "args": [
+        "B",
+        "C"
+      ],
+      "alpha": 0.8999999761581421,
+      "size": 8,
+      "lineborder": true
+    },*/
+        {
+      "name": "F",
+      "type": "Free",
+      "pos": [
+      -7,
+      7.5
+      ],
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "narrow":true,
+      "alpha": 0.8999999761581421,
+      "size": 0.0
+    },
+    {
+      "name": "G",
+      "type": "Free",
+      "pos": [
+        -7,
+        6
+      ],
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "narrow":true,
+      "alpha": 0.8999999761581421,
+      "size": 0.0
+    },
+    {
+      "name": "c",
+      "type": "Segment",
+      "pos": [
+        0.5882352941176472,
+        -0.0,
+        4.0
+      ],
+      "color": [
+        0,0,0
+      ],
+      "args": [
+        "F",
+        "G"
+      ],
+      "size": 3,
+      "overlap": 4
+    },
+     {
+      "name": "Dummy",
+      "type": "Free",
+      "pos": [
+        0.0,
+        0.355889724310776,
+        -0.2506265664160401
+      ],
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "pinned": false,
+      "visible":false
+    }
+  ],
+              "physics":[
+                       {behavior:{type:"Environment",gravity:-.00,deltat:.5,accuracy:60}},
+                       {name:"B", behavior:{type:"Mass",friction:0.0,mass:1.0}},
+                      // {name:"C", behavior:{type:"Mass",friction:0.0,mass:0.2}},
+                       {name:"a", behavior:{type:"Spring",stype:0,strength:110}},
+                       //{name:"b", behavior:{type:"Spring",stype:0,strength:110}},
+                       {name:"c", behavior:{type:"Gravity",strength:0.01}}
+
+                       ],
+
+
+  //"height": 768,
+  "originX": 267.0,
+  "originY": 482.0,
+  "scale": 24,
+  "scripts": {},
+  //"width": 1024
+};
+
+
+
+cdy=createCindy({
+                ports: [{
+                        id: "CSCanvas",
+                        width: 512,
+                        height: 512,
+                        transform: [{visibleRect: [-8, 8, 8, -8]}],
+                        //background: "rgb(100,0,0)"
+                        }],
+                  scripts: "cs*",
+                  grid:1,
+                defaultAppearance: {
+                },
+                geometry: data.geometry,
+                behavior:data.physics
+            });
+            var loaded=function(){
+                if(window.hasOwnProperty('webkit'))
+                window.webkit.messageHandlers.interOp.postMessage({loaded:1});
+            }
+
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas" width="512" height="512"></canvas>
+    <!-- <div id="CSConsole"></div> -->
+
+</body>
+ </html>

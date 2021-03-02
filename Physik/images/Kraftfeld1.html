@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Kraftfeld1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+running=false;
+li=[];
+</script>
+<script id="cssimulationstep" type="text/x-cindyscript">
+dif=A.pos-B.pos;
+addforce(B,g(|dif|)*dif/|dif|);
+;
+</script>
+<script id="cssimulationstart" type="text/x-cindyscript">
+n=100;
+pos=1;
+l=apply(1..n,B.xy);
+
+li=[];
+
+running=true;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+g(r):=parse(Text0.val);
+
+
+l_pos=B.xy;
+
+
+nl=round(200*(|D,F|/|D,E|))+1;
+
+
+
+if(length(li)<=nl,
+  fillpolygon(li++[A.xy],color->(0.6,0.2,0),alpha->0.4);
+  connect([A.xy]++li++[A.xy],color->(0.6,0.2,0),alpha->0.8);
+  ss=sum(1..(nl-1),area(li_#,li_(#+1),A.xy));
+
+);
+
+
+drawtext((14.5,-3),align->"right","Time = ",family->"Papyrus",size->18);
+drawtext((15,-3),format((nl-1)/40,3),family->"Papyrus",size->18);
+drawtext((14.5,-2),align->"right","Area = ",family->"Papyrus",size->18);
+drawtext((15,-2),format(ss,3),family->"Papyrus",size->18);
+
+
+if(running,
+  apply(2..n-2,i,draw
+     (l_(mod(pos-i,n)+1),
+      l_(mod(pos-i-1,n)+1),
+      alpha->1-(i/n), color->(0.6,0.2,0),size->2
+     )
+  );
+
+ apply(2..n-2,i,draw
+     (l_(mod(pos-i,n)+1),
+      l_(mod(pos-i-1,n)+1),
+      alpha->(1-(i/n))*0.4, color->(0.6,0.2,0),size->4
+     )
+  );
+
+
+  pos=pos+1;
+
+  if(pos==n+1,pos=1);
+);
+;
+</script>
+<script id="cstick" type="text/x-cindyscript">
+li=[B.xy]++li;
+if(length(li)>nl,li=apply(1..nl,li_#));
+</script>
+<script id="cssimulationstop" type="text/x-cindyscript">
+pos=1;
+l=apply(1..n,B.xy);
+
+running=false;
+
+li=[];
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.23809523809523814, 1.1904761904761907], color: [1.0, 1.0, 0.0], size: 9.0},
+    {name: "B", type: "Free", pos: [4.0, 0.0963855421686747, -1.2048192771084338], color: [1.0, 0.0, 0.0]},
+    {name: "C", type: "Free", pos: [4.0, -1.5421686746987953, -1.2048192771084338], color: [1.0, 0.0, 0.0], size: 0.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["B", "C"], arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0},
+    {name: "Text0", type: "EditableText", color: [0.0, 0.0, 0.0], fillcolor: [1.0, 0.784, 0.0], fillalpha: 0.5, minwidth: 300, text: "100/r^2", textsize: 18.0, dock: {corner: "UL", offset: [177.0, -40.0]}},
+    {name: "D", type: "Free", pos: [4.0, -1.8181818181818181, 0.36363636363636365], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "E", type: "Free", pos: [4.0, -1.1111111111111112, 0.2222222222222222], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 1.0], args: ["D", "E"]},
+    {name: "F", type: "PointOnSegment", pos: [4.0, -1.8181818181818181, 0.36363636363636365], color: [1.0, 1.0, 1.0], args: ["b"], textsize: 18.0},
+    {name: "Text1", type: "Text", color: [0.0, 0.0, 0.0], text: "Kraftfunktion:", textsize: 18.0, dock: {corner: "UL", offset: [43.0, -40.0]}}
+  ],
+  behavior: [
+    {geo: ["B"], type: "Mass"},
+    {geo: ["a", "B", "C"], type: "Velocity", factor: 2.0}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.06701030927835051,
+    speedRange: [0.0, 0.25],
+    accuracy: 8
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 702,
+    height: 400,
+    transform: [{visibleRect: [-9.06, 9.34, 19.02, -6.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

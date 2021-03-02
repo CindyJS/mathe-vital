@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>ImpulsOnCircle.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 2.72, 1.3333333333333333], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 7.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.08447087444249224, yy: -0.08447087444249224, zz: 1.0, xy: 0.0, xz: 0.5068252466549534, yz: -0.3446411677253684}, color: [0.0, 0.0, 1.0], radius: 5.0, args: ["A"], alpha: 0.8999999761581421},
+    {name: "B", type: "PointOnCircle", pos: [4.0, {r: -3.2531779213325236, i: -4.5474434727463353E-17}, {r: 1.112431782988194, i: 1.3550708691161342E-17}], color: [1.0, 0.784, 0.0], args: ["C0"], alpha: 0.8999999761581421},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: -1.3730108633987748, i: 2.398267724340893E-17}, -4.0, {r: -0.5710709021815756, i: -4.285253737038153E-19}], color: [1.0, 1.0, 1.0], args: ["B"], pinned: true, size: 0.0},
+    {name: "C", type: "Free", pos: [4.0, 2.346666666666667, 0.3333333333333333], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "D", type: "Free", pos: [4.0, 1.0133333333333334, 0.3333333333333333], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "E", type: "PointOnCircle", pos: [{r: 3.4349272103770407, i: -8.842243955062994E-17}, -4.0, {r: 1.3618792117343665, i: 3.149756824758621E-18}], color: [0.0, 0.0, 1.0], args: ["C0"], alpha: 0.8999999761581421},
+    {name: "F", type: "PointOnCircle", pos: [4.0, {r: -3.8945279656167395, i: -7.545325250964355E-17}, {r: 1.3157900276744732, i: 2.5284586809812493E-17}], color: [0.0, 1.0, 0.0], args: ["C0"], alpha: 0.8999999761581421},
+    {name: "G", type: "PointOnCircle", pos: [{r: 0.10912675193170683, i: -1.7647565098720628E-17}, -4.0, {r: -0.6763896426718448, i: 2.382306434025686E-18}], color: [1.0, 0.0, 0.0], args: ["C0"], alpha: 0.8999999761581421},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 0.0], args: ["C", "D"], alpha: 0.8999999761581421, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 0.8, arrowposition: 1.0}
+  ],
+  behavior: [
+    {type: "Environment", balls: true},
+    {geo: ["B"], type: "Mass", radius: 0.28},
+    {geo: ["E"], type: "Mass", radius: 0.28},
+    {geo: ["F"], type: "Mass", radius: 0.28},
+    {geo: ["G"], type: "Mass", radius: 0.28},
+    {geo: ["a", "C", "D"], type: "Gravity", strength: 0.02}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.1958762886597938,
+    speedRange: [0.0, 0.5],
+    accuracy: 8
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 630,
+    height: 350,
+    transform: [{visibleRect: [-8.42, 9.34, 16.78, -4.66]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

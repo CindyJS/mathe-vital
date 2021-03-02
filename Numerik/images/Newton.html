@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Newton.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+text="a*x^3+b*x^2+c*x+d";
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+linecolor((0,0,0));
+n=100;
+run=0;
+a=O.x*3;
+b=P.x*3;
+c=Q.x*3;
+d=T.x*3;
+aa=3*a;
+bb=2*b;
+cc=1*c;
+
+ff(x):=parse(text);
+f(x):=1/2*(ff(x*2));
+//f(x):=parse(text);
+g(x):=d(f(#),x);
+
+draw((-10,0),(10,0),size->2,alpha->0.5);
+draw((0,-10),(0,10),size->2,alpha->0.5);
+
+plot(f(#));
+pointsize(3);
+
+fillpoly(((0.95,0.55),(1.6,0.55),(1.6,1.05),(0.95,1.05)),alpha->0.2,color->(0,0.6,0));
+connect(((0.95,0.55),(1.6,0.55),(1.6,1.05),(0.95,1.05),(0.95,0.55)),alpha->0.8,color->(0,0.6,0));
+x=C.x;
+linecolor((1,0,0));
+repeat(50,k,
+  y=f(x);
+  s=g(x);
+  draw((x,y),(x,0));
+  draw(color->(1,0,0),(x,y));
+  draw(color->(0,1,0),(x,0));
+  x1=-y/s+x;
+  draw((x,y),(x1,0));
+  x=x1;
+if(|x|<1.25,draw((1,.8)+(k*0.01,x*0.2),size->2,color->(0,0,0.5),border->false));
+);
+ 
+textsize(18);
+drawtext((0.3,-0.6),"Funktion:");
+drawtext((0.3,-0.7),"f(x)="+text);
+//drawtext((0.3,-0.8),"above funktion text");
+textsize(14);
+drawtext((0.97,0.57),"Konvergenz");
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "r", type: "Through", pos: [0.0, -4.0, 0.0], color: [0.0, 0.0, 1.0], args: ["A"], alpha: 0.0, size: 3},
+    {name: "r1", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["r", "A"], alpha: 0.0, size: 3},
+    {name: "B", type: "PointOnLine", pos: [0.0, 3.1131428571428574, 4.0], color: [1.0, 0.0, 0.0], args: ["r1"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "C", type: "PointOnLine", pos: [3.89488761904762, -0.0, 4.0], color: [1.0, 1.0, 0.0], args: ["r"], size: 4.0},
+    {name: "D", type: "PointOnLine", pos: [0.0, -4.0, -4.0], color: [1.0, 0.0, 0.0], args: ["r1"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "E", type: "Free", pos: [4.0, 2.352941176470588, 2.352941176470588], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 0.0},
+    {name: "F", type: "PointOnLine", pos: [4.0, -0.0, 3.150352839518025], color: [1.0, 0.0, 0.0], args: ["r"], alpha: 0.8999999761581421, size: 0.0},
+    {name: "G", type: "Free", pos: [-1.6, 3.6, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "H", type: "Free", pos: [1.6, 3.6, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "r2", type: "Segment", color: [0.0, 0.0, 1.0], args: ["G", "H"], alpha: 0.8999999761581421},
+    {name: "K", type: "Free", pos: [-1.6, 3.2, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "L", type: "Free", pos: [1.6, 3.2, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "r3", type: "Segment", color: [0.0, 0.0, 1.0], args: ["K", "L"], alpha: 0.8999999761581421},
+    {name: "M", type: "Free", pos: [-1.6, 2.8000000000000003, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "N", type: "Free", pos: [1.6, 2.8000000000000003, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "r4", type: "Segment", color: [0.0, 0.0, 1.0], args: ["M", "N"], alpha: 0.8999999761581421},
+    {name: "O", type: "PointOnSegment", pos: [0.72064, 3.5999999999999996, 4.0], color: [1.0, 0.0, 0.0], args: ["r2"], alpha: 0.8999999761581421},
+    {name: "P", type: "PointOnSegment", pos: [0.2058971519999998, 3.2, 4.0], color: [1.0, 0.0, 0.0], args: ["r3"], alpha: 0.8999999761581421},
+    {name: "Q", type: "PointOnSegment", pos: [-1.04664384, 2.8, 4.0], color: [1.0, 0.0, 0.0], args: ["r4"], alpha: 0.8999999761581421},
+    {name: "R", type: "Free", pos: [-1.6, 2.4000000000000004, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "S", type: "Free", pos: [1.6, 2.4000000000000004, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, size: 2.0},
+    {name: "r5", type: "Segment", color: [0.0, 0.0, 1.0], args: ["R", "S"], alpha: 0.8999999761581421},
+    {name: "T", type: "PointOnSegment", pos: [0.39463615999999985, 2.4000000000000004, 4.0], color: [1.0, 0.0, 0.0], args: ["r5"], alpha: 0.8999999761581421},
+    {name: "Text0", type: "Text", pos: [4.0, -3.6, -4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "a=@{O.x*3}"},
+    {name: "Text1", type: "Text", pos: [4.0, -3.2, -4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "b=@{P.x*3}"},
+    {name: "Text2", type: "Text", pos: [4.0, -2.8000000000000003, -4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "c=@{Q.x*3}"},
+    {name: "Text3", type: "Text", pos: [4.0, -2.4000000000000004, -4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421, text: "d=@{T.x*3}"},
+    {name: "Text5", type: "Text", pos: [-0.10294857142857144, 0.8750628571428574, 4.0], color: [0.0, 0.0, 0.0], alpha: 0.8999999761581421}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2, friction: 0.1},
+    {type: "Motor", speed: 0.02}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 665,
+    height: 454,
+    transform: [{visibleRect: [-1.198921904761905, 1.1260000000000003, 1.653611428571429, -0.8214438095238097]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

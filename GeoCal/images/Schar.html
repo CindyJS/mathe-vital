@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Schar.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="cstick" type="text/x-cindyscript">
+XX.xy = D.xy + gauss(exp(3*i*simulationtime()));
+</script>
+
+
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-0.6106870229007633, -4.0, -0.7633587786259541], color: [1.0, 0.0, 0.0], labeled: true, textsize: 18.0, size: 6.0},
+    {name: "B", type: "Free", pos: [4.0, -2.3157894736842106, -1.7543859649122808], color: [1.0, 0.0, 0.0], labeled: true, textsize: 18.0, size: 6.0},
+    {name: "C", type: "Free", pos: [4.0, -2.515463917525773, 1.0309278350515465], color: [1.0, 0.0, 0.0], labeled: true, textsize: 18.0, size: 6.0},
+    {name: "D", type: "Free", pos: [4.0, 1.346153846153846, 0.4807692307692307], color: [1.0, 0.0, 0.0], labeled: true, textsize: 18.0, size: 6.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.012980809171720521, yy: 0.012980809171720521, zz: 1.0, xy: 0.0, xz: -0.21600066461742953, yz: 0.07269253136163491}, color: [0.0, 0.0, 0.0], radius: 0.16, args: ["D"], pinned: true},
+    {name: "XX", type: "Free", pos: [-0.6106870229007633, -4.0, -0.7633587786259541], color: [1.0, 0.0, 0.0], labeled: true, visible: false},
+    {name: "a", type: "Join", pos: [0.5097007563301544, -2.943110818809602, 4.0], color: [0.0, 0.0, 1.0], args: ["D","XX"], visible: false},
+    {name: "b", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["a", "D"], visible: false},
+    {name: "c", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["b", "D"], visible: false},
+    {name: "d", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["c", "D"], visible: false},
+    {name: "e", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["d", "D"], visible: false},
+    {name: "f", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["e", "D"], visible: false},
+    {name: "g", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["f", "D"], visible: false},
+    {name: "h", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["g", "D"], visible: false},
+    {name: "k", type: "LineByFixedAngle", angle: 0.34999998552111833, color: [0.0, 0.0, 1.0], args: ["h", "D"], visible: false},
+    {name: "Collection__1", type: "IntersectionConicLine", args: ["C0", "k"]},
+    {name: "P", type: "SelectP", pos: [4.0, {r: 1.3854345770709713, i: -8.655248040044054E-17}, {r: 0.49005738511387037, i: 1.9366474032484276E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__1"], textsize: 18.0, size: 0.0},
+    {name: "E", type: "SelectP", pos: [4.0, {r: 1.3083344099222565, i: -1.173005002629E-17}, {r: 0.47182660794259895, i: 2.5181420938466276E-19}], color: [1.0, 0.0, 0.0], args: ["Collection__1"], textsize: 18.0, size: 0.0},
+    {name: "Collection__2", type: "IntersectionConicLine", args: ["C0", "a"]},
+    {name: "Q", type: "SelectP", pos: [4.0, 1.3587743845840259, 0.49005514156749697], color: [1.0, 0.0, 0.0], args: ["Collection__2"], textsize: 18.0, size: 0.0},
+    {name: "F", type: "SelectP", pos: [4.0, 1.3340026991087066, 0.4718286876868567], color: [1.0, 0.0, 0.0], args: ["Collection__2"], textsize: 18.0, size: 0.0},
+    {name: "Collection__3", type: "IntersectionConicLine", args: ["C0", "b"]},
+    {name: "G", type: "SelectP", pos: [4.0, {r: 1.3617674016898478, i: -3.594871225483873E-17}, {r: 0.47288406054140875, i: -2.0422505820298748E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__3"], textsize: 18.0, size: 0.0},
+    {name: "R", type: "SelectP", pos: [4.0, {r: 1.3300107601358253, i: -4.403867604630311E-17}, {r: 0.48892182490199926, i: -2.5965981154497576E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__3"], textsize: 18.0, size: 0.0},
+    {name: "Collection__4", type: "IntersectionConicLine", args: ["C0", "c"]},
+    {name: "H", type: "SelectP", pos: [4.0, {r: 1.3878422223856521, i: -1.2371588024657228E-16}, {r: 0.4748907045964683, i: -1.236275427492529E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], textsize: 18.0, size: 0.0},
+    {name: "S", type: "SelectP", pos: [4.0, {r: 1.303420438590008, i: -1.4782704834508765E-16}, {r: 0.4867951180193962, i: -1.541631478512669E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__4"], textsize: 18.0, size: 0.0},
+    {name: "Collection__5", type: "IntersectionConicLine", args: ["C0", "d"]},
+    {name: "K", type: "SelectP", pos: [4.0, {r: 1.409156638662252, i: 3.559794783473135E-17}, {r: 0.4776256063349278, i: 5.932156446576013E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__5"], textsize: 18.0, size: 0.0},
+    {name: "T", type: "SelectP", pos: [4.0, {r: 1.2823162184967352, i: 9.831194953959743E-18}, {r: 0.4839545106297073, i: 1.7368752729613656E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__5"], textsize: 18.0, size: 0.0},
+    {name: "Collection__6", type: "IntersectionConicLine", args: ["C0", "e"]},
+    {name: "L", type: "SelectP", pos: [4.0, {r: 1.4230957075611337, i: -5.755944413055173E-17}, {r: 0.48077558301238343, i: -1.9483383565877408E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__6"], textsize: 18.0, size: 0.0},
+    {name: "U", type: "SelectP", pos: [4.0, {r: 1.2692140179070268, i: -6.901663340277755E-17}, {r: 0.48076287869393397, i: -2.61993927133951E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__6"], textsize: 18.0, size: 0.0},
+    {name: "Collection__7", type: "IntersectionConicLine", args: ["C0", "f"]},
+    {name: "M", type: "SelectP", pos: [4.0, {r: 1.4278282342954505, i: -1.0338504578477543E-19}, {r: 0.48396660368169847, i: 1.4133817688629194E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__7"], textsize: 18.0, size: 0.0},
+    {name: "V", type: "SelectP", pos: [4.0, {r: 1.2655515548372644, i: 1.987659739430973E-18}, {r: 0.47761382809279246, i: -4.802436583593811E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__7"], textsize: 18.0, size: 0.0},
+    {name: "Collection__8", type: "IntersectionConicLine", args: ["C0", "g"]},
+    {name: "N", type: "SelectP", pos: [4.0, {r: 1.422592387384394, i: -8.570025454902117E-17}, {r: 0.48680508012640616, i: 2.138069034377709E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__8"], textsize: 18.0, size: 0.0},
+    {name: "W", type: "SelectP", pos: [4.0, {r: 1.2715875987704537, i: -6.442011703689263E-17}, {r: 0.47488122415515155, i: 1.455186874804243E-17}], color: [1.0, 0.0, 0.0], args: ["Collection__8"], textsize: 18.0, size: 0.0},
+    {name: "Collection__9", type: "IntersectionConicLine", args: ["C0", "h"]},
+    {name: "O", type: "SelectP", pos: [4.0, {r: 1.4078770430799763, i: -6.669859408915987E-17}, {r: 0.4889283624942743, i: 5.847906543077716E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__9"], textsize: 18.0, size: 0.0},
+    {name: "X", type: "SelectP", pos: [4.0, {r: 1.2864568828387688, i: -1.573736023745924E-17}, {r: 0.47287794497183866, i: 1.3060650259658413E-18}], color: [1.0, 0.0, 0.0], args: ["Collection__9"], textsize: 18.0, size: 0.0},
+    {name: "C1", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["X", "A", "B", "C", "D"]},
+    {name: "C2", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "E", "D"]},
+    {name: "C3", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["B", "C", "A", "D", "F"]},
+    {name: "C4", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "G"]},
+    {name: "C5", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "H"]},
+    {name: "C6", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "K"]},
+    {name: "C7", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "L"]},
+    {name: "C8", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "M"]},
+    {name: "C9", type: "ConicBy5", color: [0.0, 0.0, 0.0], args: ["A", "B", "C", "D", "N"]},
+    //{name: "Anim0", type: "AnimationAlg", color: [0.0, 0.0, 1.0], args: ["a", "D"], dock: {offset: [0.0, -0.0]}}
+  ],
+  animation: {
+    autoplay: false,
+    controls: true,
+    speed: 0.02577319587628866,
+    speedRange: [0.0, 0.0625],
+    accuracy: 1
+  },
+  autoplay: false,
+  animcontrols: true,
+  ports: [{
+    id: "CSCanvas",
+    width: 647,
+    height: 411,
+    transform: [{visibleRect: [-9.06, 9.34, 16.82, -7.1]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

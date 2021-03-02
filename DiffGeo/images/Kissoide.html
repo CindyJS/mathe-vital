@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "init": "tli=[T0,T,tt,t1,R,h1,h2,h3,D,E1,Ct];\nfli=[F0,F1,F,ff,W,Wz,C1,E0,E2,c,Cf];\npli=[T0,T,tt,t1,R,F0,F1,F,ff,W,Wz,C1,Cf,Ct,Cp];\nunsi(list):=(\n  //if(|T.y|<=0.1, C1.visible=false;t1.visible=false , C1.visible=true;t1.visible=true );\n  apply(list,#.visible=false);\n);\nsiba(list):=(\n  apply(list,#.visible=true);\n  if(|T.y|<=0.1, t1.visible=false; C1.visible=false;\n    err(\"hier\"); \n  , C1.visible=true;t1.visible=true );\n);\nunsi(tli);\nunsi(fli);\nunsi(pli);\npolwi=0;steig=0;\nR.visible=true;R.size=4;R.color=(1,0,0);\n\n\n\n;",
+                "draw": "E.x=1;\nF0.xy=(-3,-pi/2+0.001);\nF1.xy=(-3,pi/2-0.001);\nif(polwi==0 & steig==0, T.y=R.y; F.y=arctan(T.y));\nf=F.y;\nW.xy=(cos(f),sin(f));\nWz.xy=(cos(f/2),sin(f/2));\nif(T.y>0,vorz=1,vorz=-1);\nPft.xy=(T+p)*0.5+(0,vorz);\nPff.xy=(F+p)*0.5+(0,1.5*vorz);\nPfp.xy=(F+T)*0.5+(0,0.5*vorz);\nif(polwi==1,T.y=tan(f);R.y=T.y;R.size=2;R.color=(0.76,0,0);\n   siba(fli);unsi(tli) );\nif(steig==1,t=T.y;R.y=T.y;R.size=2;R.color=(0.76,0,0);\n   F.y=arctan(T.y);siba(tli);unsi(fli););\nif(Text3.pressed==true,\n  T.y=tan(f);R.y=T.y;unsi(tli);unsi(fli);siba(pli);\n  R.size=2;R.color=(0.76,0,0);para=1\n  , Cp.visible=false;\n  if(para==1,unsi(fli);unsi(tli);unsi(pli);\n     R.size=4;R.color=(1,0,0);R.visible=true;polwi=0;steig=0;); \n  para=0;\n  );\nM.y=0;\na=M.x;\n//Parametrisierung\nx(t):=2*a*t^2/(1+t^2)*(1,t);\nplot(x(t),t,start->-5,stop->5,steps->300,size->3);\n\ndrawtext((6.5,4.7),\"Kissoide des Diocles\",size->18);\nif(polwi==1  para==1,\ndrawtext((6.5,2.7),\"$p_1\\;:\\;I=(-\\pi/2,\\pi/2)\\; \\rightarrow \\; \\R^2\\;,\\;$\n                               $\\phi \\;\\mapsto \\; p_1(\\phi)=2a\\;\\sin^2\\phi\\cdot(1,\\tan\\;\\phi)$\",size->14);\n);\nif(steig==1  para==1,\ndrawtext((6.5,0.7),\"$p_2\\;:\\;J=\\R \\;\\rightarrow\\; \\R^2\\;,\\;$\n                  $t \\;\\mapsto\\; p_2(t)=\\frac{2at^2}{1+t^2}\\cdot(1,t)$\",size->14);\n);\nif(para==1,\ndrawtext((6.5,-1.7),\"$f\\;:\\;I=(-\\pi/2,\\pi/2) \\;\\rightarrow\\; J=\\R \\;,\\; \\phi \\;\\mapsto\\; t=\\tan\\;\\phi$\",size->14);\ndrawtext((6.5,-2.4),\"$\\Rightarrow\\;p_1 = p_2 \\circ f$  d.h.  $p_1(\\phi)=p_2(f(\\phi))$  mit  $p_1(I)\\equiv p_2(J)$\");\ndrawtext((6.5,-3.3),\"da $f$ surjektiv und $\\frac{df}{d\\phi}>0$\")\n);\n\n\n\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "O",
+                "type": "Free",
+                "pos": [0.0, 0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "M",
+                "type": "Free",
+                "pos": [4.0, 0.0, 2.0],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "M=(a,0)"
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["M", "O"],
+                "size": 3
+            }, {
+                "name": "a",
+                "type": "Join",
+                "color": [1.0, 1.0, 1.0],
+                "args": ["M", "O"],
+                "size": 0
+            }, {
+                "name": "A",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C0", "a", "O"],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "A=(2a,0)"
+            }, {
+                "name": "b",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["O", "A"]
+            }, {
+                "name": "tan",
+                "type": "Orthogonal",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["b", "A"],
+                "labeled": true,
+                "size": 3,
+                "printname": "Tangente"
+            }, {
+                "name": "E",
+                "type": "PointOnSegment",
+                "pos": [4.0, -0.0, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["b"],
+                "labeled": true,
+                "size": 2.0,
+                "printname": "1"
+            }, {
+                "name": "t1",
+                "type": "Orthogonal",
+                "color": [0.0, 1.0, 1.0],
+                "args": ["b", "E"],
+                "visible": false,
+                "labeled": true,
+                "size": 3,
+                "clip": "inci",
+                "printname": "$t$"
+            }, {
+                "name": "T0",
+                "type": "Free",
+                "pos": [4.0, -0.0, -2.6666666666666665],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "pinned": true,
+                "labeled": true,
+                "size": 1.0,
+                "printname": "$0$"
+            }, {
+                "name": "tt",
+                "type": "Orthogonal",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["b", "T0"],
+                "visible": false,
+                "labeled": true,
+                "printname": "$J=\\R$"
+            }, {
+                "name": "T",
+                "type": "PointOnLine",
+                "pos": [4.0, -3.1902587519025865, -2.666666666666666],
+                "color": [0.0, 1.0, 1.0],
+                "args": ["tt"],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$t$"
+            }, {
+                "name": "F0",
+                "type": "Free",
+                "pos": [4.0, 2.093061769059862, -1.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 1.0,
+                "printname": "$-\\pi/2$"
+            }, {
+                "name": "F1",
+                "type": "Free",
+                "pos": [4.0, -2.093061769059862, -1.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 1.0,
+                "printname": "$\\pi/2$"
+            }, {
+                "name": "ff",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["F0", "F1"],
+                "visible": false,
+                "labeled": true,
+                "printname": "I"
+            }, {
+                "name": "F",
+                "type": "PointOnSegment",
+                "pos": [4.0, -1.1660777819192003, -1.3333333333333333],
+                "color": [0.714, 1.0, 0.667],
+                "args": ["ff"],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\phi$"
+            }, {
+                "name": "W",
+                "type": "Free",
+                "pos": [2.565343464953149, 3.0690410402635826, 4.0],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "size": 2.0
+            }, {
+                "name": "Wz",
+                "type": "Free",
+                "pos": [3.6236289724399624, 1.6939046815254106, 4.0],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 0.0,
+                "printname": "$\\phi$"
+            }, {
+                "name": "C1",
+                "type": "ArcBy3",
+                "color": [0.714, 1.0, 0.667],
+                "args": ["E", "Wz", "W"],
+                "visible": false,
+                "size": 3
+            }, {
+                "name": "Pft",
+                "type": "Free",
+                "pos": [-0.5685610486503689, -4.0, -1.3303513362371522],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0
+            }, {
+                "name": "Pff",
+                "type": "Free",
+                "pos": [0.38570205119370055, -4.0, -1.1955179542376013],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0
+            }, {
+                "name": "Pfp",
+                "type": "Free",
+                "pos": [4.0, -2.7296935743669377, -1.7777777777777777],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0
+            }, {
+                "name": "Cp",
+                "type": "ArcBy3",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["F", "Pfp", "T"],
+                "visible": false,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 0.6000000000000001,
+                "arrowposition": 1.0
+            }, {
+                "name": "R",
+                "type": "PointOnLine",
+                "pos": [-3.343511450381681, -4.0, -3.343511450381681],
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["t1"],
+                "size": 4.0
+            }, {
+                "name": "r",
+                "type": "Join",
+                "color": [0.757, 0.0, 0.0],
+                "args": ["O", "R"],
+                "labeled": true
+            }, {
+                "name": "B",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["tan", "r"],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "C",
+                "type": "OtherIntersectionCL",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["C0", "r", "O"],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "h1",
+                "type": "Orthogonal",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["tan", "C"],
+                "visible": false,
+                "clip": "inci"
+            }, {
+                "name": "D",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["tan", "h1"],
+                "visible": false,
+                "size": 2.0
+            }, {
+                "name": "h2",
+                "type": "Parallel",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["r", "D"],
+                "visible": false,
+                "clip": "inci"
+            }, {
+                "name": "E1",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["b", "h2"],
+                "visible": false,
+                "size": 2.0,
+                "printname": "E"
+            }, {
+                "name": "h3",
+                "type": "Orthogonal",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["b", "E1"],
+                "visible": false,
+                "clip": "inci"
+            }, {
+                "name": "p",
+                "type": "Meet",
+                "color": [1.0, 0.0, 0.0],
+                "args": ["r", "h3"],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "c",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["A", "C"],
+                "visible": false
+            }, {
+                "name": "E0",
+                "type": "AngleMark",
+                "color": [0.714, 1.0, 0.667],
+                "args": ["C", "A", "O"],
+                "visible": false
+            }, {
+                "name": "E2",
+                "type": "AngleMark",
+                "color": [0.714, 1.0, 0.667],
+                "args": ["A", "O", "B"],
+                "visible": false
+            }, {
+                "name": "Cf",
+                "type": "ArcBy3",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["F", "Pff", "p"],
+                "visible": false,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 0.6000000000000001,
+                "arrowposition": 1.0
+            }, {
+                "name": "Ct",
+                "type": "ArcBy3",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["T", "Pft", "p"],
+                "visible": false,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 0.6000000000000001,
+                "arrowposition": 1.0
+            }, {
+                "name": "Text0",
+                "type": "Text",
+                "pos": [-0.46188021535170065, -4.0, -0.9237604307034013],
+                "color": [0.0, 0.0, 0.0],
+                "pinned": true,
+                "text": "$\|p-O\| = \|B-C\|$"
+            }, {
+                "name": "Text1",
+                "type": "Button",
+                "pos": [4.0, 2.2074074074074077, 0.6191687871077185],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 170,
+                "script": "steig=0;polwi=1;",
+                "text": "  Polarwinkel $\\phi$ als Parameter"
+            }, {
+                "name": "Text2",
+                "type": "Button",
+                "pos": [4.0, 0.944649446494465, 0.6168840314357342],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 170,
+                "script": "steig=1;polwi=0;",
+                "text": "Steigung t von r als Parameter"
+            }, {
+                "name": "Text3",
+                "type": "ToggleButton",
+                "pos": [4.0, -0.4723247232472325, 0.6168840314357342],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "minwidth": 170,
+                "text": "     Parametertransformation"
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 791,
+                "height": 490,
+                "transform": [{
+                    "visibleRect": [-3.792420091324201, 5.897990867579908, 15.1337899543379, -5.8262100456621]
+                }],
+                "axes": true,
+                "snap": true,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

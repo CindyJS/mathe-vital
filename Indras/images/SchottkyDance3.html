@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>SchottkyDance3.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+drawc(l):=drawc(topoint(l_1),topoint(l_2),topoint(l_3));
+
+drawc(p,q,r):=(
+   pa=(p+q)/2;
+   pb=(q+r)/2;
+   if(|pa-pb|>0.000001,
+     mid=cross(perp(pa,cross(p,q)),perp(pb,cross(r,q)));
+     fillcircle(mid.xy,|mid.xy,p|,color->0.9*hue(count/40),alpha->1);  
+     drawcircle(mid.xy,|mid.xy,p|,color->(0,0,0),alpha->0.5);  
+   );
+);
+
+
+
+sizec(l):=sizec(topoint(l_1),topoint(l_2),topoint(l_3));
+
+sizec(p,q,r):=(
+   pa=(p+q)/2;
+   pb=(q+r)/2;
+   mid=cross(perp(pa,cross(p,q)),perp(pb,cross(r,q)));
+   |mid.xy,p|
+ );
+
+
+
+moeb(a,b,c):=(
+  ll=linearsolve(transpose((a,b)),c);
+  transpose((ll_1*a,ll_2*b));
+);
+
+topoint(p):=gauss(p_1/p_2);
+
+a1=(complex(N.xy),1);
+b1=(complex(O.xy),1);
+c1=(complex(E.xy),1);
+
+a2=(complex(K.xy),1);
+b2=(complex(Q.xy),1);
+c2=(complex(H.xy),1);
+
+d1=(complex(F.xy),1);
+e1=(complex(P.xy),1);
+f1=(complex(G.xy),1);
+
+d2=(complex(M.xy),1);
+e2=(complex(R.xy),1);
+f2=(complex(L.xy),1);
+
+
+moeb(a,b,c,d,e,f):=moeb(d,e,f)*(inverse(moeb(a,b,c)));
+norm(p):=p/p_2;
+map(m,pts):=apply(pts,norm(m*#));
+
+ma=moeb(a1,b1,c1,a2,b2,c2);
+mb=moeb(d1,e1,f1,d2,e2,f2);
+
+mA=inverse(ma);
+mB=inverse(mb);
+
+
+
+cir1=(a1,b1,c1);
+cir2=(a2,b2,c2);
+cir3=(d1,e1,f1);
+cir4=(d2,e2,f2);
+
+count=0;
+list=(("A",cir1),("a",cir2),("B",cir3),("b",cir4));
+
+
+drawlist(list):=apply(list,drawc(#_2));
+
+
+iterate(list):=(
+  newlist=[];
+  forall(list,ls,
+    if(ls_1=="a",newlist=newlist++[["a",map(ma,ls_2)],
+                                   ["b",map(mb,ls_2)],
+                                   ["B",map(mB,ls_2)]];);
+    if(ls_1=="A",newlist=newlist++[["A",map(mA,ls_2)],
+                                   ["b",map(mb,ls_2)],
+                                   ["B",map(mB,ls_2)]];);
+    if(ls_1=="b",newlist=newlist++[["a",map(ma,ls_2)],
+                                   ["A",map(mA,ls_2)],
+                                   ["b",map(mb,ls_2)]];);
+    if(ls_1=="B",newlist=newlist++[["a",map(ma,ls_2)],
+                                   ["A",map(mA,ls_2)],
+                                   ["B",map(mB,ls_2)]];);
+  );
+  newlist
+);
+
+drawlist(list);
+  
+iter=round(4*|S,U|/|S,T|);
+drawtext((15,-12),"Iterationen="+iter);
+repeat(iter,
+if(length(list)<100,
+    list=iterate(list);
+    list=select(list,siz=sizec(#_2);siz>.05&siz<5),list=[]);
+  count=count+2;
+  drawlist(list);
+//err(length(list));
+)
+
+
+
+//f(cir1,cir2,cir3,cir4,2);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1.125, -4.0, -0.5621480855855855], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: 0.03374246804950417, yy: 0.03374246804950417, zz: 1.0000000000000002, xy: 0.0, xz: 0.13505436567003248, yz: 0.4801933001601155}, color: [0.0, 0.0, 1.0], radius: 5.0, args: ["A"], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [4.0, -1.7699115044247788, 0.31838475643785374], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.006449193292511669, yy: 0.006449193292511669, zz: 0.9999999999999999, xy: 0.0, xz: -0.1620477905956657, yz: -0.07170256221047155}, color: [0.0, 0.0, 1.0], radius: 5.803801340500896, args: ["B"], alpha: 0.8999999761581421},
+    {name: "C", type: "Free", pos: [4.0, 2.3381642512077296, 0.34760847804326056], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C2", type: "CircleByRadius", pos: {xx: 0.006550482934774391, yy: 0.006550482934774391, zz: 1.0, xy: 0.0, xz: -0.15075542395624011, yz: 0.08812273574253651}, color: [0.0, 0.0, 1.0], radius: 5.0, args: ["C"], alpha: 0.8999999761581421},
+    {name: "D", type: "Free", pos: [-0.892857142857143, -4.0, 0.6424549549549549], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "C3", type: "CircleByRadius", pos: {xx: -0.14702169360974585, yy: -0.14702169360974585, zz: 1.0, xy: 0.0, xz: -0.4086492548061048, yz: 1.830748661531349}, color: [0.0, 0.0, 1.0], radius: 6.891856353697457, args: ["D"], alpha: 0.8999999761581421},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "D"], alpha: 0.0, labeled: true},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "C"], alpha: 0.0, labeled: true},
+    {name: "c", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "B"], alpha: 0.0, labeled: true},
+    {name: "d", type: "Join", color: [0.0, 0.0, 1.0], args: ["B", "D"], alpha: 0.0, labeled: true},
+    {name: "O", type: "PointOnCircle", pos: [{r: -1.6571456013669315, i: -2.5507262822237715E-17}, -4.0, {r: -1.1440933222846679, i: 1.1491167185338793E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "", type: "OtherPointOnCircle", pos: [{r: 2.0311082763699164, i: -2.037228088828051E-17}, -4.0, {r: -0.3726161663689884, i: 1.2188903208910017E-18}], color: [1.0, 1.0, 1.0], args: ["O"], pinned: true, size: 0.0},
+    {name: "P", type: "PointOnCircle", pos: [4.0, {r: 1.985523682454971, i: -3.8884929679876525E-16}, {r: 0.5328218812541694, i: -2.8308711783512154E-17}], color: [1.0, 1.0, 1.0], args: ["C2"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Q", type: "PointOnCircle", pos: [4.0, {r: -0.7418205861466312, i: -5.335653551206093E-16}, {r: 0.4781583148187288, i: 5.1731121031210716E-17}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "R", type: "PointOnCircle", pos: [4.0, {r: -0.8921051804269995, i: 4.955822203803275E-17}, {r: 1.5721064857859162, i: 4.1247805681869555E-17}], color: [1.0, 1.0, 1.0], args: ["C3"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "S", type: "Free", pos: [4.0, -3.3333333333333335, 0.26666666666666666], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "T", type: "Free", pos: [4.0, -2.2178217821782176, 0.17810632414592809], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "e", type: "Segment", color: [0.0, 0.0, 1.0], args: ["S", "T"], alpha: 0.8999999761581421},
+    {name: "U", type: "PointOnSegment", pos: [4.0, -3.100088847616708, 0.2481494119374366], color: [1.0, 1.0, 1.0], args: ["e"], size: 4.0},
+    {name: "E", type: "PointOnCircle", pos: [{r: -1.660011222358096, i: -1.4765097666454176E-16}, -4.0, {r: -0.55378154596243, i: -4.6829812993395837E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "F", type: "PointOnCircle", pos: [{r: -3.268309038122063, i: -6.488144833966739E-17}, -4.0, {r: -0.48436428894196476, i: -1.5864213381900097E-17}], color: [1.0, 1.0, 1.0], args: ["C2"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "H", type: "PointOnCircle", pos: [4.0, {r: 0.06209691829380128, i: 6.432954480102245E-16}, {r: 0.3415645751217051, i: -4.1304968203552105E-16}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "K", type: "PointOnCircle", pos: [4.0, {r: -3.7057530289643927, i: 1.4037384887709102E-15}, {r: 0.5875403247215513, i: 3.0474759209881335E-17}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "M", type: "PointOnCircle", pos: [4.0, {r: -1.0288832311502383, i: 7.106260805666055E-17}, {r: -1.7130639070761828, i: 7.691446823352189E-17}], color: [1.0, 1.0, 1.0], args: ["C3"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "N", type: "PointOnCircle", pos: [4.0, {r: -3.5555455043227746, i: -1.6918676503925952E-16}, {r: -1.6682466757117997, i: -8.718367341904179E-17}], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "G", type: "PointOnCircle", pos: [4.0, {r: 0.6296835578371291, i: 1.1228895103447614E-17}, {r: 0.29756604538536213, i: -3.184262119456371E-18}], color: [1.0, 1.0, 1.0], args: ["C2"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "L", type: "PointOnCircle", pos: [{r: 3.144482822803495, i: 5.60192297176745E-18}, -4.0, {r: 0.575498958930376, i: 9.03750369029658E-19}], color: [1.0, 1.0, 1.0], args: ["C3"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "f", type: "Segment", color: [1.0, 1.0, 1.0], args: ["N", "M"], alpha: 0.4000000059604645},
+    {name: "g", type: "Segment", color: [1.0, 1.0, 1.0], args: ["E", "F"], alpha: 0.4000000059604645},
+    {name: "l", type: "Segment", color: [1.0, 1.0, 1.0], args: ["G", "H"], alpha: 0.4000000059604645},
+    {name: "m", type: "Segment", color: [1.0, 1.0, 1.0], args: ["L", "K"], alpha: 0.4000000059604645}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 612,
+    height: 489,
+    transform: [{visibleRect: [-10.589958682859649, 12.64680105170903, 23.43132590459497, -14.53687241767873]}],
+    background: "rgb(137,139,163)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

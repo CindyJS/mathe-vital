@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>FibIntro.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+n=floor(|B,C|*1-.1)+1;
+dy=1;
+fib1=0;
+fib2=1;
+y=-8;
+
+if(n>0,
+ y=n*dy-7;
+ p=(-.2,y-2*dy-.2);
+ fillpoly((p,p+(3,0),p+(3,.85),p+(0,.85),p),color->(1,1,.5));
+ connect((p,p+(3,0),p+(3,.85),p+(0,.85),p),size->2);
+ p=(-.2,y-1*dy-.2);
+ fillpoly((p,p+(3,0),p+(3,.85),p+(0,.85),p),color->(1,1,.5));
+ connect((p,p+(3,0),p+(3,.85),p+(0,.85),p),color->(0,0,1),size->2);
+ p=(3.45,y-0*dy-.2);
+ fillpoly((p,p+(3.4,0),p+(3.4,.85),p+(0,.85),p),color->(1,1,.5));
+ connect((p,p+(3.4,0),p+(3.4,.85),p+(0,.85),p),color->(0,0,1),size->2);
+ p=(-.2,y-0*dy-.2);
+ fillpoly((p,p+(3,0),p+(3,.85),p+(0,.85),p),color->(1,1,1));
+ connect((p,p+(3,0),p+(3,.85),p+(0,.85),p),color->(0,0,1),size->2);
+
+);
+
+y=-8;
+drawtext((0,y),"$f_0\;=\;0$",size->14);
+y=y+dy;
+drawtext((0,y),"$f_1\;=\;1$",size->14);
+repeat(n,i,
+   y=y+dy;
+   drawtext((0,y),"$f_{"+(i+1)+"}\;=\;"+(fib2+fib1)+"$",size->14);
+   drawtext((3,y),"$= "+fib1+ " + "+fib2 + "$",size->14);
+   tau=fib2/(fib2+fib1);
+//   drawtext((8,y),"${"+fib2+"/ "+(fib1+fib2)+"}\;=\;"+format(tau,10)+"$",size->10);
+   h=fib2;
+   fib2=fib2+fib1;
+   fib1=h;
+);
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [1.411764705882353, -4.0, -0.47058823529411764], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "B", type: "Free", pos: [-1.8461538461538463, -4.0, 0.6153846153846154], color: [0.0, 0.0, 0.0], pinned: true, size: 2.0},
+    {name: "a", type: "Segment", color: [0.0, 0.0, 1.0], args: ["A", "B"]},
+    {name: "C", type: "PointOnSegment", pos: [-1.846153846153846, -4.0, 0.6153846153846155], color: [1.0, 1.0, 1.0], args: ["a"]}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 354,
+    height: 479,
+    transform: [{visibleRect: [-5.78, 10.14, 8.38, -9.02]}],
+    background: "rgb(255,255,255)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Transformation2.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+
+drawc(l):=drawc(topoint(l_1),topoint(l_2),topoint(l_3));
+
+drawc(p,q,r):=(
+   pa=(p+q)/2;
+   pb=(q+r)/2;
+   if(|pa-pb|>0.00001,
+     mid=cross(perp(pa,cross(p,q)),perp(pb,cross(r,q)));
+     fillcircle(mid.xy,|mid.xy,p|,color->0.9*hue(count/40),alpha->1);  
+     drawcircle(mid.xy,|mid.xy,p|,color->(0,0,0),alpha->0.5);  
+   );
+);
+
+
+
+sizec(l):=sizec(topoint(l_1),topoint(l_2),topoint(l_3));
+
+sizec(p,q,r):=(
+   pa=(p+q)/2;
+   pb=(q+r)/2;
+   mid=cross(perp(pa,cross(p,q)),perp(pb,cross(r,q)));
+   |mid.xy,p|
+ );
+
+
+
+moeb(a,b,c):=(
+  ll=linearsolve(transpose((a,b)),c);
+  transpose((ll_1*a,ll_2*b));
+);
+
+topoint(p):=gauss(p_1/p_2);
+
+a1=(complex(N.xy),1);
+b1=(complex(O.xy),1);
+c1=(complex(E.xy),1);
+
+a2=(complex(K.xy),1);
+b2=(complex(Q.xy),1);
+c2=(complex(H.xy),1);
+
+
+
+moeb(a,b,c,d,e,f):=moeb(d,e,f)*(inverse(moeb(a,b,c)));
+norm(p):=p/p_2;
+map(m,pts):=apply(pts,norm(m*#));
+
+ma=moeb(a1,b1,c1,a2,b2,c2);
+
+mA=inverse(ma);
+
+
+
+cir1=(a1,b1,c1);
+cir2=(a2,b2,c2);
+
+count=0;
+list=(("A",cir1),("a",cir2));
+
+
+drawlist(list):=apply(list,drawc(#_2));
+
+
+iterate(list):=(
+  newlist=[];
+  forall(list,ls,
+    if(ls_1=="a",newlist=newlist++[["a",map(ma,ls_2)]];);
+    if(ls_1=="A",newlist=newlist++[["A",map(mA,ls_2)]];);
+  );
+  newlist
+);
+
+drawlist(list);
+  
+repeat(120,
+if(length(list)<100,
+    list=iterate(list);
+    list=select(list,siz=sizec(#_2);siz>.1&siz<5),list=[]);
+  count=count+2;
+  drawlist(list);
+//err(length(list));
+)
+
+
+
+//f(cir1,cir2,cir3,cir4,2);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, -0.0, -1.6], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C0", type: "CircleByRadius", pos: {xx: -0.02, yy: -0.02, zz: 1.0, xy: 0.0, xz: -0.09999999999999998, yz: 0.0}, color: [0.0, 0.0, 1.0], radius: 7.5, args: ["A"], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [4.0, 0.015810276679841896, 0.28440693658084953], color: [1.0, 1.0, 1.0], alpha: 0.8999999761581421, size: 3.0},
+    {name: "C1", type: "CircleByRadius", pos: {xx: 0.007740018959502397, yy: 0.007740018959502397, zz: 0.9999999999999999, xy: 0.0, xz: -0.21771674214569264, yz: 8.605404827892989E-4}, color: [0.0, 0.0, 1.0], radius: 8.283146141412693, args: ["B"], alpha: 0.8999999761581421},
+    {name: "O", type: "PointOnCircle", pos: [4.0, -3.9895949696215993E-16, 0.7999999999999999], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "", type: "OtherPointOnCircle", pos: [4.0, -1.9947974848108006E-16, -0.4], color: [1.0, 1.0, 1.0], args: ["O"], pinned: true, size: 0.0},
+    {name: "Q", type: "PointOnCircle", pos: [4.0, {r: 0.038462778099369606, i: -2.3551659042854453E-18}, {r: 0.6918968663956564, i: -5.732596701712621E-35}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "E", type: "PointOnCircle", pos: [-0.45257124165716345, -4.0, -0.592372773459718], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "N", type: "PointOnCircle", pos: [0.7654073773629919, -4.0, 0.6154892096900151], color: [1.0, 1.0, 1.0], args: ["C0"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "H", type: "PointOnCircle", pos: [4.0, {r: 2.937002396469175, i: 1.3722972592107213E-17}, {r: 0.4466399747451264, i: -3.110995555144075E-17}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "K", type: "PointOnCircle", pos: [4.0, {r: -2.8901597850410874, i: -3.4033487679464942E-18}, {r: 0.4288951253586016, i: 1.4497330658616874E-17}], color: [1.0, 1.0, 1.0], args: ["C1"], alpha: 0.8999999761581421, size: 3.0},
+    {name: "a", type: "Segment", color: [1.0, 1.0, 1.0], args: ["E", "H"], alpha: 0.4000000059604645},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["O", "Q"], alpha: 0.4000000059604645},
+    {name: "c", type: "Segment", color: [1.0, 1.0, 1.0], args: ["N", "K"], alpha: 0.4000000059604645}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 598,
+    height: 490,
+    transform: [{visibleRect: [-10.589958682859649, 12.64680105170903, 22.6530612244898, -14.592462751971956]}],
+    background: "rgb(168,176,191)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

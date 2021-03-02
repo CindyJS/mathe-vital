@@ -1,0 +1,110 @@
+---
+title: Komplexe Konjugation
+layout: page
+category: LinAlg1
+---
+
+        <h2>Komplexe Zahlen - Konjugation</h2>
+
+        <script id='init' type='cindyscript'>
+        drawarrow(a,b,col,alp):=(
+           n=b-a;
+           n=n/|n|*1.5;
+           p=(n_2,-n_1);
+           draw(a,b,color->col,size->2,alpha->alp);
+           draw(b-n*.17+p*.07,b,color->col,size->2,alpha->alp);
+           draw(b-n*.17-p*.07,b,color->col,size->2,alpha->alp);
+
+        );
+        drawl(a,b,col,alp):=(
+           draw(a,b,color->col,size->2,alpha->alp);
+
+        );
+
+
+
+
+        </script>
+
+        <script id='firstDrawing' type='cindyscript'>
+        off=(.1,-.5);
+        draw(line((0,1,0)),color->(0,0,0),size->0.5);
+        draw(line((1,0,0)),color->(0,0,0),size->0.5);
+        drawarrow(O,B,(0.0,0,0),1);
+        C=[B.x, -B.y];
+        drawarrow(O,C,(0.0,0,0),1);
+//        drawtext((0,0)+off,"(0,0)");
+        off=(.1,.1);
+
+        tex(a):=replace(a,[["*"," "]]);
+
+	drawtext(B+off,"$u="+tex(format(complex(B),2))+"$");
+	drawtext(C+off,"$\overline{u}="+tex(format(complex(C),2))+"$");
+
+
+
+
+        </script>
+
+
+
+        <div style="position:relative">
+        <canvas  id="CSCanvas" width=800 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+</div>
+
+        <script type="text/javascript">
+
+            var gslp=[
+                      {name:"O", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                      {name:"B", type:"Free", pos:[3,3],color:[1,0,0],size:0.01},
+
+
+
+
+                    ];
+                     createCindy({canvasname:"CSCanvas",
+                        movescript:"firstDrawing",
+                        initscript:"init",
+                        geometry:gslp,
+                        grid:1,
+                        snap:true,
+                        use:["katex"],
+                        ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-10,10,10,-10]},],
+                        virtualwidth: 600,
+                        virtualheight: 450,
+                        }],
+}
+                        );
+
+        </script>
+
+  <!--      END ADD-->
+
+<div  style=" line-height: 1.5">
+<br>
+
+<script type="text/javascript">
+var statement=new Array()
+statement[1]='(cc=C.xy;repeat(60, ll=#/60;mm=1-ll; C.xy=mm*cc+ll*(-B); repaint()  );)'
+statement[0]='(cc=C.xy;repeat(60, ll=#/60;mm=1-ll; C.xy=mm*cc+ll*(0,0); repaint()  );)'
+</script>
+
+
+Eine weitere wichtige grundlegende Operation ist die komplexe Konjugation. Diese ordnet einer komplexen Zahl $u=x+iy$ die komplexe Zahl $\overline{u}:=x-iy$ zu, bei der der Imaginärteil negiert wurde.
+
+Geometrisch entspricht die komplexe Konjugation einer Spiegelung an der reellen Achse.
+
+Eine wichtige Anwendung der Konjugation ist die Berechnung des Betrages einer komplexen Zahl. Dieser ergibt sich zu
+
+\[ |z|=\sqrt{z\cdot\overline{z}}. \]
+
+Im Prinzip ist dies eine Anwendung des Satzes von Pythagoras und der Tatsache, dass $i^2=-1$ gilt. Ist nämlich $z=a+ib$, so gilt:
+
+\[ \sqrt{z\cdot\overline{z}}=\sqrt{(a+ib)\cdot(a-ib)}=\sqrt{a^2-(ib)^2}=\sqrt{a^2+b^2}. \]
+
+</div>
+<br>
+<br>
+</div>

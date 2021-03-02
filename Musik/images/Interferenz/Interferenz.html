@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Interferenz.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+drawb(p,d):=fillpolygon((p,p+(d.x,0),p+d,p+(0,d.y)));
+
+linecolor((0,0,0));
+A.y=5;
+if(A.x<10,A.x=10);
+xa=A.x;
+da=xa/50;
+draw((0,-5),(0,8));
+draw((20,-5),(20,8));
+
+repeat(20/da,start->0,i,
+   draw((i*da,0),(i*da,5),size->4);
+   draw((i*da,4),(i*da,5),size->2,color->(0.6,0,0));
+);
+
+drawtext((21,5),round(20/da)+" Striche",size->16,color->(0.6,0,0));
+
+B.y=-2;
+if(B.x<10,B.x=10);
+xb=B.x;
+db=xb/50;
+drawtext((21,-2),round(20/db)+" Striche",size->16,color->(0,0.6,0));
+
+
+drawtext((21,1),round(20/da)+" - " + round(20/db)+" = "+(round(20/da)-round(20/db)),size->16,color->(0,0,0));
+
+
+repeat(20/db,start->0,i,
+   draw((i*db,-2),(i*db,3),size->4);
+   draw((i*db,-1),(i*db,-2),size->2,color->(0,0.6,0));
+);
+
+
+
+;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [4.0, 1.1933174224343674, 0.23866348448687347], color: [0.757, 0.0, 0.0], alpha: 0.8999999761581421},
+    {name: "B", type: "Free", pos: [4.0, -0.47961630695443647, 0.23980815347721823], color: [0.098, 0.62, 0.306], alpha: 0.8999999761581421}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 808,
+    height: 417,
+    transform: [{visibleRect: [-0.78, 6.82, 31.54, -9.86]}],
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

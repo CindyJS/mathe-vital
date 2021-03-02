@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            "scripts": {
+                "init": "Nor.color=0.25*(1,1,1);\nNv.color=Nor.color;\nnv.color=Nor.color;\nTan.color=Nor.color;\nv.color=Nor.color;\nV.color=Nor.color;\ntan2.color=Nor.color;\n\n;",
+                "draw": "//Kurvenparameter\ntp=|T0,T|/|T0,T1|*4*pi-pi+0.001;\ndrawtext(T+(.1,.2),\"$t=\"+tp+\"$\",size->12);\n//Abstand\nif(Text4.pressed,\n  A.x=round((A.x-A0.x)*20/3)/20*3+A0.x,\n  A.x=round((A.x-A0.x)*100/3)/100*3+A0.x;\n  );\na=(A.x-A0.x)/3*10-5;\ndrawtext(A+(.1,.2),\"$a=\"+a+\"$\");\n//Parametrisierung\nx(t):=(t-sin(t),1-cos(t));\nP.xy=x(tp);\n//Ableitungen\ndx(t):=(1-cos(t),sin(t));\nV.xy=x(tp)+dx(tp);\nN.xy=x(tp)+(-dx(tp)_2,dx(tp)_1);\nddx(t):=(sin(t),cos(t));\nkappa(t):=-1/(4*sin(t/2));\nm(t):=(t+sin(t),-1+cos(t));\nM.xy=m(tp);\np(t,a):=x(t)+a*(-dx(t)_2,dx(t)_1)/(2*sin(t/2));\nD.xy=p(tp,a);\n\nif(Text1.pressed==false & Text3.pressed==false,\n  evolute=0; evolvente=0);\n\n//Normalen/Tangentenschar\nif(evolute==0 & evolvente==0,\n  Text2.visible=false; Text2.pressed=false);\n\nif(Text2.pressed,\n  ts=4*pi/36;\n  repeat(37,i,\n   tn=-pi+ts*(i-1);\n   draw(x(tn)-50*(m(tn)-x(tn)),x(tn)+50*(m(tn)-x(tn)),\n   color->(0.5,0.5,0.5),size->1);\n););\n\n//Evolute\nif(evolute==1,\n   plot(m(t),t,start->-1.5*pi,stop->3.5*pi,steps->300,\n        size->2,color->(0.7,0,0));\n  Text2.visible=true; Text2.text=\"  Normalenschar von $\\gamma$\";\n  );\n\n//Evolventen\nta1=-2*arccos(-a/4)+pi;\nta2=2*arccos(-a/4)+pi;\nif(evolvente==1,\n  Text0.pressed=false; Text0.visible=false;\n  plot(p(t,a),t,start->-1.5*pi,stop->3.5*pi,steps->300,\n        size->2,color->(0,0.7,0));\n  //draw(p(tp,a),m(tp),size->3,color->(1,0.5,0));\n  if(tp<pi,\n   if(isreal(ta1)==true,\n    if(tp<ta1,\n       t0=-pi;t1=tp, t0=tp; t1=pi),\n    t0=-pi;t1=tp),\n   if(isreal(ta2),\n    if(tp<ta2,\n       t0=pi;t1=tp, t0=tp; t1=3*pi),\n    t0=tp;t1=3*pi)\n  );\n   plot(m(t),t,start->-1.5*pi,stop->3.5*pi,steps->300,\n        size->2,color->(0.7,0,0));\n   if((t1-t0)>0.01,\n     plot(m(t),t,start->t0, stop->t1, steps->200,\n        color->(1,0.5,0),size->3);\n     );\n   if(a!=0, plot(x(t),t,start->-1.5*pi,stop->3.5*pi,\n       steps->300,size->1,color->(0,0,0.9)););\n  if(isreal(ta1), draw(m(ta1));draw(m(ta2)));\n  Text2.visible=true; Text2.text=\"Tangentenschar von $\\eta$\";\n  D.visible=true;M.visible=true;Nor.visible=true;ad.visible=true;tan2.visible=true;\n  Text4.visible=true\n  ,\n  plot(x(t),t,start->-1.5*pi,stop->3.5*pi,steps->300,\n     size->3,color->(0,0,0.9));\n  D.visible=false;Text0.visible=true;ad.visible=false;tan2.visible=false;\n  Text4.visible=false;Text4.pressed=false\n);\n\n//Tangente\nif(Text0.pressed,\n  V.visible=true; N.visible=true; C0.visible=true ,\n  V.visible=false; N.visible=false; C0.visible=false );\n\nif(Text0.pressed  evolute==1,\n  Tan.visible=true;v.visible=true;M.visible=true;Nor.visible=true;nv.visible=true ,\n  Tan.visible=false;v.visible=false;nv.visible=false );\n\nif(Text0.pressed==false & evolute==0 & evolvente==0 ,\n  M.visible=false;Nor.visible=false );\n\n//Evolventenschar\nif(Text4.pressed,\n  repeat(11,i,\n  as=i-6;\n  if(as!=0,\n  plot(p(t,as),t,start->-1.5*pi,stop->3.5*pi,steps->300,\n        size->1,color->(0,0.7,0));\n  );););\n\n\n\n\n;"
+            },
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "T0",
+                "type": "Free",
+                "pos": [0.6666666666666666, -4.0, 1.3333333333333333],
+                "color": [0.0, 1.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$-\\pi$"
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [4.0, -3.4285714285714284, 1.1428571428571428],
+                "color": [1.0, 1.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$+3\\pi$"
+            }, {
+                "name": "t#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T0", "T1"],
+                "size": 3
+            }, {
+                "name": "T",
+                "type": "PointOnSegment",
+                "pos": [2.2345971066666666, -4.0, 1.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["t#"],
+                "size": 4.0
+            }, {
+                "name": "P",
+                "type": "Free",
+                "pos": [-2.6653149105561154, -4.0, -3.298232378991527],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\gamma(t)$"
+            }, {
+                "name": "A0",
+                "type": "Free",
+                "pos": [4.0, -3.0, 1.0],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "-5"
+            }, {
+                "name": "A1",
+                "type": "Free",
+                "pos": [4.0, -1.7142857142857142, 0.5714285714285714],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 2.0,
+                "printname": "5"
+            }, {
+                "name": "a#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["A0", "A1"],
+                "size": 3
+            }, {
+                "name": "A",
+                "type": "PointOnSegment",
+                "pos": [4.0, -2.1818181818181817, 0.7272727272727271],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a#"],
+                "size": 4.0
+            }, {
+                "name": "V",
+                "type": "Free",
+                "pos": [-3.691309778474412, -4.0, -1.8265899804629862],
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$\\frac{d\\gamma}{dt}$"
+            }, {
+                "name": "Tan",
+                "type": "Join",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["P", "V"],
+                "visible": false,
+                "printname": "Tangente"
+            }, {
+                "name": "M",
+                "type": "Free",
+                "pos": [4.0, -1.7561701163698007, 1.4480642852070489],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\eta(t)$"
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [0.757, 0.0, 0.0],
+                "args": ["M", "P"],
+                "visible": false
+            }, {
+                "name": "N",
+                "type": "Free",
+                "pos": [0.2786974894759075, -4.0, -1.6491161894957636],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "n(t)"
+            }, {
+                "name": "v",
+                "type": "Segment",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["P", "V"],
+                "visible": false,
+                "size": 3,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.0,
+                "arrowposition": 1.0
+            }, {
+                "name": "nv",
+                "type": "Segment",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["P", "N"],
+                "visible": false,
+                "size": 3,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.0,
+                "arrowposition": 1.0
+            }, {
+                "name": "Nor",
+                "type": "Join",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["P", "N"],
+                "visible": false,
+                "printname": "Normale"
+            }, {
+                "name": "aa",
+                "type": "Segment",
+                "color": [1.0, 0.498, 0.0],
+                "args": ["P", "M"],
+                "visible": false,
+                "labeled": true,
+                "size": 3
+            }, {
+                "name": "D",
+                "type": "Free",
+                "pos": [-2.6653149105561154, -4.0, -3.298232378991527],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\delta(t)$"
+            }, {
+                "name": "ad",
+                "type": "Segment",
+                "color": [1.0, 0.498, 0.0],
+                "args": ["M", "D"],
+                "visible": false,
+                "size": 3
+            }, {
+                "name": "tan2",
+                "type": "Orthogonal",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["Nor", "D"],
+                "visible": false
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 130,
+                "text": "      Krümmungskreis",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [10.0, 24.0]
+                }
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 130,
+                "script": "evolute=1;\nevolvente=0;\nText3.pressed=false;",
+                "text": "        Evolute $\\eta$ von $\\gamma$",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [159.0, 24.0]
+                }
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "visible": false,
+                "pinned": true,
+                "minwidth": 130,
+                "text": "  Normalenschar von $\\gamma$",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [308.0, 24.0]
+                }
+            }, {
+                "name": "Text3",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 130,
+                "script": "evolvente=1;\nevolute=0;\nText1.pressed=false;",
+                "text": "      Evolventen von $\\eta$",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [458.0, 24.0]
+                }
+            }, {
+                "name": "Text4",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "visible": false,
+                "minwidth": 130,
+                "text": "      Evolventenschar",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [611.0, 24.0]
+                }
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 755,
+                "height": 524,
+                "transform": [{
+                    "visibleRect": [-3.519490480132451, 4.8955318708609274, 9.79988451986755, -4.348643625827815]
+                }],
+                "axes": true,
+                "grid": 0.5,
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

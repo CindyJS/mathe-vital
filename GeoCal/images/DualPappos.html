@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DualPappos.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>
+
+    <script type="text/javascript">
+createCindy({
+	scripts: "cs*",
+	defaultAppearance: { fontFamily: "sans-serif", lineSize: 1, pointSize: 5.0, textsize: 12.0 },
+	angleUnit: "°",
+	geometry: [
+		{ name: "L", type: "Free", pos: [ 1.6804733727810652, -4.0, -0.591715976331361 ], color: [ 0.0, 0.0, 0.0 ], labeled: true },
+		{ name: "G", type: "Free", pos: [ -3.83132530120482, -4.0, -0.6024096385542169 ], color: [ 0.0, 0.0, 0.0 ], labeled: true },
+		{ name: "a", type: "Through", pos: [ -2.736318407960201, -1.7412935323383096, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "L" ], labeled: true },
+		{ name: "b", type: "Through", pos: [ -1.21012101210121, -1.1001100110011002, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "L" ], labeled: true },
+		{ name: "c", type: "Through", pos: [ -0.5768665490887713, -0.8340681951793063, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "L" ], labeled: true },
+		{ name: "d", type: "Through", pos: [ 0.4432513422399801, -1.026969659133475, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "G" ], labeled: true, printname: "a'" },
+		{ name: "e", type: "Through", pos: [ 0.963869670628585, -1.5256342025900305, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "G" ], labeled: true, printname: "b'" },
+		{ name: "f", type: "Through", pos: [ 2.994931654123786, -3.4710489940101326, 4.0 ], color: [ 0.7568628, 0.0, 0.0 ], args: [ "G" ], labeled: true, printname: "c'" },
+		{ name: "C", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "a", "e" ], size: 3.0 },
+		{ name: "D", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "b", "d" ], size: 3.0 },
+		{ name: "g", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "C", "D" ], labeled: true, printname: "x" },
+		{ name: "E", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "b", "f" ], size: 3.0 },
+		{ name: "F", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "c", "e" ], size: 3.0 },
+		{ name: "h", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "E", "F" ], labeled: true, printname: "z" },
+		{ name: "B", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "c", "d" ], size: 3.0 },
+		{ name: "H", type: "Meet", color: [ 0.0, 0.0, 1.0 ], args: [ "a", "f" ], size: 3.0 },
+		{ name: "k", type: "Join", color: [ 0.098039225, 0.61960787, 0.30588236 ], args: [ "B", "H" ], labeled: true, printname: "y" },
+		{ name: "A", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "g", "h" ], visible: false },
+		{ name: "C0", type: "CircleByRadius", pos: { xx: 0.13976142699385005, yy: 0.13976142699385005, zz: 1.0, xy: 0.0, xz: 0.016568143770109116, yz: -0.7616614497401951 }, color: [ 0.7568628, 0.0, 0.0 ], radius: 0.522820236792724, args: [ "A" ], pinned: true, size: 3 } ],
+	ports: [
+		{ id: "CSCanvas", width: 564, height: 344, transform: [ { visibleRect: [ -9.06, 9.34, 13.5, -4.42 ] } ], background: "rgb(168,176,192)" } ],
+	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+    </script>
+</head>
+<body>
+    <canvas id="CSCanvas"></canvas>
+</body>
+</html>

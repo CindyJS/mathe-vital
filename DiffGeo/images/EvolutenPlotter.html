@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cinderella file converted to CindyJS</title>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+</head>
+
+<body>
+  <script id="csinit" type="text/x-cindyscript">
+  forall([Text6,Textx1,Textx2],k,
+  k.x = k.x + 4.3;
+  );
+  Text6.x = Text6.x-.3;
+  //Text8.xy = Text7.xy+(3,0);
+  </script>
+  <script id="csdraw" type="text/x-cindyscript">
+drawtext((-14,-10),"Kurve  $\gamma\;:\;\; I\;=\;(t_0,t_1) \;\rightarrow \;\R^2,\;\; \gamma(t)\;=\;(x(t),y(t))$ mit:",size->18);
+//Koordinatensystem
+Z.y=round(Z.y*10)/10;
+z0=|Z0,Z|/|Z0,Z1|*10-5;
+z0=|Z0,Z|/|Z0,Z1|*10-5;
+drawtext(Z+(.2,.3),"Zoom $2^{"+z0+"}$",size->12);
+z=2^(z0+2);
+if(ZF.y<T0.y,ZF.y=T0.y);
+ZF.x=T0.x;
+zf=(ZF.y-T0.y);
+Ex.xy=O.xy+(z,0);
+Ey.xy=O.xy+(0,z);
+//Kurvenparameter
+t0=parse(TextT0.text);
+t1=parse(TextT1.text);
+t=|T0,T|/|T0,T1|*(t1-t0)+t0;
+drawtext(T+(-.2,.5),"$t="+t+"$");
+//Formparameter
+a=|A0,A|/|A0,A1|*2-1;
+drawtext(A+(-.2,.5),"$a="+a+"$");
+//Parametrisierung
+x1(t):=z*parse(Textx1.text)+O.x;
+x2(t):=z*parse(Textx2.text)+O.y;
+x(t):=(x1(t),x2(t));
+
+//Kurvenplot
+P.xy=(x1(t),x2(t));
+////plot((x1(t),x2(t)),t,start->t0,stop->t1,steps->150,     size->3,color->(0,0,0.9));
+//cache plot
+data = [z, O.xy, a, ZF.y, Textx1.text, Textx2.text, t0, t1, Text1.pressed, Text2.pressed, Text3.pressed];
+steps = 150;
+replot = (data!=olddata);
+//errc(replot);
+olddata = data;
+if(replot,
+  pts = apply(0..steps, k, tl=t0+(t1-t0)*(k/steps); x(tl));
+);
+connect(pts, size->3,color->(0,0,0.9));
+
+draw((x1(t0),x2(t0)),size->2,color->(0,0.8,0));
+draw((x1(t1),x2(t1)),size->2,color->(0.8,0.8,0));
+//Ableitungen
+eps = 0.01;
+//dx1(t):=d(x1(#),t);
+//dx2(t):=d(x2(#),t);
+dx1(t):=(x1(t+eps)-x1(t-eps))/(2*eps);
+dx2(t):=(x2(t+eps)-x2(t-eps))/(2*eps);
+V.xy=(x1(t),x2(t))+(dx1(t),dx2(t));
+N.xy=(x1(t),x2(t))+(-dx2(t),dx1(t));
+//ddx1(t):=d(dx1(#),t);
+//ddx2(t):=d(dx2(#),t);
+ddx1(t):=(dx1(t+eps)-dx1(t-eps))/(2*eps);
+ddx2(t):=(dx2(t+eps)-dx2(t-eps))/(2*eps);
+kappa(t):=(dx1(t)*ddx2(t)-ddx1(t)*dx2(t))/((dx1(t)^2+dx2(t)^2)^(3/2));
+M.xy=(x1(t),x2(t))+1/kappa(t)*(-dx2(t),+dx1(t))/((dx1(t)^2+dx2(t)^2)^0.5);
+m(t):=(x1(t),x2(t))+1/(dx1(t)*ddx2(t)-ddx1(t)*dx2(t))*((dx1(t)^2+dx2(t)^2))*(-dx2(t),+dx1(t));
+
+//Tangente
+if(Text0.pressed,
+  V.visible=true; N.visible=true; C0.visible=true,
+  V.visible=false; N.visible=false; C0.visible=false);
+if(Text0.pressed  Text1.pressed,
+  Tan.visible=true;v.visible=true;M.visible=true;Nor.visible=true;nv.visible=true;
+  drawtext((8,-12),"$\kappa(t) = "+kappa(t)+"$",size->18);
+  ,
+  Tan.visible=false;v.visible=false;M.visible=false;Nor.visible=false;nv.visible=false
+  );
+//Evolute
+if(Text1.pressed,
+  if(replot,
+    esteps = 100;
+    epts = apply(0..esteps, k, tl=t0+(t1-t0)*(k/esteps); m(tl));
+  );
+  connect(epts, size->2,color->(0.7,0,0));
+   //plot(m(t),t,start->t0,stop->t1,steps->50,
+  //      size->2,color->(0.7,0,0));
+  Text2.visible=true
+  ,
+  Text2.visible=false; Text2.pressed=false;
+  );
+//Normalenschar
+if(Text2.pressed,
+  if(replot,
+      ts=(t1-t0)/36;
+      segs = apply(1..37,i,
+       tn=t0+ts*(i-1);
+       [x(tn)-50*(m(tn)-x(tn)),x(tn)+50*(m(tn)-x(tn))]
+      );
+  );
+ forall(segs, s, draw(s_1, s_2, color->(0.5,0.5,0.5),size->1));
+);
+Nor.color=(0.25,0.25,0.25);
+Nv.color=(0.25,0.25,0.25);
+if(Text3.pressed,
+
+  if(replot,
+    ksteps = 60;
+    kpts = apply(0..ksteps, ki, tl=t0+(t1-t0)*(ki/ksteps);
+      ((tl-t0)/(t1-t0)*(T1.x-T0.x)+T0.x,z*zf*kappa(tl)+T0.y)
+    );
+  );
+
+  connect(kpts, size->1.5,color->(0.47,0,0.72));
+
+  //plot(((t-t0)/(t1-t0)*(T1.x-T0.x)+T0.x,z*zf*kappa(t)+T0.y),
+  //  t,start->t0,stop->t1,steps->200,
+  //  size->1.5,color->(0.47,0,0.72));
+  kafx=(t-t0)/(t1-t0)*(T1.x-T0.x)+T0.x;
+  kafy=z*zf*kappa(t)+T0.y;
+  draw((kafx,T0.y),(kafx,kafy),size->1,color->(0,0,0));
+  draw((kafx,kafy),color->(0.7,0,0));
+  drawtext((kafx+.2,kafy),"$\kappa(t)\;=\;$"+kappa(t),size->12);
+  ZF.visible=true;zf1.visible=true,
+  ZF.visible=false;zf1.visible=false
+);
+
+
+
+</script>
+    <script type="text/javascript">
+        var cdy = CindyJS({
+            scripts: "cs*",
+            "defaultAppearance": {
+                "dimDependent": 0.7,
+                "fontFamily": "sans-serif",
+                "lineSize": 1,
+                "pointSize": 5.0,
+                "textsize": 12.0
+            },
+            "angleUnit": "°",
+            "geometry": [{
+                "name": "Z0",
+                "type": "Free",
+                "pos": [4.0, 1.4285714285714286, -0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "Z1",
+                "type": "Free",
+                "pos": [4.0, -1.4285714285714286, -0.2857142857142857],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "size": 2.0
+            }, {
+                "name": "z#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["Z0", "Z1"]
+            }, {
+                "name": "Z",
+                "type": "PointOnSegment",
+                "pos": [4.0, 0.1428571428571429, -0.28571428571428564],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["z#"],
+                "size": 4.0
+            }, {
+                "name": "Textx1",
+                "type": "EditableText",
+                "pos": [1.1551724137931034, -4.0, 0.43103448275862066],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 0.784, 0.0],
+                "fillalpha": 0.5,
+                "minwidth": 110,
+                "text": "t-2*a*sin(t)"
+            }, {
+                "name": "Textx2",
+                "type": "EditableText",
+                "pos": [1.034749034749035, -4.0, 0.3861003861003861],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 0.784, 0.0],
+                "fillalpha": 0.5,
+                "minwidth": 110,
+                "text": "1-2*a*cos(t)"
+            }, {
+                "name": "T0",
+                "type": "Free",
+                "pos": [4.0, 2.3333333333333335, -0.3333333333333333],
+                "color": [0.0, 1.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$t_0$"
+            }, {
+                "name": "T1",
+                "type": "Free",
+                "pos": [-1.1428571428571428, -4.0, 0.5714285714285714],
+                "color": [1.0, 1.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$t_1$"
+            }, {
+                "name": "t#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T0", "T1"]
+            }, {
+                "name": "T",
+                "type": "PointOnSegment",
+                "pos": [4.0, 2.822580645161291, -0.40322580645161293],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["t#"],
+                "size": 4.0
+            }, {
+                "name": "TextT0",
+                "type": "EditableText",
+                "pos": [4.0, 2.619808306709265, -0.31948881789137384],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 0.784, 0.0],
+                "fillalpha": 0.5,
+                "minwidth": 30,
+                "text": "-pi"
+            }, {
+                "name": "TextT1",
+                "type": "EditableText",
+                "pos": [-1.2427184466019419, -4.0, 0.4854368932038835],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 0.784, 0.0],
+                "fillalpha": 0.5,
+                "minwidth": 30,
+                "text": "3*pi"
+            }, {
+                "name": "P",
+                "type": "Free",
+                "pos": [4.0, 2.867452124993871, -0.6489413086660414],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\gamma(t)$"
+            }, {
+                "name": "O",
+                "type": "Free",
+                "pos": [4.0, 1.2553191489361704, -0.5319148936170213],
+                "color": [1.0, 0.0, 0.0],
+                "labeled": true,
+                "size": 4.0
+            }, {
+                "name": "Ex",
+                "type": "Free",
+                "pos": [4.0, 2.012118377142187, -0.8525925326873671],
+                "color": [0.502, 0.502, 0.502],
+                "labeled": true,
+                "size": 2.0,
+                "printname": "1"
+            }, {
+                "name": "x#",
+                "type": "Join",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["O", "Ex"],
+                "labeled": true,
+                "printname": "x"
+            }, {
+                "name": "y#",
+                "type": "Orthogonal",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["x#", "O"],
+                "labeled": true,
+                "printname": "y"
+            }, {
+                "name": "Ey",
+                "type": "Free",
+                "pos": [4.0, -0.24916336422669652, -0.5319148936170212],
+                "color": [0.502, 0.502, 0.502],
+                "labeled": true,
+                "size": 2.0,
+                "printname": "1"
+            }, {
+                "name": "A0",
+                "type": "Free",
+                "pos": [1.1428571428571428, -4.0, 0.5714285714285714],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "-1"
+            }, {
+                "name": "A1",
+                "type": "Free",
+                "pos": [4.0, -2.3333333333333335, 0.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "pinned": true,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "1"
+            }, {
+                "name": "a#",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["A0", "A1"]
+            }, {
+                "name": "A",
+                "type": "PointOnSegment",
+                "pos": [4.0, -2.333333333333334, 0.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "args": ["a#"],
+                "size": 4.0
+            }, {
+                "name": "V",
+                "type": "Free",
+                "pos": [4.0, 3.535441985201957, -0.4864672509261535],
+                "color": [0.098, 0.62, 0.306],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "$\\frac{d\\gamma}{dt}$"
+            }, {
+                "name": "Tan",
+                "type": "Join",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["P", "V"],
+                "visible": false,
+                "printname": "Tangente"
+            }, {
+                "name": "M",
+                "type": "Free",
+                "pos": [4.0, 1.4910531707861703, -0.4938147787692027],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "$\\eta(t)$"
+            }, {
+                "name": "C0",
+                "type": "CircleMP",
+                "color": [0.757, 0.0, 0.0],
+                "args": ["M", "P"],
+                "visible": false
+            }, {
+                "name": "N",
+                "type": "Free",
+                "pos": [-2.047118752653658, -4.0, 0.6175390237838632],
+                "color": [0.757, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 2.0,
+                "printname": "n(t)"
+            }, {
+                "name": "v",
+                "type": "Segment",
+                "color": [0.098, 0.62, 0.306],
+                "args": ["P", "V"],
+                "visible": false,
+                "size": 3,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.0,
+                "arrowposition": 1.0
+            }, {
+                "name": "nv",
+                "type": "Segment",
+                "color": [0.502, 0.502, 0.502],
+                "args": ["P", "N"],
+                "visible": false,
+                "arrowshape": "jet",
+                "arrowsides": "==>",
+                "arrowsize": 1.0,
+                "arrowposition": 1.0
+            }, {
+                "name": "Nor",
+                "type": "Join",
+                "dimDependent": 1,
+                "color": [1.0, 0.0, 0.0],
+                "args": ["P", "N"],
+                "visible": false,
+                "printname": "Normale"
+            }, {
+                "name": "ZF",
+                "type": "Free",
+                "pos": [4.0, 1.96, -0.3333333333333333],
+                "color": [1.0, 0.0, 0.0],
+                "visible": false,
+                "labeled": true,
+                "size": 4.0,
+                "printname": "1"
+            }, {
+                "name": "zf1",
+                "type": "Segment",
+                "color": [0.0, 0.0, 0.0],
+                "args": ["T0", "ZF"],
+                "visible": false
+            }, {
+                "name": "Text6",
+                "type": "Text",
+                "pos": [0.3234042553191489, -4.0, 0.42553191489361697],
+                "color": [0.0, 0.0, 0.0],
+                "pinned": true,
+                "text": "$x(t)=$\n$y(t)=$",
+                "textsize": 18.0
+            }, {
+                "name": "Text0",
+                "type": "ToggleButton",
+                "pos": [4.0, 3.7827476038338657, -0.31948881789137384],
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 94,
+                "text": "Krümmungskreis"
+            }, {
+                "name": "Text1",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 94,
+                "text": "Evolute $\\eta$ von $\\gamma$",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [184.0, 24.0]
+                }
+            }, {
+                "name": "Text2",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "visible": false,
+                "minwidth": 94,
+                "text": "Normalenschar",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [302.0, 24.0]
+                }
+            }, {
+                "name": "Text3",
+                "type": "ToggleButton",
+                "color": [0.0, 0.0, 0.0],
+                "fillcolor": [1.0, 1.0, 1.0],
+                "fillalpha": 0.27272728085517883,
+                "pinned": true,
+                "minwidth": 94,
+                "text": "    Krümmung",
+                "dock": {
+                    "corner": "LL",
+                    "offset": [421.0, 24.0]
+                }
+            }],
+            "ports": [{
+                "id": "CSCanvas",
+                "width": 755,
+                "height": 524,
+                "transform": [{
+                    "visibleRect": [-14.78, 8.22, 15.42, -12.74]
+                }],
+                "background": "rgb(168,176,192)"
+            }],
+            "csconsole": false,
+            "use": ["katex"],
+            "cinderella": {
+                "build": 1898,
+                "version": [2, 9, 1898]
+            }
+        });
+    </script>
+    <div id="CSCanvas"></div>
+</body>
+
+</html>

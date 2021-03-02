@@ -1,0 +1,121 @@
+---
+title: Dreiecksfläche
+layout: page
+category: LinAlg1
+---
+
+<h1>Bestimmung einer Dreiecksfläche</h1>
+<div  style=" line-height: 1.5">
+Die Hälfte der Fläche des Parallelogramms $(O,v_1,v_1+v_2,v_2)$ ist die Fläche des Dreiecks $(O,v_1,v_2)$.
+Demnach lässt sich diese (orientierte) Fläche durch
+
+\[
+\Delta(O,v_1,v_2)={1\over 2}\det\left(\begin{array}{cc}a&c\\b&d\end{array}\right)\;=\;{ad-bc\over 2}
+\]
+
+berechnen. Auch hier gibt das Vorzeichen des orientierten Flächeninhalts Auskunft über die relative Lage der beiden Vektoren zueinander.
+<br><br>
+</div>
+
+
+  <script id='init' type='cindyscript'>
+  drawarrow(a,b,col):=(
+     n=b-a;
+     n=n/|n|*2.5;
+     p=(n_2,-n_1);
+     draw(a,b,color->col,size->2);
+     draw(b-n*.17+p*.07,b,color->col,size->2);
+     draw(b-n*.17-p*.07,b,color->col,size->2);
+
+  );
+
+
+
+  </script>
+
+  <script id='firstDrawing' type='cindyscript'>
+  draw(line((0,1,0)),color->(0,0,0),size->.5);
+  draw(line((1,0,0)),color->(0,0,0),size->.5);
+          draw(cross(A,B),color->(0,0,1),size->1);
+          draw(cross(A,C),color->(0,0,1),size->1);
+
+         det=(B.x*C.y-B.y*C.x)/2;
+if(det>0,sig="\;>\;0");
+if(det<0,sig="\;<\;0");
+if(det==0,sig="");
+
+tt="$"+
+"{1\over 2}\det\begin{pmatrix}"+
+"\quad|\quad&\quad|\quad\\ "+
+"v_1&v_2\\ "+
+"|&| "+
+"\end{pmatrix}\;=\;"+
+"{1\over 2}\det\begin{pmatrix}"+
+format(B.x,4)+"&"+format(C.x,4)+"\\ "+
+format(B.y,4)+"&"+format(C.y,4)+" "+
+"\end{pmatrix} \;=\;"+
+format(det,4)+sig+
+"$";
+
+
+fillpoly(((0,0),B,C,(0,0)),
+   color->if(det>0,(0,0.5,0),(0.7,0,0)),alpha->0.4);
+drawall(cycle(((0,0),B,C,(0,0))),color->(0,0,0),alpha->0.8);
+
+drawtext((B+C)/3-(0.3,0.3),if(det>0,"+","–"),size->min(20,|det|*3));
+
+
+drawtext((0.1,-.7),"$O$");
+drawtext((.5,-6),tt,size->22);
+drawtext(B+(.5,.5),"$v_1$",size->24);
+drawtext(C+(.5,.5),"$v_2$",size->24);
+
+
+  drawarrow(A,B,(0.0,0,0.7));
+  drawarrow(A,C,(0.0,0,0.7));
+
+
+  </script>
+
+  <script type="text/javascript">
+
+  </script>
+  <div style="position:relative">
+  <canvas  id="CSCanvas" width=880 height=500  style="border:2px solid #000000; top:0px; left:0px;"></canvas>
+<div id="ttex">
+<div style=" top:400px; left:270px; display:inline;z-index:4">
+</div>
+
+</div>
+
+</div>
+
+  <script type="text/javascript">
+
+      var gslp=[
+                {name:"A", type:"Free", pos:[0,0],color:[0,0,0],pinned:true,size:3},
+                {name:"B", type:"Free", pos:[3,1],color:[1,0,0],size:0.01},
+                {name:"C", type:"Free", pos:[1,5],color:[1,0,0],size:0.01},
+
+
+
+              ];
+               createCindy({canvasname:"CSCanvas",
+                  movescript:"firstDrawing",
+                  initscript:"init",
+                  geometry:gslp,
+                  grid:1,
+                  snap:true,
+                  use:["katex"],
+                  ports:[{
+                        id:"CSCanvas",
+                        transform:[{visibleRect:[-9,9,9,-9]},],
+                        virtualwidth: 800,
+                        virtualheight: 600,
+                        }],
+}
+                  );
+
+  </script>
+
+</div>

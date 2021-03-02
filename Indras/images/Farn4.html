@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Farn4.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://www-m10.ma.tum.de/CindyJS/v0.8.7/CindyJS.css">
+    <script type="text/javascript" src="https://www-m10.ma.tum.de/CindyJS/v0.8.7/Cindy.js"></script>
+    <!--<script type="text/javascript" src="http://localhost/cindyjs/build/js/Cindy.js"></script>-->
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [-1.6124031007751938, -4.0, 0.7751937984496123], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "B", type: "Free", pos: [3.872611464968153, -4.0, 0.6369426751592356], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "C", type: "Free", pos: [-1.391304347826087, -4.0, 2.1739130434782608], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, -2.441176470588235, 0.7352941176470588], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "b", type: "Join", color: [0.0, 0.0, 1.0], args: ["C", "D"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "c", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["b", "C"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "d", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["a", "A"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "E", type: "PointOnLine", pos: [0.4901760208513719, -4.0, -0.7575611358407656], color: [1.0, 0.0, 0.0], args: ["d"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "e", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["d", "E"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "f", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["e", "B"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["e", "f"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "G", type: "PointOnLine", pos: [-0.8540902997356992, -4.0, -0.6225436452114276], color: [1.0, 0.0, 0.0], args: ["c"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "g", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["c", "G"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "h", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["g", "D"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "H", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "h"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "K", type: "Free", pos: [1.3553719008264462, -4.0, 0.8264462809917356], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "L", type: "Free", pos: [4.0, -3.3333333333333335, 1.3888888888888888], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "k", type: "Join", color: [0.0, 0.0, 1.0], args: ["K", "L"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "M", type: "Free", pos: [2.6938775510204085, -4.0, 1.0204081632653061], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "N", type: "Free", pos: [4.0, -3.1999999999999997, 1.6666666666666667], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "l", type: "Join", color: [0.0, 0.0, 1.0], args: ["M", "N"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "O", type: "Free", pos: [1.2137931034482758, -4.0, 0.689655172413793], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "P", type: "Free", pos: [3.3529411764705874, -4.0, 1.4705882352941175], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, size: 2.0},
+    {name: "m", type: "Join", color: [0.0, 0.0, 1.0], args: ["O", "P"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "n", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["k", "L"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "Q", type: "PointOnLine", pos: [4.0, 0.049363556241883697, -2.223585030300333], color: [1.0, 0.0, 0.0], args: ["n"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "o", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["n", "Q"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "p", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["k", "K"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "R", type: "Meet", color: [1.0, 0.0, 0.0], args: ["o", "p"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "q", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["m", "P"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "r", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["m", "O"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "S", type: "PointOnLine", pos: [3.698321823875664, -4.0, 1.4456163308654968], color: [1.0, 0.0, 0.0], args: ["q"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "s", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["q", "S"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "T", type: "Meet", color: [1.0, 0.0, 0.0], args: ["r", "s"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "t", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["l", "N"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "U", type: "PointOnLine", pos: [4.0, -0.819788228929388, 0.5886722051310634], color: [1.0, 0.0, 0.0], args: ["t"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "u", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["t", "U"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "v", type: "Orthogonal", color: [0.0, 0.0, 1.0], args: ["l", "M"], alpha: 0.8999999761581421, clip: "inci"},
+    {name: "V", type: "Meet", color: [1.0, 0.0, 0.0], args: ["u", "v"], alpha: 0.8999999761581421, size: 2.0},
+    {name: "Tr0", type: "TrAffine", color: [0.0, 0.0, 1.0], args: ["A", "C", "E", "G", "B", "D"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr1", type: "TrAffine", color: [0.0, 0.0, 1.0], args: ["A", "N", "B", "M", "E", "U"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr2", type: "TrAffine", color: [0.0, 0.0, 1.0], args: ["A", "L", "B", "K", "E", "Q"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "Tr3", type: "TrAffine", color: [0.0, 0.0, 1.0], args: ["A", "O", "E", "P", "B", "T"], alpha: 0.8999999761581421, dock: {offset: [0.0, -0.0]}},
+    {name: "IFS0", type: "IFS", color: [0.098, 0.62, 0.306], args: ["Tr0", "Tr1", "Tr2", "Tr3"], alpha: 0.10000000149011612, 
+    ifs: [
+      {prob: .75, color:[0.3,.6,0.1]},
+      {prob: .10, color:[0.1,.7,.2]},
+      {prob: .10, color:[0.2,.6,0.2]},
+      {prob: .05, color:[183/255,85/255,0]}
+    ],dock: {offset: [0.0, -0.0]}}
+  ],
+  behavior: [
+    {type: "Environment", springstrength: 0.2, friction: 0.1},
+    {type: "Motor", speed: 0.02}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 633,
+    height: 586,
+    transform: [{visibleRect: [-6.512798634812287, 9.29778156996587, 11.850682593856655, -7.70221843003413]}],
+    background: "rgb(0,0,0)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>NKVek0.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csdraw" type="text/x-cindyscript">
+E.xy=C.xy+D.xy;
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, pinned: true, labeled: true, textsize: 15.0, size: 3.0, printname: "0"},
+    {name: "B", type: "Free", pos: [4.0, 1.979486637221574, 0.5714285714285714], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 2.0, printname: "a"},
+    {name: "a", type: "Join", color: [0.0, 0.0, 1.0], args: ["A", "B"], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 3, printname: "$U_a$"},
+    {name: "b", type: "Segment", color: [0.0, 0.0, 0.0], args: ["A", "B"], alpha: 0.8999999761581421, textsize: 15.0, size: 5, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "C", type: "PointOnLine", pos: [4.0, 1.9794866372215738, 1.0252100840336136], color: [1.0, 0.0, 0.0], args: ["a"], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 2.0, printname: "u"},
+    {name: "c", type: "Segment", color: [0.098, 0.62, 0.306], args: ["A", "C"], alpha: 0.8999999761581421, textsize: 15.0, size: 5, arrowshape: "full", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "D", type: "Free", pos: [4.0, -3.5882352941176463, -1.4705882352941175], color: [1.0, 0.0, 0.0], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 0.0, printname: "v"},
+    {name: "d", type: "Segment", color: [0.757, 0.0, 0.0], args: ["A", "D"], alpha: 0.8999999761581421, textsize: 15.0, size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0},
+    {name: "e", type: "Parallel", color: [0.757, 0.0, 0.0], args: ["a", "D"], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, printname: "$v+U_a$"},
+    {name: "E", type: "PointOnLine", pos: [-1.0813914539441998, -4.0, -0.9151620240093818], color: [1.0, 0.0, 0.0], args: ["e"], alpha: 0.8999999761581421, labeled: true, textsize: 15.0, size: 0.0, printname: "v+u"},
+    {name: "f", type: "Segment", color: [0.098, 0.62, 0.306], args: ["D", "E"], alpha: 0.8999999761581421, textsize: 15.0, size: 5, arrowshape: "full", arrowsides: "==>", arrowsize: 1.6, arrowposition: 1.0}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 680,
+    height: 350,
+    transform: [{visibleRect: [-9.06, 9.34, 18.14, -4.66]}],
+    axes: true,
+    snap: true,
+    background: "rgb(168,176,192)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]}
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>

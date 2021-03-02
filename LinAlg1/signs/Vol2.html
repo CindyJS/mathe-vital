@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Vol1.cdy</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #CSConsole {
+            background-color: #FAFAFA;
+            border-top: 1px solid #333333;
+            bottom: 0px;
+            height: 200px;
+            overflow-y: scroll;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cindyjs.org/dist/v0.8/CindyJS.css">
+    <script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>
+<script id="csinit" type="text/x-cindyscript">
+    show=false;
+    al=0;
+</script>
+<script id="cskeytyped" type="text/x-cindyscript">
+    show=!show;
+</script>
+<script id="csdraw" type="text/x-cindyscript">
+if(show&al<1,playanimation());
+if(show&al>=1,stopanimation());
+
+if(!show&al>0,playanimation());
+if(!show&al<=0,stopanimation());
+    if(show,al=al+.05);
+    if(!show,al=al-.05);
+    if(al>1,al=1);
+    if(al<0,al=0);
+//drawimage(O,P,Z,"back.png");
+
+poly0=[A,D,F,E];
+
+poly1=[A,M,F,G];
+poly2=[W,Y,X];
+poly3=[A,K,E];
+poly4=[E,H,F];
+poly5=[R,T,S];
+poly6=[K,E,H,G];
+poly7=[L,M,N,D];
+
+col1=(159,255,170)/255*.6;
+col1=(29,177,0)/255*.6;
+col2=(.5,.5,1)*.6;
+col3=(1,.5,1)*.6;
+col4=(228,34,13)/266*.6;
+
+fillpoly(poly0,color->col1,alpha->1-al);
+
+fillpoly(poly1,color->col1,alpha->al);
+
+fillpoly(poly6,color->col4,alpha->al);
+fillpoly(poly7,color->col4,alpha->al);
+fillpoly(poly2,color->col2,alpha->.8*al);
+fillpoly(poly3,color->col2,alpha->.8*al);
+fillpoly(poly4,color->col3,alpha->.8*al);
+fillpoly(poly5,color->col3,alpha->.8*al);
+
+col=(1,1,1);
+
+drawpoly(poly1,color->col,alpha->al);
+drawpoly(poly6,color->col,alpha->al);
+drawpoly(poly7,color->col,alpha->al);
+drawpoly(poly2,color->col,alpha->al);
+drawpoly(poly3,color->col,alpha->al);
+drawpoly(poly4,color->col,alpha->al);
+drawpoly(poly5,color->col,alpha->al);
+
+
+
+draw(D,F,size->3,color->(1,.8,0));
+
+drawtext(E-(0,.6),"$\left(\!\!\begin{array}{c}a_2\\b_2\end{array}\!\!\right) $",color->(1,1,1),size->16);
+;
+drawtext(D+(-1.1,.5),"$\left(\!\!\begin{array}{c}a_1\\b_1\end{array}\!\!\right) $",color->(1,1,1),size->16);
+
+
+drawtext((D.x/2,0)-(0,.5)+R,align->"center","$a_1$",color->(1,1,1),size->16,alpha->al);
+drawtext((D.x+E.x/2,0)-(0,.5),align->"center","$a_2$",color->(1,1,1),size->16,alpha->al);
+
+
+drawtext((E.x/2,G.y)+(0,.3),align->"center","$a_2$",color->(1,1,1),size->16,alpha->al);
+drawtext((E.x+D.x/2,G.y)+(0,.3),align->"center","$a_1$",color->(1,1,1),size->16,alpha->al);
+
+drawtext((0,E.y/2)+(-0.3,-.1),align->"center","$b_2$",color->(1,1,1),size->16,alpha->al);
+drawtext((0,E.y+D.y/2)+(-0.3,-.1),align->"center","$b_1$",color->(1,1,1),size->16,alpha->al);
+
+drawtext((0,D.y/2)+(0.3+F.x,-.1),align->"center","$b_1$",color->(1,1,1),size->16,alpha->al);
+drawtext((0,D.y+E.y/2)+(0.3+F.x,-.1)+W-D,align->"center","$b_2$",color->(1,1,1),size->16,alpha->al);
+
+
+
+
+</script>
+    <script type="text/javascript">
+var cdy = CindyJS({
+  scripts: "cs*",
+  defaultAppearance: {
+    dimDependent: 0.7,
+    fontFamily: "sans-serif",
+    lineSize: 1,
+    pointSize: 5.0,
+    textsize: 12.0
+  },
+  angleUnit: "°",
+  geometry: [
+    {name: "A", type: "Free", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "B", type: "Free", pos: [0.0, -4.0, -0.42105263157894735], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "a", type: "Segment", color: [1.0, 1.0, 1.0], args: ["A", "B"], size: 2, overhang: 1.045, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "C", type: "Free", pos: [4.0, -0.0, 0.4], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "b", type: "Segment", color: [1.0, 1.0, 1.0], args: ["A", "C"], size: 2, overhang: 1.045, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.2000000000000002, arrowposition: 1.0},
+    {name: "O", type: "Free", pos: [4.0, 4.0, -1.3333333333333333], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "P", type: "Free", pos: [4.0, -0.42857142857142855, 0.14285714285714285], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "Q", type: "Free", pos: [2.146983538251569, -4.0, -0.19924474305908854], color: [1.0, 0.0, 0.0], visible: false, size: 2.0},
+    {name: "D", type: "Free", pos: [4.0, 2.46633647758954, 0.7865190413317867], color: [1.0, 0.0, 0.0], size: 0.0,narrow:80},
+    {name: "c", type: "Segment", color: [1.0, 0.784, 0.0], args: ["A", "D"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "E", type: "Free", pos: [-1.834973480088607, -4.0, -0.8724726071072818], color: [1.0, 0.0, 0.0], size: 0.0,narrow:80},
+    {name: "d", type: "Segment", color: [1.0, 0.784, 0.0], args: ["A", "E"], size: 3, arrowshape: "jet", arrowsides: "==>", arrowsize: 1.0, arrowposition: 1.0},
+    {name: "e", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["a", "D"], visible: false},
+    {name: "f", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["a", "E"], visible: false},
+    {name: "g", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "D"], visible: false},
+    {name: "h", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "E"], visible: false},
+    {name: "k", type: "Parallel", color: [1.0, 0.784, 0.0], args: ["d", "D"], size: 3, clip: "inci",visible:false},
+    {name: "l", type: "Parallel", color: [1.0, 0.784, 0.0], args: ["c", "E"], size: 3, clip: "inci"},
+    {name: "F", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "l"], visible: false},
+    {name: "m", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "F"], visible: false},
+    {name: "n", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["f", "F"], visible: false},
+    {name: "G", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "m"], visible: false},
+    {name: "H", type: "Meet", color: [1.0, 0.0, 0.0], args: ["f", "m"], visible: false},
+    {name: "K", type: "Meet", color: [1.0, 0.0, 0.0], args: ["a", "h"], visible: false},
+    {name: "L", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "e"], visible: false},
+    {name: "M", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "n"], visible: false},
+    {name: "N", type: "Meet", color: [1.0, 0.0, 0.0], args: ["g", "n"], visible: false},
+    {name: "R", type: "PointOnSegment", pos: [0.0, -0.0, 4.0], color: [1.0, 0.0, 0.0], args: ["d"], size: 0.0,narrow:10},
+    {name: "o", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["c", "R"], visible: false},
+    {name: "S", type: "Meet", color: [1.0, 0.0, 0.0], args: ["k", "o"], visible: false},
+    {name: "p", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["e", "S"], visible: false},
+    {name: "q", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["b", "R"], visible: false},
+    {name: "T", type: "Meet", color: [1.0, 0.0, 0.0], args: ["p", "q"], visible: false},
+    {name: "U", type: "Meet", color: [1.0, 0.0, 0.0], args: ["h", "n"], visible: false},
+    {name: "V", type: "Meet", color: [1.0, 0.0, 0.0], args: ["b", "f"], visible: false},
+    {name: "W", type: "PointOnSegment", pos: [4.0, 2.46633647758954, 0.7865190413317867], color: [1.0, 0.0, 0.0], args: ["c"], size: 0.0,narrow:10},
+    {name: "r", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["k", "W"], visible: false},
+    {name: "s", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["g", "W"], visible: false},
+    {name: "X", type: "Meet", color: [1.0, 0.0, 0.0], args: ["l", "r"], visible: false},
+    {name: "t", type: "Parallel", color: [0.0, 0.0, 1.0], args: ["n", "X"], visible: false},
+    {name: "Y", type: "Meet", color: [1.0, 0.0, 0.0], args: ["s", "t"], visible: false},
+    {name: "Z", type: "Free", pos: [0.8, -4.0, -0.26666666666666666], color: [1.0, 0.0, 0.0], visible: false, labeled: true}
+  ],
+  ports: [{
+    id: "CSCanvas",
+    width: 1219,
+    height: 691,
+    transform: [{visibleRect: [-4.881302297376098, 15.762746962099104, 30.373741434402273, -4.221859451895035]}],
+    background: "rgb(13,17,48)"
+  }],
+  csconsole: false,
+  cinderella: {build: 1901, version: [2, 9, 1901]},
+  images: {
+    "back.png": "backPlain.png"
+  }
+});
+    </script>
+</head>
+<body>
+    <div id="CSCanvas"></div>
+</body>
+</html>
