@@ -19,8 +19,8 @@ description: >- # this means to ignore newlines until "baseurl:"
   MatheVital ist ein Projekt des Lehrstuhls "Geometrie und Visualisierung" der TU München.
   Wir haben uns zum Ziel gesetzt, viele mathematische Zusammenhänge auf verschiedenstem Niveau interaktiv erfahrbar zu machen.
   Jede MatheVital Seite enthält interaktive Experimente zum Ausprobieren, Verstehen und Staunen.
-baseurl: "/mathe-vital" # the subpath of your site, e.g. /blog
-url: "https://cindyjs.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://mathe-vital.de" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 markdown: kramdown
