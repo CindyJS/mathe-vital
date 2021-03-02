@@ -1,8 +1,8 @@
 # MatheVital
 
-MatheVital is a collection of various applets and texts interactively explaining mathematics. The collection is hosted at [mathe-vital.de](https://mathe-vital.de/), which points to [https://cindyjs.github.io/mathe-vital/](https://cindyjs.github.io/mathe-vital/).
+MatheVital is a collection of various applets and texts (currently only in German) interactively explaining mathematics. The collection is hosted at [mathe-vital.de](https://mathe-vital.de/), which points to [https://cindyjs.github.io/mathe-vital/](https://cindyjs.github.io/mathe-vital/).
 
-This repository contains the files required for building this website. Any commit to the `main`-branch in this GitHub repository triggers the deployment of the webpages via the static site generator [Jekyll](https://docs.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll) and the website is published and hosted via [github-pages](https://pages.github.com/). Jekyll is based on
+This repository contains the files required for building the website. Any commit to the `main`-branch in this GitHub repository triggers the deployment of the webpages via the static site generator [Jekyll](https://docs.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll) and the website is published and hosted via [github-pages](https://pages.github.com/). Jekyll is based on
 [Ruby](https://www.ruby-lang.org/en/) and combines .html,
 .md, .png and other files to a structured HTML website.
 
