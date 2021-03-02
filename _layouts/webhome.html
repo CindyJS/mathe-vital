@@ -10,19 +10,19 @@ layout: default
       {% if j == 0 %}
           {% assign prevChapter = i | minus: 1 %}
             {% if i != 0 %}
-              <a title="Strg+Alt+J" href="{{item.chapters[prevChapter].topics.last.url}}" accesskey="j">Previous &#8678;</a>
+              <a title="Strg+Alt+J" href="{{item.chapters[prevChapter].topics.last.url | relative_url }}"" accesskey="j">Previous &#8678;</a>
             {% endif %}
       {% else %}
           {% assign prev = j | minus: 1 %}
-            <a title="Strg+Alt+J" href="{{chapter.topics[prev].url}}" accesskey="j">Previous &#8678;</a>
+            <a title="Strg+Alt+J" href="{{chapter.topics[prev].url | relative_url }}"" accesskey="j">Previous &#8678;</a>
       {% endif %}
       {% assign next = j | plus: 1 %}
       {% if chapter.topics[next] %}
-        <a title="Strg+Alt+L" href="{{chapter.topics[next].url}}" accesskey="l">&#8680; Next</a>
+        <a title="Strg+Alt+L" href="{{chapter.topics[next].url | relative_url }}"" accesskey="l">&#8680; Next</a>
       {% else %}
         {% assign nextChapter = i | plus: 1 %}
         {% if item.chapters[nextChapter] %}
-          <a title="Strg+Alt+L" href="{{item.chapters[nextChapter].topics[0].url}}" accesskey="l">&#8680; Next</a>
+          <a title="Strg+Alt+L" href="{{item.chapters[nextChapter].topics[0].url | relative_url }}"" accesskey="l">&#8680; Next</a>
         {% endif %}
       {% endif %}
 

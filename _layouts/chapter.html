@@ -8,10 +8,10 @@ layout: default
   {% for chapter in item.chapters %}{% if page.url == chapter.url %}
   {% assign next = i | plus: 1 %}{% assign prev = i | minus: 1 %}
       {% if item.chapters[prev] %}
-        <a title="Strg+Alt+J" href="{{item.chapters[prev].url}}" accesskey="j">Previous &#8678;</a>
+        <a title="Strg+Alt+J" href="{{item.chapters[prev].url | relative_url }}"" accesskey="j">Previous &#8678;</a>
       {% endif %}
       {% if item.chapters[prev] %}
-        <a title="Strg+Alt+L" href="{{item.chapters[next].url}}" accesskey="l">&#8680; Next</a>
+        <a title="Strg+Alt+L" href="{{item.chapters[next].url | relative_url }}"" accesskey="l">&#8680; Next</a>
       {% endif %}
     {% endif %}{% assign i = i | plus: 1 %}{% endfor %}
     {% endif %}{% endfor %}
@@ -26,12 +26,12 @@ layout: default
     <h2> {{ chapter.chapternr }}. {{chapter.title}}</h2>
     <table>
       <tr >
-        <td ><a href={{chapter.url}}><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
+        <td ><a href={{chapter.url | relative_url }}"><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
             <td>
               <table>
                 {% for topic in chapter.topics %}
                   <tr>
-                    <td><a href="{{topic.url}}">{{topic.title}}</a></td>
+                    <td><a href="{{topic.url | relative_url }}"">{{topic.title}}</a></td>
                   </tr>
                 {% endfor %}
               </table>

@@ -12,12 +12,12 @@ layout: default
   <h2> {{ chapter.chapternr }}. {{chapter.title}}</h2>
   <table>
     <tr >
-      <td ><a href={{chapter.url}}><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
+      <td ><a href={{chapter.url | relative_url }}"><img src="images/{{chapter.chapternr}}.png" alt="images/{{chapter.chapternr}}.png"></a></td>
           <td>
             <table>
               {% for topic in chapter.topics %}
                 <tr>
-                  <td><a href="{{topic.url}}">{{topic.title}}</a></td>
+                  <td><a href="{{topic.url | relative_url }}"">{{topic.title}}</a></td>
                 </tr>
               {% endfor %}
             </table>

@@ -10,19 +10,19 @@ layout: default
       {% if j == 0 %}
           {% assign prevChapter = i | minus: 1 %}
             {% if i != 0 %}
-              <a title="Strg+Alt+J" href="{{item.chapters[prevChapter].topics.last.url}}" accesskey="j">Previous &#8678;</a>
+              <a title="Strg+Alt+J" href="{{item.chapters[prevChapter].topics.last.url | relative_url }}"" accesskey="j">Previous &#8678;</a>
             {% endif %}
       {% else %}
           {% assign prev = j | minus: 1 %}
-            <a title="Strg+Alt+J" href="{{chapter.topics[prev].url}}" accesskey="j">Previous &#8678;</a>
+            <a title="Strg+Alt+J" href="{{chapter.topics[prev].url | relative_url }}"" accesskey="j">Previous &#8678;</a>
       {% endif %}
       {% assign next = j | plus: 1 %}
       {% if chapter.topics[next] %}
-        <a title="Strg+Alt+L" href="{{chapter.topics[next].url}}" accesskey="l">&#8680; Next</a>
+        <a title="Strg+Alt+L" href="{{chapter.topics[next].url | relative_url }}"" accesskey="l">&#8680; Next</a>
       {% else %}
         {% assign nextChapter = i | plus: 1 %}
         {% if item.chapters[nextChapter] %}
-          <a title="Strg+Alt+L" href="{{item.chapters[nextChapter].topics[0].url}}" accesskey="l">&#8680; Next</a>
+          <a title="Strg+Alt+L" href="{{item.chapters[nextChapter].topics[0].url | relative_url }}"" accesskey="l">&#8680; Next</a>
         {% endif %}
       {% endif %}
 
@@ -34,13 +34,13 @@ layout: default
 <div id="pagecontent">
     <div class="sidecontent">
         <input id="hamburger" type="checkbox">
-        <label for="hamburger"><img src='/images/hamburger.png' alt="hamburger" "></label>
+        <label for="hamburger"><img src="{{ '/images/hamburger.png' | relative_url }}" alt="hamburger" "></label>
         <aside class="sidemenu">
             <div class="tab-group">
                 <ul class="sidemenulist">
-                  <li><a class="homelistitem" href="/">MatheVital Home</a></li>
+                  <li><a class="homelistitem" href="{{ '/' | relative_url }}">MatheVital Home</a></li>
                   {% for item in site.data.navigation.Navigation %}{% if item.category == page.category %}{% assign foundPage = 0 %}
-                  <li><a class="currchapter" href="{{item.url}}">{{item.title}}</a></li>
+                  <li><a class="currchapter" href="{{item.url | relative_url }}"">{{item.title}}</a></li>
                   {% assign i = 0 %}{% for chapter in item.chapters %}{% assign i = i | plus: 1 %}
                     <div class="tab">
                       {% for topic in chapter.topics %}{% if topic.url == page.url %}{% assign foundPage = 1 %}
@@ -52,9 +52,9 @@ layout: default
                           {% for topic in chapter.topics %}
                               <div class="tab-content">
                                   {% if topic.url == page.url %}
-                                      <li><a class="currlistitem" href="{{topic.url}}">{{topic.title}}</a></li>
+                                      <li><a class="currlistitem" href="{{topic.url | relative_url }}"">{{topic.title}}</a></li>
                                   {% else %}
-                                      <li><a href="{{topic.url}}">{{topic.title}}</a></li>
+                                      <li><a href="{{topic.url | relative_url }}"">{{topic.title}}</a></li>
                                   {% endif %}
                               </div>
                           {% endfor %}

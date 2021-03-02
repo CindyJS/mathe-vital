@@ -9,8 +9,8 @@ layout: default
 
 
 <div id="navigation" >
-  <a href="/{{site.baseurl}}">MatheVital</a>
-  > <a href="{{page.url}}">{{page.title}}</a> &emsp; || &emsp;
+  <a href="{{ '/' | relative_url }}">MatheVital</a>
+  > <a href="{{page.url | relative_url }}"">{{page.title}}</a> &emsp; || &emsp;
   <a href="javascript:history.back()">&#8678 Go Back</a>
 
 </div>
