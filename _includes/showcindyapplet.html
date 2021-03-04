@@ -1,3 +1,7 @@
+{% if include.url %}
+{% capture applet %} {% include_relative {{include.url}} %} {% endcapture %}
+{% endif %}
+{% capture _ %}{% increment appletindex %}{% endcapture %}
 <div>{{ applet | remove: "<!DOCTYPE html>" | split: "/style>" | last
 | remove: '<script type="text/javascrpt" src="http://cinderella.de/CindyJS/latest/Cindy.js"></script>'
 | remove: '<script type="text/javascript" src="https://cindyjs.org/dist/v0.8/Cindy.js"></script>'
@@ -8,6 +12,7 @@
 | remove: "<html>" | remove: "<head>" | remove: "<body>" | remove: "</body>" | remove: "</head>" | remove: "</html>"
 | replace: 'CSCanvas', 'CSCanvasTHENUMBER'
 | replace: 'scripts: "cs*', 'scripts: "csTHENUMBER*'
+| replace: '"scripts": "cs*"', '"scripts": "csTHENUMBER*'
 | replace: 'script id="cs', 'script id="csTHENUMBER'
-| replace: "THENUMBER", include.index
+| replace: "THENUMBER", appletindex
 }}</div>
